@@ -1,0 +1,29 @@
+  CLIENT_PORT    =  8080
+
+# SERVER_PORT    =  8081                             # to ANYLLM_HOST:  http://localhost:8081
+# SERVER_PORT    =  3001                             # to SERVER_HOST:  http://localhost:3001
+# SERVER_PORT    =  3001                             # to SERVER_HOST:  http://155.138.193.41:3001
+  SERVER_PORT    =  ""                               # to SERVER_HOST:  https://aidocs-review.com
+# SERVER_PORT    =  ""                               # to SERVER_HOST:  https://anyllm.aidocs-review.com, no workie
+
+# SERVER_HOST    =  http://localhost
+# SERVER_HOST    =  http://localhost
+# SERVER_HOST    =  http://155.138.193.41 
+  SERVER_HOST    =  https://aidocs-review.com
+# SERVER_HOST    =  https://anyllm.aidocs-review.com
+
+# ANYLLM_PORT    =  3001
+# ANYLLM_HOST    =  http://localhost
+
+  JWT_SECRET     = "my-random-string-for-seeding"    # Please generate random string at least 12 chars long.
+
+# ANYLLM_API_KEY = "FP1VRGD-5R9M00Q-GYETX1F-5HV8S27" # In rm228p_HP-Omni
+# ANYLLM_API_KEY = "35N2ZQB-0F54GN4-QND81BG-8KGH9VT" # In fr244p_Vultr-Docker
+  ANYLLM_API_KEY = "6K8TTW4-GN7MW5Q-QKRX78E-49BEM8R" # In fr244p_Vultr-Docker
+
+  OPENAI_API_KEY = "sk-td..."
+
+# ANYLLM_WORKSP  = "Constitution"
+  ANYLLM_WORKSP  = "visitor1-workspace"
+
+  ANYLLM_MODE    =  query     # vs. chat

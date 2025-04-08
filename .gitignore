@@ -1,7 +1,7 @@
 *_v[0-9]*
 *_t[0-9]*
 
-_env*
+_env
 .env
 node_modules
 package-lock.json
