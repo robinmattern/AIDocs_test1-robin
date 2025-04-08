@@ -1,0 +1,15 @@
+{
+    "folders": [
+        {
+            "name": "._",
+            "path": "../._"
+        },
+        {
+            "name": "AIDocs_test1-robin",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "liveServer.settings.port": 5500
+    },
+}

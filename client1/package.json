@@ -1,0 +1,27 @@
+{
+  "name": "aidocs-review-client1-apps",
+  "author": "Robin Mattern",
+  "description": "First NodeJS AI Docs Review Client1 App",
+  "keywords": [],
+  "license": "ISC",
+  "version": "0.1.1",
+  "private": false,
+  "main": "c16_aidocs-review-app/index.html",
+  "scripts": {
+    "dev": "cd c16_aidocs-review-app && serve index.html",
+    "start": "echo \"You must be in an app folder to run this app\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robinmattern/AIDocs_demo1-master.git"
+  },
+  "bugs": {
+    "url": "https://github.com/robinmattern/AIDocs_demo1-master/issues"
+  },
+  "homepage": "https://{account}.github.io/robinmattern/AIDocs_demo1-master#readme"
+}

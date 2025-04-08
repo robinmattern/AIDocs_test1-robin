@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>HTML Custom Apps</title>
+        <link rel="shortcut icon" href="assets/images/favicon.png">
+        <link rel="stylesheet"    href="https://fonts.googleapis.com/css?family=EB Garamond" >
+        <link rel="stylesheet"    href="https://fonts.googleapis.com/css?family=Roboto+Slab" >
+        <link rel="stylesheet"    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+        <link rel="stylesheet"    href="index.css">
+
+
+    <!-- INSERT Point - DATA FETCHING -->
+    <script type="module">                          
+        window.getCountries = async function ( ) {      // Must define async function to use with await below            
+                var pResponse  = await fetch( 'assets/data/db.json' )
+                var pJSON      = await pResponse.json( )           
+                var nRows      = 9999
+                var mCountries = pJSON.countries.filter( (pCountry, i) => { return i < nRows } )
+                return mCountries   }          
+        </script>        
+    <!-- END INSERT Point - DATA FETCHING -->
+
+    </head>
+
+    <body>    
+
+    <!-- REPLACE Point - Header -->
+    <div class="Header">
+
+    <!-- INSERT Point - Responsive -->
+    <div class="MenuWrap">
+        <input title="Menu" type="checkbox" class="Toggler">
+        <div class="Hamburger"><div></div></div>
+        <div class="Menu">
+            <div>
+                <div>
+                    <ul class="MenuList">
+                        <li class="MenuListItem" id="H-PHLink" ><a href="#" ><i class="fa fa-home"></i>&nbsp;Home</a></li>
+                        <li class="MenuListItemLine" id="PHLinkLine" ><hr></li>
+                        <li class="MenuListItem" id="H-PHLinkCTA" ><a href="#" ><i class="fa fa-right-to-bracket"></i>&nbsp;&nbsp;Sign In</a></li>
+                        <li class="MenuListItem" id="H-PHLink" ><a href="#" ><i class="fa fa-link"></i>&nbsp;Links</a></li>
+                        <li class="MenuListItem" id="H-PHLink" ><a href="#" ><i class="fa fa-id-card"></i>&nbsp;Cards</a></li>
+                        <li class="MenuListItem" id="H-PHLink" ><a href="#" ><i class="fa fa-clipboard-question"></i>&nbsp;&nbsp;FAQs</a></li>
+                        <li class="MenuListItemLine" id="PHLinkLine" ><hr></li>
+                        <li class="MenuListItem" id="H-PHLink" ><a href="#" ><i class="fa fa-flag-usa"></i>&nbsp;&nbsp;Countries</a></li>
+                        <li class="MenuListItem" id="H-PHLink" ><a href="#" ><i class="fa fa-city"></i>&nbsp;Cities</a></li>
+                        <li class="MenuListItem" id="H-PHLink" ><a href="#" ><i class="fa fa-comments"></i>&nbsp;Languages</a></li>
+                        <li class="MenuListItemLine" id="PHLinkLine" ><hr></li>
+                        <li class="MenuListItem" id="F-PHLink" ><a href="#" ><i class="fa fa-circle-info"></i>&nbsp;Support</a></li>
+                        <li class="MenuListItem" id="F-PHLink" ><a href="#" ><i class="fa fa-file-contract"></i>&nbsp;Terms Of Use</a></li>
+                        <li class="MenuListItemLine" id="PHLinkLine" ><hr></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END INSERT Point - Responsive -->
+
+    <!-- REPLACE Point Logo -->
+    <div class="HeaderLogo"><a href="#"></a></div>
+    <!-- END REPLACE Point - Logo -->
+
+    <!-- REPLACE Point Navigation -->
+    <div class="HeaderSpacer"></div> 
+    <ul class="HeaderNavList">
+        <li class="HeaderNavListItem"><a href=#>Links</a></li>
+        <li class="HeaderNavListItem"><a href=#>Cards</a></li>
+        <li class="HeaderNavListItem"><a href=#>FAQs</a></li>
+        <li class="DropdownMenu">
+        <div class="dropdown">
+            <button class="dropbtn">Data</button>
+            <div class="dropdown-content">
+                <hr style="border-top: 5px solid #C0C0C0; margin-top: 0px;">                           
+                    <a href="#" title="Go Home"><i class="fa fa-home"></i>&nbsp;&nbsp;Home</a>
+                <hr style="border-top: 2px solid blue">
+                    <a href="#" title="Country Data"><i class="fa fa-flag-usa"></i>&nbsp;&nbsp;&nbsp;Countries</a>
+                    <a href="#" title="City Data"><i class="fa fa-city"></i>&nbsp;&nbsp;Cities</a>
+                    <a href="#" title="Language Data"><i class="fa fa-comments"></i></i>&nbsp;&nbsp;Languages</a>
+                <hr style="border-top: 5px solid #C0C0C0; margin-bottom: 0px;">                            
+                </div>
+        </div>        
+        </li>
+        <li class="HeaderNavListItemCTA"><a href=#>Sign In</a></li>
+    </ul>
+    <!-- END REPLACE Point - Navigation -->
+  
+    </div>
+    <!-- END REPLACE Point - Header -->
+
+    <!-- REPLACE Point - Section1 -->
+    <div class="Section1">
+        <h2 class="Section1ImageText">world.countries_view</h2>
+    </div>
+    <!-- END REPLACE Point - Section1 -->
+
+
+    <!-- REPLACE Point - Section2 -->        
+    <div class="Section2">
+        <!-- COUNTRY DATA RENDERING-->  
+        <div class="countryList">
+            <table class="CountryTable" cellspacing="0">
+                <tbody>
+                <tr>
+                    <th class="CountryCode-th">Code</th>
+                    <th class="Country-th">Country</th>
+                    <th class="Continent-th">Continent</th>
+                    <th class="Area-th">Area (mi<sup>2</sup>)</th>
+                    <th class="Population-th">Population</th>                
+                </tr>
+            <tbody id="Countries"></tbody>
+            </table>
+
+            <script type="module"> 
+                var  mCountries  =  await getCountries( )     // Must assign mCountries here with await                     
+                var  mHTMLrows   =  mCountries.map(  fmtCountry )
+                        mHTMLrows.push ( `<tr class="lastRow" ><td colspan="5"></td></tr>` )
+                var  pCountries           =  document.getElementById( "Countries" )
+                        pCountries.innerHTML =  mHTMLrows.join( "\n" )
+        
+            function  fmtCountry( pCountry, i ) {           
+                var  aColor      =  i % 2 == 1 ? '#EFF8F8'  : '#DEEEF7'
+                var  aID         = `id="R${ `${ i + 1 }`.padStart( 3, "0" )}"`
+                var  aHTMLrow    = `
+                <tr ${aID} Class="${`eachRow ${aColor}`}">
+                    <td bgColor="${aColor}" class="CountryCode-td"> ${ pCountry.Code }</td>
+                    <td bgColor="${aColor}" class="Country-td"> ${ pCountry.Name }</td>
+                    <td bgColor="${aColor}" class="Continent-td"> ${ pCountry.Continent }</td>
+                    <td bgColor="${aColor}" class="Area-td"> ${ pCountry.SurfaceArea }</td>
+                    <td bgColor="${aColor}" class="Population-td"> ${ pCountry.Population }</td>
+                </tr> `
+            return  aHTMLrow }
+            </script>            
+        </div>
+        <!-- END COUNTRY DATA RENDERING -->  
+    </div>
+    <!-- END REPLACE Point - Section2 -->
+
+
+    <!-- REPLACE Point - Footer -->
+    <div class="Footer">
+        <ul class="FooterNavList">
+            <li class="FooterNavListItem"><a href=#>Support</a></li>
+            <li class="FooterNavListItem"><a href=#>Terms Of Use</a></li>
+        </ul>
+    </div>
+    <!-- END REPLACE Point - Footer -->
+
+
+    </body>
+
+</html>

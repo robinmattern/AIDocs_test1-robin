@@ -1,0 +1,27 @@
+{
+  "name": "client1_test",
+  "author": "Robin Mattern",
+  "description": "Test Scripts for NodeJS Client1 Apps",
+  "keywords": [],
+
+  "license": "ISC",
+  "version": "0.1.1",
+  "type":  "module",
+  "main": "getAPI_tests.mjs",
+  "scripts": {
+    "dev": "node getAPI_tests.mjs",
+    "start": "node getAPI_tests.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/{account}/{Proj}_{Stg##}-{owner}.git"
+  },
+  "bugs": {
+    "url": "https://github.com/{account}/{Proj}_{Stg##}-{owner}/issues"
+  },
+  "homepage": "https://{account}.github.io/{Proj}_{Stg##}-{owner}#readme"
+}

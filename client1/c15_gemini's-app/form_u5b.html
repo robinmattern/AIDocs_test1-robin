@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lit Form Example</title>
+</head>
+<body>
+<!--  <script type="module" src="./form_u5.mjs"></script> -->
+  <script type="module"> import "./form_u5.mjs" </script>
+  <my-form></my-form>
+</body>
+</html>
+
+
+<!--
+My googness.  Just moving the script code into a seperate file, results in a CORS error.
+So ran it in VSCode with live server, and I get this error:
+
+dejaEventRegistration.js:123 [Deprecation] Listener added for a synchronous 'DOMNodeInserted' DOM Mutation Event. This event type is deprecated (https://w3c.github.io/uievents/#legacy-event-types) and work is underway to remove it from this browser. Usage of this event listener will cause performance issues today, and represents a risk of future incompatibility. Consider using MutationObserver instead.
+
+----
+
+You're right, moving the script code to a separate file can introduce CORS (Cross-Origin Resource Sharing) errors if the file is served from a different domain than your main HTML file. Here's how to address the CORS issue and the deprecation warning:
+
+CORS Fix:
+
+There are two main approaches to fix the CORS error:
+
+Server-side configuration: If you have control over the server serving your JavaScript file, you can configure it to allow requests from your HTML file's domain by setting appropriate CORS headers. This is the most secure approach.
+
+Development server configuration: If you're using a development server like Live Server in VSCode, some have options to disable CORS restrictions for development purposes only. However, this is not recommended for production environments.
+
+Deprecation Warning:
+
+The warning about the deprecated DOMNodeInserted event is a separate issue. Here's how to address it:
+
+Use MutationObserver: Modern browsers recommend using MutationObserver instead of DOMNodeInserted for monitoring DOM changes. This provides more flexibility and avoids potential performance issues. You can find plenty of resources online for implementing MutationObserver with Lit.
+
+Ignore the warning (development only): If you're only concerned with development and don't plan to use DOMNodeInserted in production, you can temporarily ignore the warning. However, it's good practice to address deprecation warnings eventually.
+
+Here's a possible approach to combine these solutions:
+
+1. Development Server with Disabled CORS:
+
+If using Live Server in VSCode, check its documentation for disabling CORS restrictions during development.
+2. Use MutationObserver in your Lit component (optional):
+
+If you want to address the deprecation warning and move towards a modern approach, consider using MutationObserver instead of DOMNodeInserted within your Lit component to handle DOM changes.
+
+Without MutationObserver (for basic example):
+
+Assuming you're okay with the deprecation warning for now, here's how your project structure and code might look:
+
+index.html:
+
+HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lit Form Example</title>
+</head>
+<body>
+  <script type="module" src="my-form.js"></script>
+  <my-form></my-form>
+</body>
+</html>
+Use code with caution.
+my-form.js:
+
+JavaScript
+import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+
+class MyForm extends LitElement {
+  name = ''; // Initialize the name property directly
+
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log(`Hello, ${this.name}!`);
+    this.name = ''; // Clear the form after submit
+  }
+
+  render() {
+    return html`
+      <form @submit=${this.handleSubmit}>
+        <label for="name">Your Name: </label>
+        <input id="name" type="text" value=${this.name} @change=${(e) => this.name = e.target.value}>
+        <button type="submit">Say Hi!</button>
+      </form>
+    `;
+  }
+}
+
+customElements.define('my-form', MyForm);
+Use code with caution.
+Remember to adjust the paths based on your actual file locations. This setup separates the component code from the HTML and avoids CORS issues if your development server allows it. However, for production environments, you'll need to address CORS on the server-side.
+
+Sources
+medium.com/samsung-internet-dev/making-an-ar-game-with-aframe-529e03ae90cb
+
+-->

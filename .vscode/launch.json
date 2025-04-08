@@ -1,0 +1,54 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+// ----------------------------------------------------------------------------
+    {
+      "name": "Debug Current Javascript file",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}",
+      "skipFiles": [ "<node_internals>/**" ],
+      "runtimeExecutable": "node"
+    },       
+// ----------------------------------------------------------------------------
+    {
+      "name": "Launch Edge",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}"
+    },
+// ----------------------------------------------------------------------------
+    {
+      "name": "Launch Chrome against localhost",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}"
+    },
+// ----------------------------------------------------------------------------
+    {
+      "name": "Debug Current TypeScript file",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}",
+      "skipFiles": [ "<node_internals>/**" ],
+      "runtimeExecutable": "node",
+      "preLaunchTask": "tsc: build - 2024-03-11-embeddings/bunjs/tsconfig.json"
+    },
+// ----------------------------------------------------------------------------
+    {
+      "name": "Debug TypeScript file on Bruce's Mac",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}",
+      "skipFiles": [ "<node_internals>/**" ],
+      "runtimeExecutable": "/Users/macstudio/.nvs/node/23.10.0/arm64/bin/node",
+      "preLaunchTask": "tsc: build - tsconfig.json"
+    }
+// ----------------------------------------------------------------------------
+]
+}

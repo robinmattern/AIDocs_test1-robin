@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q&A Conversation</title>
+
+  <style>
+  #conversation-container {
+    display       : flex;
+    flex-direction: column;
+    width         : 600px;
+    margin        : 0 auto;
+    padding       : 20px;
+    border        : 1px solid #ddd;
+    border-radius : 5px;
+    }
+
+  .message {
+    margin-bottom : 10px;
+    padding       : 10px 15px;
+    border-radius : 5px;
+    box-shadow    : 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+  .user-message {
+    background-color: #9ad8e3;  /* Light blue */
+    color           : #333;
+    text-align      : right;
+    }
+
+  .assistant-message {
+    background-color: #338b33;  /* Dark green */
+    color           : #fff;
+    text-align      : left;
+    }
+  </style>
+
+<!--  <script type="module"           src="https://cdn.jsdelivr.net/npm/lit@2.x"></script> -->
+
+  <script type="module">
+
+//  import { LitElement, html      } from 'lit';
+    import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+
+    class ConversationComponent extends LitElement {
+
+      static get properties( ) {
+        return { messages: { type: Array } };
+        }
+
+      constructor() {
+        super();
+
+        const pMessages =
+               [ { role: 'user',      message: "What's up" }
+               , { role: "assistant", message: "Not much"  }
+               , { role: 'user',      message: "What's really up" }
+               , { role: "assistant", message: "Really not much"  }
+                   ];
+
+        this.messages = pMessages;
+      }
+
+      render() {
+        return html`
+          <div id="conversation-container">
+            ${this.messages.map( ( message ) => this.renderMessage( message ))}
+          </div>
+        `;
+      }
+
+      renderMessage( message ) {
+        // Create message element with appropriate styles
+        // based on message.role (user/assistant)
+        return "Hello"
+        }
+      }
+
+    customElements.define( 'conversation-component', ConversationComponent );
+
+  </script>
+</head>
+<body>
+
+  <div id="conversation-container">
+    <conversation-component></conversation-component>
+  </div>
+
+</body>
+
+</html>

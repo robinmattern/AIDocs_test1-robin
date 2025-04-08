@@ -1,0 +1,5 @@
+#!/bin/bash
+
+  /home/shared/repos/AIDocs_dev02-rjs/run-app.sh "$@"
+# /Users/Shared/Repos/AIDocs_dev02-rjs/run-app.sh "$@"
+

@@ -1,0 +1,164 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>AIDocs Demo</title>
+
+ <script>
+   var mTitles =
+        [ "Image 1"
+        , "Image 2"
+        , "Image 3"
+        , "Image 4"
+        , "Image 5"
+        , "Image 6"
+        , "Image 7"
+        , "Image 8"
+        , "Image 9"
+        , "Image 10"
+        , "Image 11"
+        , "Image 12"
+        , "Image 13"
+        , "Image 14"
+        , "Image 15"
+        , "Image 16"
+        , "Image 17"
+           ]
+ </script>
+ <style>
+
+.carousel-container {
+  width      : 800px;     /* Adjust width as needed */
+  margin     :  0 auto;   /* Center the carousel horizontally */
+  position   : relative;  /* Needed for button positioning */
+  }
+
+.carousel-track {
+  display: flex; /* Arrange images horizontally (can be removed if desired) */
+  /* Remove transform and transition properties related to horizontal movement */
+}
+
+.carousel-track img {
+  width     : 100%; /* Images fill the carousel container width */
+  object-fit: cover; /* Maintain image aspect ratio and cover container */
+  opacity   : 0; /* Initially hide images */
+  position  : absolute; /* Overlap images for fade effect */
+  top       : 0;  /* was 0 */
+  left      : 0;
+  transition: opacity 0.5s ease-in-out; /* Smooth opacity transition */
+}
+
+.carousel-track img:nth-child(1) { /* Show the first image initially */
+  opacity: 1;
+}
+
+.prev-btn,
+.next-btn {
+  position   : absolute; /* Position buttons outside the container */
+  top        : 50%; /* Center buttons vertically */
+  transform  : translateY(-50%); /* Adjust vertical position if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  color      : white; /* Button text color */
+  font-size  : 2rem; /* Button font size */
+  border     : none;
+  padding    : 10px;
+  margin-top : -30px;   /* added */
+  cursor     : pointer; /* Indicate clickable button */
+}
+
+.prev-btn {
+  left: 10px; /* Position left button */
+  }
+
+.next-btn {
+  right: 10px; /* Position right button */
+  }
+
+.title {
+  position   : absolute; /* Position buttons outside the container */
+  text-align : center;
+  top        : -40px;
+  left       : 62px;
+  width      : 675px;
+  font-size  : 20px;
+  border     : 1px solid black;
+  right: 200px;
+  }
+
+ </style>
+ </head>
+ <!-- -------------------------------------------------------------- -->
+
+ <body style="margin-top:50px;">
+   <div class="carousel-container">
+     <div class="carousel-track">
+       <img src="./assets/IMGs/fr40322-01_Demo1.png" alt="Image 1 ">
+       <img src="./assets/IMGs/fr40322-02_Demo1.png" alt="Image 2 ">
+       <img src="./assets/IMGs/fr40322-03_Demo1.png" alt="Image 3 ">
+       <img src="./assets/IMGs/fr40322-04_Demo1.png" alt="Image 4 ">
+       <img src="./assets/IMGs/fr40322-05_Demo1.png" alt="Image 5 ">
+       <img src="./assets/IMGs/fr40322-06_Demo1.png" alt="Image 6 ">
+       <img src="./assets/IMGs/fr40322-07_Demo1.png" alt="Image 7 ">
+       <img src="./assets/IMGs/fr40322-08_Demo1.png" alt="Image 8 ">
+       <img src="./assets/IMGs/fr40322-09_Demo1.png" alt="Image 9 ">
+       <img src="./assets/IMGs/fr40322-10_Demo1.png" alt="Image 10">
+       <img src="./assets/IMGs/fr40322-11_Demo1.png" alt="Image 11">
+       <img src="./assets/IMGs/fr40322-12_Demo1.png" alt="Image 12">
+       <img src="./assets/IMGs/fr40322-13_Demo1.png" alt="Image 13">
+       <img src="./assets/IMGs/fr40322-14_Demo1.png" alt="Image 14">
+       <img src="./assets/IMGs/fr40322-15_Demo1.png" alt="Image 15">
+       <img src="./assets/IMGs/fr40322-16_Demo1.png" alt="Image 16">
+       <img src="./assets/IMGs/fr40322-17_Demo1.png" alt="Image 17">
+     </div>
+     <button class="prev-btn">&#8592;</button>
+     <div    class="title" id="title">title</div>
+     <button class="next-btn">&#8594;</button>
+   </div>
+ <!-- -------------------------------------------------------------- -->
+
+   <script>
+
+    const carouselTrack = document.querySelector('.carousel-track');
+    const nextBtn = document.querySelector('.next-btn');
+    const prevBtn = document.querySelector('.prev-btn');
+    const images  = carouselTrack.querySelectorAll('img'); // Get all images
+
+
+    let currentSlide = 0; // Track the current slide index
+    setTitle( currentSlide )
+
+    // Initially set all images to absolute positioning for overlapping
+    images.forEach(img => img.style.position = 'absolute');
+
+    nextBtn.addEventListener('click', () => {
+
+          currentSlide++;
+      if (currentSlide >= images.length) {
+          currentSlide = 0; // Wrap around to first image
+          }
+      //  Update image opacity for fade transition
+          images.forEach(img => img.style.opacity = 0);
+          images[currentSlide].style.opacity = 1;
+          setTitle( currentSlide )
+      } );
+
+    prevBtn.addEventListener('click', () => {
+
+      if (currentSlide > 0) {
+          currentSlide--;
+       // Update image opacity for fade transition
+          images.forEach( img => img.style.opacity = 0);
+          images[ currentSlide ].style.opacity = 1;
+          setTitle( currentSlide )
+          }
+      });
+
+    function setTitle( i ) {
+      var myDiv = document.getElementById( "title");
+          myDiv.innerHTML = mTitles[i]
+          }
+
+ </script>
+ </body>
+ </html>

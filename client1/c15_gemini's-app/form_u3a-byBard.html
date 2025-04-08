@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q&A Conversation</title>
+
+  <script type="module">
+
+    import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+    import { UpdatingElement       } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+
+//  class FormComponent extends LitElement {
+    class FormComponent extends UpdatingElement {
+
+      static get styles() {
+        return css`
+
+          form {
+            display: flex;
+            margin-top: 20px;
+          }
+
+          #user-prompt {
+            flex: 1;
+            color: #333;
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #9ad8e3;  /* Light blue */
+          }
+
+        `;
+      }
+
+//    firstUpdated() {
+//      super.firstUpdated();
+
+      this.updateComplete.then( ( ) => {
+              this.update(); // Force update for form element
+
+        const pForm = this.shadowRoot.getElementById('user-prompt-form');  // Access form within shadowRoot
+              pForm.addEventListener( 'submit', this.onSubmit );
+        });
+
+
+
+      render() {
+        return html`
+          <form id="user-prompt-form">
+            <input type="text" id="user-prompt" placeholder="Enter your prompt here" />
+            <button type="submit" id="submit-button">Send</button>
+          </form>
+          `;
+        }
+
+      onSubmit( event ) {
+        event.preventDefault(); // Prevent default form submission
+         this.requestUpdate();  // Ensure shadowRoot is ready
+
+        const aPrompt = this.shadowRoot.getElementById( 'user-prompt' ).value;
+        // Add your logic to handle the user prompt (e.g., call API)
+              alert( `Submitting prompt: '${aPrompt}'`);
+        }
+      }
+
+      customElements.define('form-component', FormComponent);
+
+  </script>
+</head>
+<body>
+
+  <div id="conversation-container">
+    <form-component></form-component>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html> . .
+<!--
+##=========+====================+================================================+
+##RD       login.html           |  Robin's modified login form
+##RFILE    +====================+=======+===============+======+=================+
+##FD   login.html               |   4278|  4/21/23 10:10|    92| u1.03`30421.1010
+##FD   login_v1.03`auth.html    |   5075|  4-04-23 10:20|   234| v1-03`30404.1020
+##FD   login_v1.03`3013.html    |   5097|  4-04-23 10:21|   234| v1-03`30404.1021
+##FD   login_v1.03`api13.html   |   5097|  4-04-23 10:22|   234| v1-03`30404.1022
+##FD   login_v1.04`rjs.html     |  13702|  4-28-23  9:00|   234| v1-04`30428.0900
+##FD   login_v1.07a.html        |  11937|  4-28-23 18:12|   234| v1-07`30428.1812
+##FD   login_v1.07c.html        |  15027|  4-29-23 18:16|   243| v1-07`30429.1816
+##FD   login_v1.07c.html        |  15573|  4-30-23 10:14|   254| v1-07`30430.1014
+##FD   login_v1.07c.html        |  15931|  5-01-23 10:07|   257| v1-07`30501.1007
+##FD   login_v1.07c.html        |  16462|  5-03-23 10:29|   261| v1-07`30503.1029
+##FD   login.html               |  12957|  4/12/24 14:22|   246| u1-07`40412.1422
+##FD   login.html               |  13106|  4/13/24 14:45|   248| v1.07`40413.1445
+##FD   login.html               |  13753|  4/15/24 20:30|   251| v1.07`40415.2030
+##FD   login.html               |  13939|  5/10/24 10:00|   253| u1.07`40510.1000
+##DESC     .--------------------+-------+---------------+------+-----------------+
+#           This HTML file ...
+##LIC      .--------------------+----------------------------------------------+
+#           Copyright (c) 2023 8020Data-formR * Released under
+#           MIT License: http://www.opensource.org/licenses/mit-license.php
+##FNCS     .--------------------+----------------------------------------------+
+#           showPin             |
+#           setPIN              |
+##CHGS     .--------------------+----------------------------------------------+
+# .(30412.02  4/12/23 RAM  6:10p|  Use script module
+# .(30412.03  4/12/23 RAM 12:00p|  Move setHTML to top of script (maybe use later)
+# .(30415.02  4/15/23 RAM  8:30a|  Avoid CORS error
+# .(30421.08  4/21/23 RAM  9:24a|  Wait for onReady
+# .(30421.09  4/21/23 RAM 10:10a|  Remove FiveServer option
+# .(30425.02  4/25/23 RAM  5:06p|  Add onLoginForm_Submit (not found in module)
+# .(30428.01  4/28/23 RAM  9:00a|  Define listener in module
+# .(30429.01  4/29/23 RAM  1:00p|  Make showPIN global
+# .(30429.08  4/29/23 RAM  1:52p|  Add <div id="errMsg">
+# .(30430.08  4/30/23 RAM 10:06a|  Can't load module script with .mjs
+# .(30502.01  5/02/23 RJS 10:07a|  Modify Submit, Cancel buttons
+# .(30503.02  5/03/23 RAM 10:29a| "Fuck You Microsoft"
+# .(40412.04  4/12/24 RJS 12:22p|  Copied and modified by Rick
+# .(40413.02  4/13/24 RAM  2:45p|  Prepare login for release
+# .(40415.06  4/15/24 RAM  8:30p|  Change .login to .login_v1.07
+# .(40425.01  4/25/24 RAM  3:30p|  Change .login_v1.07 back to .login
+# .(40510.05  5/10/24 RJS 10:00a|  Make cleaner href to home
+
+##SRCE     +====================+===============================================+
+#-->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+        <title>Login</title>
+
+        <link rel="shortcut icon" href="../../assets/icons/favicon.png">       <!-- .(40413.02.7 RAM Was: ../assets/icons/....).(30423.01.1 RAM Moved) -->
+        <link rel="stylesheet"    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+
+    <!--BEGINNING OF Global STYLE SHEETS (CSS)-->
+
+<!--    <link rel="stylesheet"    href="./css/00_global_variables.css">-->        <!-- .(40413.02.6 RAM Beg Keep them local to components/login. Was ="../css/....")-->
+<!--    <link rel="stylesheet"    href="./css/01_hamburger.css"> -->
+<!--    <link rel="stylesheet"    href="./css/02_header.css"> -->
+<!--    <link rel="stylesheet"    href="./css/03_footer.css"> -->
+<!--    <link rel="stylesheet"    href="./css/04_index.css">  -->
+
+    <!--RESPONSIVE STYLE SHEETS (CSS)-->
+        <link rel="stylesheet"    href="./css/05_resp_GT0950-bigScreen.css">
+        <link rel="stylesheet"    href="./css/06_resp_741-950-tabletPortrait.css">
+        <link rel="stylesheet"    href="./css/07_resp_440-740-mobileLandscape.css">
+        <link rel="stylesheet"    href="./css/08_resp_LT0440-mobilePortrait.css">
+        <link rel="stylesheet"    href="./css/09_variables.css">               <!-- .(40413.02.5 RAM End)
+
+    <!--BEGINNING OF LOCAL STYLE SHEETS (CSS)-->
+        <link rel="stylesheet"    href="login_u1.07.css">                      <!-- .(40415.06.1 RAM Add _u1.07 back).(40413.02.4)
+
+    <style>
+      #MenuBlank                { display: block; }
+      #HomeLink                 { display: block; }
+      #HomeLinkLine             { display: block; }
+      #MembersLink              { display: none;  }
+      #ContactLink a            { color: grey;  }
+      #BiosLink a               { color: blue;  }
+      #MembersLinkLine          { display: block; }
+      #MembersProjectsLink      { display: block; }
+      #ProjectDetailsLink a     { color: blue;  }
+      #MembersProjectsLinkLine  { display: block; }
+      #GuruLink a               { color: grey;  }
+      #SupportLink a            { color: grey;  }
+      #LicenseLink a            { color: grey;  }
+      #MtgLocLinkLine           { display: block; }
+      #MtgLocLink a             { color: blue;  }
+      #LoginLinkLine            { display: block; }
+      #LoginLink                { display: block; }
+      #MenuBlank                { display: block; }
+
+    </style>
+
+<script>
+</script>
+
+<!-- <script src="/client3/c32_home-wi-mysql-api_v1.03-rjs-ram/assets/mjs/formr_utility-fns_u1.06.mjs" type="module"></script> -->
+<!--
+<script type="module">                                                            // .(30412.02.7 RAM Use type="module")
+      console.log( "login.html[1]  Hello from regular script"  )                  // .(30423.03.2 RAM Add FName[LNo])
+
+      setHTML( 'inc-header',   '../includes/inc-header.html'   );                 // .(30412.03.2).(30423.01.2 RAM Maybe Later)
+      setHTML( 'inc-section1', '../includes/inc-section1.html' );                 // .(30412.03.2).(30423.01.3)
+      setHTML( 'inc-footer',   '../includes/inc-footer.html'   );                 // .(30412.03.2).(30423.01.4)
+
+
+//      import { setAPI_URL, setHTML   } from    '../assets/mjs/formr_utility-fns_u1.07.mjs' //#.(30415.02.1 RAM Avoid CORS error).(30423.02.1 RAM New version with fetchFile).(30430.03.1).(40413.02.1)
+        import { setAPI_URL, setHTML   } from '../../utils/FRTs/formr_utility-fns_u1.08.mjs' // .(40413.02.1 RAM Get current version).(30415.02.1 RAM Avoid CORS error).(30423.02.1 RAM New version with fetchFile).(30430.03.1)
+        import { getID, setCookie, clearListCookies }            from './login_u1.07.mjs'    // .(40415.06.2).(40413.02.2).(30421.03.2 RAM Move to module here).(30430.03.2 RAM Must be .js on server)
+        import { onLoginForm_Submit, setLoginForm   }            from './login_u1.07.mjs'    // .(40415.06.3).(40413.02.3).(30421.03.3).(30425.02.1 RAM Add onLoginForm_Submit).(30430.03.3)
+            console.log( "login.html[2]  Begin module script" )                         // .(30423.03.2 RAM Add FName[LNo])
+            await setAPI_URL( )                                                         // .(30412.03.1 RAM Set window.aAPI_URL )
+        var  nID = getID()                                                               // .(30415.03.1)
+            clearListCookies( )                                                         // .(30415.03.2)
+            setCookie( nID )                                                            // .(30415.03.3)
+
+         $( document ).ready( onReady )                                                 // .(30414.01.1 RAM Wait for document.forms to be rendered)
+
+            function onReady( ) {                                                       // .(30421.08.1)
+            setPIN()
+            setLoginForm( nID )                                                         // .(30329.06.1 RAM Use it).(30425.08.6 RAM Was setUserForm)
+
+       var  pLoginForm = document.getElementById(  "LoginForm" );                       // .(30428.01.1)
+            pLoginForm.addEventListener("submit", onLoginForm_Submit );                 //#.(30428.01.2 RAM Have to define listener in module).(30428.04.2)
+            }
+//--------  ---------------------------------------------------------
+
+  function  showPin() {                                                                 // .(30415.03.4)
+       var  x      =  document.getElementById("password");
+            x.type = (x.type === "password") ? "text" : "password";
+         }; // eof showPIN
+
+     window.showPin = showPin                                                           // .(30429.01.6 RAM Not defined globally unless added to window object)
+//--------  ---------------------------------------------------------
+
+  function  setPIN() {                                                                  // .(30415.03.5)
+       var  url    =  window.location.href;            // alert("url: " + url);
+       var  nPos   =  url.indexOf("?");                // alert("nPos = " + nPos);
+
+          $("#show-pin").css( "display", (nPos >= 0) ? "block" : "none" )
+         }; // eof setPIN
+//--------  ---------------------------------------------------------
+
+            console.log( "login.html[4]  End module script" )                           // .(30423.03.3)
+</script>
+-->
+  </head>
+  <body data-server-no-reload>                                                        <!-- .(30421.09.1 RAM FiveServer option) -->
+<!--<body>                                                                         --><!--#.(30421.09.1) -->
+
+    <div class="container">
+
+  <!-- BEG Header -->
+       <!-- inc-header-->
+       <div class="Header">
+
+        <!-- Logo -->
+            <div class="AIHeaderLogo"><a href="#">AI</a></div>
+            <div class="HeaderLogoText"><a href="#">Doc Review</a></div>
+            <div class="HeaderLogoDemo"><a href="/client1/c11_my-html-custom-app/login/login.html">[DEMO]</a></div>
+            <div class="HeaderSpacer"></div>
+        <!-- END Logo -->
+<!--
+            <ul class="HeaderNavList">
+                <li class="HeaderNavListItem"><a href=#>PH_Link1</a></li>
+                <li class="HeaderNavListItem"><a href=#>PH_Link2</a></li>
+                <li class="HeaderNavListItem"><a href=#>PH_Link3</a></li>
+                <li class="HeaderNavListItemCTA"><a href=#>PH_CTA</a></li>
+            </ul>
+-->
+        </div>
+      <!-- END inc-header -->
+  <!-- END  Header -->
+  <div class="Header">
+
+
+
+
+  <!-- BEG Section 1 -->
+
+    <div class="Section1">
+<!--
+      <div class="logout-temp-div"><br>
+        <span class="logout-temp-span"><a href="login_u1.07.html?id=500">??</a></span>     <!-- .(40415.06.4 RAM Beg If even used again) --><!--
+        <span class="logout-temp-span"><a href="login_u1.07.html?id=15" >BT</a></span>
+        <span class="logout-temp-span"><a href="login_u1.07.html?id=6"  >KF</a></span>
+        <span class="logout-temp-span"><a href="login_u1.07.html?id=9"  >RM</a></span>
+        <span class="logout-temp-span"><a href="login_u1.07.html?id=90" >RS</a></span>
+        <span class="logout-temp-span"><a href="login_u1.07.html"   >Logout</a></span>     <!-- .(40415.06.4 RAM End)
+      </div>
+-->
+      <div class="Section1Title"></div>
+      <div class="login">
+        <h1>
+          <a href="../../index.html">Home</a><br>                     <!-- .(40510.05.1 RJS Cleaner href) -->
+          <div id="login-error"><div id="errMsg"></div>Contact <a href="#">System Administrator</a> for Help</div>   <!-- .(30429.08.1 RAM)-->
+        <form id="LoginForm"             >                                              <!-- .(30429.01.6 RAM Not defined globally. Set listener above) -->
+          <label class="label-styles" for="username">
+            <!-- font awesome icon -->
+            <i   class="fas fa-user"></i>
+          </label>
+          <input type="text"         name="username" placeholder="eMail" id="username" value="eMail" required>   <!-- .(30503.02.1 RAM "Fuck You Microsoft") -->
+
+          <label class="label-styles" for="password">
+            <i   class="fas fa-lock"></i>
+          </label>
+
+          <div>
+            <input type="password"   name="password" placeholder="Password" id="password" required >
+            <input   id="trigger"    type="checkbox" onclick="showPin()">               <!-- .(30429.01.7 RAM Not defined globally if defined in module) -->
+            <label  for="trigger"   class="checker"></label>
+
+          </div>
+          <div ><a id="login-cancel" href="login_u1.07.html">Cancel</a></div> <!-- .(40415.06.5).(30501.01.1 RJS Change Cancel btn to a link) -->
+          <input id="login-button" type="submit" value="Login">          <!-- .(30501.01.2 RJS Add Login btn) -->
+        </form>
+      </div>
+    </div>
+
+  <!-- END Section 1 -->
+
+  <!-- Section 2 -->
+  <!-- END Section 2 -->
+
+  <!-- BEG Footer -->
+       <!-- inc-footer-->
+            <div id="inc-footer"></div>
+       <!-- END inc-footer -->
+  <!-- END Footer -->
+
+
+    </div>    <!-- eof Container .*30426.02.1 RAM) -->
+  <script>
+    window.onload = function() {
+      if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+      }
+    console.log("login.html[3]  Refresh to fully reset id = 0")
+    }
+
+
+    console.log( "login.html[5]  End of regular script"  )                              // .(30423.03.4)
+  </script>
+  </body>
+</html>

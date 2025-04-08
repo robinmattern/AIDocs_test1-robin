@@ -1,0 +1,78 @@
+> git push origin master:master
+remote: error: GH013: Repository rule violations found for refs/heads/master.        
+remote: 
+remote: - GITHUB PUSH PROTECTION        
+remote:   —————————————————————————————————————————        
+remote:     Resolve the following violations before pushing again        
+remote: 
+remote:     - Push cannot contain secrets        
+remote: 
+remote:             
+remote:      (?) Learn how to resolve a blocked push        
+remote:      https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push        
+remote:             
+remote:             
+remote:       —— OpenAI API Key ————————————————————————————————————        
+remote:        locations:        
+remote:          - commit: 888556ac4592e162f358a2d705a1ec841a309c19        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env-vultr.txt:6        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/robinmattern/AIDocs_dev01-robin/security/secret-scanning/unblock-secret/2vAyTXQJKRsGBP1aYNvIIqW6HrZ        
+remote:             
+remote:             
+remote:       —— OpenAI API Key ————————————————————————————————————        
+remote:        locations:        
+remote:          - commit: 72436edefecc142f31a32a77a06d6bbb4b4df493        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env_local-local.txt:24        
+remote:          - commit: 27dabdd4e7385bf099d929894783b64397782853        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env_local-local.txt:25        
+remote:          - commit: 72436edefecc142f31a32a77a06d6bbb4b4df493        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env_local-remote.txt:24        
+remote:          - commit: 72436edefecc142f31a32a77a06d6bbb4b4df493        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env_remote-remote.txt:24        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/robinmattern/AIDocs_dev01-robin/security/secret-scanning/unblock-secret/2vAyTXdJbCB7CYL3s8odn7XJ89V        
+remote:             
+remote:             
+remote:       —— OpenAI API Key ————————————————————————————————————        
+remote:        locations:        
+remote:          - commit: 729df1196c8393ab14ec20430dba0e8e25c58fb7        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env_local-local.txt:24        
+remote:          - commit: 729df1196c8393ab14ec20430dba0e8e25c58fb7        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env_local-remote.txt:24        
+remote:          - commit: 729df1196c8393ab14ec20430dba0e8e25c58fb7        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env_remote-remote.txt:24        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/robinmattern/AIDocs_dev01-robin/security/secret-scanning/unblock-secret/2vAyTQEjDJe5to08RCceM75JVcP        
+remote:             
+remote:             
+remote:       —— Anthropic API Key —————————————————————————————————        
+remote:        locations:        
+remote:          - commit: 27dabdd4e7385bf099d929894783b64397782853        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env_local-local.txt:26        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/robinmattern/AIDocs_dev01-robin/security/secret-scanning/unblock-secret/2vAyTWMWmgyopDxQwMEYAq64Ef6        
+remote:             
+remote:             
+remote:       —— Anthropic API Key —————————————————————————————————        
+remote:        locations:        
+remote:          - commit: 27dabdd4e7385bf099d929894783b64397782853        
+remote:            path: client1/c16_aidocs-review-app/utils/FRTs/_env_local-local.txt:27        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/robinmattern/AIDocs_dev01-robin/security/secret-scanning/unblock-secret/2vAyTSeyOc6LYg3qclnEPYntdCI        
+remote:             
+remote:             
+remote:     ——[ WARNING ]—————————————————————————————————————————        
+remote:      2 more secrets detected. Remove each secret from your commit history to view more detections.        
+remote:      https://docs.github.com/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/excluding-folders-and-files-from-secret-scanning        
+remote:     ——————————————————————————————————————————————————————        
+remote: 
+remote: 
+To github-ram:robinmattern/AIDocs_dev01-robin.git
+ ! [remote rejected] master -> master (push declined due to repository rule violations)
+error: failed to push some refs to 'github-ram:robinmattern/AIDocs_dev01-robin.git'

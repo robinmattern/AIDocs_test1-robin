@@ -1,0 +1,817 @@
+/*
+##=========+====================+================================================+
+##RD        AIDocs-Review CSS   | AIDocs-Review Main App Page Style sheet
+##RFILE    +====================+=======+===============+======+=================+
+##FD   index.css                |  24785|  4/12/24 16:07|   883| u1.04`40412.1607
+##FD   index.css                |  17987|  4/12/24 11:39|   519| v1.04-40412.1139
+##FD   index.css                |  17534|  4/13/24 13:50|   521| u1.04-40413.1350
+##FD   index.css                |  17616|  4/14/24 12:30|   522| u1.04-40414.1230
+##FD   index.css                |  18193|  4/26/24  9:30|   607| u1.04`40426.0930
+##FD   index.css                |  19389|  4/29/24 10:04|   620| u1.04`40429.1004
+##FD   index.css                |  21391|  5/01/24 17:23|   632| u1.04`40501.1723
+##FD   index.css                |  26113|  5/03/24 11:05|   693| u1.04`40503.1105
+##FD   index.css                |  33649|  5/10/24 10:00|   815| u1.04`40510.1000
+##FD   index.css                |  33747|  5/11/24 10:33|   817| u1.04`40511.1033
+##DESC     .--------------------+-------+---------------+------+-----------------+
+#           This HTML file contains the CSS styles for the AIDocs-Review main page.
+#           It was developed by Rick Schinner as parts of the formR Apps project.
+#           The Styles for The .Marketing properites and Modal have been added.
+#
+##LIC      .--------------------+----------------------------------------------+
+#           Copyright (c) 2024 8020Data-formR * Released under
+#           MIT License: http://www.opensource.org/licenses/mit-license.php
+##FNCS     .--------------------+----------------------------------------------+
+#           https://fonts.googleapis.com/css?family=EB+Garamond
+#           https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre
+#           https://fonts.googleapis.com/css2?family=Roboto+Slab
+
+##CHGS     .--------------------+----------------------------------------------+
+# .(40408.01  4/08/24 RAM  4:00p|  Modify Rick's CSS Styles
+# .(40410.05  4/10/24 RJS  4:00p|  Update Mktg text
+# .(40410.06  4/10/24 RJS  4:00p|  Update Modal text
+# .(40410.07  4/10/24 RJS  4:00p|  Remove H2 headers
+# .(40412.01  4/12/24 RAM  4:04p|  Add JPT's Doc Header Info
+# .(40412.02  4/12/24 RJS 11:39a|  Various style changes
+# .(40413.01  4/13/24 RJS  1:50p|  Prepare for release
+# .(40414.05  4/14/24 RAM 12:30p|  Release again
+# .(40426.01  4/26/24 RJS  9:30a|  Style Changes
+# .(40429.01  4/26/24 RJS 10:00a|  Style Changes
+# .(40429.02  4/29/24 RJS 10:02a|  Hide WorkspaceLabel
+# .(40429.03  4/29/24 RJS 10:03a|  Change color to grey
+# .(40429.04  4/29/24 RJS 10:04a|  Change font size
+# .(40501.01  5/01/24 RJS 10:01a|  Style changes
+# .(40501.02  5/01/24 RJS 10:02a|  Fix Scrollbar in .Chat
+##.(40501.06  5/01/24 RAM  4:45p|  Adjust Marketing font and height
+# .(40501.06  5/01/24 RAM  5:23p|  But don't center Messages section
+# .(40501.07  5/01/24 RAM  5:00p|  Set width to 1100 in HTML and Body
+# .(40501.06  5/03/24 RJS 11:00a|  Re-Adjust Marketing font and height
+##.(40502.01  5/02/24 RAM  1:01p|  Add, Don't center messages
+# .(40502.02  5/02/24 RJS  3:02p|  Add main .container class
+# .(40503.01  5/03/24 RJS 11:01a|  iPad Responsiveness
+# .(40503.02  5/03/24 RJS 11:02a|  Chg widths back to 100% from 1100px
+# .(40503.03  5/03/24 RJS 11:03a|  Change .Marketing radically again
+# .(40503.04  5/03/24 RJS 11:04a|  Adjust Modal window
+# .(40503.05  5/03/24 RJS 11:05a|  Add SevenHundredPixelWidth
+# .(40510.01  5/10/24 RJS 10:00a|  Style changes to index.css
+# .(40510.04  5/10/24 RJS 10:00a|  Add Media Portrait
+# .(40510.07  5/10/24 RJS 10:00a|  Change AboutAI popup
+# .(40511.03  5/11/24 RJS 10:33a|  Change .Chat Height and .content
+                                |
+##SRCE     +====================+===============================================+
+*/
+/* Basic Blocks Custom App */
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond');
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Caprasimo');       /* .(40510.01.1 RJS Add Caprasimo font) */
+
+/*=============================================*/
+/* root REPLACE Point - :root */
+/*----------------------------------------------
+:root selector for variables
+-----------------------------------------------*/
+:root {
+    --Body_background-color: lightblue; /*platinum*/
+
+    --Header_background-color: blue;
+    --Header_hover-color: white;
+    --HeaderLogo-image: "";
+    --HeaderLogo_margin: 35px 0 0 0px;
+    --HeaderLogo-FontFamily: "Caprasimo";                               /* .(40510.01.1 RJS Was Cooper Black) */
+    --HeaderList-font-size: 1.2rem;
+    --Header_Menu_font-color: whitesmoke;
+
+    --ShowMoreColor: whitesmoke;                                        /* .(40410.05.3 RJS Was Black) */
+
+    --Marketing_height: 20%;                                            /* .(40408.01.1 RAM Was: 120px in v1.04a.40410.1727-Rick) */
+    --Marketing_background-color: blue;                                 /* .(40410.05.4 RJS Was whitesmoke) */
+
+    --Chat_background-color: #E5E4E2; /*platinum*/
+    --Chat_top-margin: 40px;                                            /* .(40408.01.2 RAM Was: 60px; Added) */
+
+    --Footer_background-color:  whitesmoke;
+    --Footer_hover-color: white;
+    --FooterList-font-size: .9rem;
+
+    --GlobalFontFamily: Arial, Helvetica, sans-serif;
+
+    --SevenHundredPixelWidth: 720px;                                    /* .(40503.05.1 RJS Add SevenHundredPixelWidth) */
+}
+/* END REPLACE :root ==========================*/
+
+/*----------------------------------------------
+The <html> tag properties (unchanged)
+-----------------------------------------------*/
+html {
+    background: var(--Body_background-color);
+    height: 100%;
+    text-align: center;
+    max-width: 100%;                                                    /* .(40503.02.1 RJS Chg widths back to 100% from 1100px;).(40501.07.1 RAM Chg max-width, was 1000px) */
+    width: 100%;                                                        /* .(40503.02.2) */
+    margin: 0 auto;                                                     /* .(40503.02.3) */
+}
+/* END HTML ===================================*/
+
+/*----------------------------------------------
+The body properties
+-----------------------------------------------*/
+body {
+    background: var(--Body_background-color);
+    height: 100%;
+    width: 100%;                                                        /* .(40503.02.4 RJS was 1100px).(40501.07.2 RAM Chg width to 1100px; was 100%) */
+    margin: 0 auto;                                                     /* .(40501.01.2 RJS Add 0 auto to body margin) */
+    font-family: var(--GlobalFontFamily);
+}
+
+.container {                                                            /* .(40502.02.3 RJS Beg Add .container) */
+/*  align-self: center;                                               *//*#.(40510.01.2 RJS Beg) *//*
+    margin: 0 auto;
+    width: 80%;*/
+    display: flex;                                                      /* .(40510.01.2 RJS Beg Chg container styles) */
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+
+}                                                                       /* .(40510.01.2 RJS End).(40502.02.3 RJS End) */
+/*------------------------------------------------
+The .Header properties
+-------------------------------------------------*/
+.Header {
+    background: var(--Header_background-color);
+    width: 100%;
+    height: 60px;
+    top: 0;                                                             /* .(40510.01.3 RJS Add top: 0) */
+    position: fixed;  /*was relative*/
+    z-index: 2;                                                         /* .(40426.01.6 RJS Was 1000;) */
+    max-width: 1100px;                                                  /* .(40426.01.7 RJS Was 1000;) */
+    margin: auto;
+    display: flex;
+    justify-content:center;                                             /* .(40503.01.5 RJS Beg Add .header spacing) */
+    justify-content: space-between;                                     /* .(40503.01.6) */
+    align-items: center;
+}
+/* END .Header =============================*/
+
+
+/*------------------------------------------------
+The .HeaderLogo properties
+-------------------------------------------------*/
+.AIHeaderLogo {
+  margin-left: 5px;
+  padding-left: 15px;                                                   /* .(40426.01.8 RJS Was 5px;) */
+}
+.AIHeaderLogo a {
+  text-decoration: none;
+  font-size: 2.5rem;
+  font-family: var(--HeaderLogo-FontFamily);
+  font-weight: 600;
+  color: var(--Header_Menu_font-color);
+  font-style: italic;
+}
+/*------------------------------------------------
+The .HeaderLogoText properties
+-------------------------------------------------*/
+.HeaderLogoText {
+  margin-left: 10px;
+  padding-right: 0px;
+  text-align: left;
+}
+.HeaderLogoText a {
+    text-decoration: none;
+    font-size: 2rem;
+    font-family: var(--HeaderLogo-FontFamily);
+    font-weight: 600;
+    color: var(--Header_Menu_font-color);
+    font: style italic;
+  }
+.HeaderLogoText:before {                                                /* .(40426.01.9 RJS Added) */
+    background: url(https://slack-files.com/files-pub/T043MHPU3-F078S219N-67c52b377e/gs_bullet-checkmark.svg) center center no-repeat;  /* .(40426.01.9) */
+  }
+
+.HeaderVideoDemo {
+  padding-left: 40px;                                                   /* .(40503.01.7 RJS Beg Chg .HeaderVideoDemo. Was 400px;) */
+}
+.HeaderVideoDemo a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: var(--HeaderLogo-FontFamily);
+    font-weight: 800;
+    color: var(--Header_Menu_font-color);
+}
+
+.HeaderLogon {
+  padding-right: 100px;                                                 /* .(40503.01.8 RJS Beg Chg Was padding-left: 30px) */
+}
+
+.HeaderLogon a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: var(--HeaderLogo-FontFamily);
+    font-weight: 800;
+    color: var(--Header_Menu_font-color);
+}
+
+.AboutAI {                                                              /* .(40510.07.1 RJS Beg Add .AboutAI) */
+  display: none;
+}                                                                       /* .(40510.07.1 RJS End) */
+/*------------------------------------------------
+The .Marketing properties
+-------------------------------------------------*/
+.Marketing {                                                            /* .(40426.01.10 RJS Beg Changed radically;) */
+  width: 100%;                                                          /* .(40510.01.4 RJS Was 100vw) */
+  height: 130px;                                                        /* .(40429.01.1 RJS Add Height) */
+  top: 60px;
+  left: 50%;                                                            /* .(40510.01.5 RJS Add left) */
+  transform: translateX(-50%);                                          /* .(40510.01.6 RJS Add transform) */
+  position: fixed;  /*was relative*/
+  z-index: 2;
+  display: flex;
+  max-width: 1050px;
+  align-content: center;
+  justify-content: center;
+  align-items: start;
+  padding-left: 50px;
+  background: blue;
+  font-size: 16px;                                                      /* .(40501.06.1 RAM Set font-size to 16px;) */
+    .list {
+      list-style: none ;
+      width: 420px;
+      padding: 0px 0px;
+      margin: 0;
+      background: blue;
+/*    box-shadow: 0px 0px 0px rgba(0, 0, 0, .2); */                     /* .(40429.01.2 RJS Remove Shadow)   */
+      display: flex;
+      justify-content: left;                                            /* .(40501.06.2 RAM Chg Marketing.list, Was: center;) */
+      flex-direction: column;
+      font-size: 15px;                                                  /* .(40501.06.11 RJS Set font-size to 15px;) */
+      .item {
+        display: flex;
+        align-items: top;                                               /* .(40501.06.12 RJS Add align-items: top) */
+/*      align-items: center;      */                                    /*#.(40501.06.3 RAM Cut Align-item only valid for containers) */
+/*      text-align: left;         */                                    /*#.(40502.02.4 RJS Cut).(40501.06.4 RAM Add Marketing.item: left) */
+        padding: 4px 0px;
+        margin: 0px;                                                    /* .(40503.01.9 RJS Chg .item margin was 2px;) */
+        background: blue;
+        color: #fff;
+        font-weight: 500;
+        &:hover {
+          margin-left: 0px;
+        }
+        &:before {
+          display: flex;
+          align-content: start;
+          content:' ';
+          width: 15px;
+          height: 15px;
+          margin-right: 1px;                                            /* .(40510.01.6 RJS Was 10px) */
+/*        background: url(https://slack-files.com/files-pub/T043MHPU3-F078S219N-67c52b377e/gs_bullet-checkmark.svg) center center no-repeat; *//*#.(40501.09.x RJS Cut Item icon) */
+          }
+      }  /* eos .item  */
+      .itemshowmore {
+          display: flex;
+          align-items: center;
+          padding: 4px 0px;
+          margin: 0px;
+/*          box-shadow: 0px 2px 2px rgba(0, 0, 0, .1);*/
+          color: #fff;
+          font-weight: 700;
+          font-size: 1.2rem;
+          &:hover {
+            box-shadow: 1px 1px 3px darken(darkcyan, 9%);
+            margin-left: 20px;
+          }
+          &:before {
+            display: flex;
+            content:'';
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+          }
+        } /* eoc .itemshowmore */
+      } /* eoc .list */
+    } /* eoc Marketing */                                               /* .(40426.01.10 RJS End) */
+
+.AIMyDocsText {                                                         /* .(40410.05.9 RJS Beg Add .AIMyDocs style) */
+  font-size: 1rem;
+  font-weight: 800;
+  text-decoration: underline;
+  font-style: italic;
+}
+.ShowMore {                                                             /* .(40426.01.11 RJS Beg Added) */
+  color: var(--ShowMoreColor);
+  font-weight: 600;
+}
+/* END MarketingText properties ===========================*/
+.WorkbookLabel {
+  display: none;                                                        /* .(40429.02.1 RJS Hide WorkbookLabel) */
+  position: fixed;
+  z-index: 30;
+  top: 185px;
+  background: var(--Chat_background-color);                             /* .(40429.03.1 Chg Bkg Color Was: blue) */
+                                                                        /*#.(40429.04.1 RJS Cut font size, Was 1.2rem; ) */
+  font-weight: 600;
+  margin-left: 35px;
+  padding: 10px 10px 10px 10px;
+}                                                                       /* .(40426.01.11 RJS End).(40410.05.9 RJS Beg Add .AIMyDocs style) */
+.WorkbookText {                                                         /* .(40429.02.2 RJS Beg Add .WorkbookText) */
+  color: black;
+  font-size: 3rem;
+}
+.Workbooks {                                                            /* .(40429.02.2 RJS Beg Add .Workbooks) */
+  font-size: 1.2rem;
+  color: blue;
+}                                                                       /* .(40429.02.2 RJS End) */
+
+.ConversationContainer {                                                /* .(40510.01.7 RJS Beg Add .ConversationContainer) */
+  position: relative;
+  top: 15px;
+}                                                                       /* .(40510.01.7 RJS End) */
+
+
+/*===============================================
+The .Chat properties
+-------------------------------------------------*/
+.Chat {
+  background: var(--Chat_background-color);
+  width: 1100px;                                                        /* .(40426.01.12 RJS Was auto;) */
+  height: 645px;                                                        /* .(40501.01.3 RJS Chg Height Was 2000vh;).(40426.01.13 RJS Was 100p%;) */
+  position: relative;
+  display: block;                                                       /* .(40501.01.4 RJS Add display: block to .Chat) */
+  color: black;
+  font-family: var(--GlobalFontFamily);
+  font-size: 1.2rem;
+  font-weight: 600;
+/*text-align: left;                                                   *//*#.(40502.02.5 RJS Cut).(40502.01.3 RAM Add, Don't center messages) */
+  top: 80px;                                                            /* .(40510.01.8 RJS Was: 190px;).(40429.01.4 RJS Was: 183px;).(40426.01.14 RJS Was 120px;) *//*var(--Chat_top-margin);<---ADD to adjust the top position .(40410.06.2 RJS Change Chat Height, was 60).(40408.01.5 RAM Was: 40px) */
+  overflow-y: scroll;                                                   /* .(40426.01.9 RJS Beg Added) */
+  scroll-behavior: auto;
+  scrollbar-color: blue cornflowerblue;                                 /* .(40510.01.9 RJS Was: #A1A1A1 #DDDDDD;).(40501.02.1 RJS Fix Scrollbar for .chat) */
+}
+
+body::-webkit-scrollbar {                                               /* .(40501.02.2 RJS Hide Scrollbar for body) */
+  display: none;
+}                                                                       /* .(40426.01.15 RJS End) */
+/* END S2R-1 .Chat ===========================*/
+/*===============================================
+The .Chat h2 properties
+-------------------------------------------------*/
+.Chat h2 {
+  padding: 1;
+  color: black;
+}
+/* END S2-1 .Chat h2=========================*/
+
+
+/*=============================================== */                    /* .(40410.06.2 RJS Beg Add Modal Properties) */
+The Modal Popup properties
+-------------------------------------------------*/
+/*The Show More Link in marketing*/
+.box {
+  /*background-color: blue;*/
+  height: 1vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  padding-left: 20px;
+}
+.box a {
+  padding: 1px;
+  background-color: blue;
+  border-radius: 3px;
+  text-decoration: none;
+  color: white;
+  font-style: italic;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+/*END Show More Link in marketing*/
+
+/*The Modal Popup*/
+.modal {
+  position: fixed;
+  inset: 0;
+  background: lightgray;
+  display: none;
+  align-items:first baseline;
+  justify-content: center;
+  padding-left: -60px;                                                  /* .(40503.04.1 RAM Chg Modal padding was 50px;).(40426.01.16 RJS Added;) */
+  top: 0px;                                                             /* .(40426.01.17 RJS Added;) */
+}
+
+.content {
+  position: relative;
+  background: lightgray;
+  padding: 1em 2em;
+  border-radius: 4px;
+  width: 60%;                                                           /* .(40501.01.5 RJS Chg width was 70%).(40426.01.18 RJS Was: 50%;) */
+  top: 130px;                                                           /* .(40426.01.19 RJS Added) */
+  /*
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  */
+}
+
+.modal:target {
+  display: flex;
+}
+h1 {
+  font-size: .9rem;
+  text-align: left;                                                     /* .(40426.01.20 RJS Added) */
+}
+/* END Modal Popup ===========================*/                        /* .(40410.06.2 RJS End) */
+
+
+/*===============================================*/
+/* FR-1 REPLACE Point - Footer */
+/*------------------------------------------------
+The .Footer properties
+-------------------------------------------------*/
+.Footer {
+    background: blue;/*var(--Footer_background-color);*/
+    width: 100%;
+    height: 25px;                                                       /* .(40510.01.10 RJS Was: 3%;) */
+    /*top: 80px;  Removed in place of the bottom property*/
+    bottom: 0;
+    position: fixed;
+    display: block;                                                     /* .(40501.01.6 RJS Add display: block to footer) */
+    z-index: 2;                                                         /* .(40426.01.21 RJS Was: 99) */
+    max-width: 1100px;                                                  /* .(40426.01.22 RJS Was: 1000px;) */
+    margin: 0 auto;                                                     /* .(40501.01.7 RJS Add 0 auto to body margin) */
+  }
+/* END FR-1 .Footer =============================*/
+/*------------------------------------------------
+The .FooterLogo properties
+-------------------------------------------------*/
+.AIFooterLogo {
+  margin-left: -90px;                                                   /* .(40426.01.23 RJS Was: 5px;) */
+                                                                        /* .(40426.01.24 RJS Cut: padding-left: 5px;) */
+}
+.AIFooterLogo a {
+  text-decoration: none;
+  font-size: .8rem;
+  font-family: var(--HeaderLogo-FontFamily);
+  font-weight: 600;
+  color: var(--Header_Menu_font-color);
+  font-style: italic;
+}
+/*------------------------------------------------
+The .FooterLogoText properties
+-------------------------------------------------*/
+.FooterLogoText {
+  margin-top: 1px;
+  margin-left: 2px;
+  padding-right: 0px;
+  text-align: left;
+  padding-right: 900px;
+}
+.FooterLogoText a {
+    text-decoration: none;
+    font-size: .7rem;
+    font-family: var(--HeaderLogo-FontFamily);
+    font-weight: 600;
+    color: var(--Header_Menu_font-color);
+    font: style italic;
+}
+/* The Modal (background) */                                            /* .(40503.04.2 RJS Beg Moved Modal background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: -90;
+  top: 700;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+.content {
+  top: 115px;
+  width: 50%;
+  padding: 8px 14px;
+}
+h1 {
+  font-size: .8rem;
+}
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}                                                                       /* .(40503.04.2 RJS End) */
+
+
+/*===========================================*/
+/* R-1 START BLOCK ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+/* Responsive Code */
+/*-----------------------------------------
+
+The @media MAX-width query properties
+iPhone Landscape
+=========================================*/
+@media only screen
+and (min-width: 621px)
+and (max-width: 850px)                                                  /* .(40510.01.11 RJS Was: 1000px;) */
+{
+
+  html {
+    width: var(--SevenHundredPixelWidth);                               /* .(40503.05.2 RJS Use SevenHundredPixelWidth) */
+  }
+  body {
+    width: var(--SevenHundredPixelWidth);                               /* .(40503.05.3 RJS Use SevenHundredPixelWidth) */
+    height: 100%;                                                       /* .(40510.01.12 RJS Add: height) */
+  }
+  .container {                                                          /* .(40502.02.6 RJS Beg Add for iPhone) */
+    width: var(--SevenHundredPixelWidth);                               /* .(40503.05.4 RJS Use SevenHundredPixelWidth) */
+  }                                                                     /* .(40502.02.6 RJS End) */
+  .Header {
+    height: 50px;                                                       /* .(40426.01.25 RJS Was: 15%;) */
+    width: var(--SevenHundredPixelWidth);                               /* .(40503.05.5 RJS Use SevenHundredPixelWidth) */
+  }
+  .AIHeaderLogo a {
+    font-size: 2rem;
+  }
+  .HeaderLogoText a {                                                   /* .(40410.06.4 RJS Beg Add Tablet @Media styles) */
+    font-size: 1.5rem;                                                  /* .(40503.05.6 RJS Use SevenHundredPixelWidth) */
+    font-weight: 400;
+    padding-left: 0px;
+    text-decoration: underline;
+  }
+  .AIMyDocsText {                                                       /* .(40410.06.4 RJS Beg Add Tablet @Media styles) */
+    font-size: .5rem;
+    font-weight: 400;
+  }
+  .HeaderLogon {
+    padding-right: 0px;
+  }
+  .AboutAI {                                                            /* .(40510.07.2 RJS Add: .AboutAI) */
+    display: block;
+    margin: 0px 0px 0px 0px;
+    padding-right: 35px;
+   }
+   .AboutAI a {                                                         /* .(40510.07.3 RJS Add: .AboutAI a) */
+    padding-right: 10px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-family: var(--HeaderLogo-FontFamily);
+    font-weight: 800;
+    color: var(--Header_Menu_font-color);
+   }                                                                    /* .(40510.7.3 RJS End) */
+/*------------------------------------------------
+The .Marketing properties
+-------------------------------------------------*/
+.Marketing {                                                            /* .(40503.03.1 RJS Beg Change radically again).(40426.01.10 RJS Beg Change radically;) */
+  display: nonne;                                                       /* .(40510.01.13 RJS Add Display) */
+  top: 50px;
+  width: var(--SevenHundredPixelWidth);
+  padding-left: 0px;
+  max-width: 900px;                                                     /* .(40510.01.14 RJS Add max-width) */
+/*height: 180px;                                                      *//*#.(40501.06.13 RJS).(40501.06.5 RAM Chg height due to word wrap; was 120px??).(40426.01.27 RJS Was: 185px;) */
+  height: 85px;                                                         /* .(40501.06.13 RJS Chg height back to 85px) */
+    .list {
+      width: 680px;
+      padding-left: -40px;
+      margin: 0;
+      background: blue;
+      display: flex;
+      font-size: 11px;
+      .item {
+        padding-left: 0px;
+        margin: 0px 0px -6px -2px;                                      /* .(40510.01.15 RJS Was: 0px 0px -6px -15px;) */
+      }
+      .itemshowmore {
+          padding: 4px 0px;
+          margin: 0px 0px 0px 0px;
+          font-size: 1rem;
+          &:hover {
+            margin-left: 10px;
+          }
+        }
+      }
+     }                                                                  /* .(40503.03.1 RJS End).(40426.01.10 RJS End) */
+  .Chat{
+    top: 70px;                                                          /* .(40510.01.16 RJS Was: 130px;).(40426.01.29 RJS Was 20px) */
+    width: var(--SevenHundredPixelWidth);                               /* .(40503.05.7 RJS Use SevenHundredPixelWidth) */
+    height: 550px;                                                      /* .(40511.03.1 RJS Was: 620px;) */
+  }
+  .Footer {                                                             /* .(40510.01.18 RJS Was: .footer) */
+   display: none;                                                       /* .(40510.01.19 RJS Add: display;) */
+    width: var(--SevenHundredPixelWidth);                               /* .(40503.05.8 RJS Use SevenHundredPixelWidth) */
+  }
+  .FooterLogoText {                                                     /* .(40503.03.2 RJS Beg Changed lots) */
+    padding-right: 540px;
+  }
+  /*For popup*/
+  .content {
+    top: -45px;                                                         /* .(40511.03.2 RJS Was: 65px;).(40510.01.20 RJS Was: 65px;) */
+    width: 90%;                                                         /* .(40511.03.3 RJS Was: 75%) */
+    padding: 4px 4px;                                                   /* .(40511.03.4 RJS Was: 8px 14px;) */
+    overflow-y: scroll;                                                 /* .(40510.01.23 RJS Beg Add scroll stuff) */
+    scroll-behavior: auto;
+    scrollbar-color:  blue cornflowerblue;                              /* .(40510.01.23 RJS End) */
+  }
+  .modal {
+    left:  0px;                                                         /* .(40510.01.24 RJS Was: -1px;) */
+  }                                                                     /* .(40503.03.2 RJS End) */
+ /*                                                                   *//*#.(40503.03.3 RJS Beg Removed .TRs) *//*
+  .TR2, .TR3 {
+    display: none;
+  }
+  .Chat{
+    top: 230px;                                                       *//*#.(40501.06.6 RAM was 150px;).(40426.01.29 RJS Was 20px) *//*
+  }
+  .Footer{
+    display: none;
+  }                                                                   *//*#.(40503.03.3 RJS End) *//*
+*/
+
+  h1 {
+    font-size: .6rem;                                                   /* .(40510.01.25 RJS Was: .8rem;) */
+  }
+  /*end popup*/
+}
+
+/*-----------------------------------------
+The @media MAX-width (450px) query properties
+iPhone Portrait
+=========================================*/
+@media only screen                                                      /* .(40510.04.3 RJS Chg: Lots of changes to Portrait) */
+and (min-width: 375px)
+and (max-width: 510px)                                                  /* .(40510.04.4 RJS Was: 440px) */
+and (orientation: portrait) {                                           /* .(40510.04.5 RJS Add: orientation) */
+  html {
+    width: 98%;                                                         /* .(40510.04.6 RJS Was: 99%) */
+  }
+  body {
+    height: 100%;                                                       /* .(40510.04.7 RJS Was: 120%) */
+    width: 100%;                                                        /* .(40510.04.8 RJS Was: 99%) */
+  }
+  .Header {
+    height: 40px;
+    width: 100%                                                         /* .(40510.04.9 RJS Was: 99%) */
+  }
+  .AIHeaderLogo a {
+    font-size: 1.8rem;                                                  /* .(40510.04.10 RJS Was: 1.8rem) */
+  }
+  .HeaderLogoText a {                                                   /* .(40410.06.4 RJS Beg Add Tablet @Media styles) */
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+  .AIMyDocsText a  {                                                    /* .(40410.06.4 RJS Beg Add Tablet @Media styles) */
+    font-size: .55rem;
+    font-weight: 400;
+    text-decoration: underline;
+    padding: 0px 0px 0px 0px;                                           /* .(40510.04.11 RJS Add: padding) */
+  }
+  .HeaderVideoDemo {                                                    /* .(40510.04.12 RJS Add: .HeaderVideoDemo) */
+    padding-left: 14px;
+    margin: 0px 0px 0px 0px;
+  }
+  .HeaderVideoDemo a {
+    font-size: .75rem;
+  }
+  .HeaderLogon {                                                        /* .(40510.04.13 RJS Add: .HeaderLogon) */
+    margin: 0px 0px 0px 0px;
+    padding-right: 5px;
+    padding-left: 0px;
+  }
+  .HeaderLogon a {
+    font-size: .75rem;
+    padding: 0px 0px 0px 2px;
+ }
+   .AboutAI {                                                           /* .(40510.07.4) */
+    display: block;
+    margin: 0px 20px 0px 0px;
+   }
+   .AboutAI a {                                                         /* .(40510.07.5) */
+    padding-right: 10px;
+    text-decoration: none;
+    font-size: .75rem;
+    font-family: var(--HeaderLogo-FontFamily);
+    font-weight: 800;
+    color: var(--Header_Menu_font-color);
+   }
+
+  .Marketing {
+    display: none;
+  }
+  .ConversationContainer {                                              /* .(40510.04.15 RJS Add: .ConversationContainer) */
+      top: 15px;
+  }
+  .box {
+    height: 10px;
+    padding-left: 2px;
+    width: 95%;                                                         /* .(40510.04.16 RJS Was: 200px) */
+  }
+  .modal {
+    width: 100%;                                                        /* .(40510.04.17 RJS Was: 150%) */
+  }
+  .content {                                                            /* .(40510.04.18 RJS Add: .content) */
+    top: 0px;
+    width: 350px;
+    margin-left: 0px;
+  }
+  .content h1 {
+    margin: 0;
+  }
+  .Chat{
+    top: 5px;                                                           /* .(40510.04.19 RJS Was: 50px) */
+    width: 100%;                                                        /* .(40510.04.20 RJS Was: 110%) */
+    height: 100%;                                                       /* .(40510.04.21 RJS Was: 90%) */
+  }
+  .Footer{
+    display: none;
+  }
+
+  .box a {
+    font-size: .8rem;
+  }
+
+  h1 {                                                                  /* .(40510.04.22 RJS Add: h1 and h2) */
+    font-size: .7rem;
+  }
+  h2 {
+      padding: 10;
+  }
+
+}
+
+
+
+@media only screen                                                      /* .(40510.04.23 RJS Add: Media screen Beg) */
+and (min-width: 621px)
+and (max-width: 850px)
+and (min-height: 500px)
+and (max-height: 800px)
+{
+  html {
+    width: 99%;
+  }
+  body {
+    width: 99%;
+  }
+  .AboutAI {                                                            /* .(40510.07.6) */
+    display: none;
+  }
+  .Marketing {
+    display: flex;
+  }
+  .HeaderVideoDemo {
+    padding-left: 0px;
+    margin: 0px 0px 0px 0px;
+  }
+  .HeaderVideoDemo a {
+    font-size: 1rem;
+  }
+  .HeaderLogon {
+    margin: 0px 0px 0px 0px;
+    padding-right: 55px;
+    padding-left: 0px;
+  }
+  .HeaderLogon a {
+    font-size: 1rem;
+    padding: 0px 0px 0px 2px;
+ }
+  .Chat {
+  top: 90px;
+  height: 100vh;
+  }
+  .content {
+    top: 45px;
+    width: 85%;
+    padding: 4px 4px;
+    overflow-y: scroll;
+    scroll-behavior: auto;
+    scrollbar-color: blue cornflowerblue;
+  }
+  .modal {
+    left: 0px;
+  }                                                                     /* .(40503.03.2 RJS End) */
+  h1 {
+    font-size: .9rem;
+  }
+  .Footer {
+    display: block;
+  }
+}                                                                       /* .(40510.04.23 RJS End) */
+
+
+/* END CSS */

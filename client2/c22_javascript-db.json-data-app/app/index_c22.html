@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>c22. JavaScript db.json Data App</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <link  href="./index_c21.css"            rel="stylesheet" type="text/css" >
+    <style>
+          th { position: sticky;
+               top: 0;
+          /*   border-collapse: separate; */
+               vertical-align: bottom;
+               text-align: left;
+         /*    border-spacing: 0;  */
+         /*    background: var(--Header_background-color); */
+               background: #183582; /*Dark Sky Blue*/
+               color: white;
+               }
+
+    .CountryCode-th { min-width:  60px; width:  60px; padding-left: 9px; }
+    .CountryCode-td { min-width:  60px; width:  60px; padding-left: 9px; }
+    .Country-td     { min-width: 280px; width: 440px; } /* max-width: 440px; } */
+    .Continent-td   { min-width: 100px; width: 250px; }
+    .Area-th        { min-width:  80px; width: 150px; text-align: right; }
+    .Area-td        { min-width:  80px; width: 150px; text-align: right; }
+    .Population-th  { min-width:  70px; width: 150px; text-align: right; padding-right: 9px; }
+    .Population-td  { min-width:  70px; width: 150px; text-align: right; padding-right: 9px; }
+
+    .lastRow { height: 20px;
+               background: #183582; /*Dark Sky Blue*/
+               }
+    </style>
+  </head>
+<body>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <h1>c21. Sample Links and Buttons</h1>
+
+    <a href="">link</a>A simple link<br>
+    <a href="">link</a>A Javscript onclick function<br>
+    <a href="">link</a>A Javscript DOM Event Listener <br>
+    <button value="btnButton1"></button>A HTML button <br>
+    <button value="btnSubmit1"></button>A HTML form Submit button <br>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<h1>c22. db.json Data Server</h1>
+<!-- --------------------------------------------------------------------------- -->
+
+<script type="module">
+
+    import  pCountries   from './components/Countries_c22.mjs'
+            window.pCountries = pCountries
+
+</script><script>
+
+       var  ThePort2  =  50122
+       var  TheHost2  = `http://localhost:${ThePort2}`
+// -------  -----------------------------------------------------
+
+  function  btnButton2_onClick( ) {  
+       var  mSections =  document.getElementsByClassName( "Section2" )  // .(30911.02.1 RAM Note Array, not object for id = "divSection2") 
+       var  pButton   =  document.getElementById( "btnButton2" )
+
+        if (mSections[0].style.display == 'block' ) {
+            mSections[0].style.display  = 'none'
+            pButton.innerHTML           = "Show Table"
+        } else { 
+            mSections[0].style.display  = 'block'
+            pButton.innerHTML           = "Hide Table"
+
+            doCountries2( ) 
+            }
+         }; // eof btnButton2_onClick
+// -------  -----------------------------------------------------
+
+   async function doCountries2( aDiv, aURL ) { // can't return a value
+       var  aDiv      =  aDiv ? aDiv : `tblCountries2`
+       var  aURL      =  aURL ? aURL : `${TheHost2}/api/countries`
+
+       var  bOk       =  await pCountries.fmtCountries( aDiv, aURL )
+       if (!bOk) {  alert( `Make sure the Json Server is running on at this URL:\n  ${aURL}.`) 
+            window.location.reload();
+            } 
+         }; // eof doCountries2 
+//  ------  --------------------------------------------------------------------
+</script>  
+<!-- --------------------------------------------------------------------------- -->
+
+  <button id="btnButton2" onclick="btnButton2_onClick()">Show Table</button>Get data from a db.json file<br>
+
+  <div class="Section2" id="divSection2" style="display:none;">
+
+    <div>
+      <table cellspacing="0">
+         <tbody id="tblCountries2"></tbody>
+      </table>
+    </div>
+  </div><!-- eod Section2 -->
+
+<!-- --------------------------------------------------------------------------- -->
+
+    <div class="Section2a" style="display:none">
+      
+        <div class="countryList">
+            <table class="CountryTable" cellspacing="0">
+                <tbody>
+                <tr>
+                    <th class="CountryCode-th">Code</th>
+                    <th class="Country-th">Country</th>
+                    <th class="Continent-th">Continent</th>
+                    <th class="Area-th">Area (mi<sup>2</sup>)</th>
+                    <th class="Population-th">Population</th>                
+                </tr>
+            <tbody id="Countries"></tbody>
+            </table>
+
+            <script type="module">
+
+            var getCountries = async function ( ) {      // Must define async function to use with await below            
+                var pResponse  = await fetch( 'http://localhost:50122/api/countries' ) //  assets/data/db.json' )
+                var pJSON      = await pResponse.json( )           
+                var nRows      = 99
+                var mCountries = pJSON.filter( (pCountry, i) => { return i < nRows } )
+             return mCountries   
+                    }; // eof getCountries           
+
+                var  mCountries  =  await getCountries( )     // Must assign mCountries here with await                     
+                var  mHTMLrows   =  mCountries.map( fmtCountry )
+                     mHTMLrows.push ( `<tr class="lastRow" ><td colspan="5"></td></tr>` )
+                var  pCountries           =  document.getElementById( "Countries" )
+                     pCountries.innerHTML =  mHTMLrows.join( "\n" )
+        
+            function  fmtCountry( pCountry, i ) {           
+                var  aColor      =  i % 2 == 1 ? '#EFF8F8'  : '#DEEEF7'
+                var  aID         = `id="R${ `${ i + 1 }`.padStart( 3, "0" )}"`
+                var  aHTMLrow    = `
+                <tr ${aID} Class="${`eachRow ${aColor}`}">
+                    <td bgColor="${aColor}" class="CountryCode-td"> ${ pCountry.Code }</td>
+                    <td bgColor="${aColor}" class="Country-td"    > ${ pCountry.Name }</td>
+                    <td bgColor="${aColor}" class="Continent-td"  > ${ pCountry.Continent   }</td>
+                    <td bgColor="${aColor}" class="Area-td"       > ${ pCountry.SurfaceArea }</td>
+                    <td bgColor="${aColor}" class="Population-td" > ${ pCountry.Population  }</td>
+                </tr> `
+            return  aHTMLrow }
+            </script>            
+    </div>
+  </div><!-- eod Section2a -->
+
+<!-- --------------------------------------------------------------------------- -->
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  </body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>c23. JavaScript Access and Excel Data App</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <link  href="./index_c21.css"            type="text/css" rel="stylesheet">
+    <link  href="./components/DataTable.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<h1>c21. Sample Links and Buttons</h1>
+<!-- --------------------------------------------------------------------------- -->
+
+      <a href="">link</a>A simple link<br>
+      <a href="">link</a>A Javscript onclick function<br>
+      <a href="">link</a>A Javscript DOM Event Listener <br>
+      <button value="btnButton1"></button>A HTML button <br>
+      <button value="btnSubmit1"></button>A HTML form Submit button <br>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<h1>c22. db.json Data Server</h1>
+<!-- --------------------------------------------------------------------------- -->
+
+<script type="module">
+
+    import  pCountries   from './components/Countries_c23.mjs'            // Same as Countries_c22.mjs
+            window.pCountries = pCountries
+</script>
+<script src="./components/Section2.js"></script>
+
+<!-- --------------------------------------------------------------------------- -->
+
+  <button id="btnButton2" onclick="btnButton2_onClick()">Show Table</button>Get data from a db.json file<br>
+
+  <div class="Section2" id="divSection2" style="display:none;">
+
+    <div>
+      <table cellspacing="0">
+         <tbody id="tblCountries2"></tbody>
+      </table>
+    </div>
+  </div><!-- eod Section2 -->
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<h1>c23. Access and Excel File Server</h1>
+<!-- --------------------------------------------------------------------------- -->
+
+<script src="./components/Section3_Access.mjs" type="module"   ></script>
+<link  href="./components/Section3_Access.css" type="text/css" rel="stylesheet" >
+
+<script src="./components/Section3_Excel.mjs"  type="module"   ></script>
+<link  href="./components/Section3_Excel.css"  type="text/css" rel="stylesheet" >
+
+  <!-- --------------------------------------------------------------------------- -->
+
+  <button   id="btnShoAccess">Show Access Form </button>
+    <span   id="labShoAccess">Display form to Retreive City data from Access World database</span><br>
+
+  <div      id="divSection3b" class="Section3b"      style="display: block;" >
+
+    <form   id="frmGetData"   action=""              method="get" >
+      <table cellpadding="0"  cellspacing="0">
+        <tr>
+          <td                 class="Section3b-col1-1">Popultation:</td>
+          <td>
+            <input       id="fldPopulation"   type="input"                name="fldPopulation" size="5px" >
+             above<input id="radPopAbove"     type="radio" value="above"  name="radPopulation"> <!-- was checked -->
+          or below<input id="radPopBelow"     type="radio" value="below"  name="radPopulation"> from &nbsp;
+            <select      id="selGetData">
+              <option    id="URL1">/access/world/cities    </option>
+              <option    id="URL2">/access/world/countries </option>
+              <option    id="URL3">/excel/world/cities     </option>  
+              <option    id="URL4">/excel/world/countries  </option> 
+              <option    id="URL4">/mysql/cities           </option>   <!-- .(31109.01.1 RAM Add MySQL) -->
+              <option    id="URL4">/mysql/countries        </option>   <!-- .(31109.01.2) --> 
+            </select></td>
+        </tr>
+        <tr>
+          <td><div            class="Section3b-col2-1">
+            <div              class="Section3b-col2-1-top" >SQL Query:</div>
+            <div              class="Section3b-col2-1-bot" >
+              <input     id="btnGetData"      type="submit" value="Show Data" >
+            </div>
+          </div></td>
+          <td>
+            <textarea    id="fldSQLquery"                                 name="fldSQLquery"  ></textarea></div>
+          </td>
+        </tr>
+      </table>
+    </form>
+
+    <div>
+        <table           id="divTable3b"       cellspacing="0">
+        </table>
+    </div>
+  </div> <!-- eod Section3b -->
+
+<!-- --------------------------------------------------------------------------- -->
+
+  <button   id="btnShoExcel" >Show Excel Form </button>
+    <span   id="labShoExcel" >Display form to Upload, Download and Show County data from Excel spreadsheets</span><br>
+
+  <div      id="divSection3"  class="Section3"       style="display: none;" >
+  
+  <form     id="frmUpload"    action=""     method="post" encType="multipart/form-data">
+    <input  id="fldExcelFile" type="file"     name="fldExcelFile"       ><br>
+    <input  id="btnUpload"    type="submit"  value="Upload File&nbsp;" />
+                              Upload the Excel spreadsheet file from here: C:\Repos\FRApps\server3\s33_express-xlsx-server-api\data\Countries.xlsx<br>
+  </form>
+
+    <button id="btnGetExcel" >Get Excel      </button>
+                              Download the uploaded Excel Countries spreadsheet<br> <!-- see listeners above -->
+    <button id="btnGetJSON"  >Get JSON       </button>
+                              Retreive JSON data from the uploaded Excel spreadsheet located here:  <!-- .(31109.03.1 RAM Remove "obtained')-->
+    <select id="selGetJSON"  >
+            <option id="URL1">/excel/countries             </option>
+<!--        <option>/excel/cities                          </option>  -->
+            <option id="URL2">/excel/world/countries       </option>
+            <option id="URL3">/excel/world/cities          </option>
+    </select><br>
+
+    <button id="btnShoTable" >Show Table     </button>
+      <span id="labShoTable" >Display HTML table from the JSON data</span><br>
+    
+<!--<button id="btnShoCities">Show Cities Form </button>
+      <span id="labShoCities">Display form to select Cities</span><br> -->
+   
+    <div    id="divSection3a"  class="Section3a"     style="display: none;" >
+      <table             id="divTable3a"       cellspacing="0">    
+      </table>
+    </div> <!-- eod Section3a --> 
+  </div> <!-- eod Section3 -->
+
+<!-- --------------------------------------------------------------------------- -->
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  </body>
+</html>

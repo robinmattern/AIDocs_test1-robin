@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q&A Conversation</title>
+
+  <script type="model">
+
+  import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+
+//-------------------------------------------------------------------------------
+
+  class FormComponent extends LitElement {
+
+    static get styles( ) {
+      return css`
+
+        form {
+          display         : flex;
+          margin-top      : 20px;
+          }
+
+        #user-prompt {
+          flex            : 1;
+          color           : #333;
+          width           : 600px;
+          margin          : 0 auto;
+          padding         : 20px;            /* or 10px; */
+          border          : 1px solid #ddd;  /* or #ccc */
+          border-radius   : 5px;
+          background-color: #9ad8e3;  /* Light blue */
+          }
+
+    ` }; // eof get Styles
+//    -----------------------------------------------------
+
+    constructor() {
+      super();
+      const pForm = document.getElementById( 'user-prompt-form' ); // Get the form element
+            pForm.addEventListener( 'submit', onSubmit ); // Attach listener to the form's submit
+      }
+//    -----------------------------------------------------
+
+    render() {
+      return html`
+        <form                   id="user-prompt-form">
+          <input  type="text"   id="user-prompt" placeholder="Enter your prompt here" />
+          <button type="submit" id="submit-button">Send</button>
+        </form>
+      `;
+      } // eof render
+//    ---------------------------------------------------------
+
+    }
+//  -------------------------------------------------------------------------------
+
+    customElements.define( 'form-component', FormComponent );
+
+  </script>
+</head>
+<body>
+
+  <div id="conversation-container">
+    <form-component></form-component>
+  </div>
+
+</body>
+</html>

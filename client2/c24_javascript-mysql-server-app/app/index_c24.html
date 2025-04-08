@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>c24. JavaScript MySQL Server App</title>
+    <style>
+          h1 { margin-bottom : 7px;
+               border-bottom : 2px solid red;
+               width: 450px;
+               }
+           a { display: inline-block;
+               padding: 0px 5px 0px 5px;  /* top right bottom left */
+               margin-bottom: 1px;
+               margin-right: 4px;
+               border: 1px solid rgb(131, 131, 131);
+               background-color: #ede9e9b8;
+               color: #000000;
+               width: 75px;
+               text-decoration: none;
+               border-radius: 2px;
+               }
+      button { height: 20px;
+               margin-right: 4px;
+               margin-bottom: 1px;
+               text-align: left;
+               width: 87px;
+               }
+       input { margin-bottom: 2px;
+               margin-right: 4px;
+               }
+#fldXLSXfile { border-bottom: solid 1px;
+               width: 300px;
+               }
+
+          th { position: sticky;
+               top: 0;
+          /*   border-collapse: separate; */
+               vertical-align: bottom;
+               text-align: left;
+         /*    border-spacing: 0;  */
+         /*    background: var(--Header_background-color); */
+               background: #183582; /*Dark Sky Blue*/
+               color: white;
+               }
+
+    .CountryCode-th { min-width:  60px; width:  60px; padding-left: 9px; }
+    .CountryCode-td { min-width:  60px; width:  60px; padding-left: 9px; }
+    .Country-td     { min-width: 280px; width: 440px; } /* max-width: 440px; } */
+    .Continent-td   { min-width: 100px; width: 250px; }
+    .Area-th        { min-width:  80px; width: 150px; text-align: right; }
+    .Area-td        { min-width:  80px; width: 150px; text-align: right; }
+    .Population-th  { min-width:  70px; width: 150px; text-align: right; padding-right: 9px; }
+    .Population-td  { min-width:  70px; width: 150px; text-align: right; padding-right: 9px; }
+
+    .lastRow { height: 20px;
+               background: #183582; /*Dark Sky Blue*/
+               }
+    </style>
+</head>
+<body>
+<!-- ---------------------------------------------------------------------------------- -->
+
+  <h1>c21. Sample Links and Buttons</h1>
+
+      <a href="">link</a>A simple link<br>
+      <a href="">link</a>A Javscript onclick function<br>
+      <a href="">link</a>A Javscript DOM Event Listener <br>
+      <button value="btnButton1"></button>A HTML button <br>
+      <button value="btnSubmit1"></button>A HTML form Submit button <br>
+
+<!-- ---------------------------------------------------------------------------------- -->
+
+<h1>c22. db.json Data Server</h1>
+<!-- --------------------------------------------------------------------------- -->
+
+<script type="module">
+
+    import  pCountries   from './components/Countries_c22.mjs'               
+            window.pCountries = pCountries
+
+</script><script>
+
+       var  ThePort2  =  50122
+       var  TheHost2  = `http://localhost:${ThePort2}`
+// -------  -----------------------------------------------------
+
+  function  btnButton2_onClick( ) {
+       var  mSections =  document.getElementsByClassName( "Section2" )    // .(30911.02.1 RAM Note Array, not object for id = "divSection2")
+       var  pButton   =  document.getElementById( "btnButton2" )
+
+        if (mSections[0].style.display == 'block' ) {
+            mSections[0].style.display  = 'none'
+            pButton.innerHTML           = "Show Table"
+        } else {
+            mSections[0].style.display  = 'block'
+            pButton.innerHTML           = "Hide Table"
+
+            doCountries2( )
+            }
+         }; // eof btnButton2_onClick
+// -------  -----------------------------------------------------
+
+   async function doCountries2( aDiv, aURL ) { // can't return a value
+       var  aDiv      =  aDiv ? aDiv : `tblCountries2`
+       var  aURL      =  aURL ? aURL : `${TheHost2}/api/countries`
+
+       var  bOk       =  await pCountries.fmtCountries( aDiv, aURL )
+       if (!bOk) {  alert( `Make sure the Json Server is running on at this URL:\n  ${aURL}.`)
+            window.location.reload();
+            }
+         }; // eof doCountries2
+//  ------  --------------------------------------------------------------------
+</script>
+<!-- --------------------------------------------------------------------------- -->
+
+  <button id="btnButton2" onclick="btnButton2_onClick()">Show Table</button>Get data from a db.json file<br>
+
+  <div class="Section2" id="divSection2" style="display:none;">
+
+    <div class="countryList">
+      <table class="CountryTable" cellspacing="0">
+         <tbody id="tblCountries2"></tbody>
+      </table>
+    </div>
+  </div><!-- eos Section2 -->
+<!-- ---------------------------------------------------------------------------------- -->
+
+<h1>c23. Express XLSX File Server</h1>
+<!-- --------------------------------------------------------------------------- -->
+
+<script type="module">
+
+    import  pCountries   from './components/Countries_c23.mjs'
+
+       var  ThePort3     =  50133
+       var  TheHost3     = `http://localhost:${ThePort3}`
+//          --------------------------------------------------
+
+            setListeners( TheHost3 )   // set Listeners for three buttons below
+
+  function  setListeners( aHost ) {
+            document.getElementById( 'frmUpload'   ).action =                                     `${aHost}/upload`
+            document.getElementById( 'btnGetExcel' ).onclick = function( ) { btnOpnLink_onClick(  `${aHost}/download/excel` ) }
+            document.getElementById( 'btnGetJSON'  ).onclick = function( ) { btnGetJSON_onClick(  `${aHost}/download/json`  ) }
+            document.getElementById( 'btnShoTable' ).onclick = function( ) { btnShoTable_onClick( `${aHost}/download/json`  ) }
+            } // eof setListeners
+//  ------  --------------------------------------------------------------------
+
+     async  function  doCountries3( aDiv, aURL ) {
+       var  aDiv =  aDiv ? aDiv : `tblCountries3`
+       var  aURL =  aURL ? aURL : `${TheHost3}/api/countries`
+
+       var  bOk  =  await pCountries.fmtCountries( aDiv, aURL )
+       if (!bOk) {  alert( `Make sure the Express XLSX Server is running at URL:\n  ${aURL}.`
+                    + '\n  And that you have uploaded a Countries spreadsheet.' )
+            window.location.reload();
+            }
+            } // eof doCountries3
+//  ------  --------------------------------------------------------------------
+
+  function  btnOpnLink_onClick( aURL ) {
+//          window.location = aURL
+            window.open( aURL, "_blank" )
+         }; // eof btnOpnLink_onClick
+//  ------  --------------------------------------------------------------------
+
+  function  btnGetJSON_onClick( aURL ) {
+            btnOpnLink_onClick( aURL )
+         }; // eof btnGetJSON_onClick
+//  ------  --------------------------------------------------------------------
+
+  function  btnShoTable_onClick( aURL ) {
+       var  pSection  =  document.getElementById( 'divSection3' )
+       var  pButton   =  document.getElementById( 'btnShoTable' )
+       var  pLabel    =  document.getElementById( "labShoTable" )
+       var  bVisible  =  pSection.style.display == 'block'
+
+            pSection.style.display  =  bVisible  ? 'none' : 'block'
+            pButton.innerHTML       =  bVisible  ? "Show Table" : "Hide Table"
+
+        if (bVisible) {
+            pLabel.innerHTML  =  pLabel.innerHTML.replace( /Display/, "Hide" )
+        } else {
+            pLabel.innerHTML  =  pLabel.innerHTML.replace( /Hide/, "Display" )
+
+            doCountries3(  "tblCountries3", aURL );
+            } // eif not visible
+
+         }; // eof btnShoTable_onClick
+//  ------  --------------------------------------------------------------------
+</script>
+<!-- --------------------------------------------------------------------------- -->
+
+  <form  ref="uploadForm"   id="frmUpload"  action="" method="post" encType="multipart/form-data">
+    <input type="file"    name="fldXLSXfile"    id="fldXLSXfile"><br>
+    <input type="submit"    id="btnUpload"   value="Upload File&nbsp;" />Upload the XLSX spreadsheet file<br>
+  </form>
+
+   <button id="btnGetExcel">Get Excel </button>Download the uploaded XLSX file<br>
+   <button id="btnGetJSON" >Get JSON  </button>Retreive JSON obtained from the uploaded XLSX file<br> <!-- see listeners above -->
+   <button id="btnShoTable">Show Table</button><span id="labShoTable">Display HTML table from the JSON data</span><br>
+
+  <div class="Section3" id="divSection3" style="display: none;" >
+
+    <div class="countryList">
+        <table class="CountryTable" cellspacing="0">
+          <tbody id="tblCountries3"></tbody>
+        </table>
+    </div>
+  </div> <!-- eos Section3 -->
+<!-- ---------------------------------------------------------------------------------- -->
+
+<h1>c24. MySQL Server</h1>
+<!-- --------------------------------------------------------------------------- -->
+
+<script type="module">
+
+    import  pCountries from './components/Countries_c24.mjs'
+//          window.pCountries = pCountries
+
+/* </scr'pt><script>  */
+
+       var  ThePort4  =  50144
+       var  TheHost4  = `http://localhost:${ThePort4}`
+// -------  -----------------------------------------------------
+
+            setListeners( TheHost4 )   // set Listeners for one button
+
+  function  setListeners( aHost ) {
+            document.getElementById( 'btnButton4' ).onclick = function( ) { btnButton4_onClick( ) }
+         }; // eof setListeners
+// -------  -----------------------------------------------------
+
+  function  btnButton4_onClick( ) {
+       var  pSection  =  document.getElementById( "divSection4" )
+       var  pButton   =  document.getElementById( "btnButton4" )
+       var  bVisible  =  pSection.style.display == 'block'
+
+            pSection.style.display  =  bVisible  ? 'none' : 'block'
+            pButton.innerHTML       =  bVisible  ? "Show Table" : "Hide Table"
+
+       if (!bVisible) {
+            doCountries4( ) }
+
+         }; // eof btnButton4_onClick
+// -------  -----------------------------------------------------
+
+  async function doCountries4( aDiv, aURL ) { // can't return a value
+       var  aDiv      =  aDiv ? aDiv : `tblCountries4`
+       var  aURL      =  aURL ? aURL : `${TheHost4}/api/countries`
+
+       var  bOk       =  await pCountries.fmtCountries( aDiv, aURL )
+       if (!bOk) {  alert( `Make sure the Express MySQL Server is running on at this URL:\n  ${aURL}.`)
+            window.location.reload();
+            }
+         }; // eof doCountries4
+//  ------  --------------------------------------------------------------------
+</script>
+<!-- --------------------------------------------------------------------------- -->
+
+  <button id="btnButton4">Show Table</button>Get data from MySQL Server<br>
+
+  <div class="Section4" id="divSection4" style="display: none;">
+
+    <div class="countryList">
+        <table class="CountryTable" cellspacing="0">
+           <tbody id="tblCountries4"></tbody>
+        </table>
+    </div>
+  </div><!-- eos Section4 -->
+<!-- ---------------------------------------------------------------------------------- -->
+  </body>
+</html>

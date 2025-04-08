@@ -1,0 +1,102 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Image Carousel</title>
+   <link rel="stylesheet" href="style.css">
+ <style>
+ .carousel-container {
+   width: 800px; /* Adjust width as needed */
+   margin: 0 auto; /* Center the carousel horizontally */
+   overflow: hidden; /* Hide overflowing content */
+   position: relative; /* Needed for button positioning */
+ }
+
+ .carousel-track {
+   display: flex; /* Arrange images horizontally */
+   transition: transform 0.5s ease-in-out; /* Smooth transition */
+ }
+
+ .carousel-track img {
+   width: 100%; /* Images fill the carousel container width */
+   object-fit: cover; /* Maintain image aspect ratio and cover container */
+ }
+
+ .prev-btn,
+ .next-btn {
+   position: absolute; /* Position buttons outside the container */
+   top: 50%; /* Center buttons vertically */
+   transform: translateY(-50%); /* Adjust vertical position if needed */
+   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+   color: white; /* Button text color */
+   font-size: 2rem; /* Button font size */
+   border: none;
+   padding: 10px;
+   cursor: pointer; /* Indicate clickable button */
+ }
+
+ .prev-btn {
+   left: 10px; /* Position left button */
+ }
+
+ .next-btn {
+   right: 10px; /* Position right button */
+ }
+ </style>
+ </head>
+ <!-- -------------------------------------------------------------- -->
+
+ <body>
+   <div class="carousel-container">
+     <div class="carousel-track">
+       3 <img src="./assets/IMGs/fr40322-03_Demo1.png" alt="Image 3 ">
+       4 <img src="./assets/IMGs/fr40322-04_Demo1.png" alt="Image 4 ">
+       5 <img src="./assets/IMGs/fr40322-05_Demo1.png" alt="Image 5 ">
+       6 <img src="./assets/IMGs/fr40322-06_Demo1.png" alt="Image 6 ">
+       7 <img src="./assets/IMGs/fr40322-07_Demo1.png" alt="Image 7 ">
+       8 <img src="./assets/IMGs/fr40322-08_Demo1.png" alt="Image 8 ">
+       9 <img src="./assets/IMGs/fr40322-09_Demo1.png" alt="Image 9 ">
+       10<img src="./assets/IMGs/fr40322-10_Demo1.png" alt="Image 10">
+       11<img src="./assets/IMGs/fr40322-11_Demo1.png" alt="Image 11">
+       12<img src="./assets/IMGs/fr40322-12_Demo1.png" alt="Image 12">
+       13<img src="./assets/IMGs/fr40322-13_Demo1.png" alt="Image 13">
+       14<img src="./assets/IMGs/fr40322-14_Demo1.png" alt="Image 14">
+       15<img src="./assets/IMGs/fr40322-15_Demo1.png" alt="Image 15">
+       16<img src="./assets/IMGs/fr40322-16_Demo1.png" alt="Image 16">
+       17<img src="./assets/IMGs/fr40322-17_Demo1.png" alt="Image 17">
+
+       2 <img src="./assets/IMGs/fr40322-14_Demo1.png" alt="Image 2 ">
+       1 <img src="./assets/IMGs/fr40322-15_Demo1.png" alt="Image 1 ">
+
+     </div>
+     <button class="prev-btn">&#8592;</button>
+     <button class="next-btn">&#8594;</button>
+   </div>
+ <!-- -------------------------------------------------------------- -->
+
+   <script>
+
+    // This script is optional and provides basic functionality for navigating the carousel
+    // You can further enhance it with features like automatic sliding or infinite scrolling
+
+    const carouselTrack = document.querySelector('.carousel-track');
+    const nextBtn = document.querySelector('.next-btn');
+    const prevBtn = document.querySelector('.prev-btn');
+
+    let currentSlide = 0; // Track the current slide index
+
+    nextBtn.addEventListener('click', () => {
+      currentSlide++;
+      carouselTrack.style.transform = `translateX(-${currentSlide * 800}px)`; // Adjust based on image width
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentSlide > 0) {
+        currentSlide--;
+        carouselTrack.style.transform = `translateX(-${currentSlide * 800}px)`; // Adjust based on image width
+      }
+    });
+ </script>
+ </body>
+ </html>

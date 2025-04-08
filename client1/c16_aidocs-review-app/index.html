@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+##=========+====================+================================================+
+##RD        AIDocs-Review Index | AIDocs-Review Main App Page
+##RFILE    +====================+=======+===============+======+=================+
+##FD   index.html               |   1871|  4/07/24 13:54|    25| v1.01`40407.1354
+##FD   index.html               |  10770|  4/12/24 16:08|   206| u1.04`40412.1608
+##FD   index.html               |   9215|  4/13/24 13:21|   164| v1.04-40413.1321
+##FD   index.html               |   9377|  4/13/24 13:50|   166| u1.04-40413.1350
+##FD   index.html               |   9476|  4/14/24 12:30|   167| u1.04-40414.1230
+##FD   index.html               |   9971|  4/26/24  9:30|   165| u1.04`40426.0930
+##FD   index.html               |  10369|  4/28/24 12:15|   170| u1.04`40428.1215
+##FD   index.html               |  10535|  4/30/24 12:00|   172| u1.04`40430.1203
+##FD   index.html               |  12043|  5/01/24 17:00|   187| u1.04`40501.1700
+##FD   index.html               |  13365|  5/03/24 11:03|   194| index`40503.1103
+##FD   index.html               |  13440|  5/10/24 10:00|   191| index`40510.1000
+##DESC     .--------------------+-------+---------------+------+-----------------+
+#           This HTML file displays the main page for AIDocs-Review
+#           It uses Custom HTML tags that are implemented using Lit Components.
+#
+##LIC      .--------------------+----------------------------------------------+
+#           Copyright (c) 2024 8020Data-formR * Released under
+#           MIT License: http://www.opensource.org/licenses/mit-license.php
+##FNCS     .--------------------+----------------------------------------------+
+#           https://fonts.googleapis.com/css?family=EB Garamond
+#           https://fonts.googleapis.com/css?family=Roboto+Slab
+#           https://cdnjs.cloudflare.com/ajax/libs/font-awesome
+#           index_u1.04-Robin.css
+#           components/WorkspacesComponent_u1.04.mjs
+#           components/MessagesComponent_u1.04.mjs
+#           components/FormComponent_u1.02.mjs
+
+##CHGS     .--------------------+----------------------------------------------+
+# .(40408.04  4/08/24 RAM  4:00p|  New component versions
+# .(40408.05  4/08/24 RAM  4:00p|  Change conversation top
+# .(40410.05  4/10/24 RJS  4:00p|  Update Mktg text
+# .(40410.06  4/10/24 RJS  4:00p|  Update Modal text
+# .(40410.08  4/10/24 RJS  4:00p|  Add favicon
+# .(40411.01  4/11/24 RJS  7:58p|  Add link to slideshow
+# .(40411.02  4/11/24 RJS  9:00a|  Change titles to AI Docs Review
+# .(40412.01  4/12/24 RAM  4:00p|  Add JPT's Doc Header Info
+# .(40412.03  4/12/24 RJS 11:35p|  Change [DEMO} to Video
+# .(40412.04  4/12/24 RJS 11:37p|  Add Login
+# .(40413.01  4/13/24 RAM  1:50p|  Prepare for release
+# .(40414.05  4/14/24 RAM 12:30p|  Release again
+# .(40415.06  4/15/24 RAM  8:30p|  Change .login to .login_u1.07
+# .(40415.07  4/15/24 RJS  8:30p|  Add table classes
+# .(40415.08  4/15/24 RJS  8:45p|  Add footer text
+# .(40426.03  4/26/24 RJS  9:30a|  Change Marketing copy
+# .(40425.01  4/28/24 RAM 12:15p|  Change login file back to login_v1.07
+# .(40430.03  4/30/24 RJS 12:03p|  New favicon for AIDocs
+# .(40501.03  5/01/24 RJS 10.00a|  Add Section Comments
+# .(40501.04  5/01/24 RJS 10:00a|  Remove WorkspaceLabel from index.html
+##.(40502.01  5/02/24 RAM  1:01p|  Use <center> for the whole page
+# .(40502.02  5/02/24 RJS  3:02p|  Add nain .container div
+# .(40503.03  5/03/24 RJS 11:03a|  Add fa-check icon
+# .(40510.07  5/10/24 RJS 10:00a|  Chg AboutAI popup
+                                |
+##SRCE     +====================+===============================================+
+-->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AI My Docs</title>                                         <!--#.(40411.02.1 RAM Title: AI Docs Review App) -->
+        <link rel="shortcut icon" href="assets/images/favicon.png">       <!-- .(40430.03.1 RJS New icon).(40410.08.1 RJS New favicon) -->
+        <link rel="stylesheet"    href="https://fonts.googleapis.com/css?family=EB Garamond" >
+        <link rel="stylesheet"    href="https://fonts.googleapis.com/css?family=Roboto+Slab" >
+        <link rel="stylesheet"    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+        <link rel="stylesheet"    href="index.css">
+    </head>
+
+    <body>
+<!--  <center> -->                                                              <!--#.(40502.01.1 RAM Add <center>).(40502.02.1) -->
+      <div class="container">                                                   <!-- .(40502.02.1 RJS Add .container div) -->
+    <!-- Header Section -->                                                     <!-- .(40501.03.1 RJS Add Section Comments) -->
+        <div class="Header">
+        <!-- Logo -->
+            <div class="AIHeaderLogo"   ><a href="#">AI</a><span class="HeaderLogoText"><a href="#">MyDocs</a></span></div>                                    <!-- .(40412.03.1 RJS Chg: AI Doc Review to AI MYDocs) -->
+            <div class="HeaderVideoDemo"><a href="https://robinmattern.github.io/AIDocs_demo1-master/overview/fr3022_demo1-fade2.html">[Video Demo]</a></div>  <!-- .(40412.03.2 RJS Chg: [DEMO} to Video).(40411.01.1 RAM Add link to slideshow) -->
+            <div class="HeaderLogon"    ><a href="components/login/login_u1.07.html">[Login]</a></div>                                                         <!-- .(40425.01.4).(40415.06.6).(40412.04.1 RJS Add: link to Login) -->
+            <div class="AboutAI">        <a href="#popup-box" title="Show the exciting attributes of AIMyDocs">[About]</a></div>                               <!-- .(40510.07.4 RJS Chg AboutAI popup).(40508.01.1) RJS Add: link to About Popup) -->
+        <!-- END Logo -->
+        </div>
+    <!-- END Header Section -->                                                 <!-- .(40501.03.2) -->
+
+    <!-- Marketing Section -->                                                  <!-- .(40501.03.3) -->
+        <div class="Marketing">                                                 <!-- .(40426.03.1 RJS Beg Chg: Marketing copy) -->
+          <ul class="list">                                                     <!-- .(40503.03.4 RJS Beg Add fa-check icon) -->
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>Introducing AIMyDocs</li>
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>Keep Everything Private</li>
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>Are You Drowning In A Sea Of Documents?</li>
+            <li class="itemshowmore"><span class="mysvg"></span><a href="#popup-box" title="Show more exciting attributes of AIMyDocs"><font color="white">Show More...</font></a></li>
+          </ul>
+          <ul class="list">
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>Your AI-powered Document Search Engine</li>
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>We Use Cutting-edge AI Technology</li>
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>To Instantly Search Your Documents,</li>
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>Saving You Time & Frustration</li>
+          </ul>
+          <ul class="list">
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>Find Anything Instantly</li>
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>AIMyDocs is here to help</li>
+            <li class="item"><i class="fa-solid fa-check"></i>&nbsp;<span class="mysvg"></span>Are You Ready To Take...</li>
+            <li class="item">&nbsp;&nbsp;&nbsp;&nbsp;<span class="mysvg"></span>... Control Of Your Documents?</li>
+          </ul>                                                                 <!-- .(40503.03.4 RJS End) -->
+        </div>
+    <!-- END Marketing Section -->                                              <!-- .(40501.03.4) -->
+
+
+    <!--<div class="WorkbookLabel">  -->                                        <!--#.(40501.04.1 RJS Beg Cut: WorkbookLabel) -->
+    <!--  <div>User Document(s):  GreenbookFY2025.pdf</div> -->
+    <!--</div> -->                                                              <!--#.(40501.04.1 RJS End).(40426.03.1 RJS End) -->
+                                                                                <!--#.(40412.03.4 RJS Cut: Hidden Section) -->
+
+  <!-- Chat Section -->                                                           <!-- .(40426.03.2 RJS Beg Moved up to here) -->
+    <div class="Chat">
+      <script type="module">
+        import "./components/WorkspacesComponent_u1.04.mjs"                       // .(40408.04.1 RAM Beg New versions)
+        import "./components/MessagesComponent_u1.04.mjs"
+        import "./components/FormComponent_u1.02.mjs"
+        console.log( "  Loaded components for AI Docs Review (top: 80px)" )
+      </script>                                                                 <!-- .(40408.04.1 RAM End) -->
+
+      <div id="conversation-container" class="ConversationContainer" >          <!-- .(40410.01.50 RJS User ConversationContainer).(40412.03.5 RJS Was 80px;).(40408.05.1 RAM Was 110px; in v1.04`40410.1727-Rick) -->
+        <workspaces-component></workspaces-component>
+        <messages-component></messages-component>
+        <form-component></form-component>
+      </div>                                                                    <!-- .(40426.03.2 RJS End Move) -->
+    </div>                                                                      <!-- .(40410.05.1 RJS End) -->
+  <!-- END Chat Section -->
+
+  <!-- Footer Section -->                                                       <!-- .(40501.03.5 RAM Move Footer to here) -->
+        <div class="Footer">
+              <div class="AIFooterLogo"><a href="#">AI</a><span class="FooterLogoText"><a href="#">MyDocs</a></span></div><!-- .(40415.08.1 RJS Add footer text) -->
+        </div>
+  <!-- END Footer Section -->                                                   <!-- .(40501.03.6) -->
+  </div>                                                                        <!-- .(40502.02.2 RJS Add .Container) -->
+
+  <!-- Popup Section -->                                              <!-- .(40501.03.7) -->
+      <div id="popup-box" class="modal">                              <!-- .(40410.06.1 RJS Beg Update Modal text) -->
+          <div class="content">
+              <h1 >
+                  Here's what makes AIMyDocs special:
+                  <br><br>
+                  Effortless Search: Simply upload your documents and start searching with keywords. Our AI does the heavy lifting, finding exactly what you need in seconds.
+                  <br><br>
+                  Instant Results: No more waiting! AIMyDocs delivers results the moment you hit search, so you can get back to what matters most.
+                  <br><br>
+                  Unmatched Security: We take your privacy seriously. Your documents are encrypted both in transit and at rest, and we never share your information with anyone.
+                  <br><br>
+                  AIMyDocs is perfect for:
+                  <br><br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&#8226; Individuals with large document collections (personal finance, medical records, etc.)
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&#8226; Freelancers and independent contractors
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&#8226; Anyone who needs to quickly access important information
+                  <br><br>
+                  Get Started Today!
+                  <br><br>
+                  Uploading a document is simple and secure. Pay a small fee per document, and enjoy the peace of mind that comes with knowing your information is always protected.
+                  <br><br>
+                  Sign up for a free trial! (Offer a limited number of free searches to incentivize users)
+                  <br><br>
+                  Learn more about AIMyDocs's pricing plans. (Link to a pricing page with clear per-document costs)
+                  <br><br>
+                  Read our FAQs for answers to common questions. (Address privacy concerns and data security measures)
+                  <br><br>
+                  AIMyDocs: Find what you need, when you need it.
+              </h1>
+              <a
+                  href="#"
+                  style="
+                      position: absolute;
+                      top: 5px;
+                      right: 20px;
+                      color: black;
+                      font-size: 30px;
+                      text-decoration: none;
+                  "
+                  >&times;</a
+              >
+          </div>
+      </div>                                                          <!-- .(40410.06.1 RJS End) -->
+  <!-- END Popup Section -->                                          <!-- .(40501.03.8) -->
+
+<!--  </center> -->                                                             <!--#.(40502.01.2 RAM Add <center>).(40502.02.2) -->
+    </body>
+
+</html>

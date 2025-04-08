@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>c22s. JavaScript db.json Data App (simplified)</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <link  href="./index_c21.css"            type="text/css" rel="stylesheet">
+    <link  href="./components/DataTable.css" type="text/css" rel="stylesheet">
+  </head>
+<body>
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <h1>c21. Sample Links and Buttons</h1>
+
+    <a href="">link</a>A simple link<br>
+    <a href="">link</a>A Javscript onclick function<br>
+    <a href="">link</a>A Javscript DOM Event Listener <br>
+    <button value="btnButton1"></button>A HTML button <br>
+    <button value="btnSubmit1"></button>A HTML form Submit button <br>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<h1>c22. db.json Data Server</h1>
+<!-- --------------------------------------------------------------------------- -->
+
+<script type="module">
+
+    import  pCountries   from './components/Countries_c22.mjs'
+            window.pCountries = pCountries
+</script>
+<script src="./components/Section2.js"></script>
+
+<!-- --------------------------------------------------------------------------- -->
+
+  <button id="btnButton2" onclick="btnButton2_onClick()">Show Table</button>Get data from a db.json file<br>
+
+  <div class="Section2" id="divSection2" style="display:none;">
+
+    <div>
+      <table cellspacing="0">
+         <tbody id="tblCountries2"></tbody>
+      </table>
+    </div>
+  </div><!-- eod Section2 -->
+
+<!-- --------------------------------------------------------------------------- -->
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  </body>
+</html>

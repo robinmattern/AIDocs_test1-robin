@@ -1,0 +1,311 @@
+/*
+##=========+====================+================================================+
+##RD        Login               | AIDocs-Review Login Page Stylesheet
+##RFILE    +====================+=======+===============+======+=================+
+##FD   login.css                |   7774|  4/13/24 14:45|   307| v1.07`40413.1445
+##FD   login.css                |   7731|  4/26/24 10:00|   311| v1.07`40426.1000
+##DESC     .--------------------+-------+---------------+------+-----------------+
+#           This CSS file contains the HTML styles for the AIDocs-Review login page.
+#           It was origionally developed by Rick Shinner as parts of the IODD App
+#           project.
+##LIC      .--------------------+----------------------------------------------+
+#           Copyright (c) 2024 8020Data-formR * Released under
+#           MIT License: http://www.opensource.org/licenses/mit-license.php
+##FNCS     .--------------------+----------------------------------------------+
+
+##CHGS     .--------------------+----------------------------------------------+
+# .(40412.04  4/12/24 RJS 12:22p|  Copied from IODD project
+# .(40412.01  4/12/24 RAM  4:00p|  Add JPT's Doc Header Info
+# .(40413.02  4/13/24 RAM  2:45p|  Prepare login for release
+# .(40425.01  4/25/24 RAM  3:30p|  Change .login_v1.07 back to .login
+# .(40426.01  4/26/24 RJS 10:00a|  Style changes ???
+                                |
+##SRCE     +====================+===============================================+
+*/
+:root {
+/*    --Body_background-color: #E5E4E2; /*platinum*/
+      --Body_background-color: whitesmoke; /*platinum*/
+
+      --Header_background-color: blue;
+/*    --Header_background-color: #FF7034; /*FormR Orange*/
+      --Header_hover-color: white;
+      --HeaderLogo-image: "";
+      --HeaderLogo_margin: 35px 0 0 0px;
+      --HeaderLogo-FontFamily: "Roboto Slab";
+      --HeaderList-font-size: 1.2rem;
+      --HeaderHeight: 20px%;
+      --ShowMoreColor: black;
+
+      --Marketing_height: 140px;
+      --Marketing_background-color: whitesmoke;
+
+      --HiddenSection_background-color: whitesmoke;
+      --HiddenSection_height: 0%;
+
+      --Chat_background-color: #E5E4E2; /*platinum*/
+      --Chat_height: 90%;
+
+  /*  --Footer_background-color:  #E5E4E2; /*platinum*/
+      --Footer_background-color:  whitesmoke;
+      --Footer_hover-color: white;
+      --FooterList-font-size: .9rem;
+
+      --GlobalFontFamily: "Frank Ruhl Libre", "EB Garamond";
+
+      --Button_Logo_font-color: whitesmoke;
+  }
+
+
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+  font-size: 16px;
+}
+/*----------------------------------------------
+The <html> tag properites (unchanged)
+-----------------------------------------------*/
+html {
+  background: var(--Body_background-color);
+  height: 100%;
+  text-align: center;
+  max-width: 1000px;
+  margin: auto;
+}
+/* END HTML ===================================*/
+
+.logout-temp-div {
+  display: none;
+  text-align: right;
+  margin: 0px 20px 0px 0px;
+}
+.logout-temp-span a {
+  text-decoration: none;
+  color: white;
+  font-family: monospace;
+  font-weight: 700;
+  background-color: blue;
+  padding: 2px 8px 2px 8px;
+  border: 1px solid blue;
+  border-radius: 8px;
+}
+.Header {
+  background: blue;
+  width: 100%;
+  height: 800px;
+  position: fixed;  /*was relative*/
+  z-index: 100;
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+/*
+  border-bottom: black;
+  border-bottom-style: dashed;
+*/
+}
+
+.AIHeaderLogo {
+  margin-left: 5px;
+  padding-left: 25px;
+}
+.AIHeaderLogo a {
+  text-decoration: none;
+  font-size: 2.5rem;
+  font-family: var(--HeaderLogo-FontFamily);
+  font-weight: 600;
+  color: var(--Button_Logo_font-color);
+  font-style: italic;
+}
+.HeaderLogoText {
+  margin-left: 5px;
+  padding-left: 25px;
+}
+.HeaderLogoText a {
+    text-decoration: none;
+    font-size: 2rem;
+    font-family: var(--HeaderLogo-FontFamily);
+    font-weight: 600;
+    color: var(--Button_Logo_font-color);
+
+    /*
+    font-style: italic;
+    background: blue ;
+    padding: 0.5rem .5rem;
+    border-radius: 8px;
+    box-shadow: 4px 4px black;*/
+}
+.ShowMore {
+  color: var(--ShowMoreColor);
+  font-weight: 600;
+}
+
+.HeaderLogoDemo {
+  margin-left: 5px;
+  padding-left: 125px;
+}
+.HeaderLogoDemo a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: var(--HeaderLogo-FontFamily);
+    font-weight: 500;
+    color: var(--Button_Logo_font-color);
+    /*
+    font-style: italic;
+    background: blue ;
+    padding: 0.5rem .5rem;
+    border-radius: 8px;
+    box-shadow: 4px 4px black;*/
+}
+
+.Section1 {
+  height: 700px; /*was 120px*/
+  width: var(--GlobalMaxWidth);
+  width: 100%;
+  top: 60px;
+  left: 0px;
+/*  background: url( '../assets/images/monaco-blue-soft.jpg');*/
+  background-color: #E5E4E2;  /*platinum*/
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.Section1Title {
+  padding: 30px 0px 0px 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: darkgray;
+  text-shadow: 1px 1px 1px #000000;
+
+  text-decoration: none;
+  font-size: 2.5rem;
+  font-family: var(--HeaderLogo-FontFamily);
+  font-weight: 600;
+  color: var(--Button_Logo_font-color);
+  font-style: italic;
+
+
+}
+.Section2 {
+  height: 600px;
+  background-color: aliceblue;
+}
+.login {
+  width: 400px;
+  background-color: #ffffff;
+  box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+  margin: 80px auto;
+}
+.login h1 {
+  text-align: center;
+  color: #5b6574;
+  font-size: 24px;
+  padding: 20px 0 1px 0;
+  border-bottom: 1px solid #dee0e4;
+}
+.login form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+}
+.label-styles {
+  background-color: #3274d6;
+  color: #ffffff;
+}
+
+.login form label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  /* background-color: #3274d6;
+  color: #ffffff; */
+}
+.login form input[type="password"],
+.login form input[type="text"] {
+  width: 310px;
+  height: 50px;
+  border: 1px solid #dee0e4;
+  margin-bottom: 20px;
+  padding: 0 15px;
+}
+/* .login form input[type="password"] {
+  margin-right: 50px;
+} */
+
+.login form input[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #3274d6;
+  border: 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffff;
+  transition: background-color 0.2s;
+}
+.login form input[type="submit"]:hover {
+background-color: #2868c7;
+  transition: background-color 0.2s;
+}
+#login-cancel {
+  display: none;
+  background-color: #3274d6;
+  color: white;
+  font-weight: 600;
+  padding: 10px 177px 10px 177px;
+  text-decoration: none;
+}
+/*Creates the EYE toggle*/
+#trigger {
+  display: none;
+}
+.checker {
+  background-image: url('./assets/images/eyeball.gif');    /* .(40412.04.02 RAM Was '../assets/...) */
+  background-position: left center;
+  background-size: auto 30%;
+  width: 25px;
+  height: 15px;
+  background-repeat: no-repeat;
+  position: absolute;
+  margin: -70px 0px 0px 260px;
+}
+#trigger:checked + .checker {
+  background-position: left center;
+}
+/*END Creates the EYE toggle*/
+
+
+#login-error {
+  border-top: red 1px solid;
+  border-bottom: red 1px solid;
+  color: red;
+  font-size: 14px;
+  background-color: yellow;
+  padding: 10px 0px 10px 0px;
+  display: none;
+}
+#login-error a {
+  font-size: 14px;
+}
+.Footer {
+  display: block;
+  height: 60px;
+  /* width: 440px; */
+  /* opacity: 0.82; */
+  /* border-top: dotted 2px #696969; */
+
+}
+.FooterNavList {
+  justify-content: center;
+  padding-left: 0px;
+  margin: 5px;
+  text-align: center;
+}
+.FooterNavListItem  {
+  padding: 10px 0px 10px 0px;
+}
+  .FooterNavListItem a {
+    color: #505050;
+}

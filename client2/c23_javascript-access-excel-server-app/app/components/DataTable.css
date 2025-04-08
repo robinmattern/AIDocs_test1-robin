@@ -1,0 +1,25 @@
+          th { position: sticky;
+               top: 0;
+          /*   border-collapse: separate; */
+               vertical-align: bottom;
+               text-align: left;
+         /*    border-spacing: 0;  */
+         /*    background: var(--Header_background-color); */
+               background: #183582; /*Dark Sky Blue*/
+               color: white;
+               }
+
+    .CountryCode-th { min-width:  60px; width:  60px; padding-left: 9px; }
+    .CountryCode-td { min-width:  60px; width:  60px; padding-left: 9px; }
+    .Country-th     { min-width: 280px; width: 440px; } /* max-width: 440px; } */
+    .Country-td     { min-width: 280px; width: 440px; } /* max-width: 440px; } */
+    .Continent-th   { min-width: 100px; width: 250px; }
+    .Continent-td   { min-width: 100px; width: 250px; }
+    .Area-th        { min-width:  80px; width: 150px; text-align: right; }
+    .Area-td        { min-width:  80px; width: 150px; text-align: right; }
+    .Population-th  { min-width:  70px; width: 150px; text-align: right; padding-right: 9px; }
+    .Population-td  { min-width:  70px; width: 150px; text-align: right; padding-right: 9px; }
+
+    .lastRow { height: 20px;
+               background: #183582; /*Dark Sky Blue*/
+               }
