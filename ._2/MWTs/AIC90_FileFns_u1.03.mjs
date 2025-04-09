@@ -611,7 +611,7 @@ createDirectoryIfNotExists(dirPath).then( result => {
                                    fsync.writeFileSync( aFilePath, aData, pOptions);
 //          console.log(`File '${aFilePath}' written successfully!`);
 //turn  Promise.resolve();
-        } catch(pError) {
+        } catch( pError ) {
             console.error(   `* Error: Writing file:    "${aFilePath}"` );
             aFilePath       = ''
 //turn  Promise.reject(error);

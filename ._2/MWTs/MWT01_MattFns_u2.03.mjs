@@ -6,7 +6,7 @@
 ##FD   MWT01_MattFns_u1.03.mjs  |  18159|  4/02/25  7:20|   343| p1.03`50402.0720
 ##FD   MWT01_MattFns_u1.03.mjs  |  19735|  4/04/25 12:30|   343| p1.03`50404.1230
 ##FD   MWT01_MattFns_u1.03.mjs  |  20537|  4/05/25 16:45|   362| p1.03`50405.1645
-##FD   MWT01_MattFns_u2.03.mjs  |  20537|  4/07/25 19:xx|   362| p1.03`50407.19xx
+##FD   MWT01_MattFns_u2.03.mjs  |  26141|  4/08/25 18:45|   446| p1.03`50408.1845
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script implements the utility functions for working with Matt
@@ -47,7 +47,9 @@
 #.(50404.01   4/04/25 RAM 12:30p| Write and use shoMsg
 #.(50404.05   4/04/25 RAM  3:45p| Add lines and change Stats .tab widths
 #.(50407.02   4/07/25 RAM  6:50p| Bump version to 2.03
-#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code   
+#.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code
+#.(50408.06   4/08/25 RAM  6:20p| Write and use savStats_4JSON
+#.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -189,7 +191,8 @@ function  fmtText(text) {
  */
 function  fmtResults(results) {
   if (results.length === 0) { return ''; }
-  const urls = results.map(result => `${result.FirstURL.trim()}\n       ${result.Text}`);
+//const urls = results.map(    result => `${result.FirstURL.trim()}\n       ${ result.Text }`);                                     //#.(50408.07.1)
+  const urls = results.filter( result =>    result.FirstURL ).map(result => `${result.FirstURL.trim()}\n       ${result.Text}`);    // .(50408.07.1 RAM Add filter to searchResultsJson )
   return "\n     " + urls.join("\n     ");
 }
 //   -- --- ---------------  =  ------------------------------------------------------  #
@@ -242,7 +245,76 @@ function  fmtResults(results) {
             } // eof getServerInfo                                                      // .(50330.04.8 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
-  function  savStats( stats, parms, aExt ) {                                            // .(50403.04.1 RAM Add aExt).(50331.03.1 RAM Write savStats)
+  function  savStats_4JSON( pStats, pResults, pParms ) {                                // .(50408.06.1 RAM Write savStats_4JSON Beg)
+//     var  pJSON            =  savStats4Text( pStats, pParms )
+//     var  pJSON            =  pResults
+//          pJSON.URLs       =  pResults.URLs
+//          pJSON.Docs       =  pResults.Docs
+//          pJSON.Stats      =  pStats
+
+       var  pJSON =
+             { RunId:                 pStats.RunId
+             , WebSearch:
+                { URL:                pStats.WebSearchURL      // pResults.URLs[0]        //
+                , Prompt:             pStats.WebSearch        //    "roman empire"
+                , Response:
+                   { AbstractURL:     pResults.WebResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
+                   , Results:         pResults.WebResponse.Results
+                   , RelatedTopics:   pResults.WebResponse.RelatedTopics
+                   , URLs:            pResults.URLs
+                     }
+                  }
+             , ModelQuery:
+                { Model:              pStats.ModelName
+                , Platform:           pResults.Platform
+                , CompinedPrompt:
+                   { QueryPromptCode: pStats.QPC
+                   , UsrPrompt:       pStats.QueryPrompts
+                   , SysPrompt:       pResults.SysPrompt
+                   , Documents:       pStats.Docs
+                   , PromptTemplate:  pResults.PromptTemplate  //  "{Query}. {SysPrompt}, {Docs}"
+                   , Prompt:          pResults.Prompt
+                     }
+                , Response:           pResults.Response
+                , RunStats:           {}
+                  }
+             , Files:
+                { TextResponse:       pStats.ResponseFile.replace( /.+docs/i, './docs' )
+                , JSONResponse:       pStats.ResponseFile.replace( /.+docs/i, './docs' ).replace( /.txt$/, '.json' )
+                  }
+               }
+            delete pStats.ResponseFile
+            delete pStats.WebSearchURL
+            delete pStats.WebSearch
+            delete pStats.QueryPrompts
+            delete pStats.Docs
+            delete pStats.QPC
+            pStats.ModelName        = pStats.ModelName.trim()
+            pStats.ContextSize      = pStats.ContextSize      * 1 //
+            pStats.Temperature      = pStats.Temperature      * 1 // "0.07"
+            pStats.Duration         = pStats.Duration         * 1 // "  12.49"
+            pStats.EvalTokens       = pStats.EvalTokens       * 1 // "  336"
+            pStats.EvalDuration     = pStats.EvalDuration     * 1 // "  12.21"
+            pStats.PromptEvalTokens = pStats.PromptEvalTokens * 1 // "   555"
+            pStats.TokensPerSecond  = pStats.TokensPerSecond  * 1 // " 27.52"
+            pStats.RAM              = pStats.RAM              * 1 // "16"
+
+            pJSON.ModelQuery.RunStats  = pStats
+
+    return  JSON.stringify( pJSON, '', 2 )
+            }                                                                           // .(50408.06.1 End)
+//   -- --- ---------------  =  ------------------------------------------------------  #
+
+  function  savStats_4MD( pStats, pResults, pParms ) {                                  // .(50408.10.1 RAM Write savStats_4MD Beg)
+//     var  pJSON            =  savStats4Text( pStats, pParms )
+       var  pJSON            =  pResults
+            pJSON.URLs       =  pResults.URLs
+            pJSON.Docs       =  pResults.Docs
+            pJSON.Stats      =  pStats
+            }                                                                           // .(50408.10.1 End)
+  //   -- --- ---------------  =  ------------------------------------------------------  #
+
+  function  savStats_4Text( stats, parms, aExt ) {                                      // .(50408.06.2 RAM Was: savStats).(50403.04.1 RAM Add aExt).(50331.03.1 RAM Write savStats)
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.6)
        var  pStats  = {};
             pStats.RespId           =     parms.resp_id.slice( 0, 11 )                  // .(50331.05c.2).(50331.05.4)
@@ -251,14 +323,14 @@ function  fmtResults(results) {
             pStats.Temperature      = `${ parms.temp}`.padStart(4)                                                    // .(50404.05.03)
             pStats.Duration         = `${(stats.total_duration / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.04)
             pStats.EvalTokens       = `${ stats.eval_count                      }`.padStart(5)                        // .(50404.05.05)
-            pStats.QPC              =     parms.qpc                                                                   // .(50407.03.4 RAM Add QPC)                                                                   
+            pStats.QPC              =     parms.qpc                                                                   // .(50407.03.4 RAM Add QPC)
             pStats.QueryPrompts     =     stats.query.length > 27                                                     // .(50407.03.5 RAM Was Query)
-                                    ? `${ stats.query.slice(0,24)}...` : stats.query.padEnd(27)                       // .(50407.03.5 RAM Add ...)   
+                                    ? `${ stats.query.slice(0,24)}...` : stats.query.padEnd(27)                       // .(50407.03.5 RAM Add ...)
             pStats.EvalDuration     = `${(stats.eval_duration  / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.06)
             pStats.PromptEvalTokens = `${ stats.prompt_eval_count               }`.padStart(6)                        // .(50404.05.07)
             pStats.TokensPerSecond  = `${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)}`.padStart(6)    // .(50404.05.08)
-            pStats.WebSearch        =     stats.websearch                               // .(50330.04c.4)
-            pStats.WebSearchURL     =     stats.url                                     // .(50407.03.6)   
+            pStats.WebSearch        =     parms.websearch                               // .(50330.04c.4)
+            pStats.WebSearchURL     =     stats.url                                     // .(50407.03.6)
             pStats.Docs             =     stats.docs
             pStats.CPU_GPU          =  aCPU_GPU                                         // .(50330.04b.7 Beg)
             pStats.RAM              =  aRAM.replace( / *GB/, '' )
@@ -266,13 +338,15 @@ function  fmtResults(results) {
             pStats.Computer         =  aPC_Model                                        // .(50330.04b.7 End)
             pStats.Server           =  aServer
             pStats.ResponseFile     =  `file:///${parms.logfile}`                       // .(50331.05c.3).(50331.05.5)
+       if (!aExt) { return pStats }                                                     // .(50408.06.3 RAM Just the Stats Jack)
+
        var  mStats                  =  Object.entries( pStats ).map( pStat => pStat[1] )
 //     var  aCSV                    = `"${ mStats.join( '","' ) }"`                     //#.(50403.04.2 Beg)
 //     var  aFlds                   = `Model,URL,Docs,Query,Context,Duration,PromptEvalCount,EvalCount,EvalDuration,TokensPerSecond,Server,CPU_GPU_RAM`
 //     var  aFlds                   = `Model,Context,Temperature,Duration,EvalTokens,URL,Docs,Query,EvalDuration,PromptEvalTokens,TokensPerSecond,Server,CPU_GPU_RAM`
 //     var  aFlds                   = `RespId,Model,Context,Temperature,Duration,"Eval Tokens",Query,"Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search",Docs,URL,CPU_GPU,RAM,OS,Computer,Server,"Response File"`
 //     var  mFlds                   = [ "RespId","Model","Context","Temperature","Duration","Eval Tokens","Query","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  //#.(50407.03.7)
-       var  mFlds                   = [ "RespId     ","Model Name               ","Context","Temp","Duration","Eval Tokens","PCD","Model Query Prompt","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","Web Search URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  // .(50407.03.7 RAM Add QPC column)
+       var  mFlds                   = [ "RespId     ","Model Name               ","Context","Temp","Duration","Eval Tokens","QPC","Model Query Prompt","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","Web Search URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  // .(50407.03.7 RAM Add QPC column)
        var  aDelim                  =  aExt.match( /tab/ ) ? "\t" : '","',  aQQ = aDelim == "\t" ? '' : '"'
        var  aFlds                   =  mFlds.join( aDelim )
        var  aRow                    =  aQQ + mStats.join( aDelim ) + aQQ                // .(50403.04.2 End)
@@ -360,7 +434,10 @@ export default {  // Export as default object with named functions
   htmlToText,
   fmtResults,
   fmtStats,
-  savStats,                                               // .(50331.03.3)
+//savStats      : savStats_4Text,                         //#.(50408.06.4).(50331.03.3)
+  savStats4Text : savStats_4Text,                         // .(50408.06.4)
+  savStats4JSON : savStats_4JSON,                         // .(50408.06.5)
+//savStats4MD   : savStats_4MD,                           // .(50408.10.2)
 //getEnvVars,                                             //#.(50403.02.6).(50331.04.2)
   showHiddenChars,
   fmtStream,
