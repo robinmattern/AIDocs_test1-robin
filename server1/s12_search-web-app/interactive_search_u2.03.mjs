@@ -75,9 +75,11 @@
 #.(50408.08   4/08/25 RAM  6:25p| Change Query to UsrPrompt
 #.(50408.09   4/08/25 RAM  6:30p| Change fallbackURL to .env from DuckDuckGo
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
+#.(50409.02   4/09/25 RAM  5:00a| Replace PC_Name and mPrompts array 
+#.(50409.03   4/09/25 RAM 12:30p| Fix some display issues
 #.(50410.01   4/10/25 RAM  2:15p| Save .tab spreadsheet as .csv after mkdir
 #.(50410.03   4/10/25 RAM  3:05p| Duplication mPrompts if necessary
-#.(50410.04   4/10/25 RAM  3:25p| Add QPC to prompt output 
+#.(50410.04   4/10/25 RAM  3:25p| Add QPC to prompt output  
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -177,7 +179,7 @@
 
        var  nRunCount        =  pVars.RUN_COUNT     ||  1                                                   // .(50403.03.2)
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
-       var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 )
+       var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 ) || ''
 //     var  aSvr             =  pVars.THE_PC_NAME    ?  pVars.THE_PC_NAME : aServer.slice(0,5)              //#.(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg).(50405.01b.1)
        var  aSvr             = (pVars.THE_PC_NAME    ?  pVars.THE_PC_NAME : aServer).slice(0,6)             // .(50405.01b.1 RAM Was 5 chars).(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg)
        var  bPrtSources      =  pVars.SHOW_SOURCES  ||    0          // Whether to print source content
@@ -204,10 +206,10 @@
        var  nRunCount        =  pVars.RUN_COUNT        || 1
        var  bUsePromptFile   =  pVars.USE_PROMPTS_FILE || 0                                                 // .(50408.05.1 RAM Use Prompts file Beg)
         if (bUsePromptFile != 1) {
-       var  mPrompts         =
+       var  mPrompts         =  [                                                                           // .(50409.02.1 RAM Put into array)
              { QPC           :  pVars.QUERY_PROMPT_CD  || ''                                                // .(50407.03.2 RAM Add QPC)
              , Prompt        :  pVars.QUERY_PROMPT     || "What are the city's restaurants?"
-               }
+               } ]                                                                                          // .(50409.02.2)
 //          mPrompts         =  mPrompts.flatMap( pPrompt => Array( nRunCount ) .fill( pPrompt ) );                   //#.(50410.03.1
 //          mPrompts         =  mPrompts.flatMap( pPrompt => Array( nRunCount ).fill().map(() => ( {...pPrompt} ) ) ) //#.(50410.03.1)
                                 for (var i = 0; i < nRunCount - 1; i++ ) { mPrompts.push( mPrompts[0] ) }   // .(50410.03.1 RAM Duplicate mPrompt if if not using query-prompts file)
@@ -224,7 +226,8 @@
        var  aQPC             =  mPrompts[ iRun ].QPC                                                        // .(50408.05.2)
        var  aUsrPrompt       =  mPrompts[ iRun ].Prompt                                                     // .(50408.05.3
 
-       var  aTitle           = `${pVars.SESSION_TITLE}` || ''                                               // .(50405.02.2)
+       var  aTitle           = `${pVars.SESSION_TITLE}` || ''  
+            aTitle           =  aTitle.replace( /{PC_Name}/, aSvr ? aSvr : "MyPC" )                         // .(50409.02.3 RAM Replace PC_Name)
        var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50405.02.3)
        var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              // .(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
        var  aNextPost        = `${ 1 + pVars.NEXT_POST * 1 }`.padStart( 2, "0" )                            // .(50331.08.4 RAM Set Next_Post)
@@ -237,12 +240,12 @@
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
 
 //     var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`                                  //#.(50405.01b.2 RAM Was: docs/${aAppName}/YY.MM.Mth/)
-       var  aStatsDir        = `./docs/${aAppName}/${aAppName.slice(0,3)}-saved-stats/`                     // .(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/)
+       var  aStatsDir        = `./docs/${aAppName}/${aAppName.slice(0,3)}-saved-stats`                      // .(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/)
 //     var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aAppDir.slice(0,3)}_Stats.csv` )
 //     var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.${aStatsFmt}`       //#.(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)(50405.01.1)
        var  aStatsFile       = `${aAppName.slice(0,3)}_Stats-${aSvr}_u${aVer.slice(1)}.csv`                 // .(50410.01.1 RAM Was ${aStatsFmt}).(50405.01b.2 RAM Add Stats-).(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
-                                FRT.makDirSync( FRT.join( __basedir, aStatsDir ) )                          // .(50410.01.2)
-       var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}${aStatsFile}` )                          // .(50402.14.5).(50331.04b.2)
+                                FRT.makDirSync( FRT.join( __basedir, aStatsDir ), true );                   // .(50410.01.2)
+       var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}/${aStatsFile}` )                          // .(50402.14.5).(50331.04b.2)
 
 // Configure prompt and Ollama parameters
 //     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"
@@ -302,7 +305,9 @@
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
 //     var  urls             =  await  getNewsUrls( searchPrompt );                                         //#.(50408.06.6)
-       var  pJSON_Results    =  await  getNewsUrls( searchPrompt );                                         // .(50408.06.6)
+       var  pResults         =  await  getNewsUrls( searchPrompt );                                         // .(50408.06.6)
+            pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.25)
+            pJSON_Results.URLs        =  pResults.URLs                                                      // .(50409.03.25)
        var  urls             =  pJSON_Results.URLs                                                          // .(50408.06.7)
        var  alltexts         =  await  getCleanedText( urls );
        pJSON_Results.Docs    =  alltexts                                                                    // .(50408.06.8)
@@ -330,7 +335,7 @@ async function  getNewsUrls( query ) {
        if (!text) {
             usrMsg("\n Empty response from Web Search URL.");                                               // .(50408.09.3 RAM Was DuckDuckGo)
 //  return ["https://www.lexingtonvirginia.com/"];                                                          //#.(50408.09.4)
-    return { URLs: [ fallbackURL ] };                                                                       // .(50408.09.4)
+    return { WebResponse: {}, URLs: [ fallbackURL ] };                                                      // .(50408.09.4)
             }
      const  searchResultsJson = JSON.parse(text);
 
@@ -360,7 +365,7 @@ async function  getNewsUrls( query ) {
         if (urls.length === 0) {
             usrMsg("\n* No URLs found, returning fallback.");
 //  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.6)
-    return { URLs: [ fallbackURL ] };                                                                       // .(50408.09.6)
+    return { WebResponse: {}, URLs: [ fallbackURL ] };                                                      // .(50408.09.6)
             }
             usrMsg(`\n  Found ${urls.length} URLs:`      , shoMsg('Search' ) )          // .(50404.01.8)
     return  { WebResponse: pResults, URLs: urls } ;                                                         // .(50408.06.10)
@@ -370,7 +375,7 @@ async function  getNewsUrls( query ) {
             sayMsg(`A1201[ 313]* Error in getNewsUrls for query: '${query}'.`, 1, 1);   // .(50404.08.1)
             sayMsg(    `${error}`.replace( /\n/, "\n    " ) );                          // .(50404.08.2)
 //  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.7)
-    return { URLs: [ fallbackURL ] };                                                                       // .(50408.09.7)
+    return { WebResponse: {}, URLs: [ fallbackURL ] };                                                      // .(50408.09.7)
              }
          }; // eof getNewsUrls
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
@@ -407,16 +412,17 @@ async function  getNewsUrls( query ) {
 // async function  answerQuery( query, texts, document, webSearch ) {                                       //#.(50330.04c.2).(50331.01.2).(50408.06.11)
    async function  answerQuery( query, pJSON_Results, document, webSearch ) {                               // .(50408.06.11).(50330.04c.2).(50331.01.2)
        var  texts     =  pJSON_Results.Docs                                                                 // .(50408.06.12)
-       var  document  =  pJSON_Results.URLs[0]                                                              // .(50408.06.13)
-        if (texts.length === 0) {
-    return  usrMsg( "\n* No text content available to summarize.");                                         // .(50404.07.2 RAM Return -1 if error)
+       var  document  =  pJSON_Results.URLs[0] || ''                                                        // .(50408.06.13)
+        if (texts.length == 0) {
+//  return  usrMsg( "\n* No text content for the AI model to query or summarize." );                        // .(50404.07.2 RAM Return -1 if error).(50409.03.40)
+            usrMsg(   "* No text content for the AI model to query or summarize." );                        // .(50409.03.40 RAM OK for plain search).(50404.07.2 RAM Return -1 if error)
             }
         var aRunStr          = "RunId: " + pParms.runid.replace( ',', ", No: " )   // .(504                 // .(50404.01.9)
             usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.10)
             usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.11)
 
        var  aSources         =  texts.map((a, i) => `${i+1}.${MWT.fmtText(a)}`).join("\n")
-        if (bPrtSources == 1) {
+        if (bPrtSources == 1 && aSources > '') {                                                            // .(50409.03.41 RAM Don't display if empty)       
             usrMsg( `\n  Docs: \n${ MWT.wrap( aSources, nWdt , 2, 4 ) }`)               // .(50330.06a.6 RAM Add indent).(50331.01.3 RAM Was Texts).(50330.06.2 RAM Use Wrap)
             usrMsg(   `  Docs:       End of Sources`)                                   // .(50331.01.4)
         } else {
@@ -424,6 +430,7 @@ async function  getNewsUrls( query ) {
             }
             usrMsg(   `  SysPrompt: "${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "" ) }"`               , shoMsg('Parms')   ) // .(50404.01.13)
 //          usrMsg(   `  Query:     "${query}"`                                                                            , shoMsg('Parms')   ) //#.(50404.01.14).(50408.08.1)
+//          usrMsg(   `  UsrPrompt: "{Query}: ${query}"` )  // aka aiPrompt, Model Query Prompt                            , shoMsg('Parms')   ) // .(50408.08.1 Was Query).(50404.01.14)
             usrMsg(   `  UsrPrompt: "${pParms.qpc}: ${query}"`                                                             , shoMsg('Parms')   ) // .(50410.4.1).(50408.08.1 Was Query).(50404.01.14)
             usrMsg(   `  Prompt:    "{Query}. {SysPrompt}, {Docs}"`                                                        , shoMsg('Parms')   ) // .(50404.01.15)
 
@@ -439,8 +446,8 @@ async function  getNewsUrls( query ) {
             usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Results') ) // .(50404.01.16).(50403.03.7)
             usrMsg(   "---------------------------------------------------------------------------------------------- "    , shoMsg('Results') ) // .(50404.01.17))
     try {
-       var  stream           =  await  ollama.generate( pParms );
-       var[ pStats, aResult ]=  await  MWT.fmtStream( stream );
+       var  stream           =  await  ollama.generate( pParms );                                           // .(50408.16.1 RAM Run the Model)
+       var[ pStats, aResult ]=  await  MWT.fmtStream( stream );                                             // .(50408.16.2 RAM Capture the Results and Stats)
       pJSON_Results.Response = aResult                                                                      // .(50408.06.14)
 
         if (global.nLog != 1) {
@@ -475,6 +482,7 @@ async function  getNewsUrls( query ) {
             sayMsg(`A1201[ 400]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
 //          sayMsg(`A1201[ 401]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                 //#.(50404.08.6)
             sayMsg(`A1201[ 402]    Ollama ${error.name}: ${error.message}`, 1 );                            // .(50404.08.6)
+            FRT.exit_wCR()                                                                                  // .(50409.03.42)
             }
          }; // eof answerQuery
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
