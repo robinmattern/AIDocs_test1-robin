@@ -304,6 +304,8 @@
 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
+       var  alltexts         = [ ]                                                                                                              // .(50409.03.22)     
+       var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: {}, Files: [], Docs: [] }                                              // .(50409.03.23)     
 //     var  urls             =  await  getNewsUrls( searchPrompt );                                         //#.(50408.06.6)
        var  pResults         =  await  getNewsUrls( searchPrompt );                                         // .(50408.06.6)
             pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.25)
