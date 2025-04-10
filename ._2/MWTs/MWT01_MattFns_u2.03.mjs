@@ -50,6 +50,7 @@
 #.(50407.03   4/07/25 RAM  7:15p| Add Query Prompt Code
 #.(50408.06   4/08/25 RAM  6:20p| Write and use savStats_4JSON
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
+#.(50409.03   4/09/25 RAM 12:30p| Add DocSearch and change JSON Response
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -252,11 +253,11 @@ function  fmtResults(results) {
 //          pJSON.Docs       =  pResults.Docs
 //          pJSON.Stats      =  pStats
 
-       var  pJSON =
-             { RunId:                 pStats.RunId
-             , WebSearch:
-                { URL:                pStats.WebSearchURL      // pResults.URLs[0]        //
-                , Prompt:             pStats.WebSearch        //    "roman empire"
+        var pWebSearch       =  { }                                                     // .(50409.03.1 RAM Change JSON Response)
+        if (pResults.URLs.length) {                                                     // .(50409.03.2)
+        var pWebSearch =                                                                // .(50409.03.3)
+                { URL:                pStats.WebSearchURL      // pResults.URLs[0]       
+                , Prompt:             pStats.WebSearch         //    "roman empire"
                 , Response:
                    { AbstractURL:     pResults.WebResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
                    , Results:         pResults.WebResponse.Results
@@ -264,6 +265,23 @@ function  fmtResults(results) {
                    , URLs:            pResults.URLs
                      }
                   }
+            }                                                                           // .(50409.03.4)
+        var pDocSearch       =  { }                                                     // .(50409.03.5)
+        if (pResults.Files.length) {                                                    // .(50409.03.6)
+        var pDocSearch = 
+                { DocsPath:           pResults.DocsPath         
+                , Response:
+                   { AbstractURL:     pResults.DocResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
+                   , Results:         pResults.DocResponse.Results
+                   , RelatedTopics:   pResults.DocResponse.RelatedTopics
+                   , URLs:            pResults.Docs
+                     }
+                  }
+            }                                                                           // .(50409.03.7)
+       var  pJSON =
+             { RunId:                 pStats.RunId
+             , WebSearch:             pWebSearch                                        // .(50409.03.8)
+             , DocSearch:             pDocSearch                                        // .(50409.03.9)
              , ModelQuery:
                 { Model:              pStats.ModelName
                 , Platform:           pResults.Platform
@@ -283,12 +301,15 @@ function  fmtResults(results) {
                 , JSONResponse:       pStats.ResponseFile.replace( /.+docs/i, './docs' ).replace( /.txt$/, '.json' )
                   }
                }
+//          delete pJSON.ModelQuery.RunStats.ResponseFile
             delete pStats.ResponseFile
             delete pStats.WebSearchURL
             delete pStats.WebSearch
             delete pStats.QueryPrompts
             delete pStats.Docs
             delete pStats.QPC
+
+//          pJSON.ModelQuery.RunStats.ModelName = pJSON.ModelQuery.RunStats.ModelName.trim()
             pStats.ModelName        = pStats.ModelName.trim()
             pStats.ContextSize      = pStats.ContextSize      * 1 //
             pStats.Temperature      = pStats.Temperature      * 1 // "0.07"

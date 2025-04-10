@@ -75,10 +75,12 @@
 #.(50408.08   4/08/25 RAM  6:25p| Change Query to UsrPrompt
 #.(50408.09   4/08/25 RAM  6:30p| Change fallbackURL to .env from DuckDuckGo
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
+#.(50409.02   4/09/25 RAM  5:00a| Replace PC_Name and mPrompts array 
+#.(50409.03   4/09/25 RAM 12:30p| Enable DocSearch and WebSearch 
 #.(50410.01   4/10/25 RAM  2:15p| Save .tab spreadsheet as .csv after mkdir
 #.(50410.03   4/10/25 RAM  3:05p| Duplication mPrompts if necessary
 #.(50410.04   4/10/25 RAM  3:25p| Add QPC to prompt output 
-
+#
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
 ##SRCE     +====================+===============================================+
@@ -103,8 +105,7 @@
 
 // Configure Debug Variables
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-  function  setDebugVars() { 
-                                                                                      // .(50405.03.1 RAM Write setDebugVars Beg)
+  function  setDebugVars() {                                                                                // .(50405.03.1 RAM Write setDebugVars Beg)
        var  bDebug           =  0               // Debug flag
 
 //     var  aModel1          = 'llama3'                    // 4.7  GB on rm231
@@ -175,9 +176,9 @@
             process.exit(1)
             }                                                                                               // .(50403.02.7 End)
        var  aWebSearch       =  pVars.WEB_SEARCH    || "Lexington Va"
-       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                        // .(50409.03.3 RAM Do Web Search)      
-       var  bUseDocFiles     =  pVars.USE_DOCS == 1  ?  true : false                                        // .(50409.03.1 RAM Do Docs Search)      
-       var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.2)      
+       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                        // .(50409.03.10 RAM Do Web Search)      
+       var  bUseDocFiles     =  pVars.USE_DOCS == 1  ?  true : false                                        // .(50409.03.11 RAM Do Docs Search)      
+       var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.12)      
 
        var  nRunCount        =  pVars.RUN_COUNT     ||  1                                                   // .(50403.03.2)
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
@@ -208,10 +209,10 @@
        var  nRunCount        =  pVars.RUN_COUNT        || 1
        var  bUsePromptFile   =  pVars.USE_PROMPTS_FILE || 0                                                 // .(50408.05.1 RAM Use Prompts file Beg)
         if (bUsePromptFile != 1) {
-       var  mPrompts         = [                                                                            // .(50409.02.1 RAM Put into array)
+       var  mPrompts         =  [                                                                           // .(50409.02.1 RAM Put into array)
              { QPC           :  pVars.QUERY_PROMPT_CD  || ''                                                // .(50407.03.2 RAM Add QPC)
              , Prompt        :  pVars.QUERY_PROMPT     || "What are the city's restaurants?"
-               } ]  
+               } ]                                                                                          // .(50409.02.2)
 //          mPrompts         =  mPrompts.flatMap( pPrompt => Array( nRunCount ) .fill( pPrompt ) );                   //#.(50410.03.1
 //          mPrompts         =  mPrompts.flatMap( pPrompt => Array( nRunCount ).fill().map(() => ( {...pPrompt} ) ) ) //#.(50410.03.1)
                                 for (var i = 0; i < nRunCount - 1; i++ ) { mPrompts.push( mPrompts[0] ) }   // .(50410.03.1 RAM Duplicate mPrompt if if not using query-prompts file)
@@ -290,45 +291,45 @@
 
         if (bDebug == true  ||  bInVSCode ) {                                             // .(50201.09c.4).(50331.07.2)
             searchPrompt     =  aWebSearch    // "Lexington Va";                                                                                // .(50331.04.6)
-        var searchDocFile    =  aDocFilePath                                                                                                    // .(50409.03.x) 
+        var searchDocFile    =  aDocFilePath                                                                                                    // .(50409.03.13) 
             aiPrompt         =  aUsrPrompt    // "The city's restaurants";                                                                      // .(50331.04.7)
         } else {
             usrMsg( "" )
-        if (bUseWebURLs) {                                                                                                                      // .(50409.03.x)
+        if (bUseWebURLs) {                                                                                                                      // .(50409.03.14)
 //          searchPrompt     =( await MWT.ask4Text( "Enter your search prompt (e.g., '${aWebSearch)Lexington VA'): " ) ) || "Lexington Va";     //#.(50330.03.6).(50331.04.8)
             searchPrompt     =( await MWT.ask4Text( `Enter a Web Search prompt (e.g., '${aWebSearch}'): `      ) ) ||  aWebSearch;              // .(50331.04.8).(50330.03.6)
-            }                                                                                                                                   // .(50409.03.x)
-        if (bUseDocFiles) {                                                                                                                     // .(50409.03.x)
-            searchDocFile    =( await MWT.ask4Text( `Enter a Doc File path (e.g., '${aDocFilePath}'): `        ) ) ||  aDocFilePath;            // .(50409.03.x)
-            }                                                                                                                                   // .(50409.03.x)
+            }                                                                                                                                   // .(50409.03.15)
+        if (bUseDocFiles) {                                                                                                                     // .(50409.03.16)
+            searchDocFile    =( await MWT.ask4Text( `Enter a Doc File path (e.g., '${aDocFilePath}'): `        ) ) ||  aDocFilePath;            // .(50409.03.17)
+            }                                                                                                                                   // .(50409.03.18)
 //          aiPrompt         =( await MWT.ask4Text( "Enter your AI prompt (e.g., 'Tell me about tourism'): "   ) ) || "Tell me about tourism";  //#.(50330.03.7).(50331.04.9)
-            aiPrompt         =( await MWT.ask4Text( `Enter an AI Model Query Prompt (e.g., '${aUsrPrompt}'): ` ) ) ||  aUsrPrompt;              // .(50409.03.x).(50331.04.9).(50330.03.7)
+            aiPrompt         =( await MWT.ask4Text( `Enter an AI Model Query Prompt (e.g., '${aUsrPrompt}'): ` ) ) ||  aUsrPrompt;              // .(50409.03.19).(50331.04.9).(50330.03.7)
             }
-        if (bUseWebURLs) {                                                                                                                      // .(50409.03.x)
+        if (bUseWebURLs) {                                                                                                                      // .(50409.03.20)
             usrMsg(""                                    , shoMsg('Parms' ) )           // .(50404.01.1)
             usrMsg(`Web Search Prompt: "${searchPrompt}"`, shoMsg('Parms' ) )           // .(50404.01.2)
 //          usrMsg(`  AI Prompt:       "${aiPrompt}"`    , shoMsg('Parms' ) )           // .(50404.01.3)
-            }                                                                                                                                   // .(50409.03.x)
+            }                                                                                                                                   // .(50409.03.21)
                                 usrMsg(  "----------------".padEnd(        57, "-" ), shoMsg('Parms') )     // .(50404.05.12)
 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
-       var  alltexts         = [ ]                                                                                                              // .(50409.03.x)     
-       var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: {}, Files: [], Docs: [] }                                              // .(50409.03.x)     
-        if (bUseWebURLs) {                                                                                                                      // .(50409.03.x)
+       var  alltexts         = [ ]                                                                                                              // .(50409.03.22)     
+       var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: {}, Files: [], Docs: [] }                                              // .(50409.03.23)     
+        if (bUseWebURLs) {                                                                                                                      // .(50409.03.24)
 //     var  urls             =  await  getNewsUrls( searchPrompt );                                         //#.(50408.06.6)
        var  pResults         =  await  getNewsUrls( searchPrompt );                                         // .(50408.06.6)
-            pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.x)
-            pJSON_Results.URLs        =  pResults.URLs                                                      // .(50409.03.x)
+            pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.25)
+            pJSON_Results.URLs        =  pResults.URLs                                                      // .(50409.03.26)
        var  urls             =  pJSON_Results.URLs                                                          // .(50408.06.7)
-       var  alltexts         =  await  getCleanedText_fromURLs( urls );                                     // .(50409.03.x)
-            }                                                                                                                                   // .(50409.03.x RAM Add bUseDocFiles Beg)
-        if (bUseDocFiles) {                                                                                                                     // .(50409.03.x)
+       var  alltexts         =  await  getCleanedText_fromURLs( urls );                                     // .(50409.03.27)
+            }                                                                                               // .(50409.03.28 RAM Add bUseDocFiles Beg)
+        if (bUseDocFiles) {                                                                                 // .(50409.03.29)
        var  pResults         =  await  getDocs( searchPrompt );                                         
-            pJSON_Results.DocResponse =  pResults.DocResponse                                               // .(50409.03.x)
-            pJSON_Results.Docs        =  pResults.Docs                                                      // .(50409.03.x)
+            pJSON_Results.DocResponse =  pResults.DocResponse                                               // .(50409.03.30)
+            pJSON_Results.Docs        =  pResults.Docs                                                      // .(50409.03.31)
        var  alltexts         =  await  getCleanedText_fromDocs( pJSON_Results.Docs );
-            }                                                                                                                                   // .(50409.03.x End)
+            }                                                                                               // .(50409.03.32 End)
        pJSON_Results.Docs    =  alltexts                                                                    // .(50408.06.8)
 //                              await  answerQuery( aiPrompt, alltexts, urls[0], searchPrompt )             //#.(50330.04c.1 RAM Add searchPrompt).(50331.01.1 RAM Add first  URL).(50408.06.9)
                                 await  answerQuery( aiPrompt, pJSON_Results, searchPrompt )                 // .(50408.06.9).(50330.04c.1 RAM Add searchPrompt).(50331.01.1 RAM Add first  URL)
@@ -403,7 +404,7 @@ async function  getNewsUrls( query ) {
  * @param {Array} urls - Array of URLs to fetch
  * @returns {Promise<Array>} - Array of cleaned text blocks
  */
-  async function  getCleanedText_fromURLs( urls ) {                                     // .(50409.03.x RAM Renamed from getCleanedText)
+  async function  getCleanedText_fromURLs( urls ) {                                                         // .(50409.03.39 RAM Renamed from getCleanedText)
        var  texts = [];
        for (var url of urls) {
        try {
@@ -451,15 +452,15 @@ async function  getCleanedText_fromDocs( mDocs ) {
        var  texts     =  pJSON_Results.Docs                                                                 // .(50408.06.12)
        var  document  =  pJSON_Results.URLs[0] || ''                                                        // .(50408.06.13)
         if (texts.length == 0) {
-//  return  usrMsg( "\n* No text content for the AI model to query or summarize." );                        // .(50404.07.2 RAM Return -1 if error).(50409.03.x)
-            usrMsg(   "* No text content for the AI model to query or summarize." );                        // .(50409.03.x RAM OK for plain search).(50404.07.2 RAM Return -1 if error)
+//  return  usrMsg( "\n* No text content for the AI model to query or summarize." );                        //#.(50404.07.2 RAM Return -1 if error).(50409.03.40)
+            usrMsg(   "* No text content for the AI model to query or summarize." );                        // .(50409.03.40 RAM OK for plain search).(50404.07.2 RAM Return -1 if error)
             }
         var aRunStr          = "RunId: " + pParms.runid.replace( ',', ", No: " )   // .(504                 // .(50404.01.9)
             usrMsg( `\nCompined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.10)
             usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.11)
 
        var  aSources         =  texts.map((a, i) => `${i+1}.${MWT.fmtText(a)}`).join("\n")
-        if (bPrtSources == 1 && aSources > '') {                                                               // .(50409.03.x RAM Don't display if empty)       
+        if (bPrtSources == 1 && aSources > '') {                                                            // .(50409.03.41 RAM Don't display if empty)       
             usrMsg( `\n  Docs: \n${ MWT.wrap( aSources, nWdt , 2, 4 ) }`)               // .(50330.06a.6 RAM Add indent).(50331.01.3 RAM Was Texts).(50330.06.2 RAM Use Wrap)
             usrMsg(   `  Docs:       End of Sources`)                                   // .(50331.01.4)
         } else {
@@ -519,7 +520,7 @@ async function  getCleanedText_fromDocs( mDocs ) {
             sayMsg(`A1201[ 400]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
 //          sayMsg(`A1201[ 401]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                 //#.(50404.08.6)
             sayMsg(`A1201[ 402]    Ollama ${error.name}: ${error.message}`, 1 );                            // .(50404.08.6)
-            FRT.exit_wCR()                                                                                  // .(50409.03.x)
+            FRT.exit_wCR()                                                                                  // .(50409.03.42)
             }
          }; // eof answerQuery
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
