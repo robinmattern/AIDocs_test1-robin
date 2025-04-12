@@ -1,16 +1,17 @@
 #!/bin/bash
-
+        aApp=s11 
         aThreadId=${1:0:4}; bCopied=0
-if [ "${aThreadId}" == "t001" ]; then cp -p .env_t001_Run1-qwen2.txt    .env; bCopied=1; shift; fi 
-if [ "${aThreadId}" == "t002" ]; then cp -p .env_t002_Run25-gemma2.txt  .env; bCopied=1; shift; fi 
-if [ "${aThreadId}" == "t003" ]; then cp -p .env_t003_Run2-llama3.2.txt .env; bCopied=1; shift; fi 
+                                              
+if [ "${aThreadId/t}" != "${aThreadId}" ]; then ../../._2/MWTs/AIC19_genEnv.sh ${aApp} ${aThreadId/t}; bCopied=1; shift; else  
+if [ "${aThreadId}" == "t010" ]; then cp -p ".env_${aApp}_t010_*.txt" .env; bCopied=1; shift; fi 
+if [ "${aThreadId}" == "t020" ]; then cp -p ".env_${aApp}_t002_*.txt" .env; bCopied=1; shift; fi 
+if [ "${aThreadId}" == "t030" ]; then cp -p ".env_${aApp}_t003_*.txt" .env; bCopied=1; shift; fi;   
+if [ "${aThreadId}" == "t040" ]; then cp -p ".env_${aApp}_t004_*.txt" .env; bCopied=1; shift; fi; fi  
 
 if [ "$1" == "" ] && [ "${bCopied}" ==  "0" ]; then 
    echo ""
    echo "  Run any of the following tests:"
-   echo "    bash run-tests.sh  t001   # .env_t001_Run1-qwen2" 
-   echo "    bash run-tests.sh  t002   # .env_t002_Run25-gemma2"
-   echo "    bash run-tests.sh  t003   # .env_t003_Run2-llama3.2"
+         ls -l .env_${aApp}_* | awk '{ print "    bash run-tests.sh  " substr($9,10,4) "  # " $9 }' 
    if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
    exit 
    fi 

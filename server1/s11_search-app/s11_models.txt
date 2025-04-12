@@ -1,0 +1,4 @@
+ llama3.2:3b,          131072              
+ phi3,                 131072   
+ granite3.1-dense:2b,  131072  
+ qwen2:0.5b,            32768    
