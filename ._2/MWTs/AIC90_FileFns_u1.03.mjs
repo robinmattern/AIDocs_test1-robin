@@ -63,7 +63,8 @@
 #.(50404.07   4/04/25 RAM 10:00p| Return -1 if sayMsg an error msg
 #.(50201.09c  4/04/25 RAM  4:45p| Modify exit_wCR()
 #.(50410.02   4/10/25 RAM  2:45p| Add bDoit_ to makDirSync
-
+#.(50414.01   4/14/25 RAM  9:45a| Do bNoLog in here  
+#.(50414.02   4/14/25 RAM  6:00a| Try to quiet AIC90[ 193] logfile msg
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -156,6 +157,7 @@
 //     ---  --------  =  --  =  ------------------------------------------------------  #
 
   function  sayFile_log( aMsg ) {
+        if (global.aLogFile == null) { return }                                         // .(50414.01.18 RAM Don't write to file if not set)  
             fsync.appendFileSync( global.aLogFile, aMsg + '\n');
 //          console.log( '  - AIC90[ 138]  Writing to log:', aMsg )
             } // eof sayFile_log                                                        // .(50218.01.6 End)
@@ -183,9 +185,11 @@
             fsync.mkdirSync(  aLogDir, { recursive: true } )                            // .(50331.02.3).(50329.04b.2)
             fsync.writeFileSync( global.aLogFile, '' );
 
+        if (global.bNoLog == 0) { return }                                              // .(50414.01.19 RAM Don't print if aLog == "log") 
+        if (global.bQuiet == 1) { return }                                              // .(50414.02.1 xRAM Don't print if bQuiet == 1) 
         if (global.aLogFile.match(/bash|user/) == null) {                               // .(50301.02.1)
 //          console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.3 RAM Flag for later)
-            console.log( `\n  - AIC90[ 179]  Setting logfile to: '${aLogFile}` )        // .(50404.06.7 RAM Anot a full path)
+            console.log( `\n  - AIC90[ 193]  Setting logfile to: '${aLogFile}` )        // .(50404.06.7 RAM Anot a full path)
             }  }                                                                        // .(50301.02.2)
          }; // eof saySet                                                               // .(50218.01.7 End)
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #

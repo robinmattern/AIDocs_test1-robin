@@ -51,6 +51,7 @@
 #.(50408.06   4/08/25 RAM  6:20p| Write and use savStats_4JSON
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
 #.(50413.02   4/13/25 RAM  7:30a| Add new columns to spreadsheet
+#.(50414.01   4/14/25 RAM  3:52a| All brief aog messages
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -139,6 +140,7 @@ import { ftruncate } from 'fs';
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
   function  shoMsg( aSection ) {                                                        // .(50404.01.25 RAM Write shoMsg Beg)
+        if (global.bNoLog == 0) { return false }                                        // .(50414.01.17 RAM aLog == 'log'
        var  aSections  = `,${global.aPrtSections.toLowerCase()},`
             aSection   = `,${aSection.toLowerCase()},`
         if (aSections == ',all,' || ',all,' == aSection) { return true }
@@ -222,7 +224,8 @@ function  fmtResults(results) {
             statLines.push(`    Eval Count:        ${ stats.eval_count        } tokens`);
             statLines.push(`    Eval Duration:     ${(stats.eval_duration  / 1e9).toFixed(2) } seconds`);
             statLines.push(`    Prompt Eval Count: ${ stats.prompt_eval_count } tokens`);
-            statLines.push(`    Tokens per Second: ${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2) } seconds`);
+            statLines.push(`    Tokens per Second: ${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2) } tps`);
+            stats.tokens_per_second                = (stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)    // .(50414.01.18)
     return  statLines;
             }
 //   -- --- ---------------  =  ------------------------------------------------------  #
@@ -348,8 +351,9 @@ function  fmtResults(results) {
             pStats.EvalTokens       = `${ stats.eval_count                      }`.padStart(5)                        // .(50404.05.05)
             pStats.UPC              =     parms.qpc                                                                   // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
 //          pStats.QueryPrompt      =     stats.query.length > 27                                                     //#.(50407.03.5 RAM Was Query).(50410.04a.7)
-            pStats.UsrPrompt        =     stats.query.length > 27                                                     // .(50410.04a.7 Was QueryPrompt).(50407.03.5 RAM Was Query)
-                                    ? `${ stats.query.slice(0,24)}...` : stats.query.padEnd(27)                       // .(50407.03.5 RAM Add ...)
+//          pStats.UsrPrompt        =     stats.query.length > 27                                                     //#.(50410.04a.7 Was QueryPrompt).(50407.03.5 RAM Was Query).(50410.04b.1)
+            pStats.UsrPrompt        =     parms.usrprompt.length > 27                                                 // .(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
+                                    ? `${ parms.usrprompt.slice(0,24)}...` : stats.query.padEnd(27)                   // .(50410.04b.2)(50407.03.5 RAM Add ...)
             pStats.EvalDuration     = `${(stats.eval_duration  / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.06)
             pStats.PromptEvalTokens = `${ stats.prompt_eval_count               }`.padStart(6)                        // .(50404.05.07)
             pStats.TokensPerSecond  = `${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)}`.padStart(6)    // .(50404.05.08)
