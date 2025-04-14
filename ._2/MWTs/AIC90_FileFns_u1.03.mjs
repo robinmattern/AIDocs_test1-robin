@@ -64,7 +64,7 @@
 #.(50201.09c  4/04/25 RAM  4:45p| Modify exit_wCR()
 #.(50410.02   4/10/25 RAM  2:45p| Add bDoit_ to makDirSync
 #.(50414.01   4/14/25 RAM  9:45a| Do bNoLog in here  
-#.(50414.02   4/14/25 RAM  6:00a| Try to quiet AIC90[ 193] logfile msg
+#.(50414.02   4/14/25 RAM  6:00a| Try to quiet AIC90[ 193] logfile msg  
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
