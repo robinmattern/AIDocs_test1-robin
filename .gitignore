@@ -3,7 +3,8 @@
 
 _env
 .env
-!.env_*
+!.env*tests.txt
+!.env*test.txt
 
 node_modules
 package-lock.json
