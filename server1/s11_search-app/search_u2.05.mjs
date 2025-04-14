@@ -83,7 +83,7 @@
 #.(50410.04a  4/13/25 RAM  6:00a| Change UOC and Query to UsrPrompt
 #.(50413.02   4/13/25 RAM  7:00a| Add new columns to spreadsheet 
 #.(50413.03   4/13/25 RAM  4:00p| Add SysPrompt Test loop
-#.(50414.01   4/14/25 RAM  3:52a| All brief log messages
+#.(50414.01   4/14/25 RAM  3:52a| Display a brief log messages
 #.(50414.03   4/14/25 RAM  7:00a| Blank out aWebSearch 
 #.(50414.04   4/14/25 RAM  9:52a| Fix the TestId number for Group tests
 
