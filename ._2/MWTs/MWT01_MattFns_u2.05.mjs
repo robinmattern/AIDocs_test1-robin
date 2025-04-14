@@ -51,7 +51,7 @@
 #.(50408.06   4/08/25 RAM  6:20p| Write and use savStats_4JSON
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
 #.(50413.02   4/13/25 RAM  7:30a| Add new columns to spreadsheet
-#.(50414.01   4/14/25 RAM  3:52a| All brief aog messages
+#.(50414.01   4/14/25 RAM  3:52a| Display a brief log messages
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
