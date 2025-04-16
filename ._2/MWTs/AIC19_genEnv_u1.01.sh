@@ -3,7 +3,19 @@
    aApp=$1
    aTest="$2"; if [ "${aTest:0:1}" == "t" ]; then aTest="${aTest:1}"; fi 
    aLogs="$3"
+#  aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="pc000p"; fi                # .(50414.10.1 RAM Add User arg)
+   aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="${PC_NAME}"; fi            # .(50414.10.1 RAM Add User arg)
+   aEnvFile="${ENV_TEMPLATE}"
+   bDebug=${DEBUG}
 
+   if [ "${aTest:2:1}" == "0" ]; then  aLogs="log,inputs"; fi
+
+function sayMsg() {
+   if [ "${bDebug}" == "1" ]; then echo -e "$1"; fi
+   }
+# -----------------------------------------------------------------
+
+   sayMsg "  - AIC19[  12]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit    
 #  bInputs=0; if [ "${aLogs/inputs}" != "${aLogs}" ]; then bInputs=1; fi
 #  aTestParms="a11_t011.01, llama3.2:3b,          131072, GKN1-SIMP, 0.3,  1, 0, 0, 1, 0, \"Parms,Docs,Search,Stats,Results\""
 
@@ -32,7 +44,12 @@ function splitParms() {
 #  echo "  The quoted part is: '${part2}'"
 
 # Create the array by splitting the first part by comma and adding the quoted part as the last element
-   readarray -t mArray < <(echo "$part1" | tr ',' '\n')
+
+#  readarray -t mArray < <(echo "$part1" | tr ',' '\n')
+   mArray=()
+   while IFS= read -r line; do mArray+=("$line")
+   done < <(echo "$part1" | tr ',' '\n')
+
 #  mArray+="${part2}"
 #  echo "  The quoted part is: '${mArray[10]}'"
 
@@ -61,9 +78,9 @@ function mergeVars() {
 # Read the template file
    template_file="$1"
    output_file="$2"
-
-if [ ! -f "$template_file" ]; then
-   echo -e "\n* Template file not found: $template_file"
+#  echo "--aTemplate_file: ${template_file}"
+if [ ! -f "${template_file}" ]; then
+   echo -e "* Template file not found: ${template_file}"
    exit 1
    fi
 
@@ -111,16 +128,23 @@ if [ ! -f "$template_file" ]; then
    }
 # ---------------------------------------------------------------------------
 
-   usrMsg "" 
- if [ "${aTest:3:1}" == "0" ]; then 
-   aTestParms="$( cat "${aApp}_model-tests.txt" | awk '/'${aTest:0:3}'0/ { print }' )"  # was: ${aTest:0:3}'0 to use the first one
-#  echo "  Creating .env test file for test: ${aTestParms}" 
+   sayMsg "  - AIC19[ 125]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aEnvFile: '${aEnvFile}'"; #  exit    
+
+   usrMsg ""; 
+if [ "${aEnvFile}" == "" ]; then  
+   aEnvFile=".env_${aApp}-template_${aPcCd}.txt"
+   fi 
+   usrMsg  "  Merging file, ${aEnvFile}, with file, ${aApp}_model-tests.txt."
+
+ if [ "${aTest:2:1}" == "0" ]; then 
+   aTestParms="$( cat "${aApp}_model-tests.txt" | awk '/'t${aTest:0:2}'0/ { print }' )"  # was: ${aTest:0:3}'0 to use the first one
+#  echo "  Creating an .env test file for the test group: t${aTest}"; exit  
    splitParms "${aTestParms}"
 #  echo "  aModel: '${mArray[1]}', nTests: '${mArray[5]}'"
-   aDestFile=".env_${aApp}_${aTest}_${aTitle}.txt" 
-   usrMsg   "  Creating the .env test file with the following parameters:";  
-   mergeVars ".env_${aApp}-template.txt" "${aDestFile}"
-   usrMsg   "  Saved the .env test file: ${aDestFile}." 
+   aDstFile=".env_${aApp}_t${aTest}_${aTitle}.txt" 
+   usrMsg   "   to create an .env test group file with the following parameters:";  # exit 
+   mergeVars "${aEnvFile}" "${aDstFile}"                        # .(50414.10.x)
+   usrMsg   "  Saved the .env test group file: ${aDstFile}." 
  else 
    
 #  echo "  searching for: '/${aApp}, t${aTest}/'"    # '/${aApp}, t00${aTest:2:1}/'" 
@@ -129,10 +153,9 @@ if [ ! -f "$template_file" ]; then
    aSysPrompt="$( cat "${aApp}_system-prompts.txt" | awk '/'"${aApp}, t${aTest}"'/ { aPrompt = substr( $0, 32 ); sub( /[" ]+$/, "", aPrompt ); print aPrompt }' )"
 #  echo "--- aTest: ${aTest}, aSysprompt: '${aSysPrompt}'"; exit 
    aTestParms="$( cat "${aApp}_model-tests.txt"    | awk '/t'${aTest}'/ { print }' )"
-   usrMsg   "  Creating an .env file with the following parameters:" 
+   usrMsg   "   to create an .env file with the following parameters:"; # exit 
    splitParms "${aTestParms}"
-   mergeVars ".env_${aApp}-template.txt" ".env"
+   mergeVars ".env_${aApp}-template_${aPcCd}.txt" ".env"                               # .(50414.10.x)
    usrMsg   "  Saved .env file for test run t${aTest}." 
+   echo ""
    fi 
-
-   usrMsg " "

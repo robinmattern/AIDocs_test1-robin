@@ -225,7 +225,12 @@ function  fmtResults(results) {
             statLines.push(`    Eval Duration:     ${(stats.eval_duration  / 1e9).toFixed(2) } seconds`);
             statLines.push(`    Prompt Eval Count: ${ stats.prompt_eval_count } tokens`);
             statLines.push(`    Tokens per Second: ${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2) } tps`);
-            stats.tokens_per_second                = (stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)    // .(50414.01.18)
+            statLines.push(`    Factual Accuracy:       ${ stats.Score1 }` ) // "Your answer must be grounded in historical evidence. Avoid speculation unless explicitly presented as such.
+            statLines.push(`    Multiple Perspectives:  ${ stats.Score2 }` ) // "Consider the various perspectives and debates among historians regarding the reasons for Rome's decline. Mention at least two major competing theories.
+            statLines.push(`    Structured Response:    ${ stats.Score3 }` ) // "Organize your response into clear paragraphs, with headings for clarity.
+            statLines.push(`    Actionable Suggestions: ${ stats.Score4 }` ) // "Propose concrete and realistic measures that the Roman emperors might have taken to mitigate the problems, even if they are ultimately speculative. Explain why those measures might have been effective or ineffective based on the historical context.
+            statLines.push(`    Reflection:             ${ stats.Score5 }` ) 
+            statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 }` ) 
     return  statLines;
             }
 //   -- --- ---------------  =  ------------------------------------------------------  #
