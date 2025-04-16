@@ -1,22 +1,34 @@
 #!/bin/bash
+        
+     if [ "$1" == "s12" ]; then shift; fi 
 
-        aThreadId=${1:0:4}; bCopied=0
-if [ "${aThreadId}" == "t001" ]; then cp -p .env_t001_Run1-qwen2.txt    .env; bCopied=1; shift; fi
-if [ "${aThreadId}" == "t002" ]; then cp -p .env_t002_Run5-gemma2.txt  .env; bCopied=1; shift; fi
-if [ "${aThreadId}" == "t003" ]; then cp -p .env_t003_Run2-llama3.2.txt .env; bCopied=1; shift; fi
+     export APP=s12
 
-if [ "$1" == "" ] && [ "${bCopied}" ==  "0" ]; then
-   echo ""
-   echo "  Run any of the following tests:"
-   echo "    bash run-tests.sh  t001   # .env_t001_Run1-qwen2"
-   echo "    bash run-tests.sh  t002   # .env_t002_Run5-gemma2"
-   echo "    bash run-tests.sh  t003   # .env_t003_Run2-llama3.2"
-   if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
-   exit
-   fi
+#    export LOGGER=
+#    export LOGGER="log"   # no workie
+#    export LOGGER="inputs"
+#    export LOGGER="log,inputs"
 
-if ()
-   node search-web_u2.04.mjs  "$@"
+     export DOIT="1"
+     export DEBUG="0"
+ 
+#    export PC_NAME="pc001p"
+     export PC_NAME="rm231d"
+#    export PC_NAME="bt04st"
 
+#    export ENV_TEMPLATE="../../.env_${APP}-template_${PC_NAME}.txt"
+     export ENV_TEMPLATE=".env_${APP}-template_${PC_NAME}.txt"
+#    export ENV_TEMPLATE=".env_${APP}-template_${PC_NAME}.txt"
 
+     export DEBUG="0"
+     bash   ../../._2/MWTs/AIC15_runTests_u1.02.sh  "$@";  if [ $? -ne 0 ]; then exit 1; fi
+#    shift 
+ 
+#    node search_u2.05.mjs  "$@" 
+#    node   search_u2.05.mjs    # run by AIC15_runTests_u1.02.sh
+
+  if [ "${LOGGER}" == "log,inputs" ]; then 
+     echo -e "\n-----------------------------------------------------------"
+     fi
+     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
 
