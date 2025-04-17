@@ -1,9 +1,0 @@
-
-  THE_SERVER="cu###s-os##_Server-Name (x.x.x.x)"
-  THE_PC_MODEL=""
-  THE_PC_NAME="rcu###s"
-  THE_OS=""
-  THE_CPU=" MHZ"
-  THE_RAM="8 GB"
-  THE_GPU=" Mhz"
-  THE_VRAM=" GB"
