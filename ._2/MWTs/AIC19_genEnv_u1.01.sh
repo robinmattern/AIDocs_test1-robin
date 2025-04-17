@@ -1,16 +1,45 @@
 #!/bin/bash
+##=========+====================+================================================+
+##RD       AIC19_genEnv         | Generate .Env file
+##RFILE    +====================+=======+===============+======+=================+
+##FD  AIC19_genEnv_v1.01.sh     |  26141|  4/17/25  6:45|   446| u1.01`50417.0645
+#
+##DESC     .--------------------+-------+---------------+------+-----------------+
+#            This script generates a .env file to running AITestR4U AI Model tests
+#
+##LIC      .--------------------+----------------------------------------------+
+#            Copyright (c) 2025 JScriptWare and 8020Date-FormR * Released under
+#            MIT License: http://www.opensource.org/licenses/mit-license.php
+##FNS      .--------------------+----------------------------------------------+
+#       ion  YorN() {           |
+#       ion  sayMsg() {         |
+#       ion  usrMsg() {         |
+#       ion  splitParms() {     |
+#       ion  mergeVars() {      |
+#
+##CHGS     .--------------------+----------------------------------------------+
+#.(50329.02   3/29/25 XAI  7:00a| Created by Grok
+#.(50329.02   3/29/25 RAM  7:00a| Modifoed by Robin Mattern
+#.(50414.10   4/14/25 RAM  6:00a| Add PC_NAME global variable
+#.(50417.01   4/17/25 RAM  5:35a| Change aEnvFile to aSrcFile 
+
+##PRGM     +====================+===============================================+
+##ID 69.600. Main0              |
+##SRCE     +====================+===============================================+
+#
+##========================================================================================================= #  ===============================  #
 
    aApp=$1
    aTest="$2"; if [ "${aTest:0:1}" == "t" ]; then aTest="${aTest:1}"; fi 
    aLogs="$3"
-#  aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="pc000p"; fi                # .(50414.10.1 RAM Add User arg)
-   aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="${PC_NAME}"; fi            # .(50414.10.1 RAM Add User arg)
+#  aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="pc000p"; fi                ##.(50414.10.1 RAM Add User arg)
+   aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="${PC_NAME}"; fi            # .(50414.10.1 RAM Add PC_NAME)
    aEnvFile="${ENV_TEMPLATE}"
    bDebug=${DEBUG}
 
    if [ "${aTest:2:1}" == "0" ]; then  aLogs="log,inputs"; fi
 
-function sayMsg() {
+function  sayMsg() {
    if [ "${bDebug}" == "1" ]; then echo -e "$1"; fi
    }
 # -----------------------------------------------------------------
@@ -23,18 +52,18 @@ function sayMsg() {
       echo -e "\n-----------------------------------------------------------"
       fi; 
 
-function YorN() { 
+function  YorN() { 
    if [ "$1" == "1" ]; then echo "Yes"; else echo "No"; fi 
    }
 # -----------------------------------------------------------------
 
-function usrMsg() {
+function  usrMsg() {
    if [ "${aLogs/inputs}" != "${aLogs}" ]; then echo "$1"; fi
 #  if [ "${bInputs}" == "1" ]; then echo "$1"; fi 
    }
 # -----------------------------------------------------------------
 
-function splitParms() { 
+function  splitParms() { 
 # Split the string by comma, but preserve the quoted part at the end
 # We use a combination of sed and awk to handle this
 #  echo "  Splitting the string: '$1'"
@@ -62,10 +91,10 @@ for i in "${!mArray[@]}"; do
 #  aTests="${mArray[6]}-tests"; if [ "${mArray[6]}" == "1" ]; then aTests="1-test"; fi 
    aTests="${mArray[5]},${mArray[6]}-tests"; if [ "${mArray[6]}" == "1" ]; then aTests="${mArray[5]},1-test"; fi 
    aTitle="${aModel}_${aTests}"
-   }
-# -----------------------------------------------------------------
+   } # eof splitParms
+## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
-function mergeVars() { 
+function  mergeVars() { 
 # Split the string by comma, but preserve the quoted part at the end
 # We use a combination of sed and awk to handle this
 # readarray -t mArray < <(echo "$aTestParms" | awk -F'"' '{print $1}' | sed 's/,/\n/g' && echo "\"$(echo "$aStr" | awk -F'"' '{print $2}')\""')
@@ -125,16 +154,19 @@ if [ ! -f "${template_file}" ]; then
 
    echo "$aBodyText" > "$output_file"  # Write the result to the output file
 #  echo "  The .env file saved to: $output_file"
-   }
-# ---------------------------------------------------------------------------
+   } # eof mergeVars
+## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
-   sayMsg "  - AIC19[ 125]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aEnvFile: '${aEnvFile}'"; #  exit    
+#  sayMsg "  - AIC19[ 131]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aEnvFile: '${aEnvFile}'"; #  exit    
 
    usrMsg ""; 
+   aSrcFile="${aEnvFile}"                                                               # .(50417.01.1 RAM Use SrcFile name)
 if [ "${aEnvFile}" == "" ]; then  
-   aEnvFile=".env_${aApp}-template_${aPcCd}.txt"
+   aSrcFile=".env_${aApp}-template_${aPcCd}.txt"                                        # .(50417.01.2)
    fi 
-   usrMsg  "  Merging file, ${aEnvFile}, with file, ${aApp}_model-tests.txt."
+
+   sayMsg "  - AIC19[ 139]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aSrcFile: '${aSrcFile}'"; #  exit    
+   usrMsg  "  Merging file, ${aSrcFile}, with file, ${aApp}_model-tests.txt."           # .(50417.01.3)
 
  if [ "${aTest:2:1}" == "0" ]; then 
    aTestParms="$( cat "${aApp}_model-tests.txt" | awk '/'t${aTest:0:2}'0/ { print }' )"  # was: ${aTest:0:3}'0 to use the first one
@@ -142,9 +174,9 @@ if [ "${aEnvFile}" == "" ]; then
    splitParms "${aTestParms}"
 #  echo "  aModel: '${mArray[1]}', nTests: '${mArray[5]}'"
    aDstFile=".env_${aApp}_t${aTest}_${aTitle}.txt" 
-   usrMsg   "   to create an .env test group file with the following parameters:";  # exit 
-   mergeVars "${aEnvFile}" "${aDstFile}"                        # .(50414.10.x)
-   usrMsg   "  Saved the .env test group file: ${aDstFile}." 
+   usrMsg    "   to create an .env test group file with the following parameters:";  # exit 
+   mergeVars "${aSrcFile}" "${aDstFile}"                                                # .(50417.01.4).(50414.10.x)
+   usrMsg    "  Saved the .env test group file: ${aDstFile}." 
  else 
    
 #  echo "  searching for: '/${aApp}, t${aTest}/'"    # '/${aApp}, t00${aTest:2:1}/'" 
@@ -153,9 +185,17 @@ if [ "${aEnvFile}" == "" ]; then
    aSysPrompt="$( cat "${aApp}_system-prompts.txt" | awk '/'"${aApp}, t${aTest}"'/ { aPrompt = substr( $0, 32 ); sub( /[" ]+$/, "", aPrompt ); print aPrompt }' )"
 #  echo "--- aTest: ${aTest}, aSysprompt: '${aSysPrompt}'"; exit 
    aTestParms="$( cat "${aApp}_model-tests.txt"    | awk '/t'${aTest}'/ { print }' )"
-   usrMsg   "   to create an .env file with the following parameters:"; # exit 
+   usrMsg     "   to create an .env file with the following parameters:"; # exit 
    splitParms "${aTestParms}"
-   mergeVars ".env_${aApp}-template_${aPcCd}.txt" ".env"                               # .(50414.10.x)
-   usrMsg   "  Saved .env file for test run t${aTest}." 
+   mergeVars  ".${aScrFile}" ".env"                                                     # .(50417.01.5).(50414.10.x)
+   usrMsg     "  Saved .env file for test run t${aTest}." 
    echo ""
    fi 
+## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
+##========================================================================================================= #  ===============================  
+#>      AIC19 END
+##===== =================================================================================================== #
+#
+##SRCE     +====================+===============================================+
+##RFILE    +====================+=======+===================+======+=============+
+
