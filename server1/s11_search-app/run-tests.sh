@@ -9,18 +9,14 @@
 #    export LOGGER="inputs"
 #    export LOGGER="log,inputs"
 
-     export DOIT="1"
-     export DEBUG="0"
+     export DOIT="0"
+     export DEBUG="1"
  
-#    export PC_CODE="rm231d"
-#    export PC_NAME="pc001p"
-     export PC_NAME="rm231d"
-#    export PC_NAME="bt04st"
+     export PC_CODE="h2q6nv"
 
 #    export ENV_TEMPLATE="../../HW_template_${PC_NAME}.txt"
      export ENV_TEMPLATE=".env_${APP}-template_${PC_NAME}.txt"
 
-     export DEBUG="0"
      bash   ../../._2/MWTs/AIC15_runTests_u1.02.sh  "$@";  if [ $? -ne 0 ]; then exit 1; fi
 #    shift 
  
