@@ -21,6 +21,7 @@
 #.(50416.08a  4/17/25 CAI  6:20a| .sh script rewritten by Claude and Robin
 #.(50416.08b  4/17/25 RAM  6:45a| Added function getMacInfo
 #.(50416.08c  4/17/25 RAM  3:15p| Added function getWinInfo
+#.(50417.06   4/17/25 RAM  5:15p| Use $1 for PC_CODE if passed
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -82,6 +83,7 @@ if [ "${OS:0:3}" != "Win" ]; then                                               
     fi                                                                                  # .(50416.08b.4)
 
     aDir="../../data/AItestR4u/settings"
+    if [ "$1" != "" ]; then THE_PC_CODE="$1"; fi                                        # .(50417.06.1)
     aPC_CODE="$( echo "${THE_PC_CODE}" | tr '[:upper:]' '[:lower:]' )" 
     aServerName="${aPC_CODE}-${THE_SERVER#*-}"
     aHdwFile="${aDir}/hardware-settings_${aPC_CODE}.txt"   

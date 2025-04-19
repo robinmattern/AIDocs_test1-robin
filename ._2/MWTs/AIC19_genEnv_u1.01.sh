@@ -45,7 +45,7 @@
 # -----------------------------------------------------------------
 
 function  sayMsg() {
-   if [ "${bDebug}" == "1" ]; then echo -e "$1"; fi
+   if [ "${bDebug}" == "1" ]; then echo -e "  - $1"; fi
    }
 # -----------------------------------------------------------------
 
@@ -96,14 +96,15 @@ function  chkEnvTemplate() {                                                    
    if [ -f "$1" ]; then return; fi 
 
    aForPcCd=""; if [ "${aPcCd}" != "" ]; then aForPcCd=" for '${aPcCd}'"; fi
-   sayMsg "  - AIC19[  97]  Need to create an .env template file, '$1'${aForPcCd}."    
+   sayMsg "AIC19[  99]  Need to create an .env template file, '$1'${aForPcCd}."    
  
    hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh"  ${aPcCd} )"
-   sayMsg "  - AIC19[ 100]  Created hardware file: '${hardware_file}'"  
+   sayMsg "AIC19[ 102]  Created hardware file: '${hardware_file}'"  
+   usrMsg "* Created hardware file: '${hardware_file}'"  
    aPcCd="${hardware_file#*_}"; aPcCd="${aPcCd/.txt/}"   
    template_file=".env_${aApp}-template_${aPcCd}.txt"
    template_master_file=".env_${aApp}-template.txt"  # .(50418.01. RAM Remove _${aPcCd} from template_master_file)
-   sayMsg "  - AIC19[ 104]  Saving hardware for ${aPcCd}, info into the template file: '${template_file}'" 
+   sayMsg "AIC19[ 107]  Saving hardware for ${aPcCd}, info into the template file: '${template_file}'" 
    aSpecs="$( cat "${hardware_file}" )"
 # echo  "${aSpecs}"
    # Replace first line of file1 with contents of file2
@@ -114,7 +115,7 @@ function  chkEnvTemplate() {                                                    
 
    awk '/PC_CODE=/ { print "     export PC_CODE=\"'${aPcCd}'\"" } !/PC_CODE/ { print }' run-tests.sh > @temp && mv @temp run-tests.sh
    chmod 755 run-tests.sh
-   sayMsg "  - AIC19[ 113]  Saved PC_CODE, ${aPcCd}, info into the file, run-tests.sh"   
+   sayMsg "AIC19[ 118]  Saved PC_CODE, ${aPcCd}, info into the file, run-tests.sh"   
 #  echo "             i.e. '$(pwd)/${template_file}'"
 #  cat "$(pwd)/${template_file}"
  
@@ -185,7 +186,7 @@ if [ ! -f "${template_file}" ]; then
    } # eof mergeVars
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
-#  sayMsg "  - AIC19[ 181]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit    
+#  sayMsg "AIC19[ 189]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit    
 #  bInputs=0; if [ "${aLogs/inputs}" != "${aLogs}" ]; then bInputs=1; fi
 #  aTestParms="a11_t011.01, llama3.2:3b,          131072, GKN1-SIMP, 0.3,  1, 0, 0, 1, 0, \"Parms,Docs,Search,Stats,Results\""
 
@@ -193,7 +194,7 @@ if [ ! -f "${template_file}" ]; then
       echo -e "\n-----------------------------------------------------------"
       fi; 
 
-#  sayMsg "  - AIC19[ 189]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aEnvFile: '${aEnvFile}'"; #  exit    
+#  sayMsg "AIC19[ 197]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aEnvFile: '${aEnvFile}'"; #  exit    
 
    aSrcFile="${aEnvFile}"                                                               # .(50417.01.1 RAM Use SrcFile name)
 if [ "${aEnvFile}" == "" ]; then  
@@ -202,7 +203,7 @@ if [ "${aEnvFile}" == "" ]; then
 
    chkEnvTemplate  "${aSrcFile}"                                                        # .(50417.03.2)   
 
-   sayMsg "  - AIC19[ 200]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aSrcFile: '${aSrcFile}'"; #  exit    
+   sayMsg "AIC19[ 206]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aSrcFile: '${aSrcFile}'"; #  exit    
    usrMsg ""; 
    usrMsg  "  Merging file, ${aSrcFile}, with file, ${aApp}_model-tests.txt."           # .(50417.01.3)
  

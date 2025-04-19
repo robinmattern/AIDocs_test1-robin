@@ -113,7 +113,7 @@ function cpyEnv() {
 #               ls -l .env_${aApp}_$1* | awk '!/_v[0-9]/'
        aEnv="$( ls -l .env_${aApp}_$1* | awk '!/_v[0-9]/ { sub( /.+\.env/, ".env"); print; exit }' )"; # echo "--- aEnv: ${aEnv}"; exit 
        if [ "${aEnv}" == "" ]; then 
-       echo -e "\n* No .env file exists for $1. Create it with: ./run-tests gen $1"; 
+       echo -e "\n* No .env file exists for $1. Create it with: ./run-tests.sh ${aApp} gen $1"; 
        if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
        exit 1 
        fi 

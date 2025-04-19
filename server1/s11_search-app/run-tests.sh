@@ -12,10 +12,7 @@
      export DOIT="1"
      export DEBUG="0"
  
-     export PC_CODE="h2q6nv"
-
-#    export ENV_TEMPLATE="../../HW_template_${PC_CODE}.txt"
-     export ENV_TEMPLATE=".env_${APP}-template_${PC_CODE}.txt"
+     export PC_CODE="rm231d"
 
      bash   ../../._2/MWTs/AIC15_runTests_u1.02.sh  "$@";  if [ $? -ne 0 ]; then exit 1; fi
 #    shift 
