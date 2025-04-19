@@ -9,7 +9,7 @@
         bDoit=${DOIT}
         bDebug=${DEBUG}
 
-        aPCName="${PC_NAME}"
+        aPCCode="${PC_CODE}"
         aEnvFile="${ENV_TEMPLATE}"
 
 #       ls -l ../../._2/MWTs/; exit 
@@ -21,7 +21,7 @@
         if [ "$1" == "all" ]; then aArgs="t010,t020,t030"; fi
         if [ "${aArgs:0:1}" != "t" ] && [ "${aArgs}" != "" ]; then aArgs="t${aArgs}"; fi; 
 
-#       echo -e "\n  - AIC15[  22]  aCmd: ${aCmd},  aArgs: '${aArgs}', aLogs: '${aLogs}', aPCName: '${aPCName}', aEnvFile: '${aEnvFile}'"; # exit 
+#       echo -e "\n  - AIC15[  22]  aCmd: ${aCmd},  aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit 
 
 # -------------------------------------------------------------------
     
@@ -32,10 +32,10 @@
         if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
         exit 1
       fi
-      if [ "${aArgs/t010}" != "${aArgs}" ]; then ${genEnv} ${aApp} t010 ${aLogs} ${aPCName}; fi   # Create Model1 Tests 
-      if [ "${aArgs/t020}" != "${aArgs}" ]; then ${genEnv} ${aApp} t020 ${aLogs} ${aPCName}; fi   # Create Model2 Tests  
-      if [ "${aArgs/t030}" != "${aArgs}" ]; then ${genEnv} ${aApp} t030 ${aLogs} ${aPCName}; fi   # Create Model3 Tests    
-      if [ "${aArgs/t040}" != "${aArgs}" ]; then ${genEnv} ${aApp} t040 ${aLogs} ${aPCName}; fi   # Create Model4 Tests   
+      if [ "${aArgs/t010}" != "${aArgs}" ]; then ${genEnv} ${aApp} t010 ${aLogs} ${aPCCode}; fi   # Create Model1 Tests 
+      if [ "${aArgs/t020}" != "${aArgs}" ]; then ${genEnv} ${aApp} t020 ${aLogs} ${aPCCode}; fi   # Create Model2 Tests  
+      if [ "${aArgs/t030}" != "${aArgs}" ]; then ${genEnv} ${aApp} t030 ${aLogs} ${aPCCode}; fi   # Create Model3 Tests    
+      if [ "${aArgs/t040}" != "${aArgs}" ]; then ${genEnv} ${aApp} t040 ${aLogs} ${aPCCode}; fi   # Create Model4 Tests   
       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
       exit 1
       fi 
@@ -122,7 +122,7 @@ function cpyEnv() {
        }
 # -------------------------------------------------------------------
 
-       sayMsg "\n  - AIC15[ 124]  aCmd: ${aCmd},  aArgs: '${aArgs}', aLogs: '${aLogs}', aPCName: '${aPCName}', aEnvFile: '${aEnvFile}'"; # exit 
+       sayMsg "\n  - AIC15[ 124]  aCmd: ${aCmd},  aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit 
 
        prt1stMsg
 

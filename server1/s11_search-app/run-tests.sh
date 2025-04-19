@@ -9,13 +9,13 @@
 #    export LOGGER="inputs"
 #    export LOGGER="log,inputs"
 
-     export DOIT="0"
-     export DEBUG="1"
+     export DOIT="1"
+     export DEBUG="0"
  
      export PC_CODE="h2q6nv"
 
-#    export ENV_TEMPLATE="../../HW_template_${PC_NAME}.txt"
-     export ENV_TEMPLATE=".env_${APP}-template_${PC_NAME}.txt"
+#    export ENV_TEMPLATE="../../HW_template_${PC_CODE}.txt"
+     export ENV_TEMPLATE=".env_${APP}-template_${PC_CODE}.txt"
 
      bash   ../../._2/MWTs/AIC15_runTests_u1.02.sh  "$@";  if [ $? -ne 0 ]; then exit 1; fi
 #    shift 

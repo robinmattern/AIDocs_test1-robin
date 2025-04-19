@@ -23,6 +23,7 @@
 #.(50414.10   4/14/25 RAM  6:00a| Add PC_NAME global variable
 #.(50417.01   4/17/25 RAM  6:35a| Change aEnvFile to aSrcFile 
 #.(50417.03   4/17/25 RAM 10:00a| Write chkEnvTemplate to create a .env template file
+#.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE 
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -34,7 +35,7 @@
    aTest="$2"; if [ "${aTest:0:1}" == "t" ]; then aTest="${aTest:1}"; fi 
    aLogs="$3"
 #  aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="pc000p"; fi                ##.(50414.10.1 RAM Add User arg)
-   aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="${PC_NAME}"; fi            # .(50414.10.1 RAM Add PC_NAME)
+   aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="${PC_CODE}"; fi            # .(50417.04.1).(50414.10.1 RAM Add PC_NAME)
    aEnvFile="${ENV_TEMPLATE}"
    bDebug=${DEBUG}
 #  echo -e "\n    bDebug: '${bDebug}', aPcCd: '${aPcCd}', aEnvFile: '${aEnvFile}'"  
@@ -94,17 +95,19 @@ function  chkEnvTemplate() {                                                    
 
    if [ -f "$1" ]; then return; fi 
 
-   sayMsg "  - AIC19[  97]  Need to create an .env template file, '$1' for '${aPcCd}'."    
+   aForPcCd=""; if [ "${aPcCd}" != "" ]; then aForPcCd=" for '${aPcCd}'"; fi
+   sayMsg "  - AIC19[  97]  Need to create an .env template file, '$1'${aForPcCd}."    
  
    hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh"  ${aPcCd} )"
    sayMsg "  - AIC19[ 100]  Created hardware file: '${hardware_file}'"  
    aPcCd="${hardware_file#*_}"; aPcCd="${aPcCd/.txt/}"   
    template_file=".env_${aApp}-template_${aPcCd}.txt"
-   template_master_file=".env_${aApp}-template_${aPcCd}.txt"
+   template_master_file=".env_${aApp}-template.txt"  # .(50418.01. RAM Remove _${aPcCd} from template_master_file)
    sayMsg "  - AIC19[ 104]  Saving hardware for ${aPcCd}, info into the template file: '${template_file}'" 
    aSpecs="$( cat "${hardware_file}" )"
 # echo  "${aSpecs}"
    # Replace first line of file1 with contents of file2
+
    awk    '/{HARDWARE_SPECS}/ {while ((getline line < "'${hardware_file}'") > 0) print "  " line; next} {print}' "${template_master_file}" > "${template_file}"
 #  sed    '/{HARDWARE_SPECS}/ {r '"${hardware_file}"';d;}' "${template_master_file}" >"${template_file}"
 #  sed -e "/{HARDWARE_SPECS}/ {" -e "r ${hardware_file}" -e "d;" -e "}" "${template_master_file}" > "${template_file}"
@@ -112,8 +115,9 @@ function  chkEnvTemplate() {                                                    
    awk '/PC_CODE=/ { print "     export PC_CODE=\"'${aPcCd}'\"" } !/PC_CODE/ { print }' run-tests.sh > @temp && mv @temp run-tests.sh
    chmod 755 run-tests.sh
    sayMsg "  - AIC19[ 113]  Saved PC_CODE, ${aPcCd}, info into the file, run-tests.sh"   
-   echo "             i.e. '$(pwd)/${template_file}'"
-   cat "$(pwd)/${template_file}"
+#  echo "             i.e. '$(pwd)/${template_file}'"
+#  cat "$(pwd)/${template_file}"
+ 
    aSrcFile="${template_file}"
    }                                                                                    # .(50417.03.1 End)
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -123,12 +127,12 @@ function  mergeVars() {
 # We use a combination of sed and awk to handle this
 # readarray -t mArray < <(echo "$aTestParms" | awk -F'"' '{print $1}' | sed 's/,/\n/g' && echo "\"$(echo "$aStr" | awk -F'"' '{print $2}')\""')
 
-# Trim whitespace from each element
-#for i in "${!mArray[@]}"; do
+#  Trim whitespace from each element
+#  for i in "${!mArray[@]}"; do
 #    mArray[$i]=$(echo "${mArray[$i]}" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')   # '
-#done
+#    done
 
-# Read the template file
+#  Read the template file
    template_file="$1"
    output_file="$2"
 #  echo "--aTemplate_file: ${template_file}"
@@ -137,7 +141,7 @@ if [ ! -f "${template_file}" ]; then
    exit 1
    fi
 
-# Read the template into a variable
+#  Read the template into a variable
    aBodyText=$(cat "$template_file"); # echo "--- aTestId: ${mArray[0]}" # aTestId=
    mArray[0]="${mArray[0]:4:4}";      # echo "--- aTestId: ${mArray[0]}" # aTestId=
 

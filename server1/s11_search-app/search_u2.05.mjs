@@ -87,6 +87,7 @@
 #.(50414.03   4/14/25 RAM  7:00a| Blank out aWebSearch 
 #.(50414.04   4/14/25 RAM  9:52a| Fix the TestId number for Group tests  
 #.(50415.01   4/15/25 RAM  6:42a| Add .envars DOIT, DEBUG and LOGGER from run-tests.sh 
+#.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE 
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -217,7 +218,7 @@ import { doesNotReject } from "assert";
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
        var  aServer          = (pVars.THE_SERVER    || '').slice( 0, 11 ) || ''
 //     var  aSvr             =  pVars.THE_PC_NAME    ?  pVars.THE_PC_NAME : aServer.slice(0,5)              //#.(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg).(50405.01b.1)
-       var  aSvr             = (pVars.THE_PC_NAME    ?  pVars.THE_PC_NAME : aServer).slice(0,6)             // .(50405.01b.1 RAM Was 5 chars).(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg)
+       var  aSvr             = (pVars.THE_PC_CODE    ?  pVars.THE_PC_CODE : aServer).slice(0,6)             // .(50417.04.2).(50405.01b.1 RAM Was 5 chars).(50405.01.1 Use THE_PC_NAME).(50331.04.4 Beg)
        var  bPrtSources      =  pVars.SHOW_SOURCES  ||  0          // Whether to print source content
      global.aPrtSections     =  pVars.SHOW_SECTIONS || 'all'                                                // .(50404.01.29)
        var  nWdt             = (pVars.WRAP_WIDTH    ||  145 ) * 1
@@ -300,9 +301,9 @@ import { doesNotReject } from "assert";
             nTemperature     =  mSysPrompts[ nTest ].Temperature
             nCTX_Size        =  mSysPrompts[ nTest ].CTX_Size || nCTX_Size1                                 // .(50415.03.2 
 
-       var  aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 RAM Replace PC_Name)
+       var  aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 )
             aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.3)
-            aTitle           =  aTitle.replace( /{PC_Name}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50413.03.4)
+            aTitle           =  aTitle.replace( /{PC_Code}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50417.04.3).(50413.03.4)
 
         if (bJustOneSysPmt == 0) {                                                                          // .(50414.04.3)
             aSessionId       = `${ aSessionId.slice(0,3)}${ 1 + aSessionId.slice(-1) * 1 }`                 // .(50414.04.4)
@@ -327,9 +328,9 @@ import { doesNotReject } from "assert";
        var  aUsrPrompt       =  mUsrPrompts[ iRun ].UsrPrompt                                               // .(50408.05.3
 
 //     var  aTitle           = `${pVars.SESSION_TITLE}` || ''  
-            aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 RAM Replace PC_Name)
+            aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 )
             aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.8)
-            aTitle           =  aTitle.replace( /{PC_Name}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50413.03.9)
+            aTitle           =  aTitle.replace( /{PC_Code}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50417.04.4).(50413.03.9)
 //     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.10)
        var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.10).(50405.02.3)
 //     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.11)

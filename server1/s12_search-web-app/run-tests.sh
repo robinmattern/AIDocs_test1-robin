@@ -12,13 +12,13 @@
      export DOIT="1"
      export DEBUG="0"
  
-#    export PC_NAME="pc001p"
-     export PC_NAME="rm231d"
-#    export PC_NAME="bt04st"
+#    export PC_CODE="pc001p"
+     export PC_CODE="rm231d"
+#    export PC_CODE="bt04st"
 
-#    export ENV_TEMPLATE="../../.env_${APP}-template_${PC_NAME}.txt"
-     export ENV_TEMPLATE=".env_${APP}-template_${PC_NAME}.txt"
-#    export ENV_TEMPLATE=".env_${APP}-template_${PC_NAME}.txt"
+#    export ENV_TEMPLATE="../../.env_${APP}-template_${PC_CODE}.txt"
+     export ENV_TEMPLATE=".env_${APP}-template_${PC_CODE}.txt"
+#    export ENV_TEMPLATE=".env_${APP}-template_${PC_CODE}.txt"
 
      export DEBUG="0"
      bash   ../../._2/MWTs/AIC15_runTests_u1.02.sh  "$@";  if [ $? -ne 0 ]; then exit 1; fi
