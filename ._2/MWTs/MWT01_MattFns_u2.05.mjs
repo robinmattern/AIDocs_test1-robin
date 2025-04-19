@@ -52,6 +52,7 @@
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
 #.(50413.02   4/13/25 RAM  7:30a| Add new columns to spreadsheet
 #.(50414.01   4/14/25 RAM  3:52a| Display a brief log messages
+#.(50419.04   4/19/25 RAM  5:15p| Add tokens_per_sec to pStats
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -208,29 +209,30 @@ function  fmtResults(results) {
   function  fmtStats( stats, parms ) {
 //    var [ aServer, aCPU_GPU_RAM ] = getServerInfo();                                  //#.(50330.04.5 RAM Use it).(50330.04b.1)
             parms.resp_id  = parms.logfile.split( /[\\\/]/ ).pop().slice(0,24)          // .(50331.05c.1).(50331.05.1)
+            stats.tokens_per_sec = (stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)              // .(50419.04.1)
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.1)
        var  statLines = [];
             statLines.push(`Ollama Run Statistics:`);
             statLines.push(`---------------------------------------------------------`);
             statLines.push(`    Server: ${aServer}` )                                   // .(50330.04.6)
-            statLines.push(`    Operating System:  ${ aOS }` )                          // .(50330.04b.2)
-            statLines.push(`    CPU/GPU/RAM:       ${ aCPU_GPU }, ${aRAM}` )            // .(50330.04b.3).(50330.04.7)
-            statLines.push(`    Computer:          ${ aPC_Model }` )                    // .(50330.04b.4)
-            statLines.push(`    Session.Post ID:   ${ parms.resp_id }` );               // .(50331.05.2)
-            statLines.push(`    Model Name:        ${ parms.model }` );
-            statLines.push(`    Temperature:       ${ parms.temp }` );                  // .(50331.05.3)
-            statLines.push(`    Context Window:    ${ parms.options.num_ctx   } bytes`);
-            statLines.push(`    Total Duration:    ${(stats.total_duration / 1e9).toFixed(2) } seconds`);
-            statLines.push(`    Eval Count:        ${ stats.eval_count        } tokens`);
-            statLines.push(`    Eval Duration:     ${(stats.eval_duration  / 1e9).toFixed(2) } seconds`);
-            statLines.push(`    Prompt Eval Count: ${ stats.prompt_eval_count } tokens`);
-            statLines.push(`    Tokens per Second: ${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2) } tps`);
-            statLines.push(`    Factual Accuracy:       ${ stats.Score1 }` ) // "Your answer must be grounded in historical evidence. Avoid speculation unless explicitly presented as such.
-            statLines.push(`    Multiple Perspectives:  ${ stats.Score2 }` ) // "Consider the various perspectives and debates among historians regarding the reasons for Rome's decline. Mention at least two major competing theories.
-            statLines.push(`    Structured Response:    ${ stats.Score3 }` ) // "Organize your response into clear paragraphs, with headings for clarity.
-            statLines.push(`    Actionable Suggestions: ${ stats.Score4 }` ) // "Propose concrete and realistic measures that the Roman emperors might have taken to mitigate the problems, even if they are ultimately speculative. Explain why those measures might have been effective or ineffective based on the historical context.
-            statLines.push(`    Reflection:             ${ stats.Score5 }` ) 
-            statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 }` ) 
+            statLines.push(`    Operating System:       ${ aOS }` )                     // .(50330.04b.2)
+            statLines.push(`    CPU/GPU/RAM:            ${ aCPU_GPU }, ${aRAM}` )       // .(50330.04b.3).(50330.04.7)
+            statLines.push(`    Computer:               ${ aPC_Model }` )               // .(50330.04b.4)
+            statLines.push(`    Session.Post ID:        ${ parms.resp_id }` );          // .(50331.05.2)
+            statLines.push(`    Model Name:             ${ parms.model }` );
+            statLines.push(`    Temperature:            ${ parms.temp }` );             // .(50331.05.3)
+            statLines.push(`    Context Window:         ${ parms.options.num_ctx   } bytes`);
+            statLines.push(`    Total Duration:         ${(stats.total_duration / 1e9).toFixed(2) } seconds`);
+            statLines.push(`    Eval Count:             ${ stats.eval_count        } tokens`);
+            statLines.push(`    Eval Duration:          ${(stats.eval_duration  / 1e9).toFixed(2) } seconds`);
+            statLines.push(`    Prompt Eval Count:      ${ stats.prompt_eval_count } tokens`);
+            statLines.push(`    Tokens per Second:      ${ stats.tokens_per_sec } tps`);                    // .(50419.04.2)
+            statLines.push(`    Factual Accuracy:       ${ stats.Score1 || 0 }` )       // "Your answer must be grounded in historical evidence. Avoid speculation unless explicitly presented as such.
+            statLines.push(`    Multiple Perspectives:  ${ stats.Score2 || 0 }` )       // "Consider the various perspectives and debates among historians regarding the reasons for Rome's decline. Mention at least two major competing theories.
+            statLines.push(`    Structured Response:    ${ stats.Score3 || 0 }` )       // "Organize your response into clear paragraphs, with headings for clarity.
+            statLines.push(`    Actionable Suggestions: ${ stats.Score4 || 0 }` )       // "Propose concrete and realistic measures that the Roman emperors might have taken to mitigate the problems, even if they are ultimately speculative. Explain why those measures might have been effective or ineffective based on the historical context.
+            statLines.push(`    Reflection:             ${ stats.Score5 || 0 }` ) 
+            statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 || 0}` ) 
     return  statLines;
             }
 //   -- --- ---------------  =  ------------------------------------------------------  #

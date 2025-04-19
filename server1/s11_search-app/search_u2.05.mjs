@@ -641,10 +641,10 @@ async function  getCleanedText_fromDocs( mDocs ) {
             usrMsg( "\n---------------------------------------------------------------------------------------------- "    , shoMsg('Stats')   ) // .(50404.01.21)
 
             pParms.secs      = (pStats.total_duration / 1e9).toFixed(2)                                                                          // .(50414.01.14)                                                                                       
-            pParms.tps       =  pStats.tokens_per_second                                                                                         // .(50414.01.15)
+            pParms.tps       =  pStats.tokens_per_sec                                                                                            // .(50414.01.15)
 
             sayMsg( `A1201[ 636]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)      
-            usrMsg(   `\n    > Ran Model: ${          pParms.model} in ${pParms.secs} secs (${aRunStr})\n`                , shoMsg('RunId')   )  // .(50404.01.23).(50403.03.8)
+            usrMsg(   `\n    > Ran Model: ${           pParms.model} in ${pParms.secs} secs (${aRunStr})\n`                , shoMsg('RunId')   )  // .(50404.01.23).(50403.03.8)
 //       if (global.bNoLog == 0) {                                                                                                               //#.(50414.01.16 RAM Do log it)
 //     var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  "), aPIDs = `${pParms.spc}  ${pParms.qpc}`                                 //#.(50414.01.16)     
 //          console.log( `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${pParms.model}  ${aPIDs}` )                              //#.(50414.01.16)
