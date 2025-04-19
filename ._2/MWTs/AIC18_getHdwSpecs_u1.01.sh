@@ -81,7 +81,7 @@ if [ "${OS:0:3}" != "Win" ]; then                                               
     getWinInfo                                                                          # .(50416.08c.3)
     fi                                                                                  # .(50416.08b.4)
 
-    aDir="../../data/AItestR4u-docs/settings"
+    aDir="../../data/AItestR4u/settings"
     aPC_CODE="$( echo "${THE_PC_CODE}" | tr '[:upper:]' '[:lower:]' )" 
     aServerName="${aPC_CODE}-${THE_SERVER#*-}"
     aHdwFile="${aDir}/hardware-settings_${aPC_CODE}.txt"   
