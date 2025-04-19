@@ -24,6 +24,7 @@
 #.(50417.01   4/17/25 RAM  6:35a| Change aEnvFile to aSrcFile 
 #.(50417.03   4/17/25 RAM 10:00a| Write chkEnvTemplate to create a .env template file
 #.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE 
+#.(50419.06   4/19/25 RAM  4:00p| Display Creating Hardware file msg
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -55,7 +56,7 @@ function  YorN() {
 # -----------------------------------------------------------------
 
 function  usrMsg() {
-   if [ "${aLogs/inputs}" != "${aLogs}" ] || [ "$bDebug" == "1" ]; then echo "$1"; fi
+   if [ "${aLogs/inputs}" != "${aLogs}" ] || [ "${aLogs}" == "" ] || [ "$bDebug" == "1" ]; then echo -e "$1"; fi
 #  if [ "${bInputs}" == "1" ]; then echo "$1"; fi 
    }
 # -----------------------------------------------------------------
@@ -96,11 +97,10 @@ function  chkEnvTemplate() {                                                    
    if [ -f "$1" ]; then return; fi 
 
    aForPcCd=""; if [ "${aPcCd}" != "" ]; then aForPcCd=" for '${aPcCd}'"; fi
-   sayMsg "AIC19[  99]  Need to create an .env template file, '$1'${aForPcCd}."    
- 
+   sayMsg "AIC19[  99]  Need to create an .env template file, '$1'${aForPcCd}."   
+   usrMsg "* Creating hardware file..."  
    hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh"  ${aPcCd} )"
    sayMsg "AIC19[ 102]  Created hardware file: '${hardware_file}'"  
-   usrMsg "* Created hardware file: '${hardware_file}'"  
    aPcCd="${hardware_file#*_}"; aPcCd="${aPcCd/.txt/}"   
    template_file=".env_${aApp}-template_${aPcCd}.txt"
    template_master_file=".env_${aApp}-template.txt"  # .(50418.01. RAM Remove _${aPcCd} from template_master_file)
@@ -175,10 +175,10 @@ if [ ! -f "${template_file}" ]; then
    usrMsg "    7. Use SysPmt File: $( YorN ${mArray[9]} )"
    usrMsg "    8. Use UsrPmt File: $( YorN ${mArray[10]} )"
    usrMsg "    9. Test Title:      ${aTitle}"
-   usrMsg "   10. UsrPrompt Runs:  ${mArray[6]}"
    usrMsg "   10. SysPrompt Tests: ${mArray[5]}"
-   usrMsg "   11. First Run Id:    t${aTest:0:2}1.01"
-   usrMsg "   12. Sections:        ${part2}"
+   usrMsg "   11. UsrPrompt Runs:  ${mArray[6]}"
+   usrMsg "   12. First Run Id:    t${aTest:0:2}1.01"
+   usrMsg "   13. Sections:        ${part2}"
    usrMsg ""
 
    echo "$aBodyText" > "$output_file"  # Write the result to the output file
@@ -191,7 +191,7 @@ if [ ! -f "${template_file}" ]; then
 #  aTestParms="a11_t011.01, llama3.2:3b,          131072, GKN1-SIMP, 0.3,  1, 0, 0, 1, 0, \"Parms,Docs,Search,Stats,Results\""
 
    if [ "${aLogs}" == "log,inputs" ]; then 
-      echo -e "\n-----------------------------------------------------------"
+      echo -e "\n-----------------------------------------------------------\n"
       fi; 
 
 #  sayMsg "AIC19[ 197]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aEnvFile: '${aEnvFile}'"; #  exit    
@@ -204,7 +204,7 @@ if [ "${aEnvFile}" == "" ]; then
    chkEnvTemplate  "${aSrcFile}"                                                        # .(50417.03.2)   
 
    sayMsg "AIC19[ 206]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aSrcFile: '${aSrcFile}'"; #  exit    
-   usrMsg ""; 
+#  usrMsg ""; 
    usrMsg  "  Merging file, ${aSrcFile}, with file, ${aApp}_model-tests.txt."           # .(50417.01.3)
  
  if [ "${aTest:2:1}" == "0" ]; then 
