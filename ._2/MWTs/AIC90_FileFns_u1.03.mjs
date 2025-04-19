@@ -189,7 +189,7 @@
         if (global.bQuiet == 1) { return }                                              // .(50414.02.1 xRAM Don't print if bQuiet == 1) 
         if (global.aLogFile.match(/bash|user/) == null) {                               // .(50301.02.1)
 //          console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.3 RAM Flag for later)
-            console.log( `\n  - AIC90[ 193]  Setting logfile to: '${aLogFile}` )        // .(50404.06.7 RAM Anot a full path)
+            console.log( `  - AIC90[ 192]  Setting logfile to: '${aLogFile}` )          // .(50404.06.7 RAM Anot a full path)
             }  }                                                                        // .(50301.02.2)
          }; // eof saySet                                                               // .(50218.01.7 End)
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
