@@ -1,4 +1,29 @@
 #!/bin/bash
+#!/bin/bash
+##=========+====================+================================================+
+##RD       AIC15_runTests   | Generate Mac Hardware specs
+##RFILE    +====================+=======+===============+======+=================+
+##FD  AIC15_runTests_u1.02.sh|  26141|  4/17/25  6:45|   446| u1.02`50417.0645
+#
+##DESC     .--------------------+-------+---------------+------+-----------------+
+#            This script really runs the tests specificed by run-tests.sh
+#
+##LIC      .--------------------+----------------------------------------------+
+#            Copyright (c) 2025 JScriptWare and 8020Date-FormR * Released under
+#            MIT License: http://www.opensource.org/licenses/mit-license.php
+##FNS      .--------------------+----------------------------------------------+
+#       ion  runcommand() {     |
+#       ion  getMacInfo() {     |
+#                               |
+##CHGS     .--------------------+----------------------------------------------+
+#.(50416.08   4/16/25 RAM  5:50p| Witten by Robin Mattern
+#.(50419.05   4/19/25 RAM  4:00p| Allow run-tests.sh run aTest, maybe 
+
+##PRGM     +====================+===============================================+
+##ID 69.600. Main0              |
+##SRCE     +====================+===============================================+
+#
+##========================================================================================================= #  ===============================  #
 
         aApp=${APP}
 
@@ -19,9 +44,10 @@
         aCmd="run"; if [ "$1" == "gen" ]; then aCmd="gen"; shift; fi 
         aArgs="$1,$2,$3,$4,$5,$6,$7,$8,$9"; aArgs=${aArgs//,,/}; s=""
         if [ "$1" == "all" ]; then aArgs="t010,t020,t030"; fi
+        if [ "${aArgs:0:3}" == "run" ]; then aArgs="${aArgs:4}"; fi;                    # .(50419.05.1 RAM Allow run)     
         if [ "${aArgs:0:1}" != "t" ] && [ "${aArgs}" != "" ]; then aArgs="t${aArgs}"; fi; 
 
-#       echo -e "\n  - AIC15[  22]  aCmd: ${aCmd},  aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit 
+#       echo -e "\n  - AIC15[  25]  aCmd: ${aCmd},  aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit 
 
 # -------------------------------------------------------------------
     
@@ -54,14 +80,17 @@
         aTestGroups="01,02,03,04"                                                       # .(50415.02.1 RAM Check for valid Test Groups)
         IFS=',' read -ra mArgs <<< "${aArgs}"; nTests=0
     for aTest in "${mArgs[@]}"; do
+#    if [ "${aTest}"  != "trun" ]; then                                                 ##.(50419.05.2 RAM Allow run)
+#    if [ "${aTest:0:1}" != "t" ]; then aTest="t${aTest}"; fi                           ##.(50419.05.3 RAM Allow 040 with no t.  Need to replace it in mArgs)
      if [[ "${aTest}" =~ ^t[0-9]{3}$ ]] && [[ "${aTestGroups/${aTest:1:2}}" != "${aTestGroups}" ]]; then 
         (( nTests++ ))
       else 
-        echo -e "\n* Invalid Test Id. Please use one of the following:"
+        echo -e "\n* Invalid Test Id, ${aTest}.  Please use one of the following:"      # .(50419.05.4) 
         echo      "    t010 t020 t030 t040 t041 or multipe tests: t010,t020,t030"
         if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
         exit 1
       fi
+#     fi                                                                                ##.(50419.05.5)
     done
 
     shift 
@@ -86,9 +115,10 @@ function prt1stMsg() {
 # -------------------------------------------------------------------
 
 aAWKscr='
-function getFld( aRow ) { 
+function getFld( aRow, bTest ) { 
          split( aRow, mVar, "=" ); aVar = mVar[2]; sub( /#.+/, "", aVar ); # print " -- " aVar;  
          sub( /^[" ]+/, "", aVar ); sub( /[" ]+$/, "", aVar );             # print " -- [" aVar "]"; 
+         if (bTest == 1 && substr(aVar,4,1) == "0") { aVar = substr(aVar,1,3) "1" } 
   return aVar 
          }
    /^[#]/ { next }
@@ -101,9 +131,9 @@ function getFld( aRow ) {
    /USE_SYS_PROMPTS_FILE/ { print "    7. Use SysPmt File: " (getFld( $0 ) ? "Yes" : "No") }
    /USE_USR_PROMPTS_FILE/ { print "    8. Use UsrPmt File: " (getFld( $0 ) ? "Yes" : "No") }
    /SESSION_TITLE/        { print "    9. Test Title:      "  getFld( $0 ) } 
-   /USR_RUN_COUNT/        { print "   10. UsrPrompt Runs:  "  getFld( $0 ) } 
-   /SYS_RUN_COUNT/        { print "   11. SysPrompt Tests: "  getFld( $0 ) } 
-   /SESSION_ID/           { print "   12. First Run Id:    "  getFld( $0 ) ".01" }
+   /SYS_RUN_COUNT/        { print "   10. SysPrompt Tests: "  getFld( $0 ) } 
+   /USR_RUN_COUNT/        { print "   11. UsrPrompt Runs:  "  getFld( $0 ) } 
+   /SESSION_ID/           { print "   12. First Run Id:    "  getFld( $0, 1 ) ".01" }
    /SHOW_SECTIONS/        { print "   13. Sections:        "  getFld( $0 ) }
 '    
 # -------------------------------------------------------------------
