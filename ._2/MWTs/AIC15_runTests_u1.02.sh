@@ -20,6 +20,7 @@
 #.(50419.05   4/19/25 RAM  4:00p| Allow run-tests.sh run aTest, maybe 
 #.(50420.03   4/20/25 RAM  9:30a| Move final underline to here from run.tests.sh
 #.(50420.04   4/20/25 RAM 10:15a| Add Help re run-tests.sh Ids   
+#.(50420.04   4/20/25 RAM 10:15a| Add Help re run-tests.sh Ids   
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -69,13 +70,15 @@
       fi 
 # -------------------------------------------------------------------
  
-   if [ "$1" == "" ]; then 
-        echo ""
-        echo "  Run any of the following tests:  ${aVer}"
-        echo "    bash run-tests.sh  t0##  # A single test for one sysprompt. (generated from s11_mmodel-tests.txt)"  #.(50420.04.1 RAM Add Help re run-tests.sh)
-        echo "    bash run-tests.sh  t0#0  # A group test for one model. (.env_s11_t0#0_model_1-test.txt)"            #.(50420.04.2)
-        echo "  For example, these test model groups are available:"                                                  #.(50420.04.3)
+   if [ "$1" == "" ] || [ "$1" == "help" ]; then                                                                           #.(50420.04.1)
+        echo -e "\n  Run any of the following tests:"
+        echo -e   "    bash run-tests.sh  t0##  # A single test for one sysprompt. (generated from s11_model-tests.txt)"   #.(50420.04.2 RAM Add Help re run-tests.sh)
+        echo -e   "    bash run-tests.sh  t0#0  # A group test for one model. (copied from .env_s11_t0#0_model_1-test.txt)" #.(50420.04.3)
+        echo -e "\n  For example, these tests are available to run:"                                                       #.(50420.04.4)
         ls -l .env_${aApp}_* | awk '!/_v[0-9]/ { print "    bash run-tests.sh  " substr($9,10,4) "  # " $9 }' 
+        echo -e   "    bash run-tests.sh  t041  # .env generated from .env_s11_t040_qwen2;0.5b_4,6-tests.txt"              #.(50420.04.5)
+        echo -e "\n  To run other tests for models, llama3.2:3b, phi3 and granite3.1-dense:2b, do:"                        #.(50420.04.6)
+        echo -e   "    bash run-tests.sh gen all"                                                                          #.(50420.04.7)
         if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
         exit 1
     fi 
