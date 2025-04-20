@@ -164,10 +164,10 @@ if [ ! -f "${template_file}" ]; then
    placeholder="{USPF}";      replacement="${mArray[9]}";   aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{UUPF}";      replacement="${mArray[10]}";  aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{Sections}";  replacement="${part2}";       aBodyText="${aBodyText//$placeholder/$replacement}"
-   placeholder="{Title}";     replacement="${aTitle2}";     aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.01.2 RAM Add Title with PC_Code)
+   placeholder="{Title}";     replacement="${aTitle2}";     aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.02.2 RAM Add Title with PC_Code)
    placeholder="{Cnt}";       replacement="${mArray[5]}";   aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{SysPrompt}"; replacement="${aSysPrompt}";  aBodyText="${aBodyText//$placeholder/$replacement}"
-   placeholder="{PC_Code}";   replacement="${aPcCd}";       aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.01.3 RAM Add PC_Code)
+   placeholder="{PC_Code}";   replacement="${aPcCd}";       aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.02.3 RAM Add PC_Code)
 
 
 #  sayMsg "  Using the following settings:" 
