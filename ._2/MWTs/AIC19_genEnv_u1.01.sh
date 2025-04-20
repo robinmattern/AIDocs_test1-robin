@@ -24,7 +24,9 @@
 #.(50417.01   4/17/25 RAM  6:35a| Change aEnvFile to aSrcFile 
 #.(50417.03   4/17/25 RAM 10:00a| Write chkEnvTemplate to create a .env template file
 #.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE 
+#.(50418.01   4/18/25 RAM  8:00p| Remove _${aPcCd} from template_master_file
 #.(50419.06   4/19/25 RAM  4:00p| Display Creating Hardware file msg
+#.(50420.02   4/20/25 RAM 11:00a| Add PC_Code and Title with PC_Code   
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -89,6 +91,7 @@ for i in "${!mArray[@]}"; do
 #  aTests="${mArray[6]}-tests"; if [ "${mArray[6]}" == "1" ]; then aTests="1-test"; fi 
    aTests="${mArray[5]},${mArray[6]}-tests"; if [ "${mArray[6]}" == "1" ]; then aTests="${mArray[5]},1-test"; fi 
    aTitle="${aModel}_${aTests}"
+   aTitle2="${aModel}_${aTests} on ${aPcCd}"                                            # .(50420.02.1 RAM Add aTitle2 with PC_Code)
    } # eof splitParms
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
@@ -98,12 +101,12 @@ function  chkEnvTemplate() {                                                    
 
    aForPcCd=""; if [ "${aPcCd}" != "" ]; then aForPcCd=" for '${aPcCd}'"; fi
    sayMsg "AIC19[  99]  Need to create an .env template file, '$1'${aForPcCd}."   
-   usrMsg "* Creating hardware file..."  
+   usrMsg "* Creating hardware file..."                                                 # .(50419.06.1 RAM Add Creating hardware file msg)
    hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh"  ${aPcCd} )"
    sayMsg "AIC19[ 102]  Created hardware file: '${hardware_file}'"  
    aPcCd="${hardware_file#*_}"; aPcCd="${aPcCd/.txt/}"   
    template_file=".env_${aApp}-template_${aPcCd}.txt"
-   template_master_file=".env_${aApp}-template.txt"  # .(50418.01. RAM Remove _${aPcCd} from template_master_file)
+   template_master_file=".env_${aApp}-template.txt"                                     # .(50418.01. RAM Remove _${aPcCd} from template_master_file)
    sayMsg "AIC19[ 107]  Saving hardware for ${aPcCd}, info into the template file: '${template_file}'" 
    aSpecs="$( cat "${hardware_file}" )"
 # echo  "${aSpecs}"
@@ -161,9 +164,11 @@ if [ ! -f "${template_file}" ]; then
    placeholder="{USPF}";      replacement="${mArray[9]}";   aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{UUPF}";      replacement="${mArray[10]}";  aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{Sections}";  replacement="${part2}";       aBodyText="${aBodyText//$placeholder/$replacement}"
-   placeholder="{Title}";     replacement="${aTitle}";      aBodyText="${aBodyText//$placeholder/$replacement}"
+   placeholder="{Title}";     replacement="${aTitle2}";     aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.01.2 RAM Add Title with PC_Code)
    placeholder="{Cnt}";       replacement="${mArray[5]}";   aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{SysPrompt}"; replacement="${aSysPrompt}";  aBodyText="${aBodyText//$placeholder/$replacement}"
+   placeholder="{PC_Code}";   replacement="${aPcCd}";       aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.01.3 RAM Add PC_Code)
+
 
 #  sayMsg "  Using the following settings:" 
    usrMsg "    1. Model:           ${mArray[1]}"
