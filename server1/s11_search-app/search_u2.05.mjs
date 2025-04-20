@@ -88,6 +88,9 @@
 #.(50414.04   4/14/25 RAM  9:52a| Fix the TestId number for Group tests  
 #.(50415.01   4/15/25 RAM  6:42a| Add .envars DOIT, DEBUG and LOGGER from run-tests.sh 
 #.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE 
+#.(50414.04b  4/19/25 RAM  8:00p| RunId Test No. if running just one test
+#.(50414.01b  4/20/25 RAM 10:45a| Add CTX and Temp to Log message
+#.(50414.01c  4/20/25 RAM 11:00a| Fix bNoLog if aLog = "log"   
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -108,7 +111,7 @@ import { doesNotReject } from "assert";
        var  aVer             = "u2.05"                                                  // .(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
 
        var  aLog             =  process.env.LOGGER || ""                                // .(50414.01.1 RAM Do print Log)
-            aLog             =  aLog == "log,inputs" ? "log" : ""
+            aLog             =  aLog == "log,inputs" ? "log" : aLog                     // .(50414.01c.1 RAM Fix if aLog = "log", was: '')
 //     var  bDebug           =  process.env.DEBUG || 0                                  // .(50415.01.1 RAM It gets checked later, Uncomment for S1201[ 116])
        var  bDoit            =  process.env.DOIT || 1                                   // .(50415.01.2)
 //     var  aLog             = "log"                                                                        // .(50414.01.1 RAM Do print Log) 
@@ -293,8 +296,9 @@ import { doesNotReject } from "assert";
        var  bJustOneSysPmt   =  aSessionId.slice(-1) != "0" 
 //          nSysCount        = (aSessionId.slice(-1) == "0" ) ? nSysCount : 1                               // .(50410.03.2 RAM Was nSysCount)  
 
-   for (let iTest = 0; iTest < nSysCount; iTest++) {                                                    // .(50403.03.3)
-       var  nTest            =  iTest // bJustOneSysPmt ? aSessionId.slice(-1) - 1 : iTest                  // .(50414.04.1 RAM Which is it?)
+   for (let iTest = 0; iTest < nSysCount; iTest++) {                                                        // .(50403.03.3)
+//     var  nTest            =  iTest // bJustOneSysPmt ? aSessionId.slice(-1) - 1 : iTest                  //#.(50414.04.1 RAM Which is it?)
+       var  nTest            =  bJustOneSysPmt ? aSessionId.slice(-1) - 1 : iTest                           // .(50414.04b.1 RAM Use RunId Test # if running just one)
        var  aSysPmtCd        =  mSysPrompts[ nTest ].SysPmtCd
 //          console.log( `-- bJustOneSysPmt: ${bJustOneSysPmt}, nTest: ${nTest}, aSysPmtCd: ${aSysPmtCd}`)  // .(50414.04.2)
        var  aSysPrompt       =  mSysPrompts[ nTest ].SysPrompt  
@@ -314,10 +318,9 @@ import { doesNotReject } from "assert";
 
 //     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.6)
        var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.6).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
-// global.bDebug = 0; bNoLog = -1 
 
             sayMsg( `A1201[ 316]  bDoit: '${bDoit}',  aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: '${bDebug}', global.bDebug: '${global.bDebug}', global.bQuiet: '${global.bQuiet}', global.aPrtSections: '${global.aPrtSections}' `, -1 ); // process.exit() 
-            sayMsg( `A1201[ 317]  ${aSessionName}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )                   // .(50414.01.4)
+            sayMsg( `A1201[ 317]  ${aSessionName}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )                   // .(50414.01.3)
 //          }                                                                                               //#.(50413.03.7 Do the full double loop)
 
    for (let iRun  = 0; iRun < nRunCount; iRun++) {                                                          // .(50403.03.3)
@@ -387,11 +390,12 @@ import { doesNotReject } from "assert";
                                 usrMsg(  "----------------".padEnd( nWdt - 12, "-" ), shoMsg( "all" ) )     // .(50404.05b.1 RAM Was 25).(50404.05.10)
 
         if (global.bNoLog == 0) {                                                                                                                // .(50414.01.5 RAM Do log it)
-       var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  "), aPIDs = `${pParms.spc}  ${pParms.qpc}`                                 // .(50414.01.6)     
+       var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  ") 
+       var  aPIDs         = `${pParms.spc}  ${pParms.qpc}  ${ `${nCTX_Size}`.padStart(6) }  ${nTemperature}`                                     // .(50414.01b.1 RAM Add CTX and Temp) .(50414.01.6)     
             console.log( `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Starting ${pParms.model.padEnd(19)}  ${aPIDs}` )                   // .(50414.01.7)
             } 
   
-        if (bDoit == 1) {                                                                                                                                     // .(50414.01.8)
+        if (bDoit == 1) {                                                                                                                        // .(50414.01.8)
 //                              sayMsg( `AI12[383]  pParms.model: '${pParms.model}'` , 1); process.exit() 
                                 await main( pParms )
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )
@@ -583,7 +587,7 @@ async function  getCleanedText_fromDocs( mDocs ) {
        var  texts     =  pJSON_Results.Docs                                                                 // .(50408.06.12)
        var  document  =  pJSON_Results.URLs[0] || ''                                                        // .(50408.06.13)
 
-//          sayMsg( `A1201[ 572]  nLog: '${nLog}', global.aPrtSections: '${global.aPrtSections}'`, 1) // .(50414.01.14)      
+//          sayMsg( `A1201[ 572]  nLog: '${nLog}', global.aPrtSections: '${global.aPrtSections}'`, 1)       // .(50414.01.14)      
         if (texts.length == 0) {
 //  return  usrMsg( "\n* No text content for the AI model to query or summarize." );                        //#.(50404.07.2 RAM Return -1 if error).(50409.03.40)
             usrMsg(   "* No text content for the AI model to query or summarize.", bNoLog );                // .(50414.01.13).(50409.03.40 RAM OK for plain search).(50404.07.2 RAM Return -1 if error)
