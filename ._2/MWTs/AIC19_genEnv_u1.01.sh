@@ -27,6 +27,7 @@
 #.(50418.01   4/18/25 RAM  8:00p| Remove _${aPcCd} from template_master_file
 #.(50419.06   4/19/25 RAM  4:00p| Display Creating Hardware file msg
 #.(50420.02   4/20/25 RAM 11:00a| Add PC_Code and Title with PC_Code   
+#.(50420.02   4/20/25 RAM 12:15p| Add  title2 and some msg tweaks
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -92,6 +93,7 @@ for i in "${!mArray[@]}"; do
    aTests="${mArray[5]},${mArray[6]}-tests"; if [ "${mArray[6]}" == "1" ]; then aTests="${mArray[5]},1-test"; fi 
    aTitle="${aModel}_${aTests}"
    aTitle2="${aModel}_${aTests} on ${aPcCd}"                                            # .(50420.02.1 RAM Add aTitle2 with PC_Code)
+
    } # eof splitParms
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
@@ -123,7 +125,7 @@ function  chkEnvTemplate() {                                                    
 #  cat "$(pwd)/${template_file}"
  
    aSrcFile="${template_file}"
-   }                                                                                    # .(50417.03.1 End)
+   } # eof chkEnvTemplate                                                                               # .(50417.03.1 End)
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
 function  mergeVars() { 
@@ -164,11 +166,10 @@ if [ ! -f "${template_file}" ]; then
    placeholder="{USPF}";      replacement="${mArray[9]}";   aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{UUPF}";      replacement="${mArray[10]}";  aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{Sections}";  replacement="${part2}";       aBodyText="${aBodyText//$placeholder/$replacement}"
-   placeholder="{Title}";     replacement="${aTitle2}";     aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.02.2 RAM Add Title with PC_Code)
+   placeholder="{Title}";     replacement="${aTitle}";      aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.02.2 RAM Add Title without PC_Code)
    placeholder="{Cnt}";       replacement="${mArray[5]}";   aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{SysPrompt}"; replacement="${aSysPrompt}";  aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{PC_Code}";   replacement="${aPcCd}";       aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.02.3 RAM Add PC_Code)
-
 
 #  sayMsg "  Using the following settings:" 
    usrMsg "    1. Model:           ${mArray[1]}"
@@ -179,7 +180,7 @@ if [ ! -f "${template_file}" ]; then
    usrMsg "    6. Do Web Search:   $( YorN ${mArray[8]} )"
    usrMsg "    7. Use SysPmt File: $( YorN ${mArray[9]} )"
    usrMsg "    8. Use UsrPmt File: $( YorN ${mArray[10]} )"
-   usrMsg "    9. Test Title:      ${aTitle}"
+   usrMsg "    9. Test Title:      ${aTitle2}"                                                                   # .(50420.02.4 RAM Add PC_Code here too)
    usrMsg "   10. SysPrompt Tests: ${mArray[5]}"
    usrMsg "   11. UsrPrompt Runs:  ${mArray[6]}"
    usrMsg "   12. First Run Id:    t${aTest:0:2}1.01"
@@ -213,14 +214,14 @@ if [ "${aEnvFile}" == "" ]; then
    usrMsg  "  Merging file, ${aSrcFile}, with file, ${aApp}_model-tests.txt."           # .(50417.01.3)
  
  if [ "${aTest:2:1}" == "0" ]; then 
-   aTestParms="$( cat "${aApp}_model-tests.txt" | awk '/'t${aTest:0:2}'0/ { print }' )"  # was: ${aTest:0:3}'0 to use the first one
+   aTestParms="$( cat "${aApp}_model-tests.txt" | awk '/'t${aTest:0:2}'0/ { print }' )" # was: ${aTest:0:3}'0 to use the first one
 #  echo "  Creating an .env test file for the test group: t${aTest}"; exit  
    splitParms "${aTestParms}"
 #  echo "  aModel: '${mArray[1]}', nTests: '${mArray[5]}'"
    aDstFile=".env_${aApp}_t${aTest}_${aTitle}.txt" 
-   usrMsg    "   to create an .env test group file with the following parameters:";  # exit 
-   mergeVars "${aSrcFile}" "${aDstFile}"                                                # .(50417.01.4).(50414.10.x)
-   usrMsg    "  Saved the .env test group file: ${aDstFile}." 
+   usrMsg     "   to create an .env test group file with the following parameters:\n";  # .(50420.02.5 RAM Add CR)
+   mergeVars  "${aSrcFile}" "${aDstFile}"                                               # .(50417.01.4).(50414.10.x)
+   usrMsg     "  Saved the .env test group file: ${aDstFile}." 
 
  else 
 #  echo "  searching for: '/${aApp}, t${aTest}/'"    # '/${aApp}, t00${aTest:2:1}/'" 
@@ -229,9 +230,9 @@ if [ "${aEnvFile}" == "" ]; then
    aSysPrompt="$( cat "${aApp}_system-prompts.txt" | awk '/'"${aApp}, t${aTest}"'/ { aPrompt = substr( $0, 32 ); sub( /[" ]+$/, "", aPrompt ); print aPrompt }' )"
 #  echo "--- aTest: ${aTest}, aSysprompt: '${aSysPrompt}'"; exit 
    aTestParms="$( cat "${aApp}_model-tests.txt"    | awk '/t'${aTest}'/ { print }' )"
-   usrMsg     "   to create an .env file with the following parameters:"; # exit 
+   usrMsg     "   to create an .env file with the following parameters:\n";             # .(50420.02.6 RAM Add CR)
    splitParms "${aTestParms}"
-   mergeVars  "${aSrcFile}" ".env"                                                     # .(50417.01.5).(50414.10.x)
+   mergeVars  "${aSrcFile}" ".env"                                                      # .(50417.01.5).(50414.10.x)
    usrMsg     "  Saved .env file for test run t${aTest}." 
    echo ""
    fi 
