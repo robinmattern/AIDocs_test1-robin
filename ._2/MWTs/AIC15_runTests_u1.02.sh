@@ -18,6 +18,8 @@
 ##CHGS     .--------------------+----------------------------------------------+
 #.(50416.08   4/16/25 RAM  5:50p| Witten by Robin Mattern
 #.(50419.05   4/19/25 RAM  4:00p| Allow run-tests.sh run aTest, maybe 
+#.(50420.03   4/20/25 RAM  9:30a| Move final underline to here from run.tests.sh
+#.(50420.04   4/20/25 RAM 10:15a| Add Help re run-tests.sh Ids 
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -69,8 +71,10 @@
  
    if [ "$1" == "" ]; then 
         echo ""
-        echo "  Run any of the following tests:"
-        echo "    bash run-tests.sh  t0##  # .env_s11_t0##_model_1-test.txt"  
+        echo "  Run any of the following tests:  ${aVer}"
+        echo "    bash run-tests.sh  t0##  # A single test for one sysprompt. (generated from s11_mmodel-tests.txt)"  #.(50420.04.1 RAM Add Help re run-tests.sh)
+        echo "    bash run-tests.sh  t0#0  # A group test for one model. (.env_s11_t0#0_model_1-test.txt)"            #.(50420.04.2)
+        echo "  For example, these test model groups are available:"                                                  #.(50420.04.3)
         ls -l .env_${aApp}_* | awk '!/_v[0-9]/ { print "    bash run-tests.sh  " substr($9,10,4) "  # " $9 }' 
         if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
         exit 1
@@ -195,4 +199,10 @@ function cpyEnv() {
       fi 
 
    done 
+
+   if [ "${LOGGER}" == "log,inputs" ]; then                                          # .(50420.03.1 RAM Move this to here from run.tests.sh Beg)
+     echo -e "\n-----------------------------------------------------------"
+     fi
+     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                   # .(50420.03.1 End)
+
 #  ---------------------------------------------------------------------------------
