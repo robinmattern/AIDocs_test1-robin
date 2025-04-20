@@ -14,7 +14,7 @@
      export DOIT="1"
      export DEBUG="0"
  
-     export PC_CODE="rm231d"
+     export PC_CODE=""
 
      bash  "${aRun_Tests}"  041 
      bash  "${aRun_Tests}"  042

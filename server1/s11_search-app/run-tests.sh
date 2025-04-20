@@ -14,6 +14,6 @@
      export DOIT="1"
      export DEBUG="0"
  
-     export PC_CODE="rm231d"
+     export PC_CODE=""
 
      bash  "${aRun_Tests}"  "$@";  if [ $? -ne 0 ]; then exit 1; fi
