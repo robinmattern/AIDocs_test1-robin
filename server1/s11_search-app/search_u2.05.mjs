@@ -90,7 +90,7 @@
 #.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE 
 #.(50414.04b  4/19/25 RAM  8:00p| RunId Test No. if running just one test
 #.(50414.01b  4/20/25 RAM 10:45a| Add CTX and Temp to Log message
-#.(50414.01c  4/20/25 RAM 11:00a| Fix bNoLog if aLog = "log"   
+#.(50414.01c  4/20/25 RAM 11:00a| Fix bNoLog if aLog = "log"     
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
