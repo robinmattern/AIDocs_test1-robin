@@ -22,6 +22,7 @@
 #.(50416.08c  4/17/25 RAM  3:15p| Added function getWinInfo
 #.(50417.06   4/17/25 RAM  5:15p| Use $1 for PC_CODE if passed
 #.(50419.03   4/17/25 CAI 10:00a| Write getWinInfo function
+#.(50420.06   4/20/25 RAM  2:00p| Use MacOS "Chip" for CPU
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -48,8 +49,10 @@ function  getMacInfo() {                                                        
    [ "$THE_OS" = " v" ] && THE_OS="Unknown"
    
 #  Get CPU
-   cpuInfo=$(   runCommand "system_profiler SPHardwareDataType | grep 'Processor Name'")
-   THE_CPU=$(echo "$cpuInfo" | sed -E 's/.*Processor Name: (.*)/\1/' || echo "Unknown")
+#  cpuInfo=$(   runCommand "system_profiler SPHardwareDataType | grep 'Processor Name'")                    ##.(50420.06.1)
+   cpuInfo=$(   runCommand "system_profiler SPHardwareDataType | grep 'Chip'")                              # .(50420.06.1 RAM Use Mac Chip for CPU)
+#  THE_CPU=$(echo "$cpuInfo" | sed -E 's/.*Processor Name: (.*)/\1/' || echo "Unknown")                     ##(50420.06.2)
+   THE_CPU=$(echo "$cpuInfo" | sed -E 's/.*Chip: (.*)/\1/' || echo "Unknown")                               #.(50420.06.2)
    
 #  Get GPU
    gpuInfo=$(   runCommand "system_profiler SPDisplaysDataType | grep 'Chipset Model' | head -n 1")

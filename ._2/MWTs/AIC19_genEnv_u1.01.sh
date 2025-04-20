@@ -101,9 +101,9 @@ function  chkEnvTemplate() {                                                    
 
    if [ -f "$1" ]; then return; fi 
 
-   aForPcCd=""; if [ "${aPcCd}" != "" ]; then aForPcCd=" for '${aPcCd}'"; fi
+   aForPcCd="for ..."; if [ "${aPcCd}" != "" ]; then aForPcCd="for '${aPcCd}'."; fi
    sayMsg "AIC19[  99]  Need to create an .env template file, '$1'${aForPcCd}."   
-   usrMsg "* Creating hardware file..."                                                 # .(50419.06.1 RAM Add Creating hardware file msg)
+   usrMsg "* Creating hardware file ${aForPcCd}"                                       # .(50419.06.1 RAM Add Creating hardware file msg)
    hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh"  ${aPcCd} )"
    sayMsg "AIC19[ 102]  Created hardware file: '${hardware_file}'"  
    aPcCd="${hardware_file#*_}"; aPcCd="${aPcCd/.txt/}"   
