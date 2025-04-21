@@ -53,7 +53,15 @@
 #       echo -e "\n  - AIC15[  25]  aCmd: ${aCmd},  aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit 
 
 # -------------------------------------------------------------------
-    
+
+   if [ "${1:0:3}" == "lis" ]; then 
+        echo -e "\n  Run any of the following tests:\n"
+        cat "${aApp}_model-tests.txt" | awk '{ sub( /a[0-9][0-9]_/, "    "); sub( /\.01/, "   "); gsub( /,/, " "); print "  " $0 }' 
+        if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
+        exit
+     fi
+# -------------------------------------------------------------------
+
    if [ "${aCmd}" == "gen" ]; then 
      if [ "${aArgs}" == "" ] || [ "${aArgs:3:1}" != "0" ]; then 
         echo -e "\n* Please provide a test group id (t0#0) to create an .env test group file."

@@ -16,16 +16,18 @@
       shift
       fi
 
+#  if [ "${1:0:3}" == "lis" ]; then echo "do list"; exit; fi
    
    if [ "$1" == "" ]; then  
       echo -e "\n  Usage: ./run-tests.sh ..."
-      echo -e   "    {App} {Test}       run a test"
-      echo -e   "    {App} gen {Group}  generate an .env template for a test model group"
+      echo -e   "    {App} {Test}       to run a test"
+      echo -e   "    {App} gen {Group}  to generate an .env template for a test model group"
+      echo -e   "    {App} list         to list all tests to run"
       echo -e   ""
       echo -e   "  where:"
-      echo -e   "    {App}              an App Id for one type of test app, e.g. s11."
-      echo -e   "    {Test}             one Test id, e.g. t011"
-      echo -e   "    {Group}            a Group Id for one set of model tests, e.g. t010"
+      echo -e   "    {App}              is an App Id for one type of test app, e.g. s11."
+      echo -e   "    {Test}             is one Test id, e.g. t011"
+      echo -e   "    {Group}            is a Group Id for one set of model tests, e.g. t010"
       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
       exit 
       fi 
