@@ -35,7 +35,7 @@ a11_t039.01, granite3.1-dense:2b,   31072, GKN9-REAS, 0.9,   3, 25,   0, 0,   1,
  
 a11_t040.01, qwen2:0.5b,             6000, GKN1-SIMP, 0.7,   4,  6,   0, 0,   1, 1,  "RunId"
 a11_t041.01, qwen2:0.5b,            16000, GKN1-SIMP, 0.3,   1,  1,   0, 0,   0, 0,  "RunId"
-a11_t042.01, qwen2:0.5b,            32000, GKN2-SIMP, 0.6,   2,  2,   0, 0,   1, 1,  "RunId"
+a11_t042.01, qwen2:0.5b,            32000, GKN2-SIMP, 0.6,   1,  2,   0, 0,   1, 0,  "RunId"
 a11_t043.01, qwen2:0.5b,            32768, GKN3-SIMP, 0.9,   3,  1,   0, 0,   1, 1,  "RunId"
 a11_t044.01, qwen2:0.5b,            32768, GKN4-DETA, 0.3,   2,  2,   0, 0,   1, 1,  "RunId"
 a11_t045.01, qwen2:0.5b,            32768, GKN5-DETA, 0.6,   1,  5,   0, 0,   0, 1,  "RunId"
