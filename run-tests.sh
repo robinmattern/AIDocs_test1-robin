@@ -24,10 +24,16 @@
       echo -e   "    {App} gen {Group}  to generate an .env template for a test model group"
       echo -e   "    {App} list         to list all tests to run"
       echo -e   ""
-      echo -e   "  where:"
+      echo -e   "  Where:"
       echo -e   "    {App}              is an App Id for one type of test app, e.g. s11."
       echo -e   "    {Test}             is one Test id, e.g. t011"
       echo -e   "    {Group}            is a Group Id for one set of model tests, e.g. t010"
+      echo -e   ""                                                                      # .(50421.04.1 RAM Add more help Beg)
+      echo -e   "  For example:"                                                         
+      echo -e   "    ./run-tests.sh s11 help"
+      echo -e   "    ./run-tests.sh s11 t041"
+      echo -e   "    ./run-tests2.sh"                                                   # .(50421.04.1 End)
+
       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
       exit 
       fi 
