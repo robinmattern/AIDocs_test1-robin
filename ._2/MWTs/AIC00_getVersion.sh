@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo -e "\n  AIDocs AItestR4u u2.05.132"
+echo -e "\n  AIDocs AItestR4u u2.05.133"
 if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
 
