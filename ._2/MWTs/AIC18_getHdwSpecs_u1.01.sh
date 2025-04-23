@@ -23,6 +23,7 @@
 #.(50417.06   4/17/25 RAM  5:15p| Use $1 for PC_CODE if passed
 #.(50419.03   4/17/25 CAI 10:00a| Write getWinInfo function
 #.(50420.06   4/20/25 RAM  2:00p| Use MacOS "Chip" for CPU
+#.(50422.01   4/22/25 RAM  2:00p| Change name of AItestR4u to AI.testR.4u
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -131,8 +132,8 @@ if [ "${OS:0:3}" != "Win" ]; then                                               
     getWinInfo                                                                          # .(50419.03.3).(50416.08c.3)
     fi                                                                                  # .(50416.08b.4)
 
-    aDir="../../data/AItestR4u/settings"
-    if [ -d "._2" ]; then aDir="./data/AItestR4u/settings"; fi                          # .(50419.03.4)
+    aDir="../../data/AI.testR.4u/settings"                                              # .(50422.01.1)     
+    if [ -d "._2" ]; then aDir="./data/AI.testR.4u/settings"; fi                        # .(50422.01.2).(50419.03.4)
 
     if [ "$1" != "" ]; then THE_PC_CODE="$1"; fi                                        # .(50417.06.1)
     aPC_CODE="$( echo "${THE_PC_CODE}" | tr '[:upper:]' '[:lower:]' )" 
