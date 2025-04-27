@@ -7,6 +7,7 @@
 ##FD   MWT01_MattFns_u1.03.mjs  |  19735|  4/04/25 12:30|   343| p1.03`50404.1230
 ##FD   MWT01_MattFns_u1.03.mjs  |  20537|  4/05/25 16:45|   362| p1.03`50405.1645
 ##FD   MWT01_MattFns_u2.03.mjs  |  26141|  4/08/25 18:45|   446| p1.03`50408.1845
+##FD   MWT01_MattFns_u2.03.mjs  |  31720|  4/19/25 17:15|   494| p1.03`50419.1715
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script implements the utility functions for working with Matt
@@ -64,7 +65,7 @@
    import   dotenv               from 'dotenv'                                          // .(50330.04.1 RAM Need this)
    import { dirname, join }      from 'path';
    import { fileURLToPath }      from 'url';
-import { ftruncate } from 'fs';
+// import { ftruncate     }      from 'fs';
 
 // import { Readability   }      from '@mozilla/readability';
 // import { JSDOM         }      from 'jsdom';
@@ -231,8 +232,8 @@ function  fmtResults(results) {
             statLines.push(`    Multiple Perspectives:  ${ stats.Score2 || 0 }` )       // "Consider the various perspectives and debates among historians regarding the reasons for Rome's decline. Mention at least two major competing theories.
             statLines.push(`    Structured Response:    ${ stats.Score3 || 0 }` )       // "Organize your response into clear paragraphs, with headings for clarity.
             statLines.push(`    Actionable Suggestions: ${ stats.Score4 || 0 }` )       // "Propose concrete and realistic measures that the Roman emperors might have taken to mitigate the problems, even if they are ultimately speculative. Explain why those measures might have been effective or ineffective based on the historical context.
-            statLines.push(`    Reflection:             ${ stats.Score5 || 0 }` ) 
-            statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 || 0}` ) 
+            statLines.push(`    Reflection:             ${ stats.Score5 || 0 }` )
+            statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 || 0}` )
     return  statLines;
             }
 //   -- --- ---------------  =  ------------------------------------------------------  #
@@ -266,7 +267,7 @@ function  fmtResults(results) {
         var pWebSearch       =  { }                                                     // .(50409.03.x)
         if (pResults.URLs.length) {                                                     // .(50409.03.x)
         var pWebSearch =                                                                // .(50409.03.x)
-                { URL:                pStats.WebSearchURL      // pResults.URLs[0]       
+                { URL:                pStats.WebSearchURL      // pResults.URLs[0]
                 , Prompt:             pStats.WebSearch         //    "roman empire"
                 , Response:
                    { AbstractURL:     pResults.WebResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
@@ -278,8 +279,8 @@ function  fmtResults(results) {
             }                                                                           // .(50409.03.x)
         var pDocSearch       =  { }                                                     // .(50409.03.x)
         if (pResults.Files.length) {                                                    // .(50409.03.x)
-        var pDocSearch = 
-                { DocsPath:           pResults.DocsPath         
+        var pDocSearch =
+                { DocsPath:           pResults.DocsPath
                 , Response:
                    { AbstractURL:     pResults.DocResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
                    , Results:         pResults.DocResponse.Results
@@ -345,7 +346,7 @@ function  fmtResults(results) {
             pJSON.Stats      =  pStats
             }                                                                           // .(50408.10.1 End)
   //   -- --- ---------------  =  ------------------------------------------------------  #
- 
+
   function  savStats_4Text( stats, parms, aExt ) {                                      // .(50408.06.2 RAM Was: savStats).(50403.04.1 RAM Add aExt).(50331.03.1 RAM Write savStats)
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.6)
        var  pStats  = {};
@@ -354,7 +355,7 @@ function  fmtResults(results) {
             pStats.ContextSize      = `${ parms.options.num_ctx                 }`.padStart(5)                        // .(50404.05.02)
             pStats.Temperature      = `${ parms.temp}`.padStart(4)                                                    // .(50404.05.03)
             pStats.Duration         = `${(stats.total_duration / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.04)
-            pStats.DateTime         =     parms.datetime.padStart(18)                                                 // .(50413.02.3)  
+            pStats.DateTime         =     parms.datetime.padStart(18)                                                 // .(50413.02.3)
             pStats.EvalTokens       = `${ stats.eval_count                      }`.padStart(5)                        // .(50404.05.05)
             pStats.UPC              =     parms.qpc                                                                   // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
 //          pStats.QueryPrompt      =     stats.query.length > 27                                                     //#.(50407.03.5 RAM Was Query).(50410.04a.7)
@@ -466,20 +467,28 @@ function  createUserInput() {                             //#.(50330.03.3 RAM Re
 } */
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
-export default {  // Export as default object with named functions
-  wrap,                                                   // .(50330.05.2)
-  ask4Text,                                               // .(50330.03.4)
-  fmtText,
-  htmlToText,
-  fmtResults,
-  fmtStats,
-//savStats      : savStats_4Text,                         //#.(50408.06.4).(50331.03.3)
-  savStats4Text : savStats_4Text,                         // .(50408.06.4)
-  savStats4JSON : savStats_4JSON,                         // .(50408.06.5)
-//savStats4MD   : savStats_4MD,                           // .(50408.10.2)
-//getEnvVars,                                             //#.(50403.02.6).(50331.04.2)
-  showHiddenChars,
-  fmtStream,
-  shoMsg                                                  // .(50404.01.26)
-//createUserInput                                         //#.(50330.03.5)
-  };
+    export  default {  // Export as default object with named functions
+            wrap,                                         // .(50330.05.2)
+            ask4Text,                                     // .(50330.03.4)
+            fmtText,
+            htmlToText,
+            fmtResults,
+            fmtStats,
+//          savStats      : savStats_4Text,               //#.(50408.06.4).(50331.03.3)
+            savStats4Text : savStats_4Text,               // .(50408.06.4)
+            savStats4JSON : savStats_4JSON,               // .(50408.06.5)
+//          savStats4MD   : savStats_4MD,                 // .(50408.10.2)
+//          getEnvVars,                                   //#.(50403.02.6).(50331.04.2)
+            showHiddenChars,
+            fmtStream,
+            shoMsg                                        // .(50404.01.26)
+//          createUserInput                               //#.(50330.03.5)
+            };
+// --  ---  --------  =  --  =  ------------------------------------------------------  #
+/*========================================================================================================= #  ===============================  *\
+#>      AIC90 END
+\*===== =================================================================================================== */
+/*\
+##SRCE     +====================+===============================================+
+##RFILE    +====================+=======+===================+======+=============+
+\*/
