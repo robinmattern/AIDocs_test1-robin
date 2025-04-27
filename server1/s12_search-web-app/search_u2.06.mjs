@@ -12,7 +12,10 @@
 ##FD int...ive_search_u2.01.mjs |  20382| 4/02/25  9:55|   346| u2.01`50402.0955
 ##FD int...ive_search_u2.02.mjs |  25816| 4/04/25 13:55|   381| u2.02`50404.1355
 ##FD int...ive_search_u2.02.mjs |  30875| 4/05/25 14:45|   422| u2.02`50405.1445
-##FD int...ive_search_u2.03.mjs |  37586| 4/08/25 18:45|   480| u2.02`50408.1845
+##FD int...ive_search_u2.03.mjs |  37586| 4/08/25 18:45|   480| u2.03`50408.1845
+##FD int...ive_search_u2.05.mjs |  59091| 4/22/25 10:25|   684| u2.05`50422.1025
+##FD int...ive_search_u2.05.mjs |  59366| 4/23/25  6:55|   696| u2.05`50423.0655
+##FD int...ive_search_u2.06.mjs |  53896| 4/23/25  7:15|   616| u2.06`50423.0715
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script gets a "document" from an internet search.  It then
@@ -75,22 +78,25 @@
 #.(50408.08   4/08/25 RAM  6:25p| Change Query to UsrPrompt
 #.(50408.09   4/08/25 RAM  6:30p| Change fallbackURL to .env from DuckDuckGo
 #.(50408.10   4/08/25 RAM  6:11p| Write and use savStats_4MD
-#.(50409.02   4/09/25 RAM  5:00a| Replace PC_Name and mPrompts array 
-#.(50409.03   4/09/25 RAM 12:30p| Enable DocSearch and WebSearch 
-#.(50410.01   4/10/25 RAM  2:15p| Save .tab spreadsheet as .csv after mkdir 
-#.(50410.03   4/10/25 RAM  3:05p| Duplication mPrompts if necessary 
-#.(50410.04   4/10/25 RAM  3:25p| Add QPC to prompt output  
+#.(50409.02   4/09/25 RAM  5:00a| Replace PC_Name and mPrompts array
+#.(50409.03   4/09/25 RAM 12:30p| Enable DocSearch and WebSearch
+#.(50410.01   4/10/25 RAM  2:15p| Save .tab spreadsheet as .csv after mkdir
+#.(50410.03   4/10/25 RAM  3:05p| Duplication mPrompts if necessary
+#.(50410.04   4/10/25 RAM  3:25p| Add QPC to prompt output
 #.(50410.04a  4/13/25 RAM  6:00a| Change UOC and Query to UsrPrompt
-#.(50413.02   4/13/25 RAM  7:00a| Add new columns to spreadsheet 
+#.(50413.02   4/13/25 RAM  7:00a| Add new columns to spreadsheet
 #.(50413.03   4/13/25 RAM  4:00p| Add SysPrompt Test loop
 #.(50414.01   4/14/25 RAM  3:52a| Display a brief log messages
-#.(50414.03   4/14/25 RAM  7:00a| Blank out aWebSearch 
-#.(50414.04   4/14/25 RAM  9:52a| Fix the TestId number for Group tests  
-#.(50415.01   4/15/25 RAM  6:42a| Add .envars DOIT, DEBUG and LOGGER from run-tests.sh 
-#.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE 
+#.(50414.03   4/14/25 RAM  7:00a| Blank out aWebSearch
+#.(50414.04   4/14/25 RAM  9:52a| Fix the TestId number for Group tests
+#.(50415.01   4/15/25 RAM  6:42a| Add .envars DOIT, DEBUG and LOGGER from run-tests.sh
+#.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE
 #.(50414.04b  4/19/25 RAM  8:00p| RunId Test No. if running just one test
 #.(50414.01b  4/20/25 RAM 10:45a| Add CTX and Temp to Log message
-#.(50414.01c  4/20/25 RAM 11:00a| Fix bNoLog if aLog = "log"     
+#.(50414.01c  4/20/25 RAM 11:00a| Fix bNoLog if aLog = "log"
+#.(50422.02   4/22/25 RAM 10:25a| Keep aDocsDir aSessionName as t0#0 if ??
+#.(50423.01   4/23/25 RAM  6:55a| Add comment lines for sections
+#.(50423.02   4/22/25 RAM  6:55a| Break out runWebSearch and runDocSearch
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -114,25 +120,28 @@ import { doesNotReject } from "assert";
             aLog             =  aLog == "log,inputs" ? "log" : aLog                     // .(50414.01c.1 RAM Fix if aLog = "log", was: '')
 //     var  bDebug           =  process.env.DEBUG || 0                                  // .(50415.01.1 RAM It gets checked later, Uncomment for S1201[ 116])
        var  bDoit            =  process.env.DOIT || 1                                   // .(50415.01.2)
-//     var  aLog             = "log"                                                                        // .(50414.01.1 RAM Do print Log) 
+//     var  aLog             = "log"                                                                        // .(50414.01.1 RAM Do print Log)
        var  bNoLog           =  aLog == "log" ? 0 : 1; global.bNoLog = bNoLog                               // .(50414.01.2 RAM Don't print shoMsg if 0)
             global.bQuiet    =  bNoLog == 0
-        if (bDebug == 1) {     
-            console.log(   `  - S1201[ 116]  bDoit: '${bDoit}', aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: ${bDebug}, bQuiet: ${global.bQuiet}`) // process.exit()     
+        if (bDebug == 1) {
+            console.log(   `  - S1201[ 116]  bDoit: '${bDoit}', aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: ${bDebug}, bQuiet: ${global.bQuiet}`) // process.exit()
             }                                     // .(50414.01.2 RAM Don't print shoMsg if 0)
             LIBs.MWT         = () => "../../._2/MWTs"                                                       // .(50405.06.6)
 //     var  FRT              =( await import( `${LIBs.AIC()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.7)
        var  FRT              =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.8 RAM Call function: LIBS.MOD())
        var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
-       var  aModel1 
-       var  nCTX_Size1 
+       var  pURLs            =( await import( `${LIBs.MWT()}/MWT04_runWebSearch_u2.06.mjs` ) ).default      // .(50423.01.1 RAM Import MWT04_runWebSearch)
+       var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      // .(50423.01.2 RAM Import MWT06_runDocsSearch)
+
+       var  aModel1
+       var  nCTX_Size1
 
 // Configure Debug Variables
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
   function  setDebugVars() {                                                                                // .(50405.03.1 RAM Write setDebugVars Beg)
        var  bDebug           =  0               // Debug flag
             bDoit            =  1
-     
+
 //     var  aModel1          = 'llama3'                    // 4.7  GB on rm231
 //     var  aModel1          = 'llama3.1'                  // 4.7  GB on rm231
 //     var  aModel1          = 'llama3.2'                  // 2.0  GB on rm231
@@ -187,8 +196,8 @@ import { doesNotReject } from "assert";
             FRT.__basedir2   =  FRT.path( aAppPath )
      global.bInVSCode        =  FRT.isNotCalled( import.meta.url )                      // .(50201.09c.3).(50331.07.1)
 
-// Display configuration if verbose output is enabled
-// --  ---  --------  =  --  =  ------------------------------------------------------  #
+//     Display configuration if verbose output is enabled
+//     ---  --------  =  --  =  ------------------------------------------------------  #
             bQuiet           =  0                                                       // .(50404.02.5)
        var  bDoit            =  process.env.DOIT;  FRT.bDoit = bDoit                    // .(50415.01.3 RAM bDoit)
         if (bQuiet == 2) {
@@ -197,7 +206,7 @@ import { doesNotReject } from "assert";
             global.bQuiet    =  0                                                       // .(50404.02.6)
 
        var  bDebug2          =  process.env.DEBUG; FRT.bDebug = bDebug2                 // .(50415.01.4 RAM bDebug2)
-            global.bDebug    =  bDebug2 ? bDebug2 : global.bDebug;                      // .(50415.01.5) 
+            global.bDebug    =  bDebug2 ? bDebug2 : global.bDebug;                      // .(50415.01.5)
 //          bNoLog           = (bNoLog == 0) ? bNoLog : (bDebug2 ? -1 : bNoLog)         // .(50415.01.6)
             bNoLog           = (bNoLog == 0) ? bNoLog : (bDebug2 ?  1 : bNoLog)         // .(50415.01.6 RAM Change -1 to 1 )
 
@@ -205,17 +214,19 @@ import { doesNotReject } from "assert";
 
             sayMsg(`S1201[ 203]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 0 )
 
-//          console.log( `--- aLog: '${aLog}', bNoLog: ${bNoLog}, Debug2: '${bDebug2}'` ); process.exit() 
-// Process .ENV Variables and command line arguments
+//          console.log( `--- aLog: '${aLog}', bNoLog: ${bNoLog}, Debug2: '${bDebug2}'` ); process.exit()
+
+//     Process .ENV Variables and command line arguments
+//     ---  --------  =  --  =  ------------------------------------------------------  #
        var  pVars            =  FRT.getEnvVars( FRT.__dirname )                                             // .(50403.02.6 RAM Was MWT).(50331.04.3 RAM Get .env vars Beg)
        if (!pVars.PLATFORM) {                                                                               // .(50403.02.7 Beg)
             usrMsg( `* An .env file does not exist in ${ FRT.__dirname.replace( /.+server1/, './server1') }.`)
             process.exit(1)
             }                                                                                               // .(50403.02.7 End)
        var  aWebSearch       =  pVars.WEB_SEARCH    || "Lexington Va"
-       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                        // .(50409.03.10 RAM Do Web Search)      
-       var  bUseDocFiles     =  pVars.USE_DOCS == 1  ?  true : false                                        // .(50409.03.11 RAM Do Docs Search)      
-       var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.12)      
+       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                        // .(50409.03.10 RAM Do Web Search)
+       var  bUseDocFiles     =  pVars.USE_DOCS == 1  ?  true : false                                        // .(50409.03.11 RAM Do Docs Search)
+       var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.12)
 
 //     var  nRunCount        =  pVars.RUN_COUNT     ||  1                                                   //#.(50403.03.2).(50403.03.x)
        var  aStatsFmt        =  pVars.CSV_OR_TAB_STATS || 'csv'                                             // .(50403.04.4)
@@ -240,70 +251,71 @@ import { doesNotReject } from "assert";
 //                              usrMsg( "----------------".padEnd( nWdt +  1, "-" ), bNoLog )               //#.(50414.01b.1).(50414.01.3).(50404.05.9)
                                 setDebugVars()                                                              // .(50405.03.2 RAM Set them here)
 
-// Setup Model Query Prompts and loop through RUN_COUNT
-// --  ---  --------  =  --  =  ------------------------------------------------------  #
-
+//     Setup Model User Prompts
+//     ---  --------  =  --  =  ------------------------------------------------------  #
        var  nRunCount        =  pVars.USR_RUN_COUNT        || 1                                             // .(50403.03.x)
        var  bUsrPromptFile   =  pVars.USE_USR_PROMPTS_FILE || 0                                             // .(50408.05.1 RAM Use Prompts file Beg)
         if (bUsrPromptFile != 1) {
        var  mUsrPrompts      =  [                                                                           // .(50409.02.1 RAM Put into array)
              { QPC           :  pVars.USR_PROMPT_CD  || ''                                                  // .(50410.04a.1 RAM Was QUERY_PROMPT).(50407.03.2 RAM Add QPC)
-             , UsrPrompt     :  pVars.USR_PROMPT     || "What do you know?"                                 // .(50410.04a.2) 
+             , UsrPrompt     :  pVars.USR_PROMPT     || "What do you know?"                                 // .(50410.04a.2)
                } ]                                                                                          // .(50409.02.2)
-//          mUsrPrompts      =  mPrompts.flatMap( pPrompt => Array( nRunCount ) .fill( pPrompt ) );                   //#.(50410.03.1
-//          mUsrPrompts      =  mPrompts.flatMap( pPrompt => Array( nRunCount ).fill().map(() => ( {...pPrompt} ) ) ) //#.(50410.03.1)
-                                for (var i = 0; i < nRunCount - 1; i++ ) { mUsrPrompts.push( mUsrPrompts[0] ) }   // .(50410.03.1 RAM Duplicate mUsrPrompt[0] if not using user-prompts file)
+       for (var i = 0; i < nRunCount - 1; i++ ) { mUsrPrompts.push( mUsrPrompts[0] ) }                      // .(50410.03.1 RAM Duplicate mUsrPrompt[0] if not using user-prompts file)
+
           } else {
        var  mUsrPrompts      =  FRT.readFileSync( `${aAppPath}/${pVars.USR_PROMPTS_FILE}` ).split( "\n" )
             mUsrPrompts      =  mUsrPrompts.map(  aUsrPrompt => { return {
                QPC           :  aUsrPrompt.slice( 0, 3 )
              , UsrPrompt     :  aUsrPrompt.slice( 4 ).replace(/^[. '"]+/, "" ).trim().replace(/[ '"]+$/, "" )
                } } )
-            }                                                                                               // .(50408.05.1 End)
-       // --  ---  --------  =  --  =  ------------------------------------------------------  #
+            } // eif mUsrPrompts                                                                                              // .(50408.05.1 End)
+//          --------  =  --  =  --------------------------------------------  #
 
+//     Setup Model System Prompts and Loop through RUN_COUNT
+//     ---  --------  =  --  =  ------------------------------------------------------  #
        var  nSysCount        =  pVars.SYS_RUN_COUNT        || 1                                             // .(50403.03.x)
 //     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"  // .(50413.03.x)
        var  bSysPromptFile   =  pVars.USE_SYS_PROMPTS_FILE || 0                                             // .(50408.05.1 RAM Use Prompts file Beg)
         if (bSysPromptFile != 1) {
-       var  mSysPrompts      =  [                                                                           
-             { SysPmtCd      :  pVars.SYS_PROMPT_CD || "GKN0-SIMP"                                          
-             , Temperature   : (pVars[`${aPlatform}_TEMPERATURE`] || .07        ) * 1   
-             , SysPrompt     :  pVars.SYS_PROMPT    || "Please use the information in the following text"   
-               } ]                                                                                           
-               for (var i = 0; i < 8; i++ ) { mSysPrompts.push( mSysPrompts[0] ) }              
-          } else {
+       var  mSysPrompts      =  [
+             { SysPmtCd      :  pVars.SYS_PROMPT_CD || "GKN0-SIMP"
+             , Temperature   : (pVars[`${aPlatform}_TEMPERATURE`] || .07        ) * 1
+             , SysPrompt     :  pVars.SYS_PROMPT    || "Please use the information in the following text"
+               } ]
+       for (var i = 0; i < 8; i++ ) { mSysPrompts.push( mSysPrompts[0] ) }
 
-//s11, t004.01, GKN4-DETA,  0.3, "You are a knowledgeable AI assistant with access to a vast database of information.  Your goal is to provide accurate, comprehensive, and unbiased answers to user queries.  If a question requires specialized knowledge outside your current capabilities, politely explain the limitations and suggest alternative resources." 
+          } else {
        var  mSysPrompts      =  FRT.readFileSync( `${aAppPath}/${pVars.SYS_PROMPTS_FILE}` ).split( "\n" )
             mSysPrompts      =  mSysPrompts.map(  aSysPrompt => {                                           // .(50415.03.1 RAM Major overhaul Beg)
-               var mPrompt   =  aSysPrompt.replace( /".+/,  "").replace(   /[ ,]+$/, "" ).split( ',' ).map( a => a.trim() ) 
+               var mPrompt   =  aSysPrompt.replace( /".+/,  "").replace(   /[ ,]+$/, "" ).split( ',' ).map( a => a.trim() )
                var aPrompt   =  aSysPrompt.replace( /.+?"/, "").replace( /^[. '"]+/, "" ).trim().replace(/[ '"]+$/, "" )
-               var pPrompt = 
+               var pPrompt =
                     { SysPmtCd      :  mPrompt[2]            // aSysPrompt.slice( 14, 23 )
-                    , Temperature   : (mPrompt[3] || .7) * 1 // (aSysPrompt.slice( 26, 29 ) || .07 ) * 1   
-                    , CTX_Size      : (mPrompt[4] ||  0) * 1 // may not exist                               // .(50415.03.2                                         
+                    , Temperature   : (mPrompt[3] || .7) * 1 // (aSysPrompt.slice( 26, 29 ) || .07 ) * 1
+                    , CTX_Size      : (mPrompt[4] ||  0) * 1 // may not exist                               // .(50415.03.2
                     , SysPrompt     :  aPrompt               // aSysPrompt.slice( 31 ).replace(/^[. '"]+/, "" ).trim().replace(/[ '"]+$/, "" )
                       }
-            return pPrompt                                                                                  // .(50415.03.1 End   
+            return pPrompt                                                                                  // .(50415.03.1 End
                } )
-            }                                                                                               // .(50408.05.1 End)
-       // --  ---  --------  =  --  =  ------------------------------------------------------  #
+            } // eif mSysPrompts                                                                            // .(50408.05.1 End)
+//          --------  =  --  =  --------------------------------------------  #
 
+//     Loop through System Prompts
+//     ---  --------  =  --  =  ------------------------------------------------------  #
        var  aSessionId       =  pVars.SESSION_ID || 't001'                                                  // .(50405.02.3)
-       var  aTitle           = `${pVars.SESSION_TITLE}` || ''  
+       var  aTitle           = `${pVars.SESSION_TITLE}` || ''
 
-       var  bJustOneSysPmt   =  aSessionId.slice(-1) != "0" 
-//          nSysCount        = (aSessionId.slice(-1) == "0" ) ? nSysCount : 1                               // .(50410.03.2 RAM Was nSysCount)  
+       var  bJustOneSysPmt   =  aSessionId.slice(-1) != "0"
+//          nSysCount        = (aSessionId.slice(-1) == "0" ) ? nSysCount : 1                               // .(50410.03.2 RAM Was nSysCount)
 
    for (let iTest = 0; iTest < nSysCount; iTest++) {                                                        // .(50403.03.3)
 //     var  nTest            =  iTest // bJustOneSysPmt ? aSessionId.slice(-1) - 1 : iTest                  //#.(50414.04.1 RAM Which is it?)
        var  nTest            =  bJustOneSysPmt ? aSessionId.slice(-1) - 1 : iTest                           // .(50414.04b.1 RAM Use RunId Test # if running just one)
        var  aSysPmtCd        =  mSysPrompts[ nTest ].SysPmtCd
 //          console.log( `-- bJustOneSysPmt: ${bJustOneSysPmt}, nTest: ${nTest}, aSysPmtCd: ${aSysPmtCd}`)  // .(50414.04.2)
-       var  aSysPrompt       =  mSysPrompts[ nTest ].SysPrompt  
+       var  aSysPrompt       =  mSysPrompts[ nTest ].SysPrompt
             nTemperature     =  mSysPrompts[ nTest ].Temperature
-            nCTX_Size        =  mSysPrompts[ nTest ].CTX_Size || nCTX_Size1                                 // .(50415.03.2 
+            nCTX_Size        =  mSysPrompts[ nTest ].CTX_Size || nCTX_Size1                                 // .(50415.03.2
 
        var  aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 )
             aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.3)
@@ -314,35 +326,40 @@ import { doesNotReject } from "assert";
             pVars.NEXT_POST  = '01'                                                                         // .(50414.04.5)
             }                                                                                               // .(50414.04.6)
 //     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.5)
-       var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.5).(50405.02.3)
+//     var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               //#.(50413.03.5).(50405.02.3).(50422.04.6)
+       var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50422.04.6 RAM Keep 0#0 Maybe).(50413.03.10).(50405.02.3)
 
 //     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.6)
        var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.6).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
 
-            sayMsg( `A1201[ 316]  bDoit: '${bDoit}',  aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: '${bDebug}', global.bDebug: '${global.bDebug}', global.bQuiet: '${global.bQuiet}', global.aPrtSections: '${global.aPrtSections}' `, -1 ); // process.exit() 
+            sayMsg( `A1201[ 316]  bDoit: '${bDoit}',  aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: '${bDebug}', global.bDebug: '${global.bDebug}', global.bQuiet: '${global.bQuiet}', global.aPrtSections: '${global.aPrtSections}' `, -1 ); // process.exit()
             sayMsg( `A1201[ 317]  ${aSessionName}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )                   // .(50414.01.3)
-//          }                                                                                               //#.(50413.03.7 Do the full double loop)
+//          }  // eol nSysCount                                                                             //#.(50413.03.7 Do the full double loop)
+//          --------  =  --  =  --------------------------------------------  #
 
+//     Loop through User Prompts
+//     ---  --------  =  --  =  ------------------------------------------------------  #
    for (let iRun  = 0; iRun < nRunCount; iRun++) {                                                          // .(50403.03.3)
 
-            usrMsg( "----------------".padEnd( nWdt +  1, "-" ), bNoLog )               // .(50414.01b.1) 
+            usrMsg( "----------------".padEnd( nWdt +  1, "-" ), bNoLog )               // .(50414.01b.1)
 
        var  aQPC             =  mUsrPrompts[ iRun ].QPC                                                     // .(50408.05.2)
        var  aUsrPrompt       =  mUsrPrompts[ iRun ].UsrPrompt                                               // .(50408.05.3
 
-//     var  aTitle           = `${pVars.SESSION_TITLE}` || ''  
+//     var  aTitle           = `${pVars.SESSION_TITLE}` || ''
             aTitle           =  aTitle.replace( /{Model}/,  aModel ? aModel    : "Model" )                  // .(50409.02.3 )
             aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.8)
             aTitle           =  aTitle.replace( /{PC_Code}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50417.04.4).(50413.03.9)
 //     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.10)
-//     var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               //#.(50413.03.10).(50405.02.3).(50422.04.6)
-       var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50422.04.6 RAM Keep 0#0 Maybe).(50413.03.10).(50405.02.3)
+//     var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.10).(50405.02.3)
+       var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50422.02.6 RAM Keep 0#0 Maybe).(50405.02.3)
 
 //     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.11)
        var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.12).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
        var  aNextPost        = `${ 1 + pVars.NEXT_POST * 1 }`.padStart( 2, "0" )                            // .(50331.08.4 RAM Set Next_Post)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname)                          // .(50331.08.5)
-// Setup logfile
+//          Setup logfile
+//          --------  =  --  =  --------------------------------------------  #
 //          aDocsDir         =  aDocsDir.replace( /{TNum}/, `_${pVars.SESSION_ID}` )                        //#.(50404.06.6).(50405.02.4)
             aDocsDir         =  aDocsDir.replace( /{SName}/, `_${aSessionName}` )                           // .(50405.02.4).(50404.06.6)
             aDocsDir         =  aDocsDir.replace( /:/, `;` )                                                // .(50413.03.13 RAM Model nameshave ":"
@@ -357,11 +374,12 @@ import { doesNotReject } from "assert";
        var  aStatsFile       = `${aAppName.slice(0,3)}_Stats-${aSvr}_u${aVer.slice(1)}.csv`                 // .(50410.01.1 RAM Was ${aStatsFmt}).(50405.01b.2 RAM Add Stats-).(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
                                 FRT.makDirSync( FRT.join( __basedir, aStatsDir ), true );                   // .(50410.01.2)
        var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}/${aStatsFile}` )                         // .(50402.14.5).(50331.04b.2)
-       
-// Configure prompt and Ollama parameters
+
+//          Configure Prompts and Ollama Parameters
+//          --------  =  --  =  --------------------------------------------  #
 //     var  aSysPrompt       = "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:"  // .(50413.03.14)
        var  ollamaUrl        =  pVars[`${aPlatform}_API_URL`] // 'http://localhost:11434/api/generate'      // .(50331.09.2 Adjust if Ollama runs elsewhere)
- 
+
        var  pParms           =
              {  model        :  aModel
              ,  prompt       : `{Query}.${aSysPrompt} {Docs}`
@@ -385,46 +403,47 @@ import { doesNotReject } from "assert";
              ,  spc          :  aSysPmtCd                                                                   // .(50413.02.11)
              ,  sysprompt    :  aSysPrompt                                                                  // .(50413.02.12)
                 } // eoo pParms
-// --  ---  --------  =  --  =  ------------------------------------------------------  #
+//          --------  =  --  =  --------------------------------------------  #
 
             sayMsg( `A1201[ 378]  global.bNoLog: ${global.bNoLog}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )   // .(50414.01.4)
 
                                 usrMsg(  "----------------".padEnd( nWdt - 12, "-" ), shoMsg( "all" ) )     // .(50404.05b.1 RAM Was 25).(50404.05.10)
 
         if (global.bNoLog == 0) {                                                                                                                // .(50414.01.5 RAM Do log it)
-       var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  ") 
-       var  aPIDs         = `${pParms.spc}  ${pParms.qpc}  ${ `${nCTX_Size}`.padStart(6) }  ${nTemperature}`                                     // .(50414.01b.1 RAM Add CTX and Temp) .(50414.01.6)     
+       var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  ")
+       var  aPIDs         = `${pParms.spc}  ${pParms.qpc}  ${ `${nCTX_Size}`.padStart(6) }  ${nTemperature}`                                     // .(50414.01b.1 RAM Add CTX and Temp) .(50414.01.6)
             console.log( `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Starting ${pParms.model.padEnd(19)}  ${aPIDs}` )                   // .(50414.01.7)
-            } 
-  
+            }
+
+//          --------  =  --  =  --------------------------------------------  #
         if (bDoit == 1) {                                                                                                                        // .(50414.01.8)
-//                              sayMsg( `AI12[383]  pParms.model: '${pParms.model}'` , 1); process.exit() 
+//                              sayMsg( `AI12[383]  pParms.model: '${pParms.model}'` , 1); process.exit()
                                 await main( pParms )
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )
             }
-        if (global.bNoLog == 0) { 
+        if (global.bNoLog == 0) {
        var  aSecs = `in ${pParms.secs} secs, ${pParms.tps} tps`; aRIDs = "            "                                                          // .(50414.01.9)                                                        // .(50414.01.x RAM Do log it)
             console.log( `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${pParms.model.padEnd(17)} ${aSecs}` )                    // .(50414.01.10)
             }                                                                                                                                    // .(50414.01.11)
-                                } // eol Run loop                                                           // .(50403.03.5)
-//     -                 --  =  ------------------------------------------------------  #  
-                         } // eol Test loop                                                                 // .(50413.03.7 End of test loop)
-//     -            ---- --  =  ------------------------------------------------------  #  -----
- 
+                                } // eol Run User Prompt loop                                               // .(50403.03.5)
+//          --------  =  --  =  --------------------------------------------  #
+                         } // eol Test System Prompt loop                                                   // .(50413.03.7 End of test loop)
+//     ---  --------  =  --  =  ------------------------------------------------------  #
+
 //                              usrMsg( "\n----------------".padEnd( nWdt +  1, "-" ), bNoLog )             // .(50414.01.12).(50404.05.11)
                                 usrMsg( "========== ------".padEnd( nWdt +  1, " ===== ------" ), bNoLog )  // .(50414.01.12).(50404.05.11)
 //                              FRT.exit_wCR()                                                              // .(50403.03a.1)
-// Main execution
+// Main Execution
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
      async  function  main( pParms ) {
-  
+
        let  searchPrompt     = ''                                                       // .(50414.03.1 RAM Blank if not using WebSearch)
        let  aiPrompt         =  pParms.usrprompt;                                       // .(50414.03.2 XAI Prompt user for search and AI queries)
 
         if (bDebug == true  ||  bInVSCode ) {                                           // .(50201.09c.4).(50331.07.2)
             searchPrompt     =  aWebSearch    // "Lexington Va";                                                                                // .(50331.04.6)
-        var searchDocFile    =  aDocFilePath                                                                                                    // .(50409.03.13) 
+        var searchDocFile    =  aDocFilePath                                                                                                    // .(50409.03.13)
 //          aiPrompt         =  aUsrPrompt          // "The city's restaurants";                                                                //#.(50331.04.7).(50413.02.13)
             aiPrompt         =  pParms.usrprompt    // "The city's restaurants";                                                                // .(50413.02.13)
         } else {
@@ -438,147 +457,43 @@ import { doesNotReject } from "assert";
             }                                                                                                                                   // .(50409.03.18)
 //          aiPrompt         =( await MWT.ask4Text( "Enter your AI prompt (e.g., 'Tell me about tourism'): "   ) ) || "Tell me about tourism";  //#.(50330.03.7).(50331.04.9)
             aiPrompt         =( await MWT.ask4Text( `Enter an AI Model Query Prompt (e.g., '${aUsrPrompt}'): ` ) ) ||  aUsrPrompt;              // .(50409.03.19).(50331.04.9).(50330.03.7)
-            } // eof interactive 
+            } // eof interactive
 
         if (bUseWebURLs) {                                                                                                                      // .(50409.03.20)
             usrMsg(""                                    , shoMsg('Parms' ) )           // .(50404.01.1)
             usrMsg(`Web Search Prompt: "${searchPrompt}"`, shoMsg('Parms' ) )           // .(50404.01.2)
 //          usrMsg(`  AI Prompt:       "${aiPrompt}"`    , shoMsg('Parms' ) )           // .(50404.01.3)
-          } else {                                                         
-            searchPrompt     = ''                                                       // .(50414.03.3 RAM Blank if not using WebSearch)      
+          } else {
+            searchPrompt     = ''                                                       // .(50414.03.3 RAM Blank if not using WebSearch)
             }                                                                                                                                   // .(50409.03.21)
                                 usrMsg(  "----------------".padEnd(        57, "-" ), shoMsg('Parms') )     // .(50404.05.12)
 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
-       var  alltexts         = [ ]                                                                                                              // .(50409.03.22)     
-       var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: {}, Files: [], Docs: [] }                                              // .(50409.03.23)     
+       var  alltexts         = [ ]                                                                                                              // .(50409.03.22)
+       var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: {}, Files: [], Docs: [] }                                              // .(50409.03.23)
         if (bUseWebURLs) {                                                                                                                      // .(50409.03.24)
-//     var  urls             =  await  getNewsUrls( searchPrompt );                                         //#.(50408.06.6)
-       var  pResults         =  await  getNewsUrls( searchPrompt );                                         // .(50408.06.6)
+//     var  urls             =  await    getNewsUrls( searchPrompt );                                       //#.(50408.06.6)
+       var  pResults         =  await    pURLs.getNewsUrls( searchPrompt );                                 // .(50423.01.x).(50408.06.6)
             pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.25)
             pJSON_Results.URLs        =  pResults.URLs                                                      // .(50409.03.26)
        var  urls             =  pJSON_Results.URLs                                                          // .(50408.06.7)
-       var  alltexts         =  await  getCleanedText_fromURLs( urls );                                     // .(50409.03.27)
+       var  alltexts         =  await    pURLs.getCleanedText_fromURLs( urls );                               // .(50409.03.27)
             }                                                                                               // .(50409.03.28 RAM Add bUseDocFiles Beg)
+
         if (bUseDocFiles) {                                                                                 // .(50409.03.29)
-       var  pResults         =  await  getDocs( searchPrompt );                                         
+       var  pResults         =  await    pDOCs.getDocs( searchPrompt );
             pJSON_Results.DocResponse =  pResults.DocResponse                                               // .(50409.03.30)
             pJSON_Results.Docs        =  pResults.Docs                                                      // .(50409.03.31)
-       var  alltexts         =  await  getCleanedText_fromDocs( pJSON_Results.Docs );
+       var  alltexts         =  await    pDOCs.getCleanedText_fromDocs( pJSON_Results.Docs );
             }                                                                                               // .(50409.03.32 End)
+
        pJSON_Results.Docs    =  alltexts                                                                    // .(50408.06.8)
+
 //                              await  answerQuery( aiPrompt, alltexts, urls[0], searchPrompt )             //#.(50330.04c.1 RAM Add searchPrompt).(50331.01.1 RAM Add first  URL).(50408.06.9)
                                 await  answerQuery( aiPrompt, pJSON_Results, searchPrompt )                 // .(50408.06.9).(50330.04c.1 RAM Add searchPrompt).(50331.01.1 RAM Add first  URL)
             }; // eof main
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
-/**
- * Fetches search result URLs from DuckDuckGo
- * @param {string} query - Search query
- * @returns {Promise<Array>} - Array of URLs
- */
-async function  getNewsUrls( query ) {
-//   const  url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json`;                 //#.(50408.09.1))
-     const  url =  pVars.WEB_SEARCH_URL.replace( /{WebSearch}/, encodeURIComponent(query) )                 // .(50408.09.1 RAM Use WEB_SEARCH_URL)
-     const  fallbackURL = pVars.WEB_FALLBACK_URL                                                            // .(50408.09.2)
-
-            usrMsg(`  Fetching from:   "${url.replace(/%20/g, "+")}"`, shoMsg('Parms')) // .(50404.01.4)
-  try {
-     const  response = await fetch(url);
-       if (!response.ok) {
-            throw new Error( `HTTP error! Status: ${response.status}` );
-            }
-     const  text     =  await response.text();
-       if (!text) {
-            usrMsg("\n Empty response from Web Search URL.");                                               // .(50408.09.3 RAM Was DuckDuckGo)
-//  return ["https://www.lexingtonvirginia.com/"];                                                          //#.(50408.09.4)
-    return { WebResponse: {}, URLs: [ fallbackURL ] };                                                      // .(50408.09.4)
-            }
-     const  searchResultsJson = JSON.parse(text);
-
-            usrMsg("---------------------------------------------------------------------------------------------- "       , shoMsg('Search')  ) // .(50404.01.5)
-            usrMsg("Response from Web Search URL:"                                                                         , shoMsg('Search')  ) // .(50408.09.5 RAM Was DuckDuckGo).(50404.01.6)
-       var  pResults =
-             {  AbstractURL:             searchResultsJson.AbstractURL
-             ,  Results: MWT.fmtResults( searchResultsJson.Results )
-             ,  RelatedTopics:           searchResultsJson.RelatedTopics
-                       ? MWT.fmtResults( searchResultsJson.RelatedTopics )
-                       : []
-                }
-       var  aResults =  JSON.stringify(pResults, null, 2).replace(/\\n     /g, "\n     ").replace(/\\n       /g, "\n       ")
-            usrMsg(`\n  Web Search Response:\n${ aResults.replace( /{/, "" ).replace(/\n}/, "") }`                         , shoMsg('Search' ) ) // .(50404.01.7)
-
-       var  results =                                                                                       // .(50408.07.2 RAM This has many more "results" than pResults above)
-             [ ...( searchResultsJson.Results || [] )
-             , ...( searchResultsJson.RelatedTopics || []).flatMap( item =>
-                  "Topics" in item ? item.Topics : [item]
-                   ),
-               ].filter( item => item.FirstURL && item.Text);
-
-        if (searchResultsJson.AbstractURL) {
-            results.unshift( { FirstURL: searchResultsJson.AbstractURL, Text: "Overview" } );
-            }
-       var  urls = results.map( result => result.FirstURL ).slice(0, 5);                                    // .(50408.07.2 RAM He only returns the first 5 URLs)
-        if (urls.length === 0) {
-            usrMsg("\n* No URLs found, returning fallback.");
-//  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.6)
-    return { WebResponse: {}, URLs: [ fallbackURL ] };                                                      // .(50408.09.6)
-            }
-            usrMsg(`\n  Found ${urls.length} URLs:`      , shoMsg('Search' ) )          // .(50404.01.8)
-    return { WebResponse: pResults, URLs: urls } ;                                                          // .(50408.06.10)
-
-        } catch( error ) {
-//          console.error(      "Error in getNewsUrls:", error);                        //#.(50404.08.1)
-            sayMsg(`A1201[ 500]* Error in getNewsUrls for query: '${query}'.`, 1, 1);   // .(50404.08.1)
-            sayMsg(`${error}`.replace( /\n/, "\n    " ) );                              // .(50404.08.2)
-//  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.7)
-    return { WebResponse: {}, URLs: [ fallbackURL ] };                                                      // .(50408.09.7)
-             }
-         }; // eof getNewsUrls
-// --  ---  --------  =  --  =  ------------------------------------------------------  #
-/**
- * Fetches and cleans text content from URLs
- * @param {Array} urls - Array of URLs to fetch
- * @returns {Promise<Array>} - Array of cleaned text blocks
- */
-  async function  getCleanedText_fromURLs( urls ) {                                                         // .(50409.03.39 RAM Renamed from getCleanedText)
-       var  texts = [];
-       for (var url of urls) {
-       try {
-            usrMsg( `    Fetching ${url}`                , shoMsg('Search' ) )          // .(50404.01.9);   ););
-       var  response         =  await fetch( url );
-       var  html             =  await response.text();
-       var  text             =  await MWT.htmlToText( html );
-            texts.push( `Source: ${url}\n${text}\n\n` );
-        } catch( error ) {
-//          console.error( `Error fetching ${url}:`, error );                           //#.(50404.08.2)
-            sayMsg(    `\n* Error fetching url: '${url}'.`,   1 );                      // .(50404.08.3)
-            sayMsg(    `${error}`.replace( /\n/, "\n    " ), -1 );                      // .(50404.08.4)
-// return ["https://www.lexingtonvirginia.com/"];                                       //#.(50408.09.8)
-   return [ pVars.WEB_FALLBACK_URL ];                                                   // .(50408.09.8)
-            }
-          }
-    return  texts;
-         }; // eof getCleanedText_fromURLs
-// --  ---  --------  =  --  =  ------------------------------------------------------  #
-/**
- * Does a vector search to get source Doc Files
- * @param {string} query - Search query
- * @returns {Promise<Array>} - Array of Doc File Names
- */
-async function  getDocs( mDocs ) {
-       return  [ '' ];
-       }; // eof getDocs
-// --  ---  --------  =  --  =  ------------------------------------------------------  #
-/**
- * Fetches and cleans text content from Docs
- * @param {Array} mDocs - Array of docs to fetch
- * @returns {Promise<Array>} - Array of cleaned text blocks
- */
-async function  getCleanedText_fromDocs( mDocs ) {
-       return  [ '' ];
-       }; // eof getCleanedText_Docs
-// --  ---  --------  =  --  =  ------------------------------------------------------  #
 /**
  * Processes query with Ollama model using provided text sources
  * @param {string} query - User query
@@ -589,7 +504,7 @@ async function  getCleanedText_fromDocs( mDocs ) {
        var  texts     =  pJSON_Results.Docs                                                                 // .(50408.06.12)
        var  document  =  pJSON_Results.URLs[0] || ''                                                        // .(50408.06.13)
 
-//          sayMsg( `A1201[ 572]  nLog: '${nLog}', global.aPrtSections: '${global.aPrtSections}'`, 1)       // .(50414.01.14)      
+//          sayMsg( `A1201[ 572]  nLog: '${nLog}', global.aPrtSections: '${global.aPrtSections}'`, 1)       // .(50414.01.14)
         if (texts.length == 0) {
 //  return  usrMsg( "\n* No text content for the AI model to query or summarize." );                        //#.(50404.07.2 RAM Return -1 if error).(50409.03.40)
             usrMsg(   "* No text content for the AI model to query or summarize.", bNoLog );                // .(50414.01.13).(50409.03.40 RAM OK for plain search).(50404.07.2 RAM Return -1 if error)
@@ -597,10 +512,10 @@ async function  getCleanedText_fromDocs( mDocs ) {
         var aRunStr          = "RunId: " + pParms.runid.replace( ',', ", No: " )   // .(504                 // .(50404.01.9)
             usrMsg( `\nCombined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.10)
             usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.11)
-            sayMsg( `A1201[ 586]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)      
- 
+            sayMsg( `A1201[ 586]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)
+
        var  aSources         =  texts.map((a, i) => `${i+1}.${MWT.fmtText(a)}`).join("\n")
-        if (bPrtSources == 1 && aSources > '') {                                                            // .(50409.03.41 RAM Don't display if empty)       
+        if (bPrtSources == 1 && aSources > '') {                                                            // .(50409.03.41 RAM Don't display if empty)
             usrMsg( `\n  Docs: \n${ MWT.wrap( aSources, nWdt , 2, 4 ) }`)               // .(50330.06a.6 RAM Add indent).(50331.01.3 RAM Was Texts).(50330.06.2 RAM Use Wrap)
             usrMsg(   `  Docs:       End of Sources`)                                   // .(50331.01.4)
         } else {
@@ -619,12 +534,12 @@ async function  getCleanedText_fromDocs( mDocs ) {
             pJSON_Results.PromptTemplate = "{Query}. {SysPrompt}, {Docs}"
             pJSON_Results.Prompt         =  pParms.prompt
             pJSON_Results.Platform       =  pVars.PLATFORM
-            pJSON_Results.SysPrompt      =  pParms.sysprompt // pVars.SYS_PROMPT                            // .)50413.03.x          
+            pJSON_Results.SysPrompt      =  pParms.sysprompt // pVars.SYS_PROMPT                            // .)50413.03.x
 
 //          usrMsg( `\n  Running Model: ${          pParms.model}  (${aRunStr})`                                           , shoMsg('RunId')   ) //#.(50404.01.16).(50403.03.7)
             usrMsg( `\nOllama Response for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Results') ) // .(50404.01.16).(50403.03.7)
             usrMsg(   "---------------------------------------------------------------------------------------------- "    , shoMsg('Results') ) // .(50404.01.17))
-    try {  
+    try {
        var  stream           =  await  ollama.generate( pParms );                                           // .(50408.16.1 RAM Run the Model)
        var[ pStats, aResult ]=  await  MWT.fmtStream( stream );                                             // .(50408.16.2 RAM Capture the Results and Stats)
             pJSON_Results.Response       =  aResult                                                         // .(50408.06.14)
@@ -646,13 +561,13 @@ async function  getCleanedText_fromDocs( mDocs ) {
             usrMsg(             MWT.fmtStats(   pStats, pParms ).join("\n")                                                , shoMsg('Stats')   ) // .(50404.01.20)
             usrMsg( "\n---------------------------------------------------------------------------------------------- "    , shoMsg('Stats')   ) // .(50404.01.21)
 
-            pParms.secs      = (pStats.total_duration / 1e9).toFixed(2)                                                                          // .(50414.01.14)                                                                                       
+            pParms.secs      = (pStats.total_duration / 1e9).toFixed(2)                                                                          // .(50414.01.14)
             pParms.tps       =  pStats.tokens_per_sec                                                                                            // .(50414.01.15)
 
-            sayMsg( `A1201[ 636]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)      
+            sayMsg( `A1201[ 636]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)
             usrMsg(   `\n    > Ran Model: ${           pParms.model} in ${pParms.secs} secs (${aRunStr})\n`                , shoMsg('RunId')   )  // .(50404.01.23).(50403.03.8)
 //       if (global.bNoLog == 0) {                                                                                                               //#.(50414.01.16 RAM Do log it)
-//     var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  "), aPIDs = `${pParms.spc}  ${pParms.qpc}`                                 //#.(50414.01.16)     
+//     var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  "), aPIDs = `${pParms.spc}  ${pParms.qpc}`                                 //#.(50414.01.16)
 //          console.log( `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${pParms.model}  ${aPIDs}` )                              //#.(50414.01.16)
 //          }                                                                                                                                    // .(50414.01.16)
   var [ pStats_JSON, mRecs ] =  MWT.savStats4Text( pStats, pParms, aStatsFmt )                              // .(50408.06.16 RAM Was: savStats).(50403.04.6 RAM Add aStatsFmt)

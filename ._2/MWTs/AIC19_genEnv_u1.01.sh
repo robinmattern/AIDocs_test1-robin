@@ -28,6 +28,7 @@
 #.(50419.06   4/19/25 RAM  4:00p| Display Creating Hardware file msg
 #.(50420.02   4/20/25 RAM 11:00a| Add PC_Code and Title with PC_Code   
 #.(50420.02   4/20/25 RAM 12:15p| Add  title2 and some msg tweaks
+#.(50422.04   4/22/25 RAM  9:41a| Add TestId to "inputs" display
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -180,7 +181,7 @@ if [ ! -f "${template_file}" ]; then
    usrMsg "    6. Do Web Search:   $( YorN ${mArray[8]} )"
    usrMsg "    7. Use SysPmt File: $( YorN ${mArray[9]} )"
    usrMsg "    8. Use UsrPmt File: $( YorN ${mArray[10]} )"
-   usrMsg "    9. Test Title:      ${aTitle2}"                                                                   # .(50420.02.4 RAM Add PC_Code here too)
+   usrMsg "    9. Test Title:      t${aTest}_${aTitle2}"                                                    # .(50422.04.5 RAM Add TestId).(50420.02.4 RAM Add PC_Code here too)
    usrMsg "   10. SysPrompt Tests: ${mArray[5]}"
    usrMsg "   11. UsrPrompt Runs:  ${mArray[6]}"
    usrMsg "   12. First Run Id:    t${aTest:0:2}1.01"
