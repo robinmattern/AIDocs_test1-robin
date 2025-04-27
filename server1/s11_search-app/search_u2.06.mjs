@@ -13,9 +13,10 @@
 ##FD int...ive_search_u2.02.mjs |  25816| 4/04/25 13:55|   381| u2.02`50404.1355
 ##FD int...ive_search_u2.02.mjs |  30875| 4/05/25 14:45|   422| u2.02`50405.1445
 ##FD int...ive_search_u2.03.mjs |  37586| 4/08/25 18:45|   480| u2.03`50408.1845
-##FD int...ive_search_u2.05.mjs |  59091| 4/22/25 10:25|   684| u2.05`50422.1025
+##FD int...ive_search_u2.05.mjs |  59117| 4/22/25 10:25|   684| u2.05`50422.1025
 ##FD int...ive_search_u2.05.mjs |  59366| 4/23/25  6:55|   696| u2.05`50423.0655
 ##FD int...ive_search_u2.06.mjs |  53896| 4/23/25  7:15|   616| u2.06`50423.0715
+##FD int...ive_search_u2.06.mjs |  53455| 4/27/25  6:05|   596| u2.06`50427.1805
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script gets a "document" from an internet search.  It then
@@ -114,7 +115,7 @@ import { doesNotReject } from "assert";
 
 // Import modules using dynamic imports
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-       var  aVer             = "u2.05"                                                  // .(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
+       var  aVer             = "u2.06"                                                  // .(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
 
        var  aLog             =  process.env.LOGGER || ""                                // .(50414.01.1 RAM Do print Log)
             aLog             =  aLog == "log,inputs" ? "log" : aLog                     // .(50414.01c.1 RAM Fix if aLog = "log", was: '')
@@ -326,7 +327,8 @@ import { doesNotReject } from "assert";
             pVars.NEXT_POST  = '01'                                                                         // .(50414.04.5)
             }                                                                                               // .(50414.04.6)
 //     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.5)
-       var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.5).(50405.02.3)
+//     var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               //#.(50413.03.5).(50405.02.3).(50422.02.6)
+       var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50422.02.6 RAM Keep 0#0 Maybe).(50413.03.10).(50405.02.3)
 
 //     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.6)
        var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.6).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
