@@ -201,7 +201,7 @@ import { doesNotReject } from "assert";
             bQuiet           =  0                                                       // .(50404.02.5)
        var  bDoit            =  process.env.DOIT;  FRT.bDoit = bDoit                    // .(50415.01.3 RAM bDoit)
         if (bQuiet == 2) {
-            saysg(`A1201[ 204]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 1 )
+            saysg(`S1201[ 188]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 1 )
             }
             global.bQuiet    =  0                                                       // .(50404.02.6)
 
@@ -212,7 +212,7 @@ import { doesNotReject } from "assert";
 
             global.bQuiet    =  bNoLog == -1 ? 1 : global.bQuiet
 
-            sayMsg(`A1201[ 215]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 0 )
+            sayMsg(`S1201[ 203]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 0 )
 
 //          console.log( `--- aLog: '${aLog}', bNoLog: ${bNoLog}, Debug2: '${bDebug2}'` ); process.exit()
 
@@ -326,8 +326,7 @@ import { doesNotReject } from "assert";
             pVars.NEXT_POST  = '01'                                                                         // .(50414.04.5)
             }                                                                                               // .(50414.04.6)
 //     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.5)
-//     var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               //#.(50413.03.5).(50405.02.3).(50422.02.6)
-       var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50422.02.6 RAM Keep 0#0 Maybe).(50413.03.10).(50405.02.3)
+       var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               // .(50413.03.5).(50405.02.3)
 
 //     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.6)
        var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.6).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)

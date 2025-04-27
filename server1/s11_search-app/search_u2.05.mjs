@@ -91,6 +91,7 @@
 #.(50414.04b  4/19/25 RAM  8:00p| RunId Test No. if running just one test
 #.(50414.01b  4/20/25 RAM 10:45a| Add CTX and Temp to Log message
 #.(50414.01c  4/20/25 RAM 11:00a| Fix bNoLog if aLog = "log"     
+#.(50422.02   4/22/25 RAM 10:25a| Keep aDocsDir aSessionName as t0#0 if ??
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -335,8 +336,8 @@ import { doesNotReject } from "assert";
             aTitle           =  aTitle.replace( /{Cnt}/, nRunCount ? nRunCount : "1"     )                  // .(50413.03.8)
             aTitle           =  aTitle.replace( /{PC_Code}/,  aSvr ? aSvr      : "MyPC"  )                  // .(50417.04.4).(50413.03.9)
 //     var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         //#.(50405.02.3).(50413.03.10)
-//     var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               //#.(50413.03.10).(50405.02.3).(50422.04.6)
-       var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50422.04.6 RAM Keep 0#0 Maybe).(50413.03.10).(50405.02.3)
+//     var  aSessionName     = `${aSessionId}${ aTitle ? `_${aTitle}` : '' }`                               //#.(50413.03.10).(50405.02.3).(50422.02.6)
+       var  aSessionName     = `${pVars.SESSION_ID}${ aTitle ? `_${aTitle}` : '' }`                         // .(50422.02.6 RAM Keep 0#0 Maybe).(50413.03.10).(50405.02.3)
 
 //     var  aRunId           = `${aAppName.slice(0,3)}_${pVars.SESSION_ID}.${pVars.NEXT_POST}`              //#.(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50413.03.11)
        var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    // .(50413.03.12).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
