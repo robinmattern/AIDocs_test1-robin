@@ -2,7 +2,8 @@
 ##=========+====================+================================================+
 ##RD       AIC19_genEnv         | Generate .Env file
 ##RFILE    +====================+=======+===============+======+=================+
-##FD  AIC19_genEnv_v1.01.sh     |  26141|  4/17/25  6:45|   446| u1.01`50417.0645
+##FD  AIC19_genEnv_v1.01.sh     |   9000|  3/29/25  8:00|   100| u1.01`50329.0800
+##FD  AIC19_genEnv_v1.01.sh     |  15777|  4/27/25  6:00|   267| u1.01`50427.1800
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script generates a .env file to running AITestR4U AI Model tests
@@ -21,14 +22,15 @@
 #.(50329.02   3/29/25 XAI  7:00a| Created by Grok
 #.(50329.02   3/29/25 RAM  7:00a| Modifoed by Robin Mattern
 #.(50414.10   4/14/25 RAM  6:00a| Add PC_NAME global variable
-#.(50417.01   4/17/25 RAM  6:35a| Change aEnvFile to aSrcFile 
+#.(50417.01   4/17/25 RAM  6:35a| Change aEnvFile to aSrcFile
 #.(50417.03   4/17/25 RAM 10:00a| Write chkEnvTemplate to create a .env template file
-#.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE 
+#.(50417.04   4/17/25 RAM  1:00p| Change PC_NAME to PC_CODE
 #.(50418.01   4/18/25 RAM  8:00p| Remove _${aPcCd} from template_master_file
 #.(50419.06   4/19/25 RAM  4:00p| Display Creating Hardware file msg
-#.(50420.02   4/20/25 RAM 11:00a| Add PC_Code and Title with PC_Code   
+#.(50420.02   4/20/25 RAM 11:00a| Add PC_Code and Title with PC_Code
 #.(50420.02   4/20/25 RAM 12:15p| Add  title2 and some msg tweaks
 #.(50422.04   4/22/25 RAM  9:41a| Add TestId to "inputs" display
+#.(50427.04   4/27/25 RAM  6:00p| Check if hardware file exists before creating it
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -37,13 +39,13 @@
 ##========================================================================================================= #  ===============================  #
 
    aApp=$1
-   aTest="$2"; if [ "${aTest:0:1}" == "t" ]; then aTest="${aTest:1}"; fi 
+   aTest="$2"; if [ "${aTest:0:1}" == "t" ]; then aTest="${aTest:1}"; fi
    aLogs="$3"
 #  aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="pc000p"; fi                ##.(50414.10.1 RAM Add User arg)
    aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="${PC_CODE}"; fi            # .(50417.04.1).(50414.10.1 RAM Add PC_NAME)
    aEnvFile="${ENV_TEMPLATE}"
    bDebug=${DEBUG}
-#  echo -e "\n    bDebug: '${bDebug}', aPcCd: '${aPcCd}', aEnvFile: '${aEnvFile}'"  
+#  echo -e "\n    bDebug: '${bDebug}', aPcCd: '${aPcCd}', aEnvFile: '${aEnvFile}'"
 
    if [ "${aTest:2:1}" == "0" ]; then  aLogs="log,inputs"; fi
 
@@ -54,18 +56,18 @@ function  sayMsg() {
    }
 # -----------------------------------------------------------------
 
-function  YorN() { 
-   if [ "$1" == "1" ]; then echo "Yes"; else echo "No"; fi 
+function  YorN() {
+   if [ "$1" == "1" ]; then echo "Yes"; else echo "No"; fi
    }
 # -----------------------------------------------------------------
 
 function  usrMsg() {
    if [ "${aLogs/inputs}" != "${aLogs}" ] || [ "${aLogs}" == "" ] || [ "$bDebug" == "1" ]; then echo -e "$1"; fi
-#  if [ "${bInputs}" == "1" ]; then echo "$1"; fi 
+#  if [ "${bInputs}" == "1" ]; then echo "$1"; fi
    }
 # -----------------------------------------------------------------
 
-function  splitParms() { 
+function  splitParms() {
 # Split the string by comma, but preserve the quoted part at the end
 # We use a combination of sed and awk to handle this
 #  echo "  Splitting the string: '$1'"
@@ -90,8 +92,8 @@ for i in "${!mArray[@]}"; do
    done
 
    aModel="${mArray[1]/:/;}"
-#  aTests="${mArray[6]}-tests"; if [ "${mArray[6]}" == "1" ]; then aTests="1-test"; fi 
-   aTests="${mArray[5]},${mArray[6]}-tests"; if [ "${mArray[6]}" == "1" ]; then aTests="${mArray[5]},1-test"; fi 
+#  aTests="${mArray[6]}-tests"; if [ "${mArray[6]}" == "1" ]; then aTests="1-test"; fi
+   aTests="${mArray[5]},${mArray[6]}-tests"; if [ "${mArray[6]}" == "1" ]; then aTests="${mArray[5]},1-test"; fi
    aTitle="${aModel}_${aTests}"
    aTitle2="${aModel}_${aTests} on ${aPcCd}"                                            # .(50420.02.1 RAM Add aTitle2 with PC_Code)
 
@@ -100,19 +102,37 @@ for i in "${!mArray[@]}"; do
 
 function  chkEnvTemplate() {                                                            # .(50417.03.1 RAM Write chkEnvTemplate Beg)
 
-   if [ -f "$1" ]; then return; fi 
+   if [ -f "$1" ]; then return; fi
 
    aForPcCd="for ..."; if [ "${aPcCd}" != "" ]; then aForPcCd="for '${aPcCd}'."; fi
-   sayMsg "AIC19[  99]  Need to create an .env template file, '$1'${aForPcCd}."   
-   usrMsg "* Creating hardware file ${aForPcCd}"                                       # .(50419.06.1 RAM Add Creating hardware file msg)
-   hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh"  ${aPcCd} )"
-   sayMsg "AIC19[ 102]  Created hardware file: '${hardware_file}'"  
-   aPcCd="${hardware_file#*_}"; aPcCd="${aPcCd/.txt/}"   
+   sayMsg "AIC19[  106]  Need to create an .env template file, '$1', ${aForPcCd}."
+   usrMsg "* Creating app .env template file for PC_Code: ${aForPcCd:4}."              # .(50427.04.1 RAM Change prompt).(50419.06.1 RAM Add Creating hardware file msg)
+
+   aDir="../../data/AI.testR.4u/settings"                                              # .(50427.04.2 RAM Move to here Beg).(50422.01.1)
+   if [ -d "._2" ]; then aDir="./data/AI.testR.4u/settings"; fi                        # .(50422.01.2).(50419.03.4)
+
+#  if [ "$1" != "" ]; then THE_PC_CODE="$1"; fi                                        # .(50417.06.1)
+   aPC_CODE="$( echo "${aPcCd}" | tr '[:upper:]' '[:lower:]' )"
+#  aServerName="${aPC_CODE}-${THE_SERVER#*-}"
+   aHdwFile="${aDir}/hardware-settings_${aPC_CODE}.txt"                                # .(50427.04.2 End)
+
+   if [ ! -f "${aHdwFile}" ]; then                                                     # .(50427.04.3 RAM Check if it exists)
+      sayMsg "AIC19[ 124]  Creating hardware file: '${aHdwFile}'"
+      usrMsg "  Creating hardware file ${aForPcCd}."                                   # .(50427.04.4 RAM Change prompt).(50419.06.1 RAM Add Creating hardware file msg)
+      hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh" ${aPcCd} )"
+      sayMsg "AIC19[ 127]  Created .env template file: '${hardware_file}'"             # .(50427.04.5 Beg)
+   else
+      hardware_file="${aHdwFile}"
+      fi                                                                               # .(50427.04.6 End)
+   aPcCd="${hardware_file#*_}"; aPcCd="${aPcCd/.txt/}"
    template_file=".env_${aApp}-template_${aPcCd}.txt"
    template_master_file=".env_${aApp}-template.txt"                                     # .(50418.01. RAM Remove _${aPcCd} from template_master_file)
-   sayMsg "AIC19[ 107]  Saving hardware for ${aPcCd}, info into the template file: '${template_file}'" 
-   aSpecs="$( cat "${hardware_file}" )"
-# echo  "${aSpecs}"
+   sayMsg "AIC19[ 107]  Saving hardware for, '${aPcCd}', info into the template file: '${template_file}'"
+   usrMsg "  Saving hardware info for ${aPcCd} into the template file: '${template_file}'" # .(50427.04.6)
+   usrMsg ""
+
+#  aSpecs="$( cat "${hardware_file}" )"; echo  "${aSpecs}"
+#
    # Replace first line of file1 with contents of file2
 
    awk    '/{HARDWARE_SPECS}/ {while ((getline line < "'${hardware_file}'") > 0) print "  " line; next} {print}' "${template_master_file}" > "${template_file}"
@@ -121,15 +141,15 @@ function  chkEnvTemplate() {                                                    
 
    awk '/PC_CODE=/ { print "     export PC_CODE=\"'${aPcCd}'\"" } !/PC_CODE/ { print }' run-tests.sh > @temp && mv @temp run-tests.sh
    chmod 755 run-tests.sh
-   sayMsg "AIC19[ 118]  Saved PC_CODE, ${aPcCd}, info into the file, run-tests.sh"   
+   sayMsg "AIC19[ 118]  Saved PC_CODE, ${aPcCd}, info into the file, run-tests.sh"
 #  echo "             i.e. '$(pwd)/${template_file}'"
 #  cat "$(pwd)/${template_file}"
- 
+
    aSrcFile="${template_file}"
    } # eof chkEnvTemplate                                                                               # .(50417.03.1 End)
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
-function  mergeVars() { 
+function  mergeVars() {
 # Split the string by comma, but preserve the quoted part at the end
 # We use a combination of sed and awk to handle this
 # readarray -t mArray < <(echo "$aTestParms" | awk -F'"' '{print $1}' | sed 's/,/\n/g' && echo "\"$(echo "$aStr" | awk -F'"' '{print $2}')\""')
@@ -172,7 +192,7 @@ if [ ! -f "${template_file}" ]; then
    placeholder="{SysPrompt}"; replacement="${aSysPrompt}";  aBodyText="${aBodyText//$placeholder/$replacement}"
    placeholder="{PC_Code}";   replacement="${aPcCd}";       aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.02.3 RAM Add PC_Code)
 
-#  sayMsg "  Using the following settings:" 
+#  sayMsg "  Using the following settings:"
    usrMsg "    1. Model:           ${mArray[1]}"
    usrMsg "    2. CTX_Size:        ${mArray[2]}"
    usrMsg "    3. Temperature:     ${mArray[4]}"
@@ -193,52 +213,52 @@ if [ ! -f "${template_file}" ]; then
    } # eof mergeVars
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
-#  sayMsg "AIC19[ 189]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit    
+#  sayMsg "AIC19[ 189]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit
 #  bInputs=0; if [ "${aLogs/inputs}" != "${aLogs}" ]; then bInputs=1; fi
 #  aTestParms="a11_t011.01, llama3.2:3b,          131072, GKN1-SIMP, 0.3,  1, 0, 0, 1, 0, \"Parms,Docs,Search,Stats,Results\""
 
-   if [ "${aLogs}" == "log,inputs" ]; then 
+   if [ "${aLogs}" == "log,inputs" ]; then
       echo -e "\n-----------------------------------------------------------\n"
-      fi; 
+      fi;
 
-#  sayMsg "AIC19[ 197]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aEnvFile: '${aEnvFile}'"; #  exit    
+#  sayMsg "AIC19[ 197]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aEnvFile: '${aEnvFile}'"; #  exit
 
    aSrcFile="${aEnvFile}"                                                               # .(50417.01.1 RAM Use SrcFile name)
-if [ "${aEnvFile}" == "" ]; then  
+if [ "${aEnvFile}" == "" ]; then
    aSrcFile=".env_${aApp}-template_${aPcCd}.txt"                                        # .(50417.01.2)
-   fi 
+   fi
 
-   chkEnvTemplate  "${aSrcFile}"                                                        # .(50417.03.2)   
+   chkEnvTemplate  "${aSrcFile}"                                                        # .(50417.03.2)
 
-   sayMsg "AIC19[ 206]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aSrcFile: '${aSrcFile}'"; #  exit    
-#  usrMsg ""; 
+   sayMsg "AIC19[ 206]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aSrcFile: '${aSrcFile}'"; #  exit
+#  usrMsg "";
    usrMsg  "  Merging file, ${aSrcFile}, with file, ${aApp}_model-tests.txt."           # .(50417.01.3)
- 
- if [ "${aTest:2:1}" == "0" ]; then 
+
+ if [ "${aTest:2:1}" == "0" ]; then
    aTestParms="$( cat "${aApp}_model-tests.txt" | awk '/'t${aTest:0:2}'0/ { print }' )" # was: ${aTest:0:3}'0 to use the first one
-#  echo "  Creating an .env test file for the test group: t${aTest}"; exit  
+#  echo "  Creating an .env test file for the test group: t${aTest}"; exit
    splitParms "${aTestParms}"
 #  echo "  aModel: '${mArray[1]}', nTests: '${mArray[5]}'"
-   aDstFile=".env_${aApp}_t${aTest}_${aTitle}.txt" 
+   aDstFile=".env_${aApp}_t${aTest}_${aTitle}.txt"
    usrMsg     "   to create an .env test group file with the following parameters:\n";  # .(50420.02.5 RAM Add CR)
    mergeVars  "${aSrcFile}" "${aDstFile}"                                               # .(50417.01.4).(50414.10.x)
-   usrMsg     "  Saved the .env test group file: ${aDstFile}." 
+   usrMsg     "  Saved the .env test group file: ${aDstFile}."
 
- else 
-#  echo "  searching for: '/${aApp}, t${aTest}/'"    # '/${aApp}, t00${aTest:2:1}/'" 
-#  echo "cat \"${aApp}_system-prompts.txt\" | awk '/${aApp}, t00${aTest:2:1}/'"  
+ else
+#  echo "  searching for: '/${aApp}, t${aTest}/'"    # '/${aApp}, t00${aTest:2:1}/'"
+#  echo "cat \"${aApp}_system-prompts.txt\" | awk '/${aApp}, t00${aTest:2:1}/'"
 #  aSysPrompt="$( cat "${aApp}_system-prompts.txt" | awk '/'"${aApp}, t00${aTest:2:1}"'/ { aPrompt = substr( $0, 32 ); sub( /[" ]+$/, "", aPrompt ); print aPrompt }' )"
    aSysPrompt="$( cat "${aApp}_system-prompts.txt" | awk '/'"${aApp}, t${aTest}"'/ { aPrompt = substr( $0, 32 ); sub( /[" ]+$/, "", aPrompt ); print aPrompt }' )"
-#  echo "--- aTest: ${aTest}, aSysprompt: '${aSysPrompt}'"; exit 
+#  echo "--- aTest: ${aTest}, aSysprompt: '${aSysPrompt}'"; exit
    aTestParms="$( cat "${aApp}_model-tests.txt"    | awk '/t'${aTest}'/ { print }' )"
    usrMsg     "   to create an .env file with the following parameters:\n";             # .(50420.02.6 RAM Add CR)
    splitParms "${aTestParms}"
    mergeVars  "${aSrcFile}" ".env"                                                      # .(50417.01.5).(50414.10.x)
-   usrMsg     "  Saved .env file for test run t${aTest}." 
+   usrMsg     "  Saved .env file for test run t${aTest}."
    echo ""
-   fi 
+   fi
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
-##========================================================================================================= #  ===============================  
+##========================================================================================================= #  ===============================
 #>      AIC19 END
 ##===== =================================================================================================== #
 #
