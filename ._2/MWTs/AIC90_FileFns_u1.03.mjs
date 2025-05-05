@@ -65,6 +65,7 @@
 #.(50410.02   4/10/25 RAM  2:45p| Add bDoit_ to makDirSync
 #.(50414.01   4/14/25 RAM  9:45a| Do bNoLog in here  
 #.(50414.02   4/14/25 RAM  6:00a| Try to quiet AIC90[ 193] logfile msg  
+#.(50503.07   5/03/25 RAM  8:25p| Add aVal to .Env  
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -540,12 +541,14 @@ createDirectoryIfNotExists(dirPath).then( result => {
             }                                                                           // .(50107.03.2 End)
 // --------------------------------------------------------------
 
-  function  setEnv( aVar, aVal, aDir ) {                                                // .(50331.08.1 RAM Add setEnv Beg)
-            sayMsg( `AIC98[ 523]  Setting ${aVar} to: '${aVal}'`, -1 )
+  function  setEnv( aVar, aVal, aDir, bSkip ) {                                         // .(50331.08.1 RAM Add setEnv Beg)
+            sayMsg( `AIC98[ 544]  Setting ${aVar} to: '${aVal}'`, -1 )
        var  aEnvFile    =   FRT_path( aDir ? aDir : __basedir2, '.env' )
        var  aEnvVar     =   aVar.toUpperCase()
        var  mMyEnvs     =   readFileSync(  aEnvFile, 'ASCII' ).split( /\n/ )
        var  iEnv        =   mMyEnvs.findIndex( aVar => aVar.match( new RegExp( `^ *${aEnvVar}` ) ) )
+            iEnv        =   iEnv == -1 ? mMyEnvs.length : iEnv                          // .(50503.07.1 RAM Add aVal to .Env)  
+     if (`${mMyEnvs[ iEnv - 1 ]}` != '' && bSkip) { mMyEnvs[ iEnv ] = ''; iEnv++ }      // .(50503.07.2)  
             mMyEnvs[ iEnv ] = `  ${aEnvVar}="${aVal}"`
             process.env[    aEnvVar ] = aVal
                             writeFileSync( aEnvFile , mMyEnvs.join( "\n" ) )

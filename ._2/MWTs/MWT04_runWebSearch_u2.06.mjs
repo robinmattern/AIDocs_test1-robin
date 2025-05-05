@@ -25,7 +25,8 @@
 #.(50408.09   4/08/25 RAM  7:00a| Modify Search URLs
 #.(50409.03   4/09/25 RAM  7:00a| Rename getCleanedText_fromURLs
 #.(50423.02   4/23/25 RAM  8:55a| Break out runWebSearch and runDocSearch
-
+#.(50404.01   4/29/25 RAM  8:20p| Edit position of shoMsg
+#
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
@@ -37,7 +38,7 @@
        var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50423.02.9).(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
       var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()                                         // .(50423.02.10)
        var  pVars            =  FRT.getEnvVars( FRT.__dirname )                                             // .(50423.02.11).(50403.02.6 RAM Was MWT).(50331.04.3 RAM Get .env vars Beg)
-       var  shoMsg           =  MWT.shoMsg                                                                  // .(50423.02.12)
+       var  shoMsg           =  MWT.shoMsg                                              // .(50423.02.12)
 /**
  * Fetches search result URLs from DuckDuckGo
  * @param {string} query - Search query
@@ -48,7 +49,7 @@ async function  getNewsUrls( query ) {
      const  url =  pVars.WEB_SEARCH_URL.replace( /{WebSearch}/, encodeURIComponent(query) )                 // .(50408.09.1 RAM Use WEB_SEARCH_URL)
      const  fallbackURL = pVars.WEB_FALLBACK_URL                                                            // .(50408.09.2)
 
-            usrMsg(`  Fetching from:   "${url.replace(/%20/g, "+")}"`, shoMsg('Parms')) // .(50404.01.4)
+            usrMsg(`  Fetching from:   "${url.replace(/%20/g, "+")}"`                                                      , shoMsg('Parms' )  ) // .(50404.01.4)
   try {
      const  response = await fetch(url);
        if (!response.ok) {
@@ -72,7 +73,7 @@ async function  getNewsUrls( query ) {
                        : []
                 }
        var  aResults =  JSON.stringify(pResults, null, 2).replace(/\\n     /g, "\n     ").replace(/\\n       /g, "\n       ")
-            usrMsg(`\n  Web Search Response:\n${ aResults.replace( /{/, "" ).replace(/\n}/, "") }`                         , shoMsg('Search' ) ) // .(50404.01.7)
+            usrMsg(`\n  Web Search Response:\n${ aResults.replace( /{/, "" ).replace(/\n}/, "") }`                         , shoMsg('Search')  ) // .(50404.01.7)
 
        var  results =                                                                                       // .(50408.07.1 MWT This has many more "results" than pResults above)
              [ ...( searchResultsJson.Results || [] )
@@ -90,12 +91,12 @@ async function  getNewsUrls( query ) {
 //  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.6)
     return { WebResponse: {}, URLs: [ fallbackURL ] };                                                      // .(50408.09.6)
             }
-            usrMsg(`\n  Found ${urls.length} URLs:`      , shoMsg('Search' ) )          // .(50404.01.8)
+            usrMsg(`\n  Found ${urls.length} URLs:`                                                                        , shoMsg('Search')  ) // .(50404.01.8)
     return { WebResponse: pResults, URLs: urls } ;                                                          // .(50408.06.10)
 
         } catch( error ) {
 //          console.error(      "Error in getNewsUrls:", error);                        //#.(50404.08.1)
-            sayMsg(`A1201[ 500]* Error in getNewsUrls for query: '${query}'.`, 1, 1);   // .(50404.08.1)
+            sayMsg(`A1201[  99]* Error in getNewsUrls for query: '${query}'.`, 1, 1);   // .(50404.08.1)
             sayMsg(`${error}`.replace( /\n/, "\n    " ) );                              // .(50404.08.2)
 //  return         ["https://www.lexingtonvirginia.com/"];                                                  //#.(50408.09.7)
     return { WebResponse: {}, URLs: [ fallbackURL ] };                                                      // .(50408.09.7)
@@ -111,7 +112,7 @@ async function  getNewsUrls( query ) {
        var  texts = [];
        for (var url of urls) {
        try {
-            usrMsg( `    Fetching ${url}`                , shoMsg('Search' ) )          // .(50404.01.9);   ););
+            usrMsg( `    Fetching ${url}`                                                                                  , shoMsg('Search')  ) // .(50404.01.9) 
        var  response         =  await fetch( url );
        var  html             =  await response.text();
        var  text             =  await MWT.htmlToText( html );

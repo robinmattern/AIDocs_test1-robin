@@ -2,12 +2,12 @@
 ##=========+====================+================================================+
 ##RD        MWT01_MattFns       | Matt's Utility Functions
 ##RFILE    +====================+=======+===============+======+=================+
-##FD   MWT01_MattFns_u1.03.mjs  |      0|  3/29/25  7:00|     0| p1.03`50329.0700
-##FD   MWT01_MattFns_u1.03.mjs  |  18159|  4/02/25  7:20|   343| p1.03`50402.0720
-##FD   MWT01_MattFns_u1.03.mjs  |  19735|  4/04/25 12:30|   343| p1.03`50404.1230
-##FD   MWT01_MattFns_u1.03.mjs  |  20537|  4/05/25 16:45|   362| p1.03`50405.1645
-##FD   MWT01_MattFns_u2.03.mjs  |  26141|  4/08/25 18:45|   446| p1.03`50408.1845
-##FD   MWT01_MattFns_u2.03.mjs  |  31720|  4/19/25 17:15|   494| p1.03`50419.1715
+##FD   MWT01_MattFns_u1.03.mjs  |      0|  3/29/25  7:00|     0| u1.03`50329.0700
+##FD   MWT01_MattFns_u1.03.mjs  |  18159|  4/02/25  7:20|   343| u1.03`50402.0720
+##FD   MWT01_MattFns_u1.03.mjs  |  19735|  4/04/25 12:30|   343| u1.03`50404.1230
+##FD   MWT01_MattFns_u1.03.mjs  |  20537|  4/05/25 16:45|   362| u1.03`50405.1645
+##FD   MWT01_MattFns_u2.03.mjs  |  26141|  4/08/25 18:45|   446| u2.03`50408.1845
+##FD   MWT01_MattFns_u2.05.mjs  |  31720|  4/19/25 17:15|   494| u2.05`50419.1715
 #
 ##DESC     .--------------------+-------+---------------+------+-----------------+
 #            This script implements the utility functions for working with Matt
@@ -54,7 +54,15 @@
 #.(50413.02   4/13/25 RAM  7:30a| Add new columns to spreadsheet
 #.(50414.01   4/14/25 RAM  3:52a| Display a brief log messages
 #.(50419.04   4/19/25 RAM  5:15p| Add tokens_per_sec to pStats
-
+#.(50425.03   4/25/25 RAM 11:15a| Add extractTextFromPDF
+#.(50428.01   4/28/25 RAM  8:10a| Add Matt's utilities.js fns 
+#.(50428.02   4/28/25 CAI  8:35a| Write get1stFile
+#.(50410.04c  4/30/25 RAM 10:35p| Write and use chop( 30, aStr )  
+#.(40528.03b  5/01/25 RAM  6:20p| Fix fixPath. Add aDrv &&
+#.(50408.06c  5/03/25 RAM  7:45p| Use pParms vars not chopped pStats vars
+#.(50503.01   5/03/25 RAM  8:30p| Redo stats sheet fields
+#.(50503.08   5/03/25 RAM 11:00p| Write and use sqzLines
+#
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
@@ -65,13 +73,21 @@
    import   dotenv               from 'dotenv'                                          // .(50330.04.1 RAM Need this)
    import { dirname, join }      from 'path';
    import { fileURLToPath }      from 'url';
-// import { ftruncate     }      from 'fs';
+// import { ftruncate     }      from 'fs';                                             //#.(50425.03.1)
+   import   path                 from "path";
+   import   fs                   from 'fs';                                             // .(50425.03.2)
+   import { readFile }           from "fs/promises";                                    // .(50428.02.1 RAM Add readFile. Why??)
+   import { convert  }           from "html-to-text";                                   // .(50428.01.4)
 
+// import   pdfParse             from 'pdf-parse';                                      // .(50425.03.3 RAM New PDF parser)
+// import { PDFExtract }         from 'pdf.js-extract';                                 // .(50425.03.3 
+   
 // import { Readability   }      from '@mozilla/readability';
 // import { JSDOM         }      from 'jsdom';
 
 //   -- --- ---------------  =  ------------------------------------------------------  #  ---------------- #
-       var  aVer             = "u2.03"                                                  // .(50407.02.1 Was u0.03)
+
+       var  aVer             = "u2.05"                                                  // .(50425.03.x).(50407.02.1 Was u0.03)
 
       var __dirname          =    dirname( fileURLToPath( import.meta.url ) );          // .(50330.04.2)
        var  aEnvDir          =  __dirname.replace( /\._2.*/, '._2' )                    // .(50330.04.3)
@@ -84,6 +100,115 @@
 //  return  process.env
 //          }  */                                                                       //#.(50403.02.5).(50331.04.1 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
+
+  function  fixPath( aPath, aFile ) {                                                   // .(50425.03.1 RAM New Version)
+       if (!aFile) { aPath = aPath.replace( /^['"]/, "" ).replace( /['"]$/, "" );       // Remove double-quotes
+            aFile  = aPath.split( /[\\\/]/ ).slice(-1)[0]
+            aPath  = aPath.split( /[\\\/]/ ).slice(0,-1).join( '/' )
+            } 
+       if (aPath.match( /^\.[\\\/]/) ) { aDrv = ""; aDir = aPath            
+        } else {
+//     var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:)/ ); aDrv = aDrv[1] ? aDrv[1] : "";         //#.(40528.03.1)
+       var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:*)/); 
+            aDrv  = (aDrv && aDrv[1]) ? aDrv[1] : "";                                                       // .(40528.03.1 RAM Add aDrv &&).(40528.03.1 RAM May not contain a ":")
+       var  aDir  = (aPath || ".").replace( /^[\\\/]*[a-zA-Z]:*/, "");                                      // .(40528.03.2)
+            }
+       var  aFilePath = path.resolve( aDrv, aDir, aFile );
+    return  aFilePath;
+            }                                                                           // .(50425.03.1 RAM New Version)
+// ---------------------------------------------------------------
+
+// const config = JSON.parse( await readFile("./config.json", "utf-8"));
+
+    export  async function  getConfig( aDir ) {                                         // .(50428.01.5 RAM Add getConfig Beg)
+       var  aFilePath  =  fixPath( aDir, "config.json" );
+   try {     
+       var  config     =  JSON.parse( await readFile( aFilePath, "utf-8"));
+    return  config;
+   } catch( error ) {
+            console.error("Error reading config.json:", error.message);
+    return '';
+            }
+        }                                                                               // .(50428.01.5 End)
+// ---------------------------------------------------------------
+
+    export  async function  readText( path, file ) {                                    // .(50428.01.6 RAM Add readText Beg)
+    //  Test if path is a local file or a remote URL
+       var  protocol   =  path.split("://")[0];
+        if (protocol === "http" || protocol === "https") {
+        var text       =  await  fetch(path).then(x => x.text());
+    return  convert( text );
+        } else {
+//     if (!file) { 
+//          path       =  path.replace( /^['"]/, "" ).replace( /['"]$/, "" );  // Remove double-quotes
+//          file       =  path.split( /[\\\/]/ ).slice(-1)[0]
+//          path       =  path.split( /[\\\/]/ ).slice(0,-1).join( '/' )
+//          }   
+//      if (file) { 
+//          path       =  fixPath( path, file ); }
+       var aFilePath   =  fixPath( path, file );
+//return                  await  fs.readFile(     aFilePath, "utf-8" );                 //#.(50428.01.7 RAM Use fs.readFile not defined )
+  return                  await     readFile(     aFilePath, "utf-8" );                 // .(50428.01.7 RAM Use readFile )
+//return                         fs.readFileSync( aFilePath, "utf-8" );                 //#.(50428.01.7 RAM Use fs)
+           }
+       }                                                                                // .(50428.01.6 End)
+// ---------------------------------------------------------------
+/**
+ * Find the first file in a folder that starts with the specified string
+ * @param   {string} aStr    - Starting string to match
+ * @param   {string} aFolder - Folder path to search
+ * @param   {string} [aExt]  - Optional file extension (without the dot)
+ * @returns {string|null}    - Full path to the first matching file or null if none found
+ * Example usage:
+ *    const filePath = await get1stFile('config', './project', 'json');
+ *      if (filePath) {
+ *          console.log(`Found matching file: ${filePath}`);
+ *      } else {
+ *          console.log('No matching file found');
+ *          }
+ */
+     async  function  get1stFile( aStr, aFolder, aExt = null ) {                        // .(50428.02.2 CAI Write get1stFile Beg)
+            aFolder = fixPath( aFolder );                                               // .(50428.02.3 RAM Fix path)  
+  try {
+    if (!fs.existsSync(aFolder)) {  // Ensure the folder exists
+      throw new Error(`Folder does not exist: ${aFolder}`);
+            }
+     const  items = fs.readdirSync(aFolder, { withFileTypes: true }); // Read directory contents
+ for (const item of items) { // Process files first
+        if (item.isFile()) {
+      const fileName = item.name;
+        if (fileName.startsWith(aStr)) { // Check if file starts with the specified string
+          if (aExt) { // If extension is specified, check if the file has that extension
+            const fileExt = path.extname(fileName) // .slice(1);                        // .(50428.02.4 RAM Don't remove the dot).(50428.02.x CAI Remove the dot) 
+              if (fileExt.toLowerCase() !== aExt.toLowerCase()) {
+                  continue; // Skip if extension doesn't match
+                  }
+              }
+//         return fileName;                                                             //#.(50428.02.5 RAM No need to pass aFolder back, although it has been fixed) )
+           return path.join( aFolder, fileName);                                        // .(50428.02.5 RAM Need to "Return the full path of the matching file" cuz of recursive calls 
+          }
+       }  }
+    for (const item of items) { // If no matching file found, recursively check subdirectories
+      if (item.isDirectory()) {
+        const subdirPath = path.join(aFolder, item.name);
+        const result = await get1stFile(aStr, subdirPath, aExt);
+        if (result) {
+          return result; // Return the first match found in subdirectories
+        }
+      } }
+    return null; // No matching file found
+  } catch (error) {
+    console.error(`Error in get1stFile: ${error.message}`);
+    return null;
+     }
+  } // eof get1stFile                                                                   // .(50428.02.2 End)  
+// ---------------------------------------------------------------
+
+  function  sqzLines( aText ) {                                                         // .(50503.08.1 RAM Write sqzLines Beg)
+    return  aText.replace(/^[ \t]*$/gm, '')                                             // First remove all whitespace-only lines
+                 .replace(/(\r\n|\r|\n){3,}/g, '\n\n');                                 // Then normalize multiple blank lines
+            } // eof sqzLines                                                           // .(50503.08.1  End)
+// ---------------------------------------------------------------
 
   function  wrap( text, width, indent1,  indent2 ) {                                    // .(50330.06a.1).(50330.06.1 RAM Write wrap Beg)
             indent2       =    indent2 ? indent2 : 0;   indent1 = indent1 ? indent1 : 0 // .(50330.06a.2)
@@ -179,6 +304,95 @@ async  function  htmlToText(html) {
 }
 //   -- --- ---------------  =  ------------------------------------------------------  #
 /**
+ * Converts aPDF content to plain text using  pdf-parse 
+ * @param {string} pdf - PDF content to convert
+ * @returns {string} - Extracted text content
+ * data.pages[0].content[0]
+ *   dir      = 'ltr'
+ *   fontName = 'g_d0_f1'
+ *   str      = 'iPad'
+ *   width    =  56.06982180375733
+ *   height   =  26.999998875
+ *   x        =  35.9999985
+ *   y        = 164.99999312500006
+ * 
+ */
+async function extractTextFromPDF( pdfPath ) {
+    const { PDFExtract } =  await  import( 'pdf.js-extract' );                          // .(50425.03.1 RAM New PDF parser)
+    const   pdfExtract   =  new PDFExtract();
+    const   options      = { }; // Default options
+try {
+       var  aFilePath    =  fixPath( pdfPath );                                         // .(50425.03.1 RAM New Version)
+       var  data         =  await  pdfExtract.extract( aFilePath );
+       var  mPages       =  data.pages.map( page => page.content.map( item => item.str ).join(' ') )
+    return  mPages.join('\n');
+   } catch( error) {
+            console.error(`Error extracting PDF: ${error.message}`);
+     throw  error;
+            }
+     };                                                                                 //#.(50425.03.2) 
+//   -- --- ---------------  =  ------------------------------------------------------  #
+
+async function extractTextFromPDF1( pdfPath ) {                                         //#.(50425.03.2 RAM Write extractTextFromPDF Beg)
+//const { pdfParse } =  await import( 'pdf-parse' );                                    // .(50425.03.1 RAM New PDF parser)
+
+   const  dataBuffer =  fs.readFileSync( pdfPath );
+   const  data       =  await pdfParse( dataBuffer );
+  return  data.text;
+  }                                                                                     //#.(50425.03.2) 
+//   -- --- ---------------  =  ------------------------------------------------------  #
+/**
+* Converts aPDF content to plain text using  pdf-parse 
+* @param {string} pdf - PDF content to convert
+* @returns {string} - Extracted text content
+* Usage
+#   const pdfPath   = 'path/to/your/document.pdf';
+#   const outputDir = 'extracted_images';
+#   extractImagesFromPDF(pdfPath, outputDir)
+#     .then(count => console.log(`Successfully extracted ${count} images`))
+#     .catch(err => console.error('Extraction failed:', err));
+*/
+async function extractImagesFromPDF( pdfPath, outputDir ) {
+    const { PDFExtract } =  await import( 'pdf.js-extract' );                           // .(50425.03.1 RAM New PDF parser)
+    const   pdfExtract = new PDFExtract();
+    const   options = {}; // Default options
+    
+  try {
+    // Create output directory if it doesn't exist
+    if (!fs.existsSync( outputDir )) {
+         fs.mkdirSync(  outputDir, { recursive: true });
+    }
+    
+    // Extract data from PDF
+    const data = await pdfExtract.extract(pdfPath, options);
+    let imageCount = 0;
+    
+    // Process each page
+    data.pages.forEach((page, pageIndex) => {
+      // Check for content items that are images
+      if (page.content) {
+        page.content.forEach((item) => {
+          if (item.image) {
+            imageCount++;
+            const imageFileName = `${outputDir}/image_p${pageIndex + 1}_${imageCount}.png`;
+            
+            // Save the image
+            fs.writeFileSync(imageFileName, item.image);
+            console.log(`Extracted image saved to: ${imageFileName}`);
+          }
+        });
+      }
+    });
+    
+    console.log(`Total images extracted: ${imageCount}`);
+    return imageCount;
+  } catch (error) {
+    console.error(`Error extracting images from PDF: ${error.message}`);
+    throw error;
+  }
+}
+//   -- --- ---------------  =  ------------------------------------------------------  #
+/**
  * Formats text by cleaning up excessive whitespace and newlines
  * @param {string} text - Text to format
  * @returns {string} - Formatted text
@@ -228,12 +442,12 @@ function  fmtResults(results) {
             statLines.push(`    Eval Duration:          ${(stats.eval_duration  / 1e9).toFixed(2) } seconds`);
             statLines.push(`    Prompt Eval Count:      ${ stats.prompt_eval_count } tokens`);
             statLines.push(`    Tokens per Second:      ${ stats.tokens_per_sec } tps`);                    // .(50419.04.2)
-            statLines.push(`    Factual Accuracy:       ${ stats.Score1 || 0 }` )       // "Your answer must be grounded in historical evidence. Avoid speculation unless explicitly presented as such.
-            statLines.push(`    Multiple Perspectives:  ${ stats.Score2 || 0 }` )       // "Consider the various perspectives and debates among historians regarding the reasons for Rome's decline. Mention at least two major competing theories.
-            statLines.push(`    Structured Response:    ${ stats.Score3 || 0 }` )       // "Organize your response into clear paragraphs, with headings for clarity.
-            statLines.push(`    Actionable Suggestions: ${ stats.Score4 || 0 }` )       // "Propose concrete and realistic measures that the Roman emperors might have taken to mitigate the problems, even if they are ultimately speculative. Explain why those measures might have been effective or ineffective based on the historical context.
-            statLines.push(`    Reflection:             ${ stats.Score5 || 0 }` )
-            statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 || 0}` )
+//          statLines.push(`    Factual Accuracy:       ${ stats.Score1 || 0 }` )       //#.(50503.01.1 RAM No scores yet Beg) // "Your answer must be grounded in historical evidence. Avoid speculation unless explicitly presented as such.
+//          statLines.push(`    Multiple Perspectives:  ${ stats.Score2 || 0 }` )       //                                     // "Consider the various perspectives and debates among historians regarding the reasons for Rome's decline. Mention at least two major competing theories.
+//          statLines.push(`    Structured Response:    ${ stats.Score3 || 0 }` )       //                                     // "Organize your response into clear paragraphs, with headings for clarity.
+//          statLines.push(`    Actionable Suggestions: ${ stats.Score4 || 0 }` )       //                                     // "Propose concrete and realistic measures that the Roman emperors might have taken to mitigate the problems, even if they are ultimately speculative. Explain why those measures might have been effective or ineffective based on the historical context.
+//          statLines.push(`    Reflection:             ${ stats.Score5 || 0 }` )
+//          statLines.push(`    Total Score:            ${ stats.Score1 + stats.Score2 + stats.Score3 + stats.Score4 + stats.Score5 || 0}` ) //#.(50503.01.1 End)
     return  statLines;
             }
 //   -- --- ---------------  =  ------------------------------------------------------  #
@@ -268,7 +482,7 @@ function  fmtResults(results) {
         if (pResults.URLs.length) {                                                     // .(50409.03.x)
         var pWebSearch =                                                                // .(50409.03.x)
                 { URL:                pStats.WebSearchURL      // pResults.URLs[0]
-                , Prompt:             pStats.WebSearch         //    "roman empire"
+                , Prompt:             pParms.websearch                                   // .(50408.06c.1 RAM Was: pStats.WebSearch ) // "roman empire")
                 , Response:
                    { AbstractURL:     pResults.WebResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
                    , Results:         pResults.WebResponse.Results
@@ -282,7 +496,7 @@ function  fmtResults(results) {
         var pDocSearch =
                 { DocsPath:           pResults.DocsPath
                 , Response:
-                   { AbstractURL:     pResults.DocResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
+                   { AbstractURL:     pResults.DocResponse.AbstractURL                  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
                    , Results:         pResults.DocResponse.Results
                    , RelatedTopics:   pResults.DocResponse.RelatedTopics
                    , URLs:            pResults.Docs
@@ -294,15 +508,15 @@ function  fmtResults(results) {
              , WebSearch:             pWebSearch                                        // .(50409.03.x)
              , DocSearch:             pDocSearch                                        // .(50409.03.x)
              , ModelQuery:
-                { Model:              pStats.ModelName
+                { Model:              pParms.model.trim()                               // .(50408.06c.2 RAM Was: pStats.ModelName )
                 , Platform:           pResults.Platform
                 , CompinedPrompt:
                    { UsrPromptCode:   pStats.QPC                                        // .(50410.04a.5)
-                   , UsrPrompt:       pStats.UsrPrompt                                  // .(50413.02.1 RAM Was QueryPrompts)
+                   , UsrPrompt:       pParms.usrprompt                                  // .(50408.06c.3 RAM Was: pStats.UsrPrompt ).(50413.02.1 RAM Was QueryPrompts)
                    , SysPromptCode:   pResults.SysPmtCd                                 // .(50413.02.2)
-                   , SysPrompt:       pResults.SysPrompt
+                   , SysPrompt:       pParms.sysprompt                                  // .(50408.06c.4 RAM Was: pResults.SysPrompt?? not pStats.SysPrompt)
                    , Documents:       pStats.Docs
-                   , PromptTemplate:  pResults.PromptTemplate  //  "{UsrPrompt}. {SysPrompt}, {Docs}"
+                   , PromptTemplate:  pResults.PromptTemplate                           //  "{UsrPrompt}. {SysPrompt}, {Docs}"
                    , Prompt:          pResults.Prompt
                      }
                 , Response:           pResults.Response
@@ -317,6 +531,7 @@ function  fmtResults(results) {
             delete pStats.ResponseFile
             delete pStats.WebSearchURL
             delete pStats.WebSearch
+            delete pStats.SysPrompt                                                     // .(50413.02.1)
             delete pStats.UsrPrompt                                                     // .(50413.02.1)
             delete pStats.Docs
             delete pStats.QPC
@@ -347,11 +562,116 @@ function  fmtResults(results) {
             }                                                                           // .(50408.10.1 End)
   //   -- --- ---------------  =  ------------------------------------------------------  #
 
-  function  savStats_4Text( stats, parms, aExt ) {                                      // .(50408.06.2 RAM Was: savStats).(50403.04.1 RAM Add aExt).(50331.03.1 RAM Write savStats)
+  function  chop( nLen, aStr) {                                                         // .(50410.04c.1 RAM Write chop Beg)
+    return  aStr.length > nLen ? `${ aStr.slice( 0, nLen-3 ) }...` : aStr.padEnd( nLen) 
+            }                                                                           // .(50410.04c.1
+  function  take( nLen, aStr, bSoft) {                                                  // .(50503.01.2 RAM Write take Beg)
+            aStr = String( aStr ); if (nLen == 0 ) { return aStr }    
+    return  bSoft ? (nLen > aStr.length ? aStr.padEnd( nLen ) : aStr)
+                  : (nLen < 0 ? aStr.slice( nLen ).padStart( -nLen )  : aStr.slice( 0, nLen ).padEnd( nLen ) )
+            }                                                                           // .(50503.01.x End)
+//          console.log( '     ',               "'1234567890123456789012345678'"       )
+//          console.log( '23   ', `'${ take( 23, "1234567890123456789012345678"    )}'` )
+//          console.log( '23, 1', `'${ take( 23, "1234567890123456789012345678", 1 )}'` )
+//          console.log( ' 6   ', `'${ take(  6, "1234567890123456789012345678"    )}'` )
+//          console.log( '-8   ', `'${ take( -8, "1234567890123456789012345678"    )}'` )
+//          console.log( ' 6, 1', `'${ take(  6, "123", 1                          )}'` )
+//          console.log( ' 6   ', `'${ take(  6, "123"                             )}'` )
+//          console.log( '-8   ', `'${ take( -8, "123"                             )}'` )
+//          process.exit() 
+//          makFlds() 
+  function  makFlds(  ) {                                                               // .(50503.01.3 RAM Write makFlds Beg)            
+    var aTemplate= `
+RespId       |                13
+HW CD |                        5
+Model Name                 |  27 chop
+Context|                      -7
+ Temp|                        -5
+TPS|                          -6
+  Duration|                   -7
+ Sc|                          -3
+ or|                          -3
+ es|                          -3
+      Date Time   |          -18
+UPC|                           3
+Model User Prompt|            27 chop
+ Eval Duration|               -6
+Eval Tokens|                  -5
+Prompt Eval Tokens|           -6
+SysPmtCd|                      9
+Model System Prompt|          35 chop
+  Web Search Prompt    |      27 chop
+Doc-File Name          |      23 min
+Web Search URL         |      23
+CPU_GPU                |      23
+RAM|                          -3
+OS       |                     9
+Computer |                     9
+Server                               | 37
+Response File|  
+`
+       var  mTemplate = aTemplate.split( "\n" )
+//     var  mFlds = [] 
+   function fmtFld( aRow, i ) {
+//          console.log (i, aRow )
+//          mFlds.push( aRow.replace( /\|.+/, '' ) )
+    return  aRow.replace( /\|.+/, '' ) 
+            }
+//          mTemplate.forEach( fmtFld )
+       var  mFlds =  mTemplate.map( fmtFld ).slice(1)
+//          console.log( mFlds.join( '\t' ) )
+    return  mFlds 
+        } // eof makFlds                                                                // .(50503.01.3 End)
+//   -- --- ---------------  =  ------------------------------------------------------  #
+
+  function  savStats_4Text_v208( stats, parms, aExt ) {                                 // .(50503.01.4 RAM Write new version Beg)
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.6)
        var  pStats  = {};
-            pStats.RespId           =     parms.resp_id.slice( 0, 11 )                  // .(50331.05c.2).(50331.05.4)
-            pStats.ModelName        =` ${(parms.model.padEnd( 25 ) )}`                  // .(50404.05.01 RAM Make model width 25)
+            pStats.RespId           = take(  13,  parms.resp_id.replace(/\.[0-9]\..+/,"")) // .(50429.09.17) 
+            pStats.PCode            = take(   6,  parms.pccode )                        // .(50503.01.5)
+            pStats.ModelName        = chop(  27,  parms.model )                         // .(50429.09.18 RAM Remove leading space).(50404.05.01 RAM Make model width 25)
+            pStats.ContextSize      = take(  -7,  parms.options.num_ctx )               // .(50404.05.02)
+            pStats.Temperature      = take(  -5,  parms.temp )                          // .(50404.05.03)
+            pStats.TokensPerSecond  = take(  -6, (stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2) )    // .(50404.05.08)
+            pStats.Duration         = take(  -7, (stats.total_duration/1e9).toFixed(2)) // .(50404.05.04)
+            pStats.Accuracy         = take(  -3,  0 )                                   // .(50503.01.6)
+            pStats.Relevance        = take(  -3,  0 )                                   // .(50503.01.7)
+            pStats.Coherence        = take(  -3,  0 )                                   // .(50503.01.8)
+            pStats.DateTime         = take( -18,  parms.datetime )                      // .(50413.02.3)
+            pStats.UPC              = take(   3,  parms.qpc )                           // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
+            pStats.EvalTokens       = take(  -5,  stats.eval_count)                     // .(50404.05.05)
+            pStats.UsrPrompt        = chop(  27,  parms.usrprompt )                     // .(50410.04c.1).(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
+            pStats.EvalDuration     = take(  -6, (stats.eval_duration /1e9).toFixed(2)) // .(50404.05.06)
+            pStats.PromptEvalTokens = take(  -5,  stats.prompt_eval_count )             // .(50404.05.07)
+            pStats.SysPmtCd         = take(   9,  parms.spc )                           // .(50413.02.4)
+            pStats.SysPrompt        = chop(  35,  parms.sysprompt )                     // .(50410.04c.2).(50413.02.5)
+            pStats.WebSearch        = chop(  27,  parms.websearch )                     // .(50410.04c.3).(50330.04c.4)
+            pStats.Docs             = take(  23,  stats.docs, 1 )                       // .(50503.01.8 RAM Soft take, i.e. just pad )
+            pStats.WebSearchURL     = take(  23,  stats.url, 1 )                        // .(50503.01.9).(50407.03.6)
+            pStats.CPU_GPU          = take(  23,  aCPU_GPU, 1 )                         // .(50503.01.10).(50330.04b.7 Beg)
+            pStats.RAM              = take(  -3,  aRAM.replace( / *GB/, '' ) )
+            pStats.OS               = take(   9,  aOS )
+            pStats.Computer         = take(   9,  aPC_Model )                           // .(50330.04b.7 End)
+            pStats.Server           = take(  37,  aServer, 1 )
+//          pStats.ResponseFile     = take( `file:///${parms.logfile}`                  //#.(50331.05c.3).(50331.05.5)
+            pStats.ResponseFile     = take(   0,  parms.logfile.replace( /[\\\/]docs/, ".docs")) // .(50331.05c.3).(50331.05.5)
+       if (!aExt) { return pStats }                                                     // .(50408.06.3 RAM Just the Stats Jack)
+       var  mStats                  =  Object.entries( pStats ).map( pStat => pStat[1] )
+       var  mFlds                   =  makFlds() 
+       var  aDelim                  =  aExt.match( /tab/ ) ? "\t" : '","',  aQQ = aDelim == "\t" ? '' : '"'
+       var  aFlds                   =  mFlds.join( aDelim )
+       var  aRow                    =  aQQ + mStats.join( aDelim ) + aQQ                // .(50403.04.2 End)
+   return [ pStats, [ aFlds, aRow ] ]                                                   // .(50503.01.4 End).(50403.04.3 RAM Was aCSV)
+            }
+// ----------------------------------------------------------------------
+
+  function  savStats_4Text_v207( stats, parms, aExt ) {                                 // .(50408.06.2 RAM Was: savStats).(50403.04.1 RAM Add aExt).(50331.03.1 RAM Write savStats)
+      var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.6)
+       var  pStats  = {};
+//          pStats.RespId           =     parms.resp_id.slice( 0, 11 )                  //#.(50331.05c.2).(50331.05.4).(50429.09.19) 
+            pStats.RespId           =     parms.resp_id.replace( /\.[0-9]\..+/, "" )    // .(50429.09.19) 
+//          pStats.ModelName        =` ${(parms.model.padEnd( 25 ) )}`                  // .(50404.05.01 RAM Make model width 25).(50429.09.20) 
+            pStats.ModelName        = `${(parms.model.padEnd( 25 ) )}`                  // .(50429.09.20 RAM Remove leading space).(50404.05.01 RAM Make model width 25)
             pStats.ContextSize      = `${ parms.options.num_ctx                 }`.padStart(5)                        // .(50404.05.02)
             pStats.Temperature      = `${ parms.temp}`.padStart(4)                                                    // .(50404.05.03)
             pStats.Duration         = `${(stats.total_duration / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.04)
@@ -360,15 +680,15 @@ function  fmtResults(results) {
             pStats.UPC              =     parms.qpc                                                                   // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
 //          pStats.QueryPrompt      =     stats.query.length > 27                                                     //#.(50407.03.5 RAM Was Query).(50410.04a.7)
 //          pStats.UsrPrompt        =     stats.query.length > 27                                                     //#.(50410.04a.7 Was QueryPrompt).(50407.03.5 RAM Was Query).(50410.04b.1)
-            pStats.UsrPrompt        =     parms.usrprompt.length > 27                                                 // .(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
-                                    ? `${ parms.usrprompt.slice(0,24)}...` : stats.query.padEnd(27)                   // .(50410.04b.2)(50407.03.5 RAM Add ...)
+            pStats.UsrPrompt        =     chop( 27, parms.usrprompt )                                                  // .(50410.04c.1).(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
+//                                  ? `${ parms.usrprompt.slice(0,27)}...` : stats.query.padEnd(27)                   //#.(50410.04b.2)(50407.03.5 RAM Add ...).(50410.04c.1)
             pStats.EvalDuration     = `${(stats.eval_duration  / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.06)
             pStats.PromptEvalTokens = `${ stats.prompt_eval_count               }`.padStart(6)                        // .(50404.05.07)
             pStats.TokensPerSecond  = `${(stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)}`.padStart(6)    // .(50404.05.08)
             pStats.SysPmtCd         =     parms.spc                                                                   // .(50413.02.4)
-            pStats.SysPrompt        =     parms.sysprompt.length > 27                                                 // .(50413.02.5)
-                                    ? `${ parms.sysprompt.slice(0,24)}...` : parms.sysprompt.padEnd(27)               // .(50413.02.6)
-            pStats.WebSearch        =     parms.websearch                               // .(50330.04c.4)
+            pStats.SysPrompt        =     chop( 27, parms.sysprompt )                                                 // .(50410.04c.2).(50413.02.5)
+//                                  ? `${ parms.sysprompt.slice(0,27)}...` : parms.sysprompt.padEnd(27)               //#.(50413.02.6).(50410.04c.2)
+            pStats.WebSearch        =     chop( 28, parms.websearch )                                               // .(50410.04c.3).(50330.04c.4)
             pStats.WebSearchURL     =     stats.url                                     // .(50407.03.6)
             pStats.Docs             =     stats.docs
             pStats.CPU_GPU          =  aCPU_GPU                                         // .(50330.04b.7 Beg)
@@ -377,16 +697,16 @@ function  fmtResults(results) {
             pStats.Computer         =  aPC_Model                                        // .(50330.04b.7 End)
             pStats.Server           =  aServer
             pStats.ResponseFile     =  `file:///${parms.logfile}`                       // .(50331.05c.3).(50331.05.5)
-       if (!aExt) { return pStats }                                                     // .(50408.06.3 RAM Just the Stats Jack)
 
+       if (!aExt) { return pStats }                                                     // .(50408.06.3 RAM Just the Stats Jack)
        var  mStats                  =  Object.entries( pStats ).map( pStat => pStat[1] )
 //     var  aCSV                    = `"${ mStats.join( '","' ) }"`                     //#.(50403.04.2 Beg)
 //     var  aFlds                   = `Model,URL,Docs,Query,Context,Duration,PromptEvalCount,EvalCount,EvalDuration,TokensPerSecond,Server,CPU_GPU_RAM`
 //     var  aFlds                   = `Model,Context,Temperature,Duration,EvalTokens,URL,Docs,Query,EvalDuration,PromptEvalTokens,TokensPerSecond,Server,CPU_GPU_RAM`
 //     var  aFlds                   = `RespId,Model,Context,Temperature,Duration,"Eval Tokens",Query,"Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search",Docs,URL,CPU_GPU,RAM,OS,Computer,Server,"Response File"`
-//     var  mFlds                   = [ "RespId","Model","Context","Temperature","Duration","Eval Tokens","Query","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  //#.(50407.03.7)
-//     var  mFlds                   = [ "RespId     ","Model Name               ","Context","Temp","Duration","Eval Tokens","QPC","Model Query Prompt","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","Web Search URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]              //#.(50407.03.7 RAM Add QPC column).(50413.02.7)
-       var  mFlds                   = [ "RespId     ","Model Name               ","Context","Temp","Duration","Date Time","Eval Tokens","UPC","Model User Prompt","Eval Duration","Prompt Eval Tokens","Tokens Per Second","SysPmtCd","Model SYstem Prompt","Web Search","Docs","Web Search URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  // .(50413.02.7).(50407.03.7 RAM Add QPC column)
+//     var  mFlds                   =["RespId","Model","Context","Temperature","Duration","Eval Tokens","Query","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  //#.(50407.03.7)
+//     var  mFlds                   =["RespId     ","Model Name               ","Context","Temp","Duration","Eval Tokens","QPC","Model Query Prompt","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","Web Search URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]              //#.(50407.03.7 RAM Add QPC column).(50413.02.7)
+       var  mFlds                   =["RespId     ","Model Name               ","Context","Temp","Duration","Date Time","Eval Tokens","UPC","Model User Prompt","Eval Duration","Prompt Eval Tokens","Tokens Per Second","SysPmtCd","Model SYstem Prompt","Web Search","Docs","Web Search URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  // .(50413.02.7).(50407.03.7 RAM Add QPC column)
        var  aDelim                  =  aExt.match( /tab/ ) ? "\t" : '","',  aQQ = aDelim == "\t" ? '' : '"'
        var  aFlds                   =  mFlds.join( aDelim )
        var  aRow                    =  aQQ + mStats.join( aDelim ) + aQQ                // .(50403.04.2 End)
@@ -468,21 +788,28 @@ function  createUserInput() {                             //#.(50330.03.3 RAM Re
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
     export  default {  // Export as default object with named functions
-            wrap,                                         // .(50330.05.2)
             ask4Text,                                     // .(50330.03.4)
+//          createUserInput                               //#.(50330.03.5)
+            extractTextFromPDF,                           // .(50425.03.2) 
+            extractImagesFromPDF,                         // .(50425.03.3)
             fmtText,
+            fixPath,                                      // .(50425.03.4
+            getConfig,                                    // .(50428.01.8)  
+            get1stFile,                                   // .(50428.02.6)  
+            fmtStream,
             htmlToText,
             fmtResults,
             fmtStats,
+            readText,                                     // .(50428.01.9)
 //          savStats      : savStats_4Text,               //#.(50408.06.4).(50331.03.3)
-            savStats4Text : savStats_4Text,               // .(50408.06.4)
+            savStats4Text : savStats_4Text_v208,          // .(50503.01.11).(50408.06.4)
             savStats4JSON : savStats_4JSON,               // .(50408.06.5)
 //          savStats4MD   : savStats_4MD,                 // .(50408.10.2)
 //          getEnvVars,                                   //#.(50403.02.6).(50331.04.2)
             showHiddenChars,
-            fmtStream,
-            shoMsg                                        // .(50404.01.26)
-//          createUserInput                               //#.(50330.03.5)
+            shoMsg,                                                                     // .(50404.01.26)
+            sqzLines,                                     // .(50503.08.2)
+            wrap                                          // .(50330.05.2)
             };
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 /*========================================================================================================= #  ===============================  *\

@@ -1,0 +1,4 @@
+"./data/AI.testR.4u/files/apple/iPad_ Should You Buy_ Feature List, Reviews, and Advice.pdf"
+"./data/AI.testR.4u/files/apple/iPad Pro_ Should You Buy_ Features, Reviews and More.pdf"
+"./data/AI.testR.4u/files/apple/macOS Sonoma_ Features, Compatible Devices, and More.pdf"
+"./data/AI.testR.4u/files/apple/iOS 17_ Features, Compatible Devices, and More.pdf"

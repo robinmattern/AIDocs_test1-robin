@@ -98,6 +98,9 @@
 #.(50422.02   4/22/25 RAM 10:25a| Keep aDocsDir aSessionName as t0#0 if ??
 #.(50423.01   4/23/25 RAM  6:55a| Add comment lines for sections
 #.(50423.02   4/22/25 RAM  6:55a| Break out runWebSearch and runDocSearch
+#.(50404.01   4/29/25 RAM  8:20p| Edit position of shoMsg
+#.(50427.06   4/27/25 MW   7:30a| Move s41_bun-app to s13_search-rag-app
+#.(50428.03   4/28/25 RAM  3:15p| Err msg for .env not found
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -110,8 +113,8 @@
 // import * as readline         from 'readline';
 // import { createInterface }   from 'node:readline/promises';
    import   LIBs                from '../../._2/FRT_Libs.mjs'
-   import { Stats } from "fs";
-import { doesNotReject } from "assert";
+// import { Stats } from "fs";
+// import { doesNotReject } from "assert";
 
 // Import modules using dynamic imports
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
@@ -121,13 +124,14 @@ import { doesNotReject } from "assert";
             aLog             =  aLog == "log,inputs" ? "log" : aLog                     // .(50414.01c.1 RAM Fix if aLog = "log", was: '')
 //     var  bDebug           =  process.env.DEBUG || 0                                  // .(50415.01.1 RAM It gets checked later, Uncomment for S1201[ 116])
        var  bDoit            =  process.env.DOIT || 1                                   // .(50415.01.2)
-//     var  aLog             = "log"                                                                        // .(50414.01.1 RAM Do print Log)
-       var  bNoLog           =  aLog == "log" ? 0 : 1; global.bNoLog = bNoLog                               // .(50414.01.2 RAM Don't print shoMsg if 0)
+//     var  aLog             = "log"                                                    // .(50414.01.1 RAM Do print Log)
+       var  bNoLog           =  aLog == "log" ? 0 : 1; global.bNoLog = bNoLog           // .(50414.01.2 RAM Don't print shoMsg if 0)
             global.bQuiet    =  bNoLog == 0
         if (bDebug == 1) {
             console.log(   `  - S1201[ 116]  bDoit: '${bDoit}', aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: ${bDebug}, bQuiet: ${global.bQuiet}`) // process.exit()
-            }                                     // .(50414.01.2 RAM Don't print shoMsg if 0)
-            LIBs.MWT         = () => "../../._2/MWTs"                                                       // .(50405.06.6)
+            }                                     
+            LIBs.MWT         =        () => "../../._2/MWTs"                                                // .(50405.06.6)
+//     var  LIBs             = { MWT: () => "../../._2/MWTs" }                                              //#.(50405.06.6 RAM Error: Only URLs with a scheme in: file, data, and node are supported by the default ESM loader.)
 //     var  FRT              =( await import( `${LIBs.AIC()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.7)
        var  FRT              =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.8 RAM Call function: LIBS.MOD())
        var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
@@ -221,7 +225,8 @@ import { doesNotReject } from "assert";
 //     ---  --------  =  --  =  ------------------------------------------------------  #
        var  pVars            =  FRT.getEnvVars( FRT.__dirname )                                             // .(50403.02.6 RAM Was MWT).(50331.04.3 RAM Get .env vars Beg)
        if (!pVars.PLATFORM) {                                                                               // .(50403.02.7 Beg)
-            usrMsg( `* An .env file does not exist in ${ FRT.__dirname.replace( /.+server1/, './server1') }.`)
+       var  aEnvDir          =  FRT.__dirname.replace( /.+server1/, './server1').replace( /\\/, "/" )       // .(50428.03.1 RAM Fix path) 
+            usrMsg( `* An .env file or it's variables do not exist in ${aEnvDir}.`)                         // .(50428.03.2 RAM New msg) 
             process.exit(1)
             }                                                                                               // .(50403.02.7 End)
        var  aWebSearch       =  pVars.WEB_SEARCH    || "Lexington Va"
@@ -408,7 +413,7 @@ import { doesNotReject } from "assert";
 
             sayMsg( `A1201[ 378]  global.bNoLog: ${global.bNoLog}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )   // .(50414.01.4)
 
-                                usrMsg(  "----------------".padEnd( nWdt - 12, "-" ), shoMsg( "all" ) )     // .(50404.05b.1 RAM Was 25).(50404.05.10)
+                                usrMsg(  "----------------".padEnd( nWdt - 12, "-" )                                       , shoMsg("all")     ) // .(50404.05b.1 RAM Was 25).(50404.05.10)
 
         if (global.bNoLog == 0) {                                                                                                                // .(50414.01.5 RAM Do log it)
        var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  ")
@@ -461,13 +466,13 @@ import { doesNotReject } from "assert";
             } // eof interactive
 
         if (bUseWebURLs) {                                                                                                                      // .(50409.03.20)
-            usrMsg(""                                    , shoMsg('Parms' ) )           // .(50404.01.1)
-            usrMsg(`Web Search Prompt: "${searchPrompt}"`, shoMsg('Parms' ) )           // .(50404.01.2)
-//          usrMsg(`  AI Prompt:       "${aiPrompt}"`    , shoMsg('Parms' ) )           // .(50404.01.3)
+            usrMsg(""                                                                                                      , shoMsg('Parms')   ) // .(50404.01.1)
+            usrMsg(`Web Search Prompt: "${searchPrompt}"`                                                                  , shoMsg('Parms')   ) // .(50404.01.2)
+//          usrMsg(`  AI Prompt:       "${aiPrompt}"`                                                                      , shoMsg('Parms')   ) // .(50404.01.3)
           } else {
             searchPrompt     = ''                                                       // .(50414.03.3 RAM Blank if not using WebSearch)
             }                                                                                                                                   // .(50409.03.21)
-                                usrMsg(  "----------------".padEnd(        57, "-" ), shoMsg('Parms') )     // .(50404.05.12)
+                                usrMsg(  "----------------".padEnd(        57, "-" )                                       , shoMsg('Parms')   ) // .(50404.05.12)
 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
@@ -510,10 +515,10 @@ import { doesNotReject } from "assert";
 //  return  usrMsg( "\n* No text content for the AI model to query or summarize." );                        //#.(50404.07.2 RAM Return -1 if error).(50409.03.40)
             usrMsg(   "* No text content for the AI model to query or summarize.", bNoLog );                // .(50414.01.13).(50409.03.40 RAM OK for plain search).(50404.07.2 RAM Return -1 if error)
             }
-        var aRunStr          = "RunId: " + pParms.runid.replace( ',', ", No: " )   // .(504                 // .(50404.01.9)
+        var aRunStr          = "RunId: " + pParms.runid.replace( ',', ", No: " )                                                                 // .(50404.01.10)
             usrMsg( `\nCombined Prompt for Model: ${pParms.model}  (${aRunStr})`                                           , shoMsg('Parms')   ) // .(50404.01.10)
             usrMsg( "---------------------------------------------------------------------------------------------- "      , shoMsg('Parms')   ) // .(50404.01.11)
-            sayMsg( `A1201[ 586]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)
+            sayMsg( `A1201[ 518]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)
 
        var  aSources         =  texts.map((a, i) => `${i+1}.${MWT.fmtText(a)}`).join("\n")
         if (bPrtSources == 1 && aSources > '') {                                                            // .(50409.03.41 RAM Don't display if empty)
@@ -524,7 +529,7 @@ import { doesNotReject } from "assert";
             }
             usrMsg(   `  SysPrompt: "${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "" ) }"`               , shoMsg('Parms')   ) // .(50404.01.13)
 //          usrMsg(   `  Query:     "${query}"`                                                                            , shoMsg('Parms')   ) //#.(50404.01.14).(50408.08.1)
-//          usrMsg(   `  UsrPrompt: "{Query}: ${query}"` )  // aka aiPrompt, Model Query Prompt                            , shoMsg('Parms')   ) // .(50408.08.1 Was Query).(50404.01.14)
+//          usrMsg(   `  UsrPrompt: "{Query}: ${query}"` )  // aka aiPrompt, Model Query Prompt                            , shoMsg('Parms')   ) //#.(50404.01.14).(50408.08.1 Was Query)
             usrMsg(   `  UsrPrompt: "${pParms.qpc}: ${query}"`                                                             , shoMsg('Parms')   ) // .(50410.04a.3).(50408.08.1 Was Query).(50404.01.14)
 //          usrMsg(   `  Prompt:    "{Query}. {SysPrompt}, {Docs}"`                                                        , shoMsg('Parms')   ) //#.(50404.01.15)(50410.04a.4)
             usrMsg(   `  Prompt:    "{UsrPrompt}. {SysPrompt}, {Docs}"`                                                    , shoMsg('Parms')   ) // .(50410.04a.4).(50404.01.15)
@@ -547,7 +552,7 @@ import { doesNotReject } from "assert";
 
         if (global.nLog != 1) {
             aResult          =  MWT.wrap( aResult, nWdt, 4 )                            // .(50330.06a.7).(50330.06.3)
-            usrMsg( aResult                             , shoMsg('Results' ) )          // .(50404.01.18).(50330.06a.7).(50330.06.3)
+            usrMsg( aResult                                                                                                , shoMsg('Results') ) // .(50404.01.18).(50330.06a.7).(50330.06.3)
             }
             pStats.query     =  query                                                   // .(50331.03.4 Beg)
             pStats.url       =  document
@@ -566,7 +571,7 @@ import { doesNotReject } from "assert";
             pParms.tps       =  pStats.tokens_per_sec                                                                                            // .(50414.01.15)
 
             sayMsg( `A1201[ 636]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)
-            usrMsg(   `\n    > Ran Model: ${           pParms.model} in ${pParms.secs} secs (${aRunStr})\n`                , shoMsg('RunId')   )  // .(50404.01.23).(50403.03.8)
+            usrMsg(   `\n    > Ran Model: ${           pParms.model} in ${pParms.secs} secs (${aRunStr})\n`                , shoMsg('RunId')   ) // .(50404.01.23).(50403.03.8)
 //       if (global.bNoLog == 0) {                                                                                                               //#.(50414.01.16 RAM Do log it)
 //     var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  "), aPIDs = `${pParms.spc}  ${pParms.qpc}`                                 //#.(50414.01.16)
 //          console.log( `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${pParms.model}  ${aPIDs}` )                              //#.(50414.01.16)

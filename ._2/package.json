@@ -4,8 +4,13 @@
   "license": "ISC",
   "dependencies": {
     "@mozilla/readability": "^0.6.0",
+    "chromadb": "^2.3.0",
     "dotenv": "^16.4.7",
+    "html-to-text": "^9.0.5",
     "inquirer": "^12.5.0",
-    "jsdom": "^26.0.0"
+    "jsdom": "^26.0.0",
+    "ollama": "^0.5.15",
+    "pdf-parse": "^1.1.1",
+    "pdf.js-extract": "^0.2.1"
   }
 }
