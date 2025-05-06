@@ -63,6 +63,7 @@
 #.(50503.01   5/03/25 RAM  8:30p| Redo stats sheet fields
 #.(50503.08   5/03/25 RAM 11:00p| Write and use sqzLines
 #.(50505.08   5/05/25 RAM  8:15p| Sort files for get1stFile
+#.(50505.13   5/06/25 RAM 10:30p| Remove : from FixPath 
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -110,9 +111,9 @@
        if (aPath.match( /^\.[\\\/]/) ) { aDrv = ""; aDir = aPath            
         } else {
 //     var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:)/ ); aDrv = aDrv[1] ? aDrv[1] : "";         //#.(40528.03.1)
-       var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:*)/); 
+       var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:)/);                                         // .(50505.13.1 RAM Remove "*", require :)
             aDrv  = (aDrv && aDrv[1]) ? aDrv[1] : "";                                                       // .(40528.03.1 RAM Add aDrv &&).(40528.03.1 RAM May not contain a ":")
-       var  aDir  = (aPath || ".").replace( /^[\\\/]*[a-zA-Z]:*/, "");                                      // .(40528.03.2)
+       var  aDir  = (aPath || ".").replace( /^[\\\/]*[a-zA-Z]:/, "");                                       // .(50505.13.2).(40528.03.2)
             }
        var  aFilePath = path.resolve( aDrv, aDir, aFile );
     return  aFilePath;

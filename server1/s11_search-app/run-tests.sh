@@ -17,8 +17,8 @@
 
      export DOIT="1"
      export DEBUG="0"
- 
+
      export PC_CODE="rm231p"
 
      bash  "${aRun_Tests}"  "$@";                                if [ $? -ne 0 ]; then exit 1; fi
-     node  "${aScore_Script}" "gemma2:2b" "--app:s12";           if [ $? -ne 0 ]; then exit 1; fi
+#    node  "${aScore_Script}" "gemma2:2b" "--app:s11";           if [ $? -ne 0 ]; then exit 1; fi
