@@ -22,6 +22,7 @@
 #.(50427.05   4/27/25 MW   7:00a| Use aCollection in importCollection
 #.(50427.06   4/27/25 MW   7:30a| Move s41_bun-app to s13_search-rag-app
 #.(50428.01   4/28/25 RAM  8:10a| Add Matt's utilities.js fns 
+#.(50505.07   5/06/25 RAM  8:08a| Add aBasedir to imported local file path
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -42,9 +43,12 @@
        var   aMeta           =  await  import.meta.url; 
        var   __dirname       =  aMeta.replace( /file:\/\//, "" ).split( /[\\\/]/ ).slice(0 ,-1).join( '/' ); 
        var   __basedir       =  __dirname.replace( /[\\\/](client|server)[0-9]*.+/,""); // .(50427.05.1 RAM Add __basedir)
-       var  aDataDir        =  MWT.fixPath( `${__basedir}/data` )                       // .(50427.05.2 RAM Add aDataDir)
-       var  aTestFilesDir   =  MWT.fixPath( `${__basedir}/data/AI.testR.4u/files` )     //#.(50427.05.3 RAM Add aTestFilesDir)
-   
+       var    aBasedir       =  __basedir                                               // .(50505.07.2 RAM Fix bizarre scopping issue)
+       var  aDataDir         =  MWT.fixPath( `${__basedir}/data` )                      // .(50427.05.2 RAM Add aDataDir)
+       var  aTestFilesDir    =  MWT.fixPath( `${__basedir}/data/AI.testR.4u/files` )    //#.(50427.05.3 RAM Add aTestFilesDir)
+//          console.log('After definition: ', typeof __basedir, typeof aBasedir, typeof __dirname, typeof MWT);
+//                              if (typeof( __basedir) == 'string') { console.log( "it is defined" ) }
+    
        var  chroma           =  new ChromaClient({ path: "http://localhost:8000" });    // Expl icitly use http://
    
        var  aCollection      = "buildragwithtypescript"                                 // .(50425.01.1)
@@ -55,10 +59,11 @@
        var  aCollection      = "s13d_greenbook-docs"
 //     var  aCollection      = "s13e_constitution-docs"
 //     var  aCollection      = "s13f_eo-docs"
-       var  aCollection      = "s13g"
+       var  aCollection      = "s13a"
    
-       var  aCollection      =  process.argv[2] ? process.argv[2] : aCollection
+       var  aCollection      =  process.argv[2] ? process.argv[2] : aCollection;  
        var  aCollection      = (await MWT.get1stFile( aCollection, aDataDir, ".txt")).replace( /\.txt/,'' ) // .(50427.05.4)
+     
 //          aCollection      =  aCollection.slice( aDataDir.length ).replace( /^[\\\/]/, "")                // .(50427.05.5)
             aCollection      =  aCollection.replace( aDataDir, '').replace( /^[\\\/]/, "")
 //          console.log(       `\nCollection: ${aCollection}` ); process.exit ()                
@@ -93,6 +98,10 @@
 // ----------------------------------------------------------------------------------
 
   async  function  importCollection( aCollection, bQuiet ) {                            // .(50425.01.3 RAM Use Collection name)
+//    console.log('on first line of function:', typeof __basedir, typeof aBasedir, typeof __dirname, typeof MWT);
+//    if (typeof( __basedir) == 'string') { console.log( "it is defined" ) }
+       
+
     let  collection;
    try {
          collection = await chroma.getOrCreateCollection( 
@@ -113,14 +122,15 @@
          docstoimport            =  docstoimport.filter( doc => doc.match( /^ *[#\/]+/ ) == null ).filter( doc => doc );  // .(50425.02.4)
 
 for (var doc of docstoimport) {
-         doc = doc.trim().replace( /^"/, "" ).replace( /"$/, "" );                      // .(50425.02.5)
+         doc    =  doc.trim().replace( /^"/, "" ).replace( /"$/, "" );                      // .(50425.02.5)
          console.log(`\nEmbedding chunks from: '${doc}'`);
+         doc    =  doc.match( /^http/ ) ?  doc : MWT.fixPath( aBasedir, doc )               // .(50505.07.3 RAM Fix path is a local file)
      if (doc.match( /\.pdf/ )) {
-    var  text   = await MWT.extractTextFromPDF( doc );
+    var  text   =  await MWT.extractTextFromPDF( doc );    
      } else {
-    var  text   = await MWT.readText( doc );                                            // .(50427.05.7 RAM Use MWT.readText. Ok if starts with './data/...)
+    var  text   =  await MWT.readText( doc );                                            // .(50427.05.7 RAM Use MWT.readText. Ok if starts with './data/...)
          }
-    var  chunks = chunkTextBySentences( text.trim(), 7, 0 );                            // .(50425.01.2 RAM Avoid Error embedding chunk 19 from E:\Repos\Robin\AIDocs_\dev01-robin\data\AI.testR.4u\files\txts\constitution-bt.txt: Collection expecting embedding with dimension of 768, got 0)
+    var  chunks =  chunkTextBySentences( text.trim(), 7, 0 );                            // .(50425.01.2 RAM Avoid Error embedding chunk 19 from E:\Repos\Robin\AIDocs_\dev01-robin\data\AI.testR.4u\files\txts\constitution-bt.txt: Collection expecting embedding with dimension of 768, got 0)
     var  currentPosition = 0;                                                           // .(50424.01.1 RAM)
     for (var [index, chunk] of chunks.entries()) {
     try {

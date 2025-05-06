@@ -8,11 +8,12 @@
 
 if [ "$1" == "" ]; then
     echo ""
-    echo "  Usage: bash $0 {Command} [{IDs}] [{Format}]"
+    echo "  Usage: aitestr chroma {Command} [{IDs}] [{Format}]"
     echo ""
     echo "    Command     IDs    Format     Description"
     echo "    ----------- -----  ---------  -------------------------------------------------"
-    echo "    start                         Start chromaDB if not running"
+    echo "    start                         Start chromaDB if it is not running"
+    echo "    stop                          Stop chromaDB if it is running"
     echo ""
     echo "    counts                        List record counts for all tables"
     echo "    tables                        Show schema for all tables"
@@ -44,7 +45,16 @@ if [ "$1" == "" ]; then
 function checkChromaDB() {
      bOK="$( curl -s http://localhost:8000/api/v2/heartbeat | awk '/"nanosecond heartbeat"/ { print 1 }' )"
      echo "${bOK}"
-  }
+           }
+# ----------------------------------------------------------------
+
+function stopChromaDB() {                                                               # .(50505.09.1 RAM Write stopChromaDB Beg)
+         aPID="$( ps aux | grep -i chroma | awk '{ print $1 }' )"
+     if [ "${aPID}" == "" ]; then echo "  ChromaDB is not running.";  
+       else kill -9 "${aPID}";    echo "  ChromaDB stopped.";  
+     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi; exit 1; fi 
+         }                                                                              # .(50505.09.1 End)
+# ----------------------------------------------------------------
 
 function startChromaDB() {
     aChroma_SQLite3_DB="$1"
@@ -57,7 +67,9 @@ function startChromaDB() {
     CHROMA_PATH="./my_chroma_data"
     CHROMA_SCRIPT="./chroma.sh"  # Path to your chroma.sh script
 
-  # curl http://localhost:8000/api/v2/heartbeat
+#   pwd; ls -l ${CHROMA_SCRIPT}; exit 
+#   $CHROMA_SCRIPT ; exit 
+#   curl http://localhost:8000/api/v2/heartbeat
 
 # Check if ChromaDB is running
 #f nc -z $CHROMA_HOST $CHROMA_PORT 2>/dev/null; then # return 0; fi
@@ -69,14 +81,18 @@ if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
     
     # Start ChromaDB in the background
     echo "$CHROMA_SCRIPT run --host $CHROMA_HOST --port $CHROMA_PORT --path $CHROMA_PATH "
+#   $CHROMA_SCRIPT ; exit 
     $CHROMA_SCRIPT run --host $CHROMA_HOST --port $CHROMA_PORT --path $CHROMA_PATH > chroma.log 2>&1 &
     CHROMA_PID=$!  # Store the PID
     echo "  ChromaDB started with PID: $CHROMA_PID"
     echo $CHROMA_PID > chroma.pid  # Optional: Save PID to a file for later reference
+
          sleep 5 # Wait a moment for it to start
     
 #   if nc -z $CHROMA_HOST $CHROMA_PORT 2>/dev/null; then  # Verify it's running
-    if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
+#   if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
+            aPID="$( ps aux | grep -i chroma | awk '{ print $1 }' )"
+    if [ "${aPID}" != "" ]; then 
         echo "  ChromaDB successfully started"
     else
         echo "* Failed to start ChromaDB. Check chroma.log for details"
@@ -453,9 +469,9 @@ if [ "${aCmd}" = "queue"               ]; then shoTable_embeddings_queue    $2; 
 
 # ----------------------------------------------------------------
 
-if [ "${aCmd}" = "start" ]; then 
-      startChromaDB  ./my_chroma_data
-   fi 
+if [ "${aCmd}" = "start" ]; then startChromaDB  ./my_chroma_data; fi 
+if [ "${aCmd}" = "stop"  ]; then stopChromaDB; fi                                       # .(50505.09.1 RAM Add stop command)
+
 # ----------------------------------------------------------------
 
 if [ "${aCmd}" = "tables" ]; then 

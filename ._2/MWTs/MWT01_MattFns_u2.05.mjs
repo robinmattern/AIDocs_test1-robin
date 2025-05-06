@@ -62,6 +62,7 @@
 #.(50408.06c  5/03/25 RAM  7:45p| Use pParms vars not chopped pStats vars
 #.(50503.01   5/03/25 RAM  8:30p| Redo stats sheet fields
 #.(50503.08   5/03/25 RAM 11:00p| Write and use sqzLines
+#.(50505.08   5/05/25 RAM  8:15p| Sort files for get1stFile
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -173,13 +174,14 @@
     if (!fs.existsSync(aFolder)) {  // Ensure the folder exists
       throw new Error(`Folder does not exist: ${aFolder}`);
             }
-     const  items = fs.readdirSync(aFolder, { withFileTypes: true }); // Read directory contents
+       var  items = fs.readdirSync(aFolder, { withFileTypes: true }); // Read directory contents
+            items = items.sort((a,b) => a.name > b.name ? 1 : -1 )                       // .(50505.08.1 RAM Sort em)
  for (const item of items) { // Process files first
         if (item.isFile()) {
-      const fileName = item.name;
+       var  fileName = item.name;
         if (fileName.startsWith(aStr)) { // Check if file starts with the specified string
           if (aExt) { // If extension is specified, check if the file has that extension
-            const fileExt = path.extname(fileName) // .slice(1);                        // .(50428.02.4 RAM Don't remove the dot).(50428.02.x CAI Remove the dot) 
+             var  fileExt = path.extname(fileName) // .slice(1);                        // .(50428.02.4 RAM Don't remove the dot).(50428.02.x CAI Remove the dot) 
               if (fileExt.toLowerCase() !== aExt.toLowerCase()) {
                   continue; // Skip if extension doesn't match
                   }
@@ -188,12 +190,12 @@
            return path.join( aFolder, fileName);                                        // .(50428.02.5 RAM Need to "Return the full path of the matching file" cuz of recursive calls 
           }
        }  }
-    for (const item of items) { // If no matching file found, recursively check subdirectories
-      if (item.isDirectory()) {
-        const subdirPath = path.join(aFolder, item.name);
-        const result = await get1stFile(aStr, subdirPath, aExt);
-        if (result) {
-          return result; // Return the first match found in subdirectories
+    for (var item of items) { // If no matching file found, recursively check subdirectories
+         if (item.isDirectory()) {
+        var  subdirPath =  path.join(aFolder, item.name);
+        var  result     =  await get1stFile(aStr, subdirPath, aExt);
+         if (result) {
+     return  result; // Return the first match found in subdirectories
         }
       } }
     return null; // No matching file found
@@ -322,7 +324,7 @@ async function extractTextFromPDF( pdfPath ) {
     const   pdfExtract   =  new PDFExtract();
     const   options      = { }; // Default options
 try {
-       var  aFilePath    =  fixPath( pdfPath );                                         // .(50425.03.1 RAM New Version)
+       var  aFilePath    =  fixPath( pdfPath ) 
        var  data         =  await  pdfExtract.extract( aFilePath );
        var  mPages       =  data.pages.map( page => page.content.map( item => item.str ).join(' ') )
     return  mPages.join('\n');
