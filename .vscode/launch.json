@@ -6,49 +6,86 @@
   "configurations": [
 // ----------------------------------------------------------------------------
     {
-      "name": "Debug Current Javascript file",
-      "type": "node",
-      "request": "launch",
-      "program": "${file}",
+      "name"     : "Current Node.js Script",
+      "type"     : "node",
+      "request"  : "launch",
+      "program"  : "${file}",
       "skipFiles": [ "<node_internals>/**" ],
       "runtimeExecutable": "node"
-    },       
+      },
+// ----------------------------------------------------------------------------
+    { 
+      "name"     : "Current Node.js Script 2",
+      "type"     : "node",
+      "request"  : "launch",
+      "program"  : "${file}",
+      "skipFiles": [ "<node_internals>/**" ],
+      "smartStep": false,
+      "envFile"  : "${fileDirname}/.env",
+      "internalConsoleOptions": "neverOpen"
+       },
 // ----------------------------------------------------------------------------
     {
-      "name": "Launch Edge",
-      "type": "msedge",
-      "request": "launch",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
-    },
+      "name"     : "Current Python Script",
+      "type"     : "debugpy",
+      "request"  : "launch",
+      "program"  : "${file}",
+      "console"  : "integratedTerminal",
+      "python"   : "E:\\Repos\\Robin\\AIObjs_\\quick-agent\\client1\\python_modules\\Scripts\\python.exe"
+       },
 // ----------------------------------------------------------------------------
     {
-      "name": "Launch Chrome against localhost",
-      "type": "chrome",
-      "request": "launch",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
-    },
+      "name"     : "Current HTML File in Edge:3000",
+      "type"     : "msedge",
+      "request"  : "launch",
+      "url"      : "http://localhost:3000",
+      "webRoot"  : "${workspaceFolder}"
+       },
 // ----------------------------------------------------------------------------
     {
-      "name": "Debug Current TypeScript file",
-      "type": "node",
-      "request": "launch",
-      "program": "${file}",
+      "name"     : "Current HTML File in Chrome:3000",
+      "type"     : "chrome",
+      "request"  : "launch",
+      "url"      : "http://localhost:3000",
+      "webRoot"  : "${workspaceFolder}"
+       },
+// ----------------------------------------------------------------------------
+    {
+      "name"     : "Current TypeScript File",
+      "type"     : "node",
+      "request"  : "launch",
+      "program"  : "${file}",
       "skipFiles": [ "<node_internals>/**" ],
       "runtimeExecutable": "node",
       "preLaunchTask": "tsc: build - 2024-03-11-embeddings/bunjs/tsconfig.json"
-    },
+       },
 // ----------------------------------------------------------------------------
     {
-      "name": "Debug TypeScript file on Bruce's Mac",
-      "type": "node",
-      "request": "launch",
-      "program": "${file}",
+      "name"     : "Current TypeScript File on Bruce's Mac",
+      "type"     : "node",
+      "request"  : "launch",
+      "program"  : "${file}",
       "skipFiles": [ "<node_internals>/**" ],
       "runtimeExecutable": "/Users/macstudio/.nvs/node/23.10.0/arm64/bin/node",
       "preLaunchTask": "tsc: build - tsconfig.json"
-    }
+       },
 // ----------------------------------------------------------------------------
-]
+    {
+      "name"     : "Current Bash Script",
+      "type"     : "bashdb",
+      "request"  : "launch",
+      "program"  : "${file}"
+       },
+// ----------------------------------------------------------------------------
+    {
+      "name"     : "Attached Node.js Process",
+      "type"     : "node",
+      "request"  : "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "port"     : 9229,
+      "restart"  : true,
+      "timeout"  : 30000  
+       }
+// ----------------------------------------------------------------------------
+   ]
 }

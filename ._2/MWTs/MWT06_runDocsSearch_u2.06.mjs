@@ -23,6 +23,7 @@
 #.(50429.01   4/29/25 RAM  9:25a| Add search-rag collections
 #.(50430.03   4/30/25 RAM  7:50p| Add Collection to JSON_Results
 #.(50430.04   4/30/25 RAM  8:15p| Find first file in FILES_PATH 
+#.(50503.06   5/03/25 RAM 10:00p| Abort if no docs found
 # 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |

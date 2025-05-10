@@ -37,6 +37,78 @@ function  runCommand() {
   result=$( eval "$1" 2>/dev/null ) || result="Unknown"
   echo "$result" | tr -d '\n'
   }
+# -------------------------------------------------------------------------------------
+
+function get1stDir() {                                                                 # .(50429.03.1 CAI Write get1stFile Beg)
+ local aStr="$1"
+ local aFolder="$2"
+ local aExt="$3"
+#     echo "aFolder: '${aFolder}'"
+
+#if [ ! -d "$aFolder" ]; then echo -e "\n* Unknown folder, '${aFolder}'"; return 1;  fi         # Ensure the folder exists
+ if [ ! -d "$aFolder" ]; then echo ""; return 1; fi         # Ensure the folder exists
+
+ for file in "$aFolder"/*; do                               # Process files first
+   if [ ! -d "${file}" ]; then continue; fi                 # Skip if not a file
+      local dirName=$(basename "$file")                    # Get filename without path
+#     echo "dirName: '${dirName}'"
+   if [[ "${dirName}" == *"${aStr}"* ]]; then               # Check if file starts with the specified string
+     echo "${file}"
+     return 0
+   fi
+ done
+
+ for aDir in "${aFolder}"/*; do                             # If no matching file found, recursively check subdirectories
+   if [ -d "${aDir}" ] && [[ "${aDir}" != *node_modules* ]];  then
+#  echo "--- looking in aDir: '${aDir}'"
+     local result=$( get1stDir "${aStr}" "${aDir}" "${aExt}" )
+     if [ -n "${result}" ]; then
+        echo "${result}"                                    # Return the first match found in subdirectories
+       return 0
+     fi
+   fi
+ done
+
+ echo ""                                                    # No matching file found
+ return 1
+  }                                                                                     # .(50429.03.1 End)
+# --------------------------------------------------------------------
+
+  function  setPCd() { 
+#           aVar="{pcd}"; aPCd="$1"; # PCd="rm228p"; 
+            aVar="rm228p"; aPCd="$1"; # aPCd="{pcd}"; 
+            aFilename="$( readlink -f "$0" )";  # echo "  aFilename: '${aFilename}'"; 
+            aBasedir="${aFilename%/._2*}";      # echo "  aBaseDir:  '${aBasedir}'"; # exit   
+              #           get1stDir "{pcd}" "${aBasedir}"; exit  
+            aTitleDir="$( get1stDir "${aVar}" "${aBasedir}" )" 
+    while [ "${aTitleDir}" != "" ]; do 
+#           echo "-----------------------------------------" 
+#           echo "  Renaming: '${aTitleDir}'"; # exit   
+#           echo "        to: '${aTitleDir/\{pcd\}/${aPCd}}'"
+            echo "  Renaming: '${aTitleDir/${aVar}/${aPCd}}'"
+            mv "${aTitleDir}" "${aTitleDir/${aVar}/${aPCd}}"; 
+#           echo "-----------------------------------------" 
+            aTitleDir="$( get1stDir "${aVar}" "${aBasedir}" )" 
+#           aTitleDir="" 
+            done 
+
+    #       0  2025-04-09 03:52.35  ./!__601-11-0001_formR's AIDocs Project in {pcd} on Stage test1-robin_u250401
+    #       0  2025-04-09 03:52.38  ./._2/!2__Runtime Files for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-09 03:52.38  ./client/!_Client Apps for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-09 03:52.40  ./client/c01_simple-app/!_1st Client App for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-09 03:52.39  ./client/c02_complex-app/!_2nd Client App for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-09 03:52.39  ./client1/!_Client1 Apps for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-09 03:52.43  ./docs/!_Docsify Files for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-09 03:52.44  ./server/!_Server APIs for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-21 07:26.12  ./server/s01_simple-api/!_1st Server API for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-21 07:26.28  ./server/s02_complex-api/!_2nd Server API for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-09 03:52.45  ./server1/!_Server1 APIs for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-21 07:27.35  ./server1/s11_search-app/!_1st Server1 App for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-21 07:27.45  ./server1/s12_search-web-app/!_2nd Server1 App for formR's AIDocs Project in {pcd} on Stage test1-robin
+    #       0  2025-04-21 07:27.52  ./server1/s13_search-rag-app/!_3rd Server1 App for formR's AIDocs Project in {pcd} on Stage test1-robin
+    }
+# --------------------------------------------------------------------
+#  setPCd "{pcd}"; exit 
 
 function  getMacInfo() {                                                                # .(50416.08b.1 RAM Add function)
 #  Get Mac model

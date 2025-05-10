@@ -20,7 +20,8 @@
 #            Sudo               |
 #                               |
 ##CHGS     .--------------------+----------------------------------------------+
-#.(50303.01   3/03/25 RAM  9:30a| opy set-aidocs from set-anyllm
+#.(50303.01   3/03/25 RAM  9:30a| Copy set-aidocs from set-anyllm
+#.(50505.01   5/01/25 RAM  6:00a| Create scripts ait, aitestr, ai.testr.4u
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |

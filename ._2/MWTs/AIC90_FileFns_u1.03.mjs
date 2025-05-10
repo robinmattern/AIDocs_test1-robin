@@ -66,6 +66,10 @@
 #.(50414.01   4/14/25 RAM  9:45a| Do bNoLog in here  
 #.(50414.02   4/14/25 RAM  6:00a| Try to quiet AIC90[ 193] logfile msg  
 #.(50503.07   5/03/25 RAM  8:25p| Add aVal to .Env  
+#.(50507.03   5/07/25 RAM  8:35a| Write runShell for score script
+#.(50507.04   5/07/25 RAM  1:50p| Write isInVSCode and assign FRT.inVSCode
+#.(40910.03b  5/10/25 RAM 10:30a| Handle MT path in cleanPath
+#.(40910.03c  5/10/25 RAM 10:35a| Add isFile to checkFile
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -74,6 +78,12 @@
 //========================================================================================================= #  ===============================  #
 
 // import   vscode           from 'vscode'                                              // .(40819.10.4 RAM Yuk!}
+// import { exec as execPromise } from 'node:child_process/promises';                   //#.(50507.03.1 RAM v15)
+// import { exec }           from 'child_process/promises';                             //#.(50507.03.1 RAM v16)
+// import { exec }           from 'node:child_process/promises';                        //#.(50507.03.1 RAM v20+)
+// import { exec }           from 'node:child_process';                                 //#.(50507.03.1 RAM v20+)
+   import { execSync }       from 'node:child_process';                                 // .(50507.03.1 RAM v20+)
+
    import   fs               from 'fs/promises'                                         // .(40827.01.1 RAM Needed for ASync fns)
    import   fsync            from 'fs'
    import   path             from 'path'
@@ -276,10 +286,17 @@
             pVars.sayMsg = sayMsg
             pVars.exit_wCR = exit_wCR
             pVars.bQuiet = 2; bQuiet = pVars.bQuiet; global.bQuiet = bQuiet;            // .(50202.01.3 RAM Try this)
+            pVars.inVSCode = isInVSCode()                                               // .(50507.04.1 RAM Assign inVSCode)                                               
     return  pVars
   function  QT(b,c,d) { return (typeof( b ) != 'undefined') ? b : (typeof( c ) != 'undefined' ? c : d) || 0 }
             } // eof setVars                                                            // .(50125.01.2 End)
 //  --------------------------------------------------------------
+
+  function  isInVSCode( ) {                                                             // .(50507.04.2 Write isInVSCode Beg)
+       var  bInVSCode = process.env.VSCODE_INSPECTOR_OPTIONS ? 1 : 0
+     global.bInVSCode = bInVSCode
+     return bInVSCode
+            }                                                                           // .(50507.04.2 End)
 
   function  isCalled(    aImportMetaURL, aProcessArgv1 ) {                              // .(50201.04.16)
     return  isNotCalled( aImportMetaURL, aProcessArgv1 ) == false                       // .(50201.04.17)
@@ -379,6 +396,7 @@
             pStats.exists    =  pStats.updatedOn > ""
             pStats.isNotDir  =  aStats.isDirectory() == false
             pStats.isDir     =  aStats.isDirectory() == true
+            pStats.isFile    =  pStats.isDir == false && pStats.exists                   // #.(40910.03c.1 RAM Add isFile)
         } catch(pError) {
             console.log( "--- we got an error" ) }                                                          // .(50208.06.3)
     return  pStats
@@ -386,22 +404,23 @@
 // --------------------------------------------------------------
 
   function  checkFileSync( aFilePath  ) {
-            aFilePath       =  cleanPath( aFilePath );                                  // .(40618.01.4)
-       var  pStats          ={ path: aFilePath.split( /[\\\/]/ ).slice(-1)[0]
-                            ,  name: aFilePath.split( /[\\\/]/ ).slice(-1).join()
-                            ,  size: 0
-                            ,  exists: false
-                            ,  updatedOn: ''
-                            ,  isNotDir: true
-                            ,  isDir: false }
-     try {
-       var  aStats          =  fsync.statSync( aFilePath );
-            pStats.size     =  aStats.size
-            pStats.updatedOn=  aStats.mtime.toISOString()
-            pStats.exists   =  pStats.updatedOn > ""
-//          pStats.isHidden =  aStats.isHidden == true
-            pStats.isNotDir =  aStats.isDirectory() == false
-            pStats.isDir    =  aStats.isDirectory() == true
+            aFilePath        =  cleanPath( aFilePath );                                  // .(40618.01.4)
+       var  pStats           ={ path: aFilePath.split( /[\\\/]/ ).slice(-1)[0]
+                             ,  name: aFilePath.split( /[\\\/]/ ).slice(-1).join()
+                             ,  size: 0
+                             ,  exists: false
+                             ,  updatedOn: ''
+                             ,  isNotDir: true
+                             ,  isDir: false }
+     try { 
+       var  aStats           =  fsync.statSync( aFilePath );
+            pStats.size      =  aStats.size
+            pStats.updatedOn =  aStats.mtime.toISOString()
+            pStats.exists    =  pStats.updatedOn > ""
+//          pStats.isHidden  =  aStats.isHidden == true
+            pStats.isNotDir  =  aStats.isDirectory() == false
+            pStats.isDir     =  aStats.isDirectory() == true
+            pStats.isFile    =  pStats.isDir == false && pStats.exists                  // #.(40910.03c.2 RAM Add isFile)
         } catch(pError) { }
     return  pStats
             }   // eof checkFileSync
@@ -540,9 +559,9 @@ createDirectoryIfNotExists(dirPath).then( result => {
     return  result;
             }                                                                           // .(50107.03.2 End)
 // --------------------------------------------------------------
-
+ 
   function  setEnv( aVar, aVal, aDir, bSkip ) {                                         // .(50331.08.1 RAM Add setEnv Beg)
-            sayMsg( `AIC98[ 544]  Setting ${aVar} to: '${aVal}'`, -1 )
+            sayMsg( `AIC90[ 560]  Setting ${aVar.padEnd(17)} to: '${aVal}'`, -1 )
        var  aEnvFile    =   FRT_path( aDir ? aDir : __basedir2, '.env' )
        var  aEnvVar     =   aVar.toUpperCase()
        var  mMyEnvs     =   readFileSync(  aEnvFile, 'ASCII' ).split( /\n/ )
@@ -560,7 +579,7 @@ createDirectoryIfNotExists(dirPath).then( result => {
             dotenv.config( { path: path.join( aDir, '.env'), override: true } );
     return  process.env
         } else {                                                                        // .(50403.02.3 Beg)
-            sayMsg( `AIC90[ 542]  There is no .env file in ${aDir}.` )
+            sayMsg( `AIC90[ 578]  There is no .env file in ${aDir}.` )
     return { } }                                                                        // .(50403.02.3 End)
             } // eof getEnvVars                                                         // .(50403.02.1).(50331.04.1 End)
 // --------------------------------------------------------------
@@ -604,7 +623,7 @@ createDirectoryIfNotExists(dirPath).then( result => {
        var  aHome            =  _OS != 'darwin' ? 'HOMEPATH' : 'HOME'                               // .(40910.03.3 RAM Beg)
        var  aRootDir         =  os.homedir().split('/')[0]
 //          aPath            =  aPath.replace( /^~/, `${process.env['SystemDrive']}/${process.env['HOMEPATH']}` )                         //#.(40910.03.4)
-            aPath            =  aPath.replace( /^~/, os.homedir() )                                 // .(40910.03.3 End)
+            aPath            = (aPath || '').replace( /^~/, os.homedir() )                          // .(40910.03b.1 RAM Handle MT path).(40910.03.3 End)
             aPath            =  aPath.match( /^\./ ) ? path.join( __dirname, aPath ) : aPath;       // .(40527.01.1 CoP Only paths starting with '.' are relative)
 //          aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z])/, '$1:' ) )         // .(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )
 //          aPath            =  path.resolve( aPath.replace( /^[\\\/]([A-Za-z]):*/, '$1:' ) )       //#.(40618.01.1 RAM if path starts with a drive letter, replace with '[A=Z]:' )// .(40910.03.4)
@@ -822,6 +841,36 @@ createDirectoryIfNotExists(dirPath).then( result => {
          }   // eof appendFileSync                                                                  // .(50210.02b,2 End)
 // --------------------------------------------------------------
 
+async function  runShell_Async( aCmd ) {                                                            //#.(50507.03.2 RAM Write runShell Beg) 
+        try {
+//    var { stdout, stderr } =  await  execPromise( aCmd );                                         //#.(50507.03.5 RAM v15)
+      var { stdout, stderr } =  await  exec( aCmd );                                                //#.(50507.03.5 RAM v16+)
+            console.log(  stdout );
+            if (stderr) { console.error( 'Errors:', stderr ); }
+        } catch (error) { console.error( 'Failed to execute script:', error ); }
+            } // eof runShell_Async                                                                 //#.(50507.03.2 End)
+// --------------------------------------------------------------
+
+//function  runShell_ASync( aCmd ) { ... }                                                          //#.(50507.03.2 RAM Write runShell Beg) 
+//          exec(     aCmd, (error, stdout, stderr) => { ... }                                      //#.(50507.03.6 RAM Write runShell Beg) 
+//       if (error) { console.error(`Failed  to execute script: ${ error.message }`); return; }
+//                    console.log(   stdout );
+//      if (stderr) { console.error('Errors:', stderr ); }
+//          } );
+//          } // eof runShell_ASync                                                                 //#.(50507.03.2 End)       
+// --------------------------------------------------------------
+
+  function  runShell_Sync( aCmd ) {                                                                 // .(50507.03.7 RAM Write runShell Beg) 
+       try {
+       var  stdout = execSync( aCmd, { encoding: 'utf8' });                                         // .(50507.03.8) 
+            console.log( stdout);
+            return stdout;
+        } catch (error) {
+            console.error('Failed to execute script:', error);
+            throw error;
+            }
+        } // eof runShell                                                                           //#.(50507.03.7 End)       
+// --------------------------------------------------------------
 
      async  function fetchFromOpenAI( aAPI_URL, pMessageObject, aAPI_KEY ) {                        // .(40701.06.1 RAM Add API_URL and API_KEY)
     try {
@@ -906,9 +955,9 @@ createDirectoryIfNotExists(dirPath).then( result => {
          ,  copyFileSync,   copyFileASync,    copyFile:   copyFileSync                                      // .(50210.02.3)
          ,  setEnv, getDir, getFile, setVars, getEnvVars, isCalled, isNotCalled                             // .(50403.02.4).(50331.08.2).(50201.04.21 RAM Added isNotCalled).(50125.01.9).(50107.03.3)
          ,  __basedir:  __basedir, __dirname: __dirname,  AppName: aAppName                                 // .(40827.06.x ??).(40819.10.x RAM Add them to FRT)
-         ,  __basedir2: __basedir2, exit_wCR                                                                // .(50129.02.3).(50126.03.23)
+         ,  __basedir2: __basedir2, exit_wCR, runShell: runShell_Sync                                       // .(50507.03.9).(50129.02.3).(50126.03.23)
          ,  bDoit: bDoit, bDebug: bDebug, bQuiet: bQuiet, bForce: bForce                                    // .(50215.01.8 RAM Set bForce)
-         ,  sayMsg, usrMsg, setSay, say                                                                     // .(50218.01.10).(50210.02.4)
+         ,  sayMsg, usrMsg, setSay, say,  inVSCode: isInVSCode()                                            // .(50507.04.3).(50218.01.10).(50210.02.4)
             }
 //      --  ---------------  =  ------------------------------------------------------  #
 

@@ -63,8 +63,10 @@
 #.(50503.01   5/03/25 RAM  8:30p| Redo stats sheet fields
 #.(50503.08   5/03/25 RAM 11:00p| Write and use sqzLines
 #.(50505.08   5/05/25 RAM  8:15p| Sort files for get1stFile
-#.(50505.13   5/06/25 RAM 10:30p| Remove : from FixPath 
-#
+#.(50505.11   5/06/25 RAM 10:30p| Remove : from FixPath 
+#.(50331.05d  5/08/25 RAM  7:45a| Fix saving response file in pStats 
+#.(50429.09d  5/10/25 RAM  2:35p| Accomodate pParms.resp_id for aApp2 
+
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
@@ -111,9 +113,9 @@
        if (aPath.match( /^\.[\\\/]/) ) { aDrv = ""; aDir = aPath            
         } else {
 //     var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:)/ ); aDrv = aDrv[1] ? aDrv[1] : "";         //#.(40528.03.1)
-       var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:)/);                                         // .(50505.13.1 RAM Remove "*", require :)
+       var  aDrv  = (aPath || ".").match(   /^[\\\/]*([a-zA-Z]:)/);                                         // .(50505.11.1 RAM Remove "*", require :)
             aDrv  = (aDrv && aDrv[1]) ? aDrv[1] : "";                                                       // .(40528.03.1 RAM Add aDrv &&).(40528.03.1 RAM May not contain a ":")
-       var  aDir  = (aPath || ".").replace( /^[\\\/]*[a-zA-Z]:/, "");                                       // .(50505.13.2).(40528.03.2)
+       var  aDir  = (aPath || ".").replace( /^[\\\/]*[a-zA-Z]:/, "");                                       // .(50505.11.2).(40528.03.2)
             }
        var  aFilePath = path.resolve( aDrv, aDir, aFile );
     return  aFilePath;
@@ -426,7 +428,9 @@ function  fmtResults(results) {
  */
   function  fmtStats( stats, parms ) {
 //    var [ aServer, aCPU_GPU_RAM ] = getServerInfo();                                  //#.(50330.04.5 RAM Use it).(50330.04b.1)
-            parms.resp_id  = parms.logfile.split( /[\\\/]/ ).pop().slice(0,24)          // .(50331.05c.1).(50331.05.1)
+//          parms.resp_id  = parms.logfile.split( /[\\\/]/ ).pop().slice(0,24)          //#.(50331.05c.1).(50331.05.1).(50429.09c.1)
+            parms.resp_id  = path.basename( parms.logfile ).replace( /_Response.+/, '') // .(50429.09c.1 RAM Accomodate parms.resp_id for aApp2).(50331.05c.1).(50331.05.1)
+            
             stats.tokens_per_sec = (stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2)              // .(50419.04.1)
       var [ aServer, aCPU_GPU, aRAM, aPC_Model, aOS ]  = getServerInfo();               // .(50330.04b.1)
        var  statLines = [];
@@ -657,7 +661,7 @@ Response File|
             pStats.Computer         = take(   9,  aPC_Model )                           // .(50330.04b.7 End)
             pStats.Server           = take(  37,  aServer, 1 )
 //          pStats.ResponseFile     = take( `file:///${parms.logfile}`                  //#.(50331.05c.3).(50331.05.5)
-            pStats.ResponseFile     = take(   0,  parms.logfile.replace( /[\\\/]docs/, ".docs")) // .(50331.05c.3).(50331.05.5)
+            pStats.ResponseFile     = take(   0,  parms.logfile.replace( /.+[\\\/]docs/, "./docs")) // .(50331.05d.1).(50331.05c.3).(50331.05.5)
        if (!aExt) { return pStats }                                                     // .(50408.06.3 RAM Just the Stats Jack)
        var  mStats                  =  Object.entries( pStats ).map( pStat => pStat[1] )
        var  mFlds                   =  makFlds() 

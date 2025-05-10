@@ -5,7 +5,7 @@
 
            aAIT="$1";   if [ "${aAIT/ait}" != "ait" ] && [ "$1" != "" ]; then shift; else aAIT="$0"; fi; 
            aAIT="$( basename "${aAIT}" )"; export AIT="${aAIT}"; # echo "  aAIT: ${aAIT}, \$1: '${1:0:3}'"; exit 
-#          aDir="$(pwd)"; if [ "${aDir/_}" != "${aDir}" ]; then bash run-tests.sh "$@"; exit; fi  # .(50505.02.1 RAM Need to be in __basedir)
+#          aDir="$(pwd)"; if [ "${aDir/_}" != "${aDir}" ]; then bash run-tests.sh "$@"; exit; fi  ##.(50505.02.1 RAM Need to be in __basedir)
            aDir="$(pwd)"; if [ "${aDir/_}" != "${aDir}" ]; then aCmd="run here"; fi     # .(50505.02.1 RAM Need to be in __basedir)
 #          aDir="$(pwd)"; if [ "${aDir/_}" != "${aDir}" ]; then  cd ../../; fi          ##.(50505.02.1)
 
@@ -21,10 +21,10 @@
    if [ "${1:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$2;  shift; b=2; shift; b=2; fi # .(50420.01b.3)
    if [ "${2:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$1;  shift; b=2; shift; b=2; fi # .(50420.01b.5)
    if [ "${1:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=s13; shift; b=1; fi      # .(50420.01b.4)
-   if [ "${1:0:3}"    == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi      # .(50505.05.1)
+   if [ "${1:0:3}"    == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi      # .(50505.05.1
    if [ "${1:0:3}"    == "sql"   ]; then aCmd="sqlite  "; aApp=s13; shift; b=1; fi      # .(50505.06.1)
-   if [ "${1:0:3}"    == "chr"   ]; then aCmd="chroma  "; aApp=s13; shift; b=1; fi      # .(50505.08.1)
-   if [ "${1:0:3}"    == "exa"   ]; then aCmd="example "; aApp=s13; shift; b=1; fi      # .(50505.04.1)
+   if [ "${1:0:3}"    == "chr"   ]; then aCmd="chroma  "; aApp=s13; shift; b=1; fi      # .(50505.06.2)
+   if [ "${1:0:3}"    == "exa"   ]; then aCmd="example "; aApp=s13; shift; b=1; fi      # .(50505.04.2 RAM Add example)
    if [ "${aApp}"     == ""      ]; then                  aApp=$1;  shift; fi           # .(50420.01b.7)
                                          aDir=""; aTests="$@"                           # .(50429.05.1)             
    if [ "${aApp:0:3}" == "s11"   ]; then aDir="server1/s11_search-app";     shift; fi   # .(50429.05.2)             
@@ -34,7 +34,7 @@
 #  echo "-- aCmd: '${aCmd}', aApp: '${aApp}', aDir: '${aDir}', aTests: '${aTests}'"; # exit # .(50429.05.5
 
    aCmds= 
-   if [ "${b}" == "1" ] && [ "${aDir}" == "" ]; then                                   # .(50429.05.6 Beg)   
+   if [ "${b}" == "1" ] && [ "${aDir}" == "" ]; then                                    # .(50429.05.6 Beg)   
       echo -e "\n* Note: Did you forget to provide an App?";                       aCmd="help"           
       fi                                                                                   
    if [ "${b}" == "2" ] && [ "${aDir}" != "" ] && [ "${aTests}" == "" ]; then
@@ -61,9 +61,9 @@
       echo -e   "    {App} {Test}       to run a test"
       echo -e   "    {App} gen {Group}  to generate an .env template for a test model group"
       echo -e   "    {App} list         to list all tests to run"
-      echo -e   "    import {App}       to import a collection of docs"                 # .(50505.05.3)
+      echo -e   "    import {App}       to import a collection of docs"                 # .(50505.05.2)
       echo -e   "    chroma start       to start the Chroma Vector DB"                  # .(50505.06.3)
-      echo -e   "    sql {table}        to query a table in the Chroma Vector DB"       # .(50505.06.3)
+      echo -e   "    sql {table}        to query a table in the Chroma Vector DB"       # .(50505.06.4)
       echo -e   ""
       echo -e   "  Where:"
       echo -e   "    {App}              is an App Id for one type of test app, e.g. s11."
@@ -74,7 +74,7 @@
       echo -e   "    ${aAIT} s11 help"
       echo -e   "    ${aAIT} s11 t041"
       echo -e   "    ${aAIT} s13g t041"                                                 # .(50429.05.7)
-      echo -e   "    ${aAIT} import s13a"                                               # .(50505.05.4)
+      echo -e   "    ${aAIT} import s13a"                                               # .(50505.05.3)
       echo -e   "    ${aAIT} sql collections"                                           # .(50429.05.7)
       echo -e   "    ${aAIT} example s13"                                               # .(50505.04.3)
 #     echo -e   "    ${aAIT}"                                                           # .(50421.04.1 End)
@@ -83,7 +83,7 @@
       fi 
 #   -------------------------------------------------------------------------------
 
-      if [ "${aCmd}" == "run here " ]; then bash run-test.sh "$@"; exit; fi            # .(50505.02.4 RAM ??) 
+      if [ "${aCmd}" == "run here " ]; then bash run-test.sh "$@"; exit; fi             # .(50505.02.12 RAM ??) 
 
 #     aPWD="$( pwd )"; echo "  aDir: '${aPWD}' == '${aDir}', '${aPWD/${aDir}}'"; # exit 
 #     aPWD="$( pwd )"; if [[ "${aPWD}" == *"${aDir}"* ]]; then echo "don't cd"; fi; exit
@@ -94,9 +94,9 @@
 #      echo -- bash sqlite.sh "${aTests}"; exit 
 #      echo "-- node import_u1.03.mjs '${aApp}' '${aTests}'"; exit 
 #     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
-      if [ "${aCmd}" == "import  " ]; then node import_u1.03.mjs ${aTests}; exit; fi    # .(50505.07.1).(50505.05.5) 
-      if [ "${aCmd}" == "sqlite  " ]; then bash sqlite.sh "${aTests}"; exit; fi         # .(50505.06.4) 
-      if [ "${aCmd}" == "chroma  " ]; then bash sqlite.sh "${aTests}"; exit; fi         # .(50505.06.4) 
+      if [ "${aCmd}" == "import  " ]; then node import_u1.03.mjs ${aTests}; exit; fi    # .(50505.07.1).(50505.05.4) 
+      if [ "${aCmd}" == "sqlite  " ]; then bash sqlite.sh ${aTests}; exit; fi           # .(50505.06.5) 
+      if [ "${aCmd}" == "chroma  " ]; then bash sqlite.sh ${aTests}; exit; fi           # .(50505.06.6) 
       if [ "${aCmd}" == "example " ]; then bash run-tests2.sh; exit; fi                 # .(50505.04.4) 
 
 #  echo  "  ./run-tests.sh ${aCmd// /} ${aApp} ${aTests}"; exit                         ##.(50429.05.8)

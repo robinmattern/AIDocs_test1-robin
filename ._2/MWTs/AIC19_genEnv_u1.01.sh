@@ -37,6 +37,8 @@
 #.(50429.05b  5/01/25 RAM  7:05p| Always set aApp2 to the first 4 characters of aApp
 #.(50501.02   5/01/25 RAM  7:05p| Add bGroup for clarity
 #.(50502.01   5/02/25 RAM  5:05a| Add msg re No TestId found 
+#.(50503.10   5/05/25 RAM 11:59p| Fiddle with bDebug
+#.(50506.04   5/06/25 RAM  2:55p| Delete existing group files with del1stFile
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -52,9 +54,9 @@
    aPcCd="$4"; if [ "${aPcCd}" == ""      ]; then aPcCd="${PC_CODE}"; fi                # .(50417.04.1).(50414.10.1 RAM Add PC_NAME)
    aEnvFile="${ENV_TEMPLATE}"
    aCollection="${COLLECTION}"                                                                              # .(50429.09.8)
-   bDebug=${DEBUG}; if [ "${bDebug}" == "1" ]; then                                                         # .(50503.06.1 RAM Even though sayMsg isn't defined yet)  
+   bDebug=${DEBUG}; if [ "${bDebug}" == "1" ]; then                                                         # .(50503.10.1 RAM Even though sayMsg isn't defined yet)  
    echo -e "\n  - AIC19[  52]  bDebug: '${bDebug}', aApp2: '${aApp2}', aPcCd: '${aPcCd}', aCollection: '${aCollection}', aEnvFile: '${aEnvFile}'"
-   fi                                                                                                       # .(50503.06.2)
+   fi                                                                                                       # .(50503.10.2)
    if [ "${aTest:2:1}" == "0" ]; then  aLogs="log,inputs"; fi
 
 # -----------------------------------------------------------------
@@ -149,12 +151,26 @@ function  chkEnvTemplate() {                                                    
 
    awk '/PC_CODE=/ { print "     export PC_CODE=\"'${aPcCd}'\"" } !/PC_CODE/ { print }' run-tests.sh > @temp && mv @temp run-tests.sh
    chmod 755 run-tests.sh
-   sayMsg "AIC19[ 144]  Saved PC_CODE, ${aPcCd}, info into the file, run-tests.sh"
+   sayMsg "AIC19[ 153]  Saved PC_CODE, ${aPcCd}, info into the file, run-tests.sh"
 #  echo "             i.e. '$(pwd)/${template_file}'"
 #  cat "$(pwd)/${template_file}"
 
    aSrcFile="${template_file}"
-   } # eof chkEnvTemplate                                                                               # .(50417.03.1 End)
+       } # eof chkEnvTemplate                                                                               # .(50417.03.1 End)
+## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
+
+function  del1stFile() {                                                                # .(50506.04.1 RAM Write del1stFile Beg)
+          aStr="$1"; # echo "--- looking for '${aStr}'"
+   for file in ./.env*; do                                # Process files first
+ if [ ! -f "${file}" ]; then continue; fi                 # Skip if not a file
+          fileName=$(basename "$file")                    # Get filename without path
+#         echo "--- '${fileName}'"
+ if [[ "${fileName}" == "${aStr}"* ]]; then               # Check if file starts with the specified string
+ echo "   Delete file, ${fileName}"
+          rm ${fileName}
+          fi
+       done
+       }                                                                                # .(50506.04.1 End)
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
 function  mergeVars() {
@@ -242,8 +258,9 @@ if [ "${aEnvFile}" == "" ]; then
    fi
 
    chkEnvTemplate  "${aSrcFile}"                                                        # .(50417.03.2)
+   del1stFile ".env_${aApp}_t${aTest}_"                                                 # .(50506.04.2 RAM Delete existing group template files)
 
-   sayMsg "AIC19[ 206]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aSrcFile: '${aSrcFile}'"; #  exit
+   sayMsg "AIC19[ 262]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aSrcFile: '${aSrcFile}'"; #  exit
 #  usrMsg "";
    usrMsg  "  Merging file, ${aSrcFile}, with file, ${aApp}_model-tests.txt."           # .(50417.01.3)
 
@@ -254,7 +271,7 @@ if [ "${aEnvFile}" == "" ]; then
 #  echo "  Creating an .env test file for the test group: t${aTest}"; exit
    splitParms "${aTestParms}"
 #  echo "  aModel: '${mArray[1]}', nTests: '${mArray[5]}'"
-   aDstFile=".env_${aApp}_t${aTest}_${aTitle}.txt"
+   aDstFile=".env_${aApp}_t${aTest}_${aTitle}.txt"                                     
    usrMsg     "   to create an .env test group file with the following parameters:\n";  # .(50420.02.5 RAM Add CR)
    mergeVars  "${aSrcFile}" "${aDstFile}"                                               # .(50417.01.4).(50414.10.x)
    usrMsg     "  Saved the .env test group file: ${aDstFile}."

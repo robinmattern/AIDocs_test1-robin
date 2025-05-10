@@ -122,15 +122,15 @@
          docstoimport            =  docstoimport.filter( doc => doc.match( /^ *[#\/]+/ ) == null ).filter( doc => doc );  // .(50425.02.4)
 
 for (var doc of docstoimport) {
-         doc    =  doc.trim().replace( /^"/, "" ).replace( /"$/, "" );                      // .(50425.02.5)
+         doc    =  doc.trim().replace( /^"/, "" ).replace( /"$/, "" );                  // .(50425.02.5)
          console.log(`\nEmbedding chunks from: '${doc}'`);
-         doc    =  doc.match( /^http/ ) ?  doc : MWT.fixPath( aBasedir, doc )               // .(50505.07.3 RAM Fix path is a local file)
+         doc    =  doc.match( /^http/ ) ?  doc : MWT.fixPath( aBasedir, doc )           // .(50505.07.3 RAM Fix path is a local file)
      if (doc.match( /\.pdf/ )) {
     var  text   =  await MWT.extractTextFromPDF( doc );    
      } else {
-    var  text   =  await MWT.readText( doc );                                            // .(50427.05.7 RAM Use MWT.readText. Ok if starts with './data/...)
+    var  text   =  await MWT.readText( doc );                                           // .(50427.05.7 RAM Use MWT.readText. Ok if starts with './data/...)
          }
-    var  chunks =  chunkTextBySentences( text.trim(), 7, 0 );                            // .(50425.01.2 RAM Avoid Error embedding chunk 19 from E:\Repos\Robin\AIDocs_\dev01-robin\data\AI.testR.4u\files\txts\constitution-bt.txt: Collection expecting embedding with dimension of 768, got 0)
+    var  chunks =  chunkTextBySentences( text.trim(), 7, 0 );                           // .(50425.01.2 RAM Avoid Error embedding chunk 19 from E:\Repos\Robin\AIDocs_\dev01-robin\data\AI.testR.4u\files\txts\constitution-bt.txt: Collection expecting embedding with dimension of 768, got 0)
     var  currentPosition = 0;                                                           // .(50424.01.1 RAM)
     for (var [index, chunk] of chunks.entries()) {
     try {

@@ -173,6 +173,7 @@ function  shoTable_collection_metadata() {
 # ----------------------------------------------------------------
 
 function  shoTable_documents() {
+#   echo "  \$1: '$1', \$2: '$2'"
 #   aIds="$1"; aType="-separator \$'\\t'"; if [ "${aIds}" != "" ]; then aIds="AND embeddings.id in (${aIds})"; aType="-line"; fi   
 #   aIds="$1"; aType="-separator \$'\\t'"; if [ "${aIds}" != "" ]; then aIds="AND name like '${aIds}%'"; aType="-line"; fi   
     aWhere=""; aType="-separator \$'\\t'"; 
@@ -210,7 +211,7 @@ function midId(a)  { return "..." substr( a, 20, 17 ) }   #
 #      { printf "  %3d  %5d  %86s\n", getNo( $9 ), $7, chop( $6, 86 ) }
 '
     echo -e "\n  Table: ${aTable}"
-#   echo      "  SQL: ${aSQL}"; exit 
+#   echo      "  SQL: ${aSQL}"; # exit 
     echo      "   id1   created_at_begin     collection_id         collection_name            segment_id            document_path                                                                          max chunks  id2   created_at_end"
     echo      "  -----  -------------------  --------------------  -------------------------  --------------------  -------------------------------------------------------------------------------------- --- ------ -----  -------------------"
 #   sqlite3                   "${aChroma_SQLite3_DB}" "${aSQL}" | awk -F"|" '{ sub( /^"/, "", $4); sub( /"$/, "", $4); printf "  %5d  %6d  %-36s  %-100s  %-19s  %-19s\n",           $1, $2, $3, (length($4) > 96) ? substr($4,1,52) "..." substr($4,length($4)-44) : $4, $5, $6, $7 }'
@@ -453,7 +454,7 @@ function  shoTable_embeddings_queue() {
     aCmd="$1"; if [ -z "${aCmd}" ]; then aCmd="count"; fi
 #   aCmd="shotables"
 #   aCmd="cntTables"
-
+    echo "  aCmd: '${aCmd}'"
 #   aTable="collection_metadata"
 #   aTable="embeddings"
 #   shoTable_Schema ${aTable} 
