@@ -35,7 +35,8 @@
 #.(50507.08b  5/09/25 RAM 10:10a| Save and use RespIds for delayed score runs 
 #.(50508.01   5/09/25 RAM 10:45a| Skip if SCORING != 1
 #.(50510.01   5/10/25 RAM  8:45a| Display scores if no LOGGING
-#.(50510.02   5/10/25 RAM  9:00a| Add abilityo to score rowNos
+#.(50510.02   5/10/25 RAM  9:00a| Add ability to score rowNos
+#.(50510.04   5/10/25 RAM 10:00a| Deal with missing scores
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -95,9 +96,9 @@
        var  pArgs            =  parseArgs()
             aModel           =  pArgs.modelName || 'gemma2:2b'
        var  aOth_App         =  pArgs.app       || 's13'                                                    // .(50503.05.x Get Oth_App .env Beg)
-       var  aOth_App2        = `a${pArgs.app.slice(1)}`                                                     // .(50510.02.x)
+       var  aOth_App2        = `a${pArgs.app.slice(1)}`                                                     // .(50510.02.1)
 //     var  mTestIds         = (pArgs.testIds   || 't041').split( /[ ,]/ )                                  //#.(50507.08a.1) 
-       var  mRowNos          = (pArgs.rowNos    || '').split( /[ ,]/ )                                      // .(50510.02.x) 
+       var  mRowNos          = (pArgs.rowNos    || '').split( /[ ,]/ )                                      // .(50510.02.2) 
 
        var  aModDir          = (aOth_App.slice(0,1) == "c" ? 'client' : 'server') + aOth_App.slice(1,2).replace( /0/, '' ) 
        var  aOth_AppDir      =  FRT.firstFile( `${FRT.__basedir}/${aModDir}`, `${aOth_App}_*` )  // .(50503.04.2 RAM Find first .env file for aOth_App)
@@ -109,26 +110,26 @@
             aStatsSheetFile  =  aStatsSheetFile  || `./docs/a13_search-rag-app/a13-saved-stats/a13_Stats-rm228p_${aVer}.csv`  // .(50503.03.2)
        var  mStatsSheet      =  FRT.readFileSync( MWT.fixPath( FRT.__basedir, aStatsSheetFile ) ).split( '\n' ) 
 
-        if (mRowNos.length && mRowNos[1]) { var  nRow, mResponseFiles = []                                  // .(50510.02.x RAM Use Row no and nRows of mRowNos Beg)
+        if (mRowNos.length && mRowNos[1]) { var  nRow, mResponseFiles = []                                  // .(50510.02.3 RAM Use Row no and nRows of mRowNos Beg)
        var  nRow1            =  mRowNos[0].replace( /^r/, '' ) - 1, nRow2 = nRow1 + (mRowNos[1] - 1)   
        for (nRow = nRow1; nRow <= nRow2; nRow++) {
               var  mStatRow  =  mStatsSheet[ nRow ].split( '\t' )
                                 mResponseFiles.push( mStatRow[26].trim() ) }
-        } else { //                                                                                         // .(50510.02.x RAM Use aRunTestsFile)
-        if (mRowNos.length && mRowNos[0]) {                                                                 // .(50510.02.x RAM Use just Row no of mRowNos)
+        } else {                                                                                            // .(50510.02.3 RAM Use aRunTestsFile End)
+        if (mRowNos.length && mRowNos[0]) {                                                                 // .(50510.02.4 RAM Use just Row no of mRowNos Beg)
        var  aTestFile        =  `${aOth_App2}_Tests_${mRowNos[0]}`, aDir1 = `${aOth_App2}-saved-stats`
-       var  aTestsDir        =  MWT.fixPath( FRT.__basedir, `./docs/a${aOth_AppDir.slice(1)}/${aDir1}/`)    // .(50510.02.1 RAM Use saved TestIds file in Stats dir) 
+       var  aTestsDir        =  MWT.fixPath( FRT.__basedir, `./docs/a${aOth_AppDir.slice(1)}/${aDir1}/`)    // .(50510.02.5 RAM Use saved TestIds file in Stats dir) 
        var  aRunTestsFile    = (await MWT.get1stFile( aTestFile, aTestsDir, ".txt"))                        
        } else {
-       var  aRunTestsFile    =  MWT.fixPath( `${FRT.__basedir}/${aModDir}/${aOth_AppDir}`, "run-tests.txt") // .(50507.08a.1 RAM Use save TestIds file in App dir Beg) 
-            }                                                                                               // .(50510.02.x)      
+       var  aRunTestsFile    =  MWT.fixPath( `${FRT.__basedir}/${aModDir}/${aOth_AppDir}`, "run-tests.txt") // .(50507.08a.1 RAM Use save TestIds file in App dir) 
+            }                                                                                               // .(50510.02.4 End)      
       var   mRespIds = [];  if (FRT.checkFileSync( aRunTestsFile ).isFile) {                            
             mRespIds         =  FRT.readFileSync(  aRunTestsFile ).trim().split( '\n' )  }                                           
                                 FRT.sayMsg( `AIT14[ 127]  Looking for these RunIds, '${ mRespIds.join( ', ') }'.`, -1 )
 //     var  mResponseFiles   =  mStatsSheet.filter( findTestIds )                                           //#.(50507.08b.1 RAM Don't use findTestIds)
 //          mResponseFiles   =  mResponseFiles.map( aRow => aRow.split('\t')[26].replace(/\.txt/, '.json')) //#.(50507.08b.1)
        var  mResponseFiles   =  findRespIds( mStatsSheet, mRespIds )                                        // .(50507.08b.1 RAM Do Use findRespIds)
-            } // eif nRowNos                                                                                // .(50510.02.x End) 
+            } // eif nRowNos                                                                                // .(50510.02.3 End) 
 
         if (mResponseFiles.length == 0) {
             usrMsg( `\n* Opps, can't find any JSON Response.json files in, '${ path.basename( aStatsSheetFile) }', for the last model run` )
@@ -187,27 +188,27 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
 //    var { scores, totalScore, scoreCount, formattedEvaluation } = getScores( aEvaluation );
 
        var  pStats           =  pJSON_Response.ModelQuery.RunStats
-       var  mNotFound        =  [] 
-//          pStats.Accuracy  =  pScores.scores[0].score || 0                            //#.(50510.04.x RAM They might not have been found)
-//          pStats.Quality   =  pScores.scores[1].score || 0                            //#.(50510.04.x RAM First attempt to deal with missing scores)
+       var  mNotFound        =  []                                                      // .(50510.04.1 Beg)
+//          pStats.Accuracy  =  pScores.scores[0].score || 0                            //#.(50510.04.1 RAM They might not have been found)
+//          pStats.Quality   =  pScores.scores[1].score || 0                            //#.(50510.04.1 RAM First attempt to deal with missing scores)
 //          pStats.Relevance =  pScores.scores[2].score || 0      
 //          pStats.Overall   =  pScores.scores[3].score || 0      
-            pStats.Accuracy  =  getScore( 'Accuracy'    )                               // .(50510.04.x RAM Position in pScores.scores array wasn't cutting it)
+            pStats.Accuracy  =  getScore( 'Accuracy'    )                               // .(50510.04.2 RAM Position in pScores.scores array wasn't cutting it)
             pStats.Quality   =  getScore( 'Quality'     )                  
-        if(!pStats.Quality)  {  pStats.Quality = getScore( 'Coherence'   ) }            // .(50510.04.x RAM ??) 
+        if(!pStats.Quality)  {  pStats.Quality = getScore( 'Coherence'   ) }            // .(50510.04.3 RAM ??) 
             pStats.Relevance =  getScore( 'Relevance'   )                  
             pStats.Overall   =  getScore( 'Total Score' )                  
-        if(!pStats.Overall)  {  pStats.Overall = getScore( 'TotalScore' ) }             // .(50510.04.x RAM ??) 
+        if(!pStats.Overall)  {  pStats.Overall = getScore( 'TotalScore' ) }             // .(50510.04.4 RAM ??) 
 
-                                mNotFound = []                                          // .(5051`0.04.x RAM Override those found in getScore)
+                                mNotFound = []                                          // .(50510.04.5 RAM Override those found in getScore)
         if (!pStats.Accuracy ){ mNotFound.push( "Accuracy"  ) }            
         if (!pStats.Quality  ){ mNotFound.push( "Quality"   ) }            
-        if (!pStats.Relevance){ mNotFound.push( "Relevance" ) }                         // .(50510.04.x End)
+        if (!pStats.Relevance){ mNotFound.push( "Relevance" ) }                         // .(50510.04.1 End)
 
-//      if (mNotFound.length > 0) {
+//      if (mNotFound.length > 0) {                                                     //#.(50510.04.6 Beg)
 //          usrMsg(          `\n* These scores were not found: ${ mNotFound.join( ", " ) }.` )
 //          sayMsg( `AIT14[ 203]* These scores were not found: ${ mNotFound.join( ", " ) }.` )
-//          }                                                                                 // .(50510.04.x Enc)
+//          }                                                                           //#.(50510.04.6 End)
             pJSON_Response.ModelQuery.Evaluation = pScores.formattedEvaluation
 //          console.log(     `3 aResponseFile: '${ MWT.fixPath( FRT.__basedir, aResponseFile )  }'` )
 
@@ -242,17 +243,17 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
             process.exit(1);
             }
             
-        if (mNotFound.length > 0) {                                                                         // .(50510.04.x Beg)
+        if (mNotFound.length > 0) {                                                     // .(50510.04.6 Beg)
             usrMsg(          `\n* These scores were not found: ${ mNotFound.join( ", " ) }.` )
             sayMsg( `AIT14[ 247]* These scores were not found: ${ mNotFound.join( ", " ) }.` )
-            }                                                                                               // .(50510.04.x End)
+            }                                                                           // .(50510.04.6 End)
 
-  function  getScore( aCriteria ) {                                                                         // .(50510.04.x RAM Write getScore Beg)
+  function  getScore( aCriteria ) {                                                     // .(50510.04.7 RAM Write getScore Beg)
        var  mScore =  pScores.scores.filter( pScore => pScore.criteria == aCriteria )
        var  nScore =  mScore && mScore[0] && mScore[0].score || 0 
        if (!nScore) { mNotFound.push( aCriteria ) }
     return  nScore
-            }                                                                                               // .(50510.04.x End)
+            }                                                                           // .(50510.04.7 End)
         } // eof scoreTest
 // -----------------------------------------------------------------------------------------------------------
 
@@ -320,8 +321,8 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
 
 function getScores( evaluation ) {    
       // Parse and reformat scores
-//  var  scoreRegex = /\*\*(\w+\s*\w*)\*\*: (\d+)(?:\s*\/\s*10)?/g;                            //#.(50510.04.1)
-    var  scoreRegex = /\*\*(\w+\s*\w*)\*\*:\s*(\d+)(?:\s*\/\s*\d+)?/g;                         // .(50510.04.1 CAI new RegExp to match 10/10)
+//  var  scoreRegex = /\*\*(\w+\s*\w*)\*\*: (\d+)(?:\s*\/\s*10)?/g;                     //#.(50510.04.8)
+    var  scoreRegex = /\*\*(\w+\s*\w*)\*\*:\s*(\d+)(?:\s*\/\s*\d+)?/g;                  // .(50510.04.8 CAI new RegExp to match 10/10)
     let  totalScore = 0;
     let  scoreCount = 0;
     let  formattedEvaluation = evaluation;
@@ -399,7 +400,7 @@ return { scores, totalScore, scoreCount, formattedEvaluation };
                if (process.argv[i].slice(0,6) === '--app:'            ) { args.app               =  process.argv[i].slice(6)
         } else if (process.argv[i].match( /[acs][0-9][0-9]/          )) { args.app               =  process.argv[i].slice(0,3);  // .(50507.01.2)
         } else if (process.argv[i].match( /^t[0-9]{3}(,t[0-9]{3})*$/ )) { args.testIds           =  process.argv[i];             // .(50507.01.3)
-        } else if (process.argv[i].match( /^r[0-9]/ )) {                  args.rowNos            =  process.argv[i];             // .(50510.02.1)
+        } else if (process.argv[i].match( /^r[0-9]/ )) {                  args.rowNos            =  process.argv[i];             // .(50510.02.6)
         } else if (process.argv[i] === '--no-justification'           ) { args.showJustification =  false;
         } else if (!args.modelName) {                                     args.modelName         =  process.argv[i];
             }

@@ -124,6 +124,7 @@
 #.(50507.07   5/07/25 RAM  2:30p| Sett bDoit default to 1??
 #.(50507.08a  5/08/25 RAM  2:10p| Save and use TestIds for delayed score runs 
 #.(50507.08b  5/09/25 RAM 10:10a| Save and use RespIds for delayed score runs 
+#.(50510.01   5/10/25 RAM  8:45a| Display scores if no LOGGING
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |

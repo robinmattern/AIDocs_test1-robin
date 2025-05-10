@@ -89,7 +89,7 @@ function getBinVersion() {
      aBinFile="$( cat "${aBinDir}/$1" | awk '/\.sh/ { sub( /"\$.+/, "" ); sub( /^ */, "" ); sub( / *$/, "" ); print }' )"
      fi
 #    aBinFile="$( cat "${aBinDir}/$1" | awk '/\.sh/' )"; echo "  '${aBinFile}'"; exit
-     aBinVer="$(  cat "${aBinFile}"   | awk '/ aVer=/ { sub( /aVer=/, "" ); a = $1 }; END{ print a }' )"
+     aBinVer="$(  cat "${aBinFile}"   | awk '/ aVer=/         { sub( /aVer=/, "" ); a = $1 }; END{ print a }' )"
      aBinVer="$(  cat "${aBinFile}"   | awk '/ aVer="?v[0-9]/ { sub( /aVer=/, "" ); a = $1 }; END{ print a }' )"
      }
 # -----------------------------------------------------------
@@ -109,9 +109,9 @@ function showEm() {
   echo "${PATH}" | awk '{ gsub( /:/, "\n" ); print}' | awk '/bin$/ { print "    " $0 }' | sort
 
   echo ""
-  echo "  aidocs Version: ${aBinVer}"                                                   # .(50303.01.8)
-  echo "  aidocs Location: ${aBinDir}/aidocs"                                           # .(50303.01.9)
-  echo "  aidocs Script:  '${aBinFile}'"                                                # .(50303.01.10)
+  echo "    aidocs Version: ${aBinVer}"                                                 # .(50303.01.8)
+  echo "    aidocs Location: ${aBinDir}/aidocs"                                         # .(50303.01.9)
+  echo "    aidocs Script:  '${aBinFile}'"                                              # .(50303.01.10)
   }
 # -----------------------------------------------------------
 
@@ -151,22 +151,23 @@ function cpyToBin() {
 # echo " alias gitr: ${aJPTs_JDir}/gitr.sh";
 # echo " copying run-aidocs.sh and gitr to: \"${aJPTs_JDir}\""; echo ""                 # .(50303.01.13)
 
-  if [ ! -d  "${aJPTs_JDir}"  ]; then sudo mkdir -p  "${aJPTs_JDir}";                         echo "  Created: ${aJPTs_JDir}";
+  if [ ! -d  "${aJPTs_JDir}"  ]; then sudo mkdir -p  "${aJPTs_JDir}";                         echo "    Created: ${aJPTs_JDir}";
                                       Sudo chmod 777 "${aJPTs_JDir}"; fi
 
-  if [   -f  "${AItestR_scr}" ]; then mkScript2 "${AItestR_scr}" "${aJPTs_JDir}" "ait"         "ait";        echo "  Copied:  ${aJPTs_JDir}/ait";         # .(50505.01.3)
-                                      mkScript2 "${AItestR_scr}" "${aJPTs_JDir}" "aitestr"     "aitestr";    echo "  Copied:  ${aJPTs_JDir}/aitestr";     # .(50505.01.4)
-                                      mkScript2 "${AItestR_scr}" "${aJPTs_JDir}" "ai.testr.4u" "aitestr4u";  echo "  Copied:  ${aJPTs_JDir}/ai.testr.4u"; # .(50505.01.5)
+  if [   -f  "${AIDocs_scr}"  ]; then mkScript  "${AIDocs_scr}"  "${aJPTs_JDir}" "aidocs";    echo "    Copied:  ${aJPTs_JDir}/aidocs";  # .(50303.01.14)
+                                 Sudo chmod 777 "${AIDocs_scr}"; fi                     # .(50303.01.15)
+
+  if [   -f  "${AItestR_scr}" ]; then mkScript2 "${AItestR_scr}" "${aJPTs_JDir}" "ait"         "ait";        echo "    Copied:  ${aJPTs_JDir}/ait";         # .(50505.01.3)
+                                      mkScript2 "${AItestR_scr}" "${aJPTs_JDir}" "aitestr"     "aitestr";    echo "    Copied:  ${aJPTs_JDir}/aitestr";     # .(50505.01.4)
+                                      mkScript2 "${AItestR_scr}" "${aJPTs_JDir}" "ai.testr.4u" "aitestr4u";  echo "    Copied:  ${aJPTs_JDir}/ai.testr.4u"; # .(50505.01.5)
                                  Sudo chmod 777 "${AItestR_scr}"; fi                                                                                      # .(50505.01.6)
 
-  if [   -f  "${AIDocs_scr}"  ]; then mkScript  "${AIDocs_scr}"  "${aJPTs_JDir}" "aidocs";    echo "  Copied:  ${aJPTs_JDir}/aidocs";  # .(50303.01.14)
-                                 Sudo chmod 777 "${AIDocs_scr}"; fi                # .(50303.01.15)
                                       getBinVersion "aidocs"                            # .(50303.01.16)
 
    cd "${aRepo_Dir}"
    git config core.fileMode false
 
-  echo "  Version: ${aBinVer//\"}"
+  echo "    Version: ${aBinVer//\"}"
   }
 # ---------------------------------------------------------------------------
 
