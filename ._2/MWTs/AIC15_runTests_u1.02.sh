@@ -46,6 +46,7 @@
 #.(50506.03   5/06/25 RAM  9:45a| Add DRY_RUN
 #.(50507.02   5/07/25 RAM  7:00a| Move scripts to ./server1/components
 #.(50507.08c  5/09/25 RAM 10:10a| Save Stat row and count for delayed score runs 
+#.(50507.08   5/11/25 RAM  9:30a| Start run-tests.txt MT
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -76,7 +77,7 @@
         bDoit=${DOIT}
         bDebug=${DEBUG}
         bDryRun=${DRYRUN}                                                               # .(50506.03.2)
-        bScoreIt=${SCOREIT}                                                             # .(50507.02.5)
+#       bScoreIt=${SCORING}                                                             ##.(50507.02.5)
 
         aPCCode="${PC_CODE}"
         aEnvFile="${ENV_TEMPLATE}"
@@ -96,11 +97,11 @@
 # -------------------------------------------------------------------
 
 function sayMsg() {
-     if [ "${bDebug}" == "1" ] || [ "$2" == "1" ]; then echo -e "$1"; fi
-        }
+   if [ "${bDebug}" == "1" ] || [ "$2" == "1" ]; then echo -e "$1"; fi
+      }
 # -------------------------------------------------------------------
 
-        sayMsg "  - AIC15[  91]  aCmd: ${aCmd},  aApp2: '${aApp2}', aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}'"; # exit
+      sayMsg "  - AIC15[  91]  aCmd: ${aCmd},  aApp2: '${aApp2}', aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}'"; # exit
 
    if [ "${aCmd}" == "sql" ]; then                                                      # .(50505.06.8 RAM Add sql command app Beg)
 #     echo "  sqlite '$@'"; exit
@@ -179,7 +180,7 @@ function sayMsg() {
       exit 1
     fi
 # -------------------------------------------------------------------
-        sayMsg "  - AIC15[ 141]  aCmd: ${aCmd},  aApp2: '${aApp2}', aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit
+        sayMsg "  - AIC15[ 182]  aCmd: ${aCmd},  aApp2: '${aApp2}', aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit
         bUseCurrentId="0"; if [ "${aArgs:0:3}" == "cur" ]; then bUseCurrentId="1"; fi   # .(50429.06.1 RAM Use current .env file)
 
   if [ "${bUseCurrentId}" == "1" ]; then                                                # .(50429.06.2 RAM Run current .env file Beg)
@@ -326,8 +327,8 @@ function cpyEnv() {
 #        aFolder="../../data/AI.testR.4u/files" 
 #        sayMsg "  - AIC15[ 323]  get1stFile \"s13\" \"${aFolder}\" \"txt\":\n $( ls -l "${aStatsDir}" )" 1;  #exit 
 #        aCollection="$( get1stFile "s13" "${aFolder}" "txt" )" echo "  aCollection: ${aCollection}";#  exit   
-         aVer="u2.09"                                                                   # .(50507.08d.1 RAM Get first shhet files for this version??)
-         aAppName="$( basename "$( pwd )" )"                                            # .(50507.08c.1 RAM get number of row in stats sheet before runs Beg)
+         aVer="u2.09"                                                                   # .(50507.08c.1 RAM Get first shhet files for this version??)
+         aAppName="$( basename "$( pwd )" )"                                            # .(50507.08c.2 RAM get number of row in stats sheet before runs Beg)
 #        aRespsDir="../../docs/a${aAppName:1}/$( date +'%y.%m.%B')"
          aStatsDir="../../docs/a${aAppName:1}/a${aApp:1}-saved-stats"
 #echo "  aStatsDir: '${aStatsDir}"; ls -l ${aStatsDir}; exit 
@@ -341,27 +342,28 @@ function cpyEnv() {
 #          if [ "${aStatsFile}" == "" ]; then sayMsg "\n  - AIC15[ 342]* no stats sheet found" 1; exit; fi
            if [ "${aStatsFile}" == "" ]; then  nStats=1
                                          else  nStats=$( wc "${aStatsFile}" | awk '{ print $1 ? $1 : 0 }' ); fi 
-         sayMsg "  - AIC15[ 337]  ${aStatsFile}, nStats: ${nStats}" -1 # 1              # .(50507.08c.1 End
+         sayMsg "  - AIC15[ 345]  ${aStatsFile}, nStats: ${nStats}" -1 # 1              # .(50507.08c.2 End
          
-function savRespIds2() {                                                                # .(50507.08c.2 RAM Write savRespIds Beg)
+function savRespIds2() {                                                                # .(50507.08c.3 RAM Write savRespIds Beg)
 #        sayMsg "  - AIC15[ 339]  pwd: $( pwd )" 1
          nLen=$( wc run-tests.txt | awk '{ print $2 }' )
          aRow=$( echo "${nStats}" | awk '{ printf "%03d\n", $1 + 1 }' )
 #        ls -l run-tests.txt     
          cp run-tests.txt ${aStatsDir}/a${aApp:1}_Tests_r${aRow},${nLen}.txt         
-         sayMsg "\n  - AIC15[ 344]  Saved: ${aStatsDir}/a${aApp:1}_Tests_r${nStats},${nLen}.txt" # 1
-         } # eof savRespIds2                                                            # .(50507.08c.2 End)
+         sayMsg "\n  - AIC15[ 353]  Saved: ${aStatsDir}/a${aApp:1}_Tests_r${nStats},${nLen}.txt" # 1
+         } # eof savRespIds2                                                            # .(50507.08c.3 End)
 # -------------------------------------------------------------------
 
-         sayMsg "  - AIC15[ 2647]  aCmd: ${aCmd},  aApp2: '${aApp2}', mArgs: '${mArgs[@]}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit
+         sayMsg   "  - AIC15[ 357]  aCmd: ${aCmd},  aApp2: '${aApp2}', mArgs: '${mArgs[@]}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit
 
          prt1stMsg
+         echo "" >"$( pwd )/run-tests.txt"                                              # .(50507.08d.5RAM MT it here)
 
    if [ "${aApp}" == "s13" ]; then                                                      # .(50429.09.2 RAM Collections for App s13 only Beg)
          aFolder="../../data/AI.testR.4u/files"
          aCollection="$( get1stFile "${aApp2}" "${aFolder}" "txt" )"                    # .(50429.09.3 RAM Use get1stFile)
          if [ "${aCollection}" == "" ]; then echo -e "* No collection file found for App, '${aApp2}', in ${aFolder}."; exit; fi
-         sayMsg "  - AIC15[ 356]  Using Collection: '$( basename ${aCollection%.*} )'"; # exit
+         sayMsg   "  - AIC15[ 364]  Using Collection: '$( basename ${aCollection%.*} )'"; # exit
          export COLLECTION="$( basename ${aCollection%.*} )"
        else
          export COLLECTION=""
@@ -444,14 +446,15 @@ function savRespIds2() {                                                        
               else NODE_NO_WARNINGS=1 node                ${searchScript}  "$@"; fi     # .(50505.10.1).(50501.04.2)
                 if [ $? -ne 0 ]; then exit 1; fi                                        # .(50503.06.5 RAM Exit with exit code)
 
-                                      savRespIds2                                       # .(50507.08c.3 RAM Save 2nd RespIds file )
+                                      savRespIds2                                       # .(50507.08c.4 RAM Save 2nd RespIds file )
       fi # eif doit
 
    done  # eol aTestId in "${mArgs[@]}"
 
 # -------------------------------------------------------------------
 
-   if [ "${LOGGER}" == "log,inputs" ]; then                                             # .(50420.03.1 RAM Move this to here from run.tests.sh Beg)
+#  if [ "${LOGGER}" == "log,inputs" ]; then                                             # .(50420.03.1 RAM Move this to here from run.tests.sh Beg)
+   if [ "${LOGGER/log/}" != "${LOGGER}" ]; then                                         # .(50511.01.4 RAM Print line for both)
      echo -e "\n-----------------------------------------------------------"
      fi
      if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                      # .(50420.03.1 End)
