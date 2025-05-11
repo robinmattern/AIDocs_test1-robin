@@ -1,6 +1,10 @@
 #!/bin/bash
 
-#  aAIC=${BASH_SOURCE[1]}; echo "  aAIC: ${aAIC}"; exit 
+   aAIC="$( dirname "$0" )"; aPWD="$(pwd)"; #echo "  \${aAIC/\${aPWD}/}: ${aAIC/${aPWD}/} -- ${aAIC} in ${aPWD}/"  # .(50511.04.1)
+#  aAIC="$( dirname "$0" )"; aPWD="$(pwd)";  echo "  \${aPWD/\${aAIC}/}: ${aPWD/${aAIC}/} -- ${aPWD} in ${aAIC}/"  # .(50511.04.1)
+#  if [ "${aAIC/${aPWWD}}" == "${aAIC/${aPWD}}" ]; then  echo "  aPWD is in aAIC"; else echo "  aPWD is not in aAIC; cd ${aAIC}"; fi; exit
+   aAIC="$(dirname "$0")"; aPWD="$(pwd)"; if [ "${aAIC/${aPWWD}}" != "${aAIC/${aPWD}}" ]; then  cd "${aAIC}"; fi;  # .(50511.04.2 RAM Call from anywhere)
+
 #  nPID=$PPID; aAIC=$(ps -o args= -p ${nPID} 2>/dev/null | awk '{print $1}'); echo "  aAIC: ${aAIC}"; exit 
 
            aAIT="$1";   if [ "${aAIT/ait}" != "ait" ] && [ "$1" != "" ]; then shift; else aAIT="$0"; fi; 
@@ -87,7 +91,7 @@
 
 #     aPWD="$( pwd )"; echo "  aDir: '${aPWD}' == '${aDir}', '${aPWD/${aDir}}'"; # exit 
 #     aPWD="$( pwd )"; if [[ "${aPWD}" == *"${aDir}"* ]]; then echo "don't cd"; fi; exit
-      if [[ "$( PWD )" != *"${aDir}"* ]]; then cd "${aDir}"; fi 
+      if [[ "$( pwd )" != *"${aDir}"* ]]; then cd "${aDir}"; fi                         # .(50511.04.1 RAM Was: PWD no workie in Unix)
 
 #     echo ""
 #     pwd
