@@ -32,37 +32,11 @@ Score 2-3: Poorly organized with frequent logical breaks and difficult-to-follow
 Score 1: Disorganized, incoherent, or lacks any clear structure.
 
 ### Input
-- **System Prompt**: You are a helpful and informative AI assistant. Answer questions accurately and concisely, drawing on a wide range of general knowledge. If you don't know the answer, say so.
-- **User Prompt**: Compare and contrast different approaches to federated learning.. -- 
-- **Response to Evaluate**: Federated learning is a fascinating field that has gained significant attention in recent years due to its potential for decentralized machine learning. There are several approaches to federated learning, and I'll provide an overview of some popular ones.
+- **System Prompt**: Summarize the information and provide an answer. Use only the information in the following articles to answer the question:
+- **User Prompt**: Explain the key differences between transformer and RNN architectures in deep learning.. -- 
+- **Response to Evaluate**: Please provide the articles you want me to use for answering your question! I need the text of the articles so I can extract the key differences between Transformer and RNN architectures as described in them. 😊 
 
-**1. Distributed Stochastic Gradient Descent (DSGD)**:
-In DSGD, each client (device or user) maintains a local model that is updated independently using the gradient descent algorithm. The global model is updated periodically by aggregating gradients from all clients. This approach is simple to implement but can lead to overfitting.
-
-**2. Federated Learning with Shared Knowledge (FLSK)**:
-In FLSK, clients share their local models with a central server or other clients, allowing them to learn from each other's data. The global model is updated using the shared knowledge, which helps to reduce overfitting. This approach requires more communication between clients and the server.
-
-**3. Federated Learning with Model Averaging (FLMA)**:
-In FLMA, clients share their local models with a central server or other clients, but only aggregate the models after they have been updated locally. This approach helps to reduce overfitting by minimizing the impact of individual client updates on the global model.
-
-**4. Federated Learning with Model Distillation (FLMD)**:
-In FLMD, smaller client models are trained on a subset of the data and then distill knowledge from these models to update the larger global model. This approach helps to reduce the amount of data required for training and can improve the robustness of the global model.
-
-**5. Federated Learning with Personalized Learning (FLPL)**:
-In FLPL, clients learn different models on their local data, but use a common framework or architecture. The global model is updated periodically by aggregating gradients from all clients. This approach helps to accommodate varying client needs and requirements.
-
-**Key differences:**
-
-* Communication overhead: FLSK requires more communication between clients and the server than DSGD, FLMA, or FLPL.
-* Model sharing: FLSK and FLMD require explicit model sharing, while DSGD and FLMA aggregate local models without sharing intermediate updates. FLPL allows for personalized learning on client data while using a common framework.
-* Overfitting reduction: FLSK, FLMA, and FLPL can reduce overfitting by aggregating gradients or sharing knowledge from multiple clients.
-
-**Key similarities:**
-
-* Decentralized: All approaches aim to empower decentralized decision-making, allowing clients to train models on their local data without relying on a central server.
-* Data privacy: Federated learning approaches prioritize data privacy by avoiding the need for centralized data storage and processing.
-
-I hope this summary helps! Do you have any specific questions about these approaches or would you like me to elaborate on any of them?
+Once you give me the articles, I'll be happy to summarize the information and create an answer that addresses the key differences.
 
 ### Instructions
 1. Evaluate the response based on the three criteria.

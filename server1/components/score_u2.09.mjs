@@ -37,6 +37,8 @@
 #.(50510.01   5/10/25 RAM  8:45a| Display scores if no LOGGING
 #.(50510.02   5/10/25 RAM  9:00a| Add ability to score rowNos
 #.(50510.04   5/10/25 RAM 10:00a| Deal with missing scores
+#.(50507.08d  5/11/25 RAM  9:30a| Start run-tests.txt MT
+#.(50511.01   5/11/25 RAM 10:30a| Do "\n" after run for bNoLog
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -60,6 +62,7 @@
        var  FRT              =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.8 RAM Call function: LIBS.MOD())
        var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
 
+                                FRT.writeFileSync( MWT.fixPath( FRT.__dirname, 'run-tests.txt' ), '' )      // .(50507.08d.1 RAM Start MT)
        var  aAppPath         =  FRT.__dirname
        var  aAppDir          =       aAppPath.split( /[\\\/]/ ).slice(-1)[0]            
        var  aAppName         = 'a' + aAppDir.slice(1)                                   
@@ -85,7 +88,7 @@
   async function  main( pArgs ) {  // score.mjs 
 
         if (process.env.SCORING != "1") {                                               // .(50508.01.1 RAM Skip if SCORING != 1 Beg)
-            sayMsg( "AIT14[  83]  Skipping scoring run")
+            sayMsg( "AIT14[  88]  Skipping scoring run")
             exit_wCR()
             process.exit()
             }                                                                           // .(50508.01.1 End)
@@ -108,8 +111,11 @@
        var  aStatsSheetFile  =  pOth_AppVars.STATS_SHEET                                                    // .(50503.05.x End)
 //          aResponseFile    =  aResponseFile    || './docs/a13_search-rag-app/25.05.May/a13g_t041_qwen2;0.5b_1,1-test on rm228p/s13g_t041.01.4.50503.2109_Response.json'
             aStatsSheetFile  =  aStatsSheetFile  || `./docs/a13_search-rag-app/a13-saved-stats/a13_Stats-rm228p_${aVer}.csv`  // .(50503.03.2)
+        if (FRT.checkFileSync( MWT.fixPath( FRT.__basedir, aStatsSheetFile) ).exists == false) {
+       var  mStatsSheet      =  [] 
+        } else {
        var  mStatsSheet      =  FRT.readFileSync( MWT.fixPath( FRT.__basedir, aStatsSheetFile ) ).split( '\n' ) 
-
+            }
         if (mRowNos.length && mRowNos[1]) { var  nRow, mResponseFiles = []                                  // .(50510.02.3 RAM Use Row no and nRows of mRowNos Beg)
        var  nRow1            =  mRowNos[0].replace( /^r/, '' ) - 1, nRow2 = nRow1 + (mRowNos[1] - 1)   
        for (nRow = nRow1; nRow <= nRow2; nRow++) {
@@ -125,18 +131,18 @@
             }                                                                                               // .(50510.02.4 End)      
       var   mRespIds = [];  if (FRT.checkFileSync( aRunTestsFile ).isFile) {                            
             mRespIds         =  FRT.readFileSync(  aRunTestsFile ).trim().split( '\n' )  }                                           
-                                FRT.sayMsg( `AIT14[ 127]  Looking for these RunIds, '${ mRespIds.join( ', ') }'.`, -1 )
+                                FRT.sayMsg( `AIT14[ 130]  Looking for these RunIds, '${ mRespIds.join( ', ') }'.`, -1 )
 //     var  mResponseFiles   =  mStatsSheet.filter( findTestIds )                                           //#.(50507.08b.1 RAM Don't use findTestIds)
 //          mResponseFiles   =  mResponseFiles.map( aRow => aRow.split('\t')[26].replace(/\.txt/, '.json')) //#.(50507.08b.1)
        var  mResponseFiles   =  findRespIds( mStatsSheet, mRespIds )                                        // .(50507.08b.1 RAM Do Use findRespIds)
             } // eif nRowNos                                                                                // .(50510.02.3 End) 
 
         if (mResponseFiles.length == 0) {
-            usrMsg( `\n* Opps, can't find any JSON Response.json files in, '${ path.basename( aStatsSheetFile) }', for the last model run` )
+            usrMsg( `\n* Opps, can't find any test runs in, '${ path.basename( aStatsSheetFile) }', for the last model run` )
             usrMsg(   `        for these RunIds, '${ mRespIds.join( ', ') }'.` )
             exit_wCR() 
         } else { var  s      =  mResponseFiles.length == 1 ? '' : 's'  
-                                FRT.sayMsg( `AIT14[ 138]  Found ${mResponseFiles.length} statsheet row${s}.`, -1 )
+                                FRT.sayMsg( `AIT14[ 141]  Found ${mResponseFiles.length} statsheet row${s}.`, -1 )
             }                                                                                               // .(50507.08a.1 End)
 //          --------------------------------------------------------------
 
@@ -206,7 +212,7 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
         if (!pStats.Relevance){ mNotFound.push( "Relevance" ) }                         // .(50510.04.1 End)
 
 //      if (mNotFound.length > 0) {                                                     //#.(50510.04.6 Beg)
-//          usrMsg(          `\n* These scores were not found: ${ mNotFound.join( ", " ) }.` )
+//          usrMsg(            `* These scores were not found: ${ mNotFound.join( ", " ) }.` )
 //          sayMsg( `AIT14[ 203]* These scores were not found: ${ mNotFound.join( ", " ) }.` )
 //          }                                                                           //#.(50510.04.6 End)
             pJSON_Response.ModelQuery.Evaluation = pScores.formattedEvaluation
@@ -220,8 +226,8 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
         if (aSheetVer == "2.08" || aSheetVer == "2.09" ) {                                                  // .(50507.10.1 RAM Big error)
        var  aRow             =  mSpreadsheet.filter( aRow => aRow.split( "\t" )[0].trim() == aTestId )      // .(50503.03.3 RAM Add trim)
         if (aRow.length > 0) {
-            aRow             =  aRow.splice(-1)[0]                                      // .(50503.03.4 RAM get the last one)
-       var  mCols            =  aRow.split( "\t" )
+            aRow             =    aRow.splice(-1)[0]                                      // .(50503.03.4 RAM get the last one)
+       var  mCols            =    aRow.split( "\t" )
             mCols[7]         = `${pStats.Accuracy }`.padStart(3)
             mCols[8]         = `${pStats.Quality  }`.padStart(3)
             mCols[9]         = `${pStats.Relevance}`.padStart(3)
@@ -232,11 +238,11 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
             exit_wCR()
             }
         } // eif (aVer == "2.08")
-            FRT.writeFileSync( MWT.fixPath( FRT.__basedir, aStatsSheetFile ), mSpreadsheet.join( "\n" ) )
+            FRT.writeFileSync(    MWT.fixPath( FRT.__basedir, aStatsSheetFile ), mSpreadsheet.join( "\n" ) )
 
         if (global.bNoLog == 0) {                                                                           // .(50510.01.2 RAM Display scores Beg)
        var  aRIDs = aTestId.split("_"); aRIDs = `${aRIDs[0].padEnd(4)} ${aRIDs[1]}`
-            console.log(       `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${aScore}` )  
+            usrMsg(            `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${aScore}\n`)  // .(50511.01.1 RAM Do "\n" after run)  
             }                                                                                               // .(50510.01.2 End)
         } catch (error) { 
             console.error('\n* Error:', error);
@@ -244,7 +250,7 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
             }
             
         if (mNotFound.length > 0) {                                                     // .(50510.04.6 Beg)
-            usrMsg(          `\n* These scores were not found: ${ mNotFound.join( ", " ) }.` )
+            usrMsg(            `* These scores were not found: ${ mNotFound.join( ", " ) }.` )
             sayMsg( `AIT14[ 247]* These scores were not found: ${ mNotFound.join( ", " ) }.` )
             }                                                                           // .(50510.04.6 End)
 
@@ -259,10 +265,10 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
 
 // Function to evaluate response using Ollama
 async function  evaluateResponse( modelName, userPrompt, systemPrompt, response, scoringPrompt ) {
-//   const  evaluationPrompt = `` 
-       var  evaluationPrompt =  scoringPrompt.replace(  /{SystemPrompt}/, systemPrompt )
-            evaluationPrompt =  evaluationPrompt.replace( /{UserPrompt}/, userPrompt )
-            evaluationPrompt =  evaluationPrompt.replace(   /{Response}/, response )
+//   const  evaluationPrompt   = `` 
+       var  evaluationPrompt   =  scoringPrompt.replace(  /{SystemPrompt}/, systemPrompt )
+            evaluationPrompt   =  evaluationPrompt.replace( /{UserPrompt}/, userPrompt )
+            evaluationPrompt   =  evaluationPrompt.replace(   /{Response}/, response )
        var  aScoringPromptFile = `${aApp}_scoring-prompt.txt`
             FRT.writeFileSync( `${FRT.__dirname}/${aScoringPromptFile}`, evaluationPrompt )
 
@@ -421,7 +427,7 @@ return { scores, totalScore, scoreCount, formattedEvaluation };
         if (bNoLog == 0) {
         var aTS = `${FRT.getDate(3,5)}.${FRT.getDate(3,7).slice(-2)}`
         var forOthTestId = aOthTestId ? ` for ${aOthTestId}` : '' 
-            usrMsg( `\n${aTS}  ${aApp}  ${aTestId}     Running ${path.basename( __filename) }${forOthTestId}` )                         
+            usrMsg( `${aTS}  ${aApp}  ${aTestId}     Running ${path.basename( __filename)}${forOthTestId}`) // .(50511.01.2 RAM not before)                      
             } // eif show log   
         } // prt1stMsg                                                                  // .(50503.04.5 End)
 // ------------------------------------------------------------------------------

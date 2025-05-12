@@ -125,6 +125,8 @@
 #.(50507.08a  5/08/25 RAM  2:10p| Save and use TestIds for delayed score runs 
 #.(50507.08b  5/09/25 RAM 10:10a| Save and use RespIds for delayed score runs 
 #.(50510.01   5/10/25 RAM  8:45a| Display scores if no LOGGING
+#.(50507.08d  5/11/25 RAM  9:30a| Start run-tests.txt MT
+#.(50430.04b  5/11/25 RAM 11:10p| Check if FILES_PATH has been assigned)
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -152,7 +154,7 @@
        var  bNoLog           =  aLog == "log" ? 0 : 1; global.bNoLog = bNoLog                               // .(50414.01.2 RAM Don't print shoMsg if 0)
             global.bQuiet    =  bNoLog == 0
         if (bDebug == 1) {
-            console.log(   `  - S1201[ 148]  bDoit: '${bDoit}', aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: ${bDebug}, bQuiet: ${global.bQuiet}`) // process.exit()
+            console.log(   `  - S1201[ 156]  bDoit: '${bDoit}', aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: ${bDebug}, bQuiet: ${global.bQuiet}`) // process.exit()
             }                                     
             LIBs.MWT         =        () => "../../._2/MWTs"                                                // .(50405.06.6)
 //     var  LIBs             = { MWT: () => "../../._2/MWTs" }                                              //#.(50405.06.6 RAM Error: Only URLs with a scheme in: file, data, and node are supported by the default ESM loader.)
@@ -161,6 +163,7 @@
        var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
        var  pURLs            =( await import( `${LIBs.MWT()}/MWT04_runWebSearch_u2.06.mjs` ) ).default      // .(50423.02.1 RAM Import MWT04_runWebSearch)
        var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      // .(50423.02.2 RAM Import MWT06_runDocsSearch)
+//                              FRT.writeFileSync( MWT.fixPath( FRT.__dirname, 'run-tests.txt' ), '' )      //#.(50507.08d.2 RAM Start MT, not here)
 
        var  aModel1
        var  nCTX_Size1
@@ -241,7 +244,7 @@
        var  bDoit            =  process.env.DOIT || 1;  FRT.bDoit = bDoit               // .(50507.07.2 RAM bDoit ??).(50415.01.3 RAM bDoit)
             bQuiet           =  0                                                       // .(50404.02.5)
         if (bQuiet == 2) {
-            saysg(`A1201[ 242]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 1 )
+            saysg(`A1201[ 246]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 1 )
             }
             global.bQuiet    =  0                                                       // .(50404.02.6)
 //          global.bNoLog    =  0; bNoLog = 0                                           // .(50507.04.2)
@@ -254,8 +257,8 @@
 
             global.bQuiet    =  bNoLog == -1 ? 1 : global.bQuiet
 
-            sayMsg(`A1201[ 255]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 0 )
-            sayMsg(`A1201[ 256]  aAppDir: ${ FRT.__dirname  }`, -1 ) 
+            sayMsg(`A1201[ 259]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 0 )
+            sayMsg(`A1201[ 260]  aAppDir: ${ FRT.__dirname  }`, -1 ) 
 
 //     Process .ENV Variables and command line arguments
 //     ---  --------  =  --  =  ------------------------------------------------------  #
@@ -271,7 +274,8 @@
        var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.12)
        var  aDocsCollection  =  pVars.DOCS_COLLECTION                                                       // .(50428.04.3)
        var  aApp2            =  aDocsCollection.replace( /_.+/, "" )  || aApp // Name.slice(0,3)            // .(50503.05.2 RAM Default to s13 not a13).(50429.09.12).(50429.09b.1)
-       var  bUseRawFiles     =  pVars.USE_FILES == 1 ?  true : false                                        // .(50430.04.3 RAM Add bUseRawFiles Beg)
+       var  bUseRawFiles     = `${pVars.FILES_PATH}/${pVars.FILES_PATH}`.match(/{File/) == null             // .(50430.04b.1 RAM Check if FILES_PATH has been assigned)
+       var  bUseRawFiles     =  bUseRawFiles && (pVars.USE_FILES == 1 ?  true : false)                      // .(50430.04b.2).(50430.04.3 RAM Add bUseRawFiles Beg)
         if (bUseRawFiles) {
        var  aFilesPath       =  pVars.FILES_PATH
        var  aFilesName       =  pVars.FILES_NAME.replace( /^\*/,"" ).replace( /\./g, "\\." )
@@ -299,7 +303,7 @@
        var  aModel           =  mArgs[0] ? mArgs[0] : aModel
        var  nCTX_Size        = (mArgs[1] ? mArgs[1] : nCTX_Size) * 1
 
-//                              usrMsg( "----------------".padEnd( nWdt +  1, "-" ), bNoLog )               //#.(50414.01b.1).(50414.01.3).(50404.05.9)
+//                              usrMsg(   "----------------".padEnd( nWdt +  1, "-" ), bNoLog )             //#.(50414.01b.1).(50414.01.3).(50404.05.9)
                                 setDebugVars()                                          // .(50507.04.8 RAM Sets whatever).(50405.03.2 RAM Set them here)
 
 //     Setup Model User Prompts
@@ -460,9 +464,9 @@
                 } // eoo pParms
 //          --------  =  --  =  --------------------------------------------  #
 
-            sayMsg( `A1201[ 461  global.bNoLog: ${global.bNoLog}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )   // .(50414.01.4)
+            sayMsg( `A1201[ 465]  global.bNoLog: ${global.bNoLog}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )   // .(50414.01.4)
 
-                                usrMsg(  "----------------".padEnd( nWdt - 12, "-" )                                       , shoMsg("all")     ) // .(50404.05b.1 RAM Was 25).(50404.05.10)
+                                usrMsg(   "----------------".padEnd( nWdt - 12, "-" )                                      , shoMsg("all")     ) // .(50404.05b.1 RAM Was 25).(50404.05.10)
 
         if (global.bNoLog == 0) {                                                                                                                // .(50414.01.5 RAM Do log it)
 //     var  aRIDs            =  pParms.runid.slice(0,11).replace( /_/, "  ")                                                                     //#.(50429.09c.1)

@@ -20,6 +20,7 @@
                                          aCmd="        ";  
    if [ "$1"          == ""      ]; then aCmd="help"; fi; b=0 
    if [ "$1"          == "help"  ]; then aCmd="help"; fi 
+   if [ "$1"          == "Help"  ]; then aCmd="help"; fi 
    if [ "${aCmd}"     != "help"  ]; then 
    if [ "${1:0:3}"    == "ver"   ]; then  ._2/MWTs/AIC00_getVersion.sh;  exit;  fi      # .(50420.01b.2)
    if [ "${1:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$2;  shift; b=2; shift; b=2; fi # .(50420.01b.3)
