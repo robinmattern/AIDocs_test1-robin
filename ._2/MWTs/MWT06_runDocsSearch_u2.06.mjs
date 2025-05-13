@@ -37,6 +37,8 @@
       var   aMeta        =  await import.meta.url; 
       var   __dirname    =  aMeta.replace( /file:\/\//, "" ).split( /[\\\/]/ ).slice(0,-1).join( '/' ); 
 
+      var   CHROMA_PORT  =  8808 
+
    import   LIBs            from '../../._2/FRT_Libs.mjs'                                                   // .(50423.02.7)
       var   FRT          =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default                // .(50423.02.8).(50405.06.8 RAM Call function: LIBS.MOD())
       var   MWT          =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default                // .(50423.02.9).(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
@@ -48,7 +50,7 @@
 //    var { embedmodel, mainmodel } = await MWT.getConfig( __dirname );                                     //#.(50428.04.1)
       var { embedmodel, mainmodel } = await MWT.getConfig( FRT.__dirname );                                 // .(50428.04.1)
 
-      var   chroma       =  new ChromaClient({ path: "http://localhost:8000" }); // Explicit http://
+      var   chroma       =  new ChromaClient({ path: `http://localhost:${CHROMA_PORT}` }); // Explicit http://
 /*
        var  query = process.argv.slice(2).join(" ");
        var  query = "What are these documents about?";

@@ -518,8 +518,8 @@ if [ "${aCmd}" = "tables" ]; then
    fi
 
 if [ "${aCmd}" = "counts" ]; then
-   echo -e "\n  Table                                Rows"
-   echo      "  ------------------------------------ ----"
+   echo -e "  Table                                Rows"
+   echo    "  ------------------------------------ ----"
    shoTable_Count  migrations
 #  shoTable_Count  acquire_write
    shoTable_Count  collection_metadata
@@ -549,3 +549,4 @@ if [ "${aCmd}" = "counts" ]; then
 #   4|float_value|REAL|0||0
 #   5|bool_value|INTEGER|0||0
 
+    if [ "${OS:0:3}" != "Win" ]; then echo ""; fi

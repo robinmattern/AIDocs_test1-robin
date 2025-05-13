@@ -17,7 +17,7 @@
 #    export LOGGER=
 #    export LOGGER="log"   
 #    export LOGGER="inputs"
-#    export LOGGER="log,inputs"
+     export LOGGER="log,inputs"
 
      export DOIT="1"
      export DEBUG="0"                           #  Runs node with --inspect-brk 
