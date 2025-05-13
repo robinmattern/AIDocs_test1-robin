@@ -17,7 +17,7 @@
 #    export LOGGER=
 #    export LOGGER="log"   
 #    export LOGGER="inputs"
-     export LOGGER="log,inputs"
+#    export LOGGER="log,inputs"
 
      export DOIT="1"
      export DEBUG="0"                           #  Runs node with --inspect-brk 
@@ -28,5 +28,5 @@
  
 #    echo "" >run-tests.txt                     ##.(50507.08d.5 RAM Not here).(50507.08a.5 RAM Start MT)
      bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi
-     node  "${SCORE_SCRIPT}" "qwen2:0.5b" "${aApp2}" "$@";  
+     node  "${SCORE_SCRIPT}" "gemma2:2b" "${aApp2}" "$@";  
 

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-   aAIC="$( dirname "$0" )"; aPWD="$(pwd)"; #echo "  \${aAIC/\${aPWD}/}: ${aAIC/${aPWD}/} -- ${aAIC} in ${aPWD}/"  # .(50511.04.1)
-#  aAIC="$( dirname "$0" )"; aPWD="$(pwd)";  echo "  \${aPWD/\${aAIC}/}: ${aPWD/${aAIC}/} -- ${aPWD} in ${aAIC}/"  # .(50511.04.1)
+#  aAIC="$( dirname "$0" )"; aPWD="$(pwd)"; #echo "  \${aAIC/\${aPWD}/}: ${aAIC/${aPWD}/} -- ${aAIC} in ${aPWD}/"    ##.(50511.04.1)
+#  aAIC="$( dirname "$0" )"; aPWD="$(pwd)";  echo "  \${aPWD/\${aAIC}/}: ${aPWD/${aAIC}/} -- ${aPWD} in ${aAIC}/"    ##.(50511.04.1)
 #  if [ "${aAIC/${aPWWD}}" == "${aAIC/${aPWD}}" ]; then  echo "  aPWD is in aAIC"; else echo "  aPWD is not in aAIC; cd ${aAIC}"; fi; exit
-   aAIC="$(dirname "$0")"; aPWD="$(pwd)"; if [ "${aAIC/${aPWWD}}" != "${aAIC/${aPWD}}" ]; then  cd "${aAIC}"; fi;  # .(50511.04.2 RAM Call from anywhere)
-
+   aAIC="$( dirname "$0" )"; aPWD="$(pwd)"; # if [ "${aAIC/${aPWWD}}" != "${aAIC/${aPWD}}" ]; then cd "${aAIC}"; fi;  ##.(50511.04.1 RAM Call from anywhere).(50511.04c.1)
+     cd "${aAIC}";  # echo "[ 7] cd ${aAIC}"                                                                          # .(50511.04c.1 RAM Call from script location)
 #  nPID=$PPID; aAIC=$(ps -o args= -p ${nPID} 2>/dev/null | awk '{print $1}'); echo "  aAIC: ${aAIC}"; exit 
 
            aAIT="$1";   if [ "${aAIT/ait}" != "ait" ] && [ "$1" != "" ]; then shift; else aAIT="$0"; fi; 
@@ -36,9 +36,8 @@
    if [ "${aApp:0:3}" == "s12"   ]; then aDir="server1/s12_search-web-app"; shift; fi   # .(50429.05.3)
    if [ "${aApp:0:3}" == "s13"   ]; then aDir="server1/s13_search-rag-app"; shift; fi   # .(50429.05.4)
  
-#  echo "-- aCmd: '${aCmd}', aApp: '${aApp}', aDir: '${aDir}', aTests: '${aTests}'"; # exit # .(50429.05.5
+#  echo "-- aCmd: '${aCmd}', aApp: '${aApp}', PWD: '${aPWD/*robin/}'; aDir: '${aDir}', aTests: '${aTests}'"; #  exit # .(50429.05.5
 
-   aCmds= 
    if [ "${b}" == "1" ] && [ "${aDir}" == "" ]; then                                    # .(50429.05.6 Beg)   
       echo -e "\n* Note: Did you forget to provide an App?";                       aCmd="help"           
       fi                                                                                   
@@ -88,12 +87,14 @@
       fi 
 #   -------------------------------------------------------------------------------
 
-      if [ "${aCmd}" == "run here " ]; then bash run-test.sh "$@"; exit; fi             # .(50505.02.12 RAM ??) 
+#     if [ "${aCmd}" == "run here " ]; then bash run-test.sh "$@"; exit; fi             ##.(50505.02b.1).(50505.02.12 RAM ??) 
 
 #     aPWD="$( pwd )"; echo "  aDir: '${aPWD}' == '${aDir}', '${aPWD/${aDir}}'"; # exit 
 #     aPWD="$( pwd )"; if [[ "${aPWD}" == *"${aDir}"* ]]; then echo "don't cd"; fi; exit
-      if [[ "$( pwd )" != *"${aDir}"* ]]; then cd "${aDir}"; fi                         # .(50511.04.1 RAM Was: PWD no workie in Unix)
-
+#     if [ "${aCmd}" != "run here " ]; then                                             ##.(50505.02b.1 RAM Try this).(50505.02.12 RAM ??).(50511.04c.2)
+#     if [[ "$( pwd )" != *"${aDir}"* ]]; then cd "${aDir}"; echo "  cd ${aDir}"; fi    ##.(50511.04.2 RAM Was: PWD no workie in Unix)
+#     fi                                                                                ##.(50511.04.2).(50511.04c.2) 
+         cd "${aDir}"; # echo "[97]  cd ${aDir}";                                       # .(50511.04c.2 RAM Call from app location)
 #     echo ""
 #     pwd
 #      echo -- bash sqlite.sh "${aTests}"; exit 

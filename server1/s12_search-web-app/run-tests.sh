@@ -17,15 +17,15 @@
 #    export LOGGER=
 #    export LOGGER="log"   
 #    export LOGGER="inputs"
-#    export LOGGER="log,inputs"
+     export LOGGER="log,inputs"
 
      export DOIT="1"
      export DEBUG="0"                           #  Runs node with --inspect-brk 
      export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)                                           
      export SCORING="1"                         # .(50507.02.8 RAM New way to score it)                                           
  
-     export PC_CODE="rm231p"
+     export PC_CODE="rm231d"
 
 #    echo "" >run-tests.txt                     ##.(50507.08d.4 RAM Not here).(50507.08a.4 RAM Start MT)
      bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi
-     node  "${SCORE_SCRIPT}" "qwen2:0.5b" "${aApp2}" "$@";  
+     node  "${SCORE_SCRIPT}" "gemma2:2b" "${aApp2}" "$@";  

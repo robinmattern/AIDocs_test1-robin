@@ -497,7 +497,9 @@
 
 //                              usrMsg( "\n----------------".padEnd( nWdt +  1, "-" ), bNoLog )             // .(50414.01.12).(50404.05.11)
                                 usrMsg(  "========== ------".padEnd( nWdt +  1, " ===== ------" ), bNoLog ) // .(50414.01.12).(50404.05.11)
-//                              FRT.exit_wCR()                                                              // .(50403.03a.1)
+//                              FRT.exit_wCR()                                                              // .(50403.03a.1).(50403.03b.1)
+//                              usrMsg(  "" )                                                               // .(50403.03b.1)
+
 // Main Execution
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
@@ -512,8 +514,8 @@
 //          aiPrompt         =  aUsrPrompt          // "The city's restaurants";                                                                 //#.(50331.04.7).(50413.02.13)
             aiPrompt         =  pParms.usrprompt    // "The city's restaurants";                                                                 // .(50413.02.13)
         } else { 
-            usrMsg( "" ) 
-
+//          usrMsg( "" ) 
+       if (!bUsrPromptFile) {                                                                                                                    // .(50409.03b.1 RAM Don't ask if bUsrPromptFile)
         if (bUseWebURLs) {                                                                                                                       // .(50409.03.14)
 //          searchPrompt     =( await MWT.ask4Text( "Enter your search prompt (e.g., '${aWebSearch)Lexington VA'): " ) ) || "Lexington Va";      //#.(50330.03.6).(50331.04.8)
             searchPrompt     =( await MWT.ask4Text( `Enter a Web Search prompt (e.g., '${aWebSearch}'): `      ) ) ||  aWebSearch;               // .(50331.04.8).(50330.03.6)
@@ -524,8 +526,8 @@
             }                                                                                                                                    // .(50409.03.18)
 //          aiPrompt         =( await MWT.ask4Text( "Enter your AI prompt (e.g., 'Tell me about tourism'): "   ) ) || "Tell me about tourism";   //#.(50330.03.7).(50331.04.9)
             aiPrompt         =( await MWT.ask4Text( `Enter an AI Model Query Prompt (e.g., '${aUsrPrompt}'): ` ) ) ||  aUsrPrompt;               // .(50409.03.19).(50331.04.9).(50330.03.7)
-            } // eof interactive
-
+            } // eof interactive                                                                                                                 // .(50409.03b.2)
+        }  // not inVSCode  
         if (bUseWebURLs) {                                                                                                                       // .(50409.03.20)
             usrMsg(""                                                                                                      , shoMsg('Parms')   ) // .(50404.01.1)
             usrMsg(`Web Search Prompt: "${searchPrompt}"`                                                                  , shoMsg('Parms')   ) // .(50404.01.2)
@@ -549,15 +551,6 @@
 //     var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: {}, Files: [], DOCs: [] }                                               //#.(50409.03.23).(50430.04.x) 
        var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: [], Files: [], DOCs: [] }                                               // .(50430.04.5).(50409.03.23)
 
-        if (bUseWebURLs) {                                                                                                                       // .(50409.03.24)
-//     var  urls                      =  await  getNewsUrls( searchPrompt );                                //#.(50408.06.6)
-       var  pResults                  =  await  pURLs.getNewsUrls( searchPrompt );                          // .(50423.02.3).(50408.06.6)
-            pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.25)
-            pJSON_Results.URLs        =  pResults.URLs                                                      // .(50409.03.26)
-//     var  urls                      =  pJSON_Results.URLs                                                 //#.(50408.06.7 RAM [0] is 1st URL).(50430.03.2)
-       var  mAllTexts                 =  await  pURLs.getCleanedText_fromURLs( pJSON_Results.URLs );        // .(50430.03.2).(50423.02.4).(50409.03.27)
-            }                                                                                               // .(50409.03.28 RAM Add bUseDocFiles Beg)
-
         if (bUseDocFiles) {                                                                                 // .(50409.03.29)
        var  pResults                  =  await  pDOCs.getRelevantDocs( aDocsCollection, aiPrompt );         // .(50428.04.6 RAM Was searchPrompt).(50423.02.5)
         if (pResults.DOCs.length == 0) { process.exit(1) }                                                  // .(50503.06.4 RAM Abort?)
@@ -572,6 +565,15 @@
 //          pJSON_Results             = { DocResponse: [], DOCs: [] }                                       //#.(50430.04.7)
        var  mAllTexts                 = [ ]                                                                 // .(50430.04.8)
             }                                                                                               // .(50409.03.32 End)
+
+        if (bUseWebURLs) {                                                                                                                       // .(50409.03.24)
+//     var  urls                      =  await  getNewsUrls( searchPrompt );                                //#.(50408.06.6)
+       var  pResults                  =  await  pURLs.getNewsUrls( searchPrompt );                          // .(50423.02.3).(50408.06.6)
+            pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.25)
+            pJSON_Results.URLs        =  pResults.URLs                                                      // .(50409.03.26)
+//     var  urls                      =  pJSON_Results.URLs                                                 //#.(50408.06.7 RAM [0] is 1st URL).(50430.03.2)
+       var  mAllTexts                 =  await  pURLs.getCleanedText_fromURLs( pJSON_Results.URLs );        // .(50430.03.2).(50423.02.4).(50409.03.27)
+            }                                                                                               // .(50409.03.28 RAM Add bUseDocFiles Beg)
 
         if (bUseRawFiles) {                                                                                 // .(50430.04.9 RAM Add bUseRawFiles)
         var pResults                  = { }        
@@ -662,8 +664,9 @@
             pJSON_Results.Response       =  aResult                                                         // .(50408.06.14)
 
 //      if (global.nLog   != 1) {                                                                           //#.(50510.01.3)
-        if (global.bNoLog != 1) {                                                                           // .(50510.01.3 RAM Opps, will it mattern)
-            aResult          =  MWT.wrap( MWT.sqzLines( aResult ), nWdt, 4 )                                // .(50503.02.x RAM Remove dup blank lines).(50330.06a.7).(50330.06.3)
+//      if (global.bNoLog != 1) {                                                                           // .(50510.01.3 RAM Opps, will it mattern)
+        if (global.bNoLog == 1) {                                                                           // .(50510.01.3 RAM Opps, it does mattern)
+                     aResult          =  MWT.wrap( MWT.sqzLines( aResult ), nWdt, 4 )                                // .(50503.02.x RAM Remove dup blank lines).(50330.06a.7).(50330.06.3)
             usrMsg( aResult                                                                                                , shoMsg('Results') ) // .(50404.01.18).(50330.06a.7).(50330.06.3)
             usrMsg(   `${ "--------".padEnd( nWdt, "-") }`                                                                 , shoMsg('Results') ) // .(50503.09.2) 
             }

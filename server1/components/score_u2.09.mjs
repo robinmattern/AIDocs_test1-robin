@@ -240,10 +240,12 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
         } // eif (aVer == "2.08")
             FRT.writeFileSync(    MWT.fixPath( FRT.__basedir, aStatsSheetFile ), mSpreadsheet.join( "\n" ) )
 
-        if (global.bNoLog == 0) {                                                                           // .(50510.01.2 RAM Display scores Beg)
+//      if (global.bNoLog == 0) {                                                                           //#.(50510.01b.1 RAM Always display scores).(50510.01.2 RAM Display scores Beg)
+        if (global.bNoLog == 1) {                                                                           // .(50510.01b.2)
+            usrMsg( "" ) }                                                                                  // .(50510.01b.3 RAM But add a blank line if bNoLog)
        var  aRIDs = aTestId.split("_"); aRIDs = `${aRIDs[0].padEnd(4)} ${aRIDs[1]}`
             usrMsg(            `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${aScore}\n`)  // .(50511.01.1 RAM Do "\n" after run)  
-            }                                                                                               // .(50510.01.2 End)
+//          }                                                                                               //#.(50510.01b.3).(50510.01.2 End)
         } catch (error) { 
             console.error('\n* Error:', error);
             process.exit(1);
@@ -424,6 +426,8 @@ return { scores, totalScore, scoreCount, formattedEvaluation };
 //      } else {
 //          usrMsg( `\n  Running test, '${aTestId}', for app ${aApp}.` )
 //          }
+        if (bNoLog == 0) {                                                                                  // .(50510.01b.4)
+            usrMsg( "" ) }                                                                                  // .(50510.01b.5 RAM But add a blank line if bNoLog)
         if (bNoLog == 0) {
         var aTS = `${FRT.getDate(3,5)}.${FRT.getDate(3,7).slice(-2)}`
         var forOthTestId = aOthTestId ? ` for ${aOthTestId}` : '' 
