@@ -44,7 +44,7 @@ if [ "$1" == "" ] || [ "$1" == "help" ] || [ "$1" == "Help" ]; then
 # ----------------------------------------------------------------
 #        startChromaDB  ./my_chroma_data
 
-   nPort=8808
+         nPort=8808                                                                                         # .(50511.02.4)
 
 function checkChromaDB() {
      bOK="$( curl -s http://localhost:${nPort}/api/v2/heartbeat | awk '/"nanosecond heartbeat"/ { print 1 }' )"
@@ -89,14 +89,14 @@ function startChromaDB() {
 #f nc -z $CHROMA_HOST $CHROMA_PORT 2>/dev/null; then # return 0; fi
 if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
     aPID2=$( cat "chroma.pid" )
-    echo "  ChromaDB is already running on $CHROMA_HOST:$CHROMA_PORT (PID: ${aPID2})"
+    echo "  ChromaDB is already running on $CHROMA_HOST:$CHROMA_PORT (PID: ${aPID2})"                       # .(50511.02.5)
   else
     echo "  ChromaDB is not running. Starting it now..."
 
     # Start ChromaDB in the background
-    echo "$CHROMA_SCRIPT run --host $CHROMA_HOST --port $CHROMA_PORT --path $CHROMA_PATH "
+    echo "$CHROMA_SCRIPT run --host $CHROMA_HOST --port $CHROMA_PORT --path $CHROMA_PATH "                  # .(50511.02.6)
 #   $CHROMA_SCRIPT ; exit
-    $CHROMA_SCRIPT run --host $CHROMA_HOST --port $CHROMA_PORT --path $CHROMA_PATH > chroma.log 2>&1 &
+    $CHROMA_SCRIPT run --host $CHROMA_HOST --port $CHROMA_PORT --path $CHROMA_PATH > chroma.log 2>&1 &      # .(50511.02.7)
     export CHROMA_PID=$!  # Store the PID
     echo "  ChromaDB started with Bash PID: $CHROMA_PID"
     echo $CHROMA_PID > chroma.pid  # Optional: Save PID to a file for later reference
@@ -138,6 +138,14 @@ function  shoTable_Count() {
     aSQL_Count="SELECT count(*) FROM '${aTable}';"
     sqlite3  "${aChroma_SQLite3_DB}" "${aSQL_Count}" | awk '{ printf "  %-35s %5d\n", "'"${aTable}"'", $1 }'
     }
+# ----------------------------------------------------------------
+
+function  shoTable_collection() {                                                       # .(50514.03.3 RAM Write shoTable_Collection for one collection Beg) 
+    aTable="collections"
+    aSQL="SELECT name from collections where name like '$1%'"
+#   echo "  SQL: ${aSQL}"
+    sqlite3 "${aChroma_SQLite3_DB}" "${aSQL}" | awk '{ print "  " $0 }' 
+    }                                                                                   # .(50514.03.3 End)
 # ----------------------------------------------------------------
 
 function  shoTable_collections() {
@@ -217,11 +225,12 @@ GROUP BY collections.id, name, RTRIM(embedding_id, '0123456789'), segment_id
 ORDER BY min(embeddings.id)
 "
 aAWK='
-function sqQQ(a)   { sub( /^"/, "", a); sub( /"$/, "", a); return a }
+function sqQQ(a)   { sub( /^"/, "", a); sub( /"$/, "", a ); return a }
+function strip(a)  { gsub( /[\\\/]/, "/", a ); sub( /.+\/data/, "./data", a ); return a }
 function chop(a,n) { n = n - 4; m = (n/2) - 4; a = sqQQ( a ); return (length(a) > n) ? substr( a, 1, (n - m) ) "..." substr( a, length(a) - m ) : a }
 function getNo(a)  { sub( /.+?[\/"]/, "", a ); sub( /.+\..../, "", a); return a ? a : "0" }
 function midId(a)  { return "..." substr( a, 20, 17 ) }   #
-       { printf "  %5s  %19s  %20s  %-25s  %-20s  %-86s %3s %5d  %5d  %-19s\n", $1, $2, midId( $3 ), $4, midId( $5 ), chop( $6, 86 ), getNo( $10 ), $7, $8, $9 }
+       { printf "  %5s  %19s  %20s  %-25s  %-20s  %-86s %3s %5d  %5d  %-19s\n", $1, $2, midId( $3 ), $4, midId( $5 ), chop( strip( $6 ), 86 ), getNo( $10 ), $7, $8, $9 }
 #      { printf "  %3d  %5d  %86s\n", getNo( $9 ), $7, chop( $6, 86 ) }
 '
     echo -e "\n  Table: ${aTable}"
@@ -278,15 +287,16 @@ function  shoTable_chunks() {
 "
 aAWK='
 function sqQQ(a)   { sub( /^"/, "", a); sub( /"$/, "", a); return a }
+function strip(a)  { gsub( /[\\\/]/, "/", a ); sub( /.+\/data/, "./data", a ); return a }
 function chop(a,n) { n = n - 4; m = (n/2) - 4; a = sqQQ( a ); return (length(a) > n) ? substr( a, 1, (n - m) ) "..." substr( a, length(a) - m ) : a }
 function getNo(a)  { sub( /.+?[\/"]/, "", a ); sub( /.+\..../, "", a); return a ? a : "0" }
 function midId(a)  { return "..." substr( a, 20, 17 ) }
-       { printf "  %5s  %19s  %20s  %-25s  %-20s  %-86s %5d\n", $1, $2, midId( $3 ), $4, midId( $5 ), chop( $6, 86 ), getNo( $6 ) }
+       { printf "  %5s  %19s  %20s  %-25s  %-20s  %-86s %5d\n", $1, $2, midId( $3 ), $4, midId( $5 ), chop( strip( $6 ), 86 ), getNo( $6 ) }
 #      { printf "  %3d  %5d  %86s\n", getNo( $9 ), $7, chop( $6, 86 ) }
 '
     echo -e "\n  Table: ${aTable}"
 #   echo      "  SQL: ${aSQL}"; exit
-    echo      "  id     created_at_begin     collection_id         collection_name            segment_id            document_path                                                                          chunk"
+    echo      "    id   created_at_begin     collection_id         collection_name            segment_id            document_path                                                                          chunk"
     echo      "  -----  -------------------  --------------------  -------------------------  --------------------  -------------------------------------------------------------------------------------- -----"
 #   sqlite3                   "${aChroma_SQLite3_DB}" "${aSQL}" | awk -F"|" '{ sub( /^"/, "", $4); sub( /"$/, "", $4); printf "  %5d  %6d  %-36s  %-100s  %-19s  %-19s\n",           $1, $2, $3, (length($4) > 96) ? substr($4,1,52) "..." substr($4,length($4)-44) : $4, $5, $6, $7 }'
 #   sqlite3 -separator $'\t'  "${aChroma_SQLite3_DB}" "${aSQL}" | awk -F"\t"                                        '{ printf "  %5s  %19s  %20s  %-25s  %36s  %100d  %8d  %-19s\n", $1, $2, $3, $4, $5, (length($6) > 96) ? substr($6,1,52) "..." substr($6,length($4)-44) : $6, $7, $8 }'
@@ -316,7 +326,8 @@ function shoTable_embedding_metadata() {
      WHERE collections.id = segments.collection
        AND segments.id    = embeddings.segment_id
        AND embeddings.id  = embedding_metadata.id"
-    aSQL1="SELECT embeddings.id as embedding_id, name as collection_name, key, replace( replace( substr( string_value, 1, 100), char(10), ' '), char(13), ' ') as string_value, int_Value, float_value, bool_value FROM ${aTables} ${aWhere};"
+#   aSQL1="SELECT embeddings.id as embedding_id, name as collection_name, key, replace( replace( substr( string_value, 1, 100), char(10), ' '), char(13), ' ') as string_value, int_Value, float_value, bool_value FROM ${aTables} ${aWhere};"
+    aSQL1="SELECT embeddings.id as embedding_id, name as collection_name, key, replace( replace( substr( string_value, 1, 150), char(10), ' '), char(13), ' ') as string_value, int_Value, float_value, bool_value FROM ${aTables} ${aWhere};"
 #   aSQL2="SELECT embeddings.id as embedding_id, name as collection_name, key, replace( replace( string_value, char(10), ' '), char(13), ' ') as string_value, int_Value, float_value, bool_value FROM ${aTables} ${aIds};"
 #   aSQL2="SELECT embeddings.id as embedding_id, name as collection_name, key, string_value, int_Value, float_value, bool_value FROM ${aTables} ${aWhere};"
     aSQL2="SELECT
@@ -333,7 +344,7 @@ function shoTable_embedding_metadata() {
     aSQL3="${aSQL2}
        AND key = 'chroma:document';"
 
-    aAWK='
+    aWRAP='
 function wrap( aStr, nWdt, nInd) {
     result = "";
     indent = substr( "                         ", 1, nInd );
@@ -365,15 +376,28 @@ function wrap( aStr, nWdt, nInd) {
     }
 /string_value/ { aVal = substr( $0, 18); print "   string_value =" wrap( aVal, 130, 18); next }; { print $0 }
 '
+
+aAWK='
+function sqQQ(a)   { return a } # sub( /^"/, "", a); sub( /"$/, "", a ); return a }
+function strip1(a) { if (substr(a,2,1) == ":") { gsub( /[\\\/]/, "/", a ); sub( /.+\/data/, "./data", a ); } return a }
+function strip(a)  {                             gsub( /[\\\/]/, "/", a ); sub( /.+\/data/, "./data", a );   return a }
+function chop(a,n) { n = n - 4; m = (n/2) - 4; a = sqQQ( a ); return (length(a) > n) ? substr( a, 1, (n - m) ) "..." substr( a, length(a) - m ) : a }
+function getNo(a)  { sub( /.+?[\/"]/, "", a ); sub( /.+\..../, "", a); return a ? a : "0" }
+function midId(a)  { return "..." substr( a, 20, 17 ) }   #
+#      { printf "  %5s  %19s  %20s  %-25s  %-20s  %-86s %3s %5d  %5d  %-19s\n", $1, $2, midId( $3 ), $4, midId( $5 ), chop( strip( $6 ), 86 ), getNo( $10 ), $7, $8, $9 }
+       { printf "  %5d  %-25s  %-15s  %-100s  %9d  %11d  %10d\n", $1, $2, $3, chop( strip( $4 ), 100 ), $5, $6, $7 }
+'
+
     echo -e "\n  Table: ${aTable} ${aType}"
 #   echo      "  SQL: ${aSQL3}"; exit
     echo      "   id    collection_name            key              string_value                                                                                          int_Value  float_value  bool_value"
     echo      "  -----  -------------------------  ---------------  ----------------------------------------------------------------------------------------------------  ---------  -----------  ----------"
  if [ "${aType}" == "-json" ] || [ "${aType}" == "-line" ]; then
-    if [ "${aType}" == "-line" ]; then sqlite3 -cmd ".mode line" "${aChroma_SQLite3_DB}" "${aSQL3}" | awk "${aAWK}"; fi
+    if [ "${aType}" == "-line" ]; then sqlite3 -cmd ".mode line" "${aChroma_SQLite3_DB}" "${aSQL3}" | awk "${aWRAP}"; fi
     if [ "${aType}" == "-json" ]; then sqlite3            -json  "${aChroma_SQLite3_DB}" "${aSQL2}"; fi
   else
-                                       sqlite3 -separator  $'\t' "${aChroma_SQLite3_DB}" "${aSQL1}" | awk -F"\t" '{ printf "  %5d  %-25s  %-15s  %-100s  %9d  %11d  %10d\n", $1, $2, $3, $4, $5, $6, $7 }'
+#                                      sqlite3 -separator  $'\t' "${aChroma_SQLite3_DB}" "${aSQL1}" | awk -F"\t" '{ printf "  %5d  %-25s  %-15s  %-100s  %9d  %11d  %10d\n", $1, $2, $3, $4, $5, $6, $7 }'
+                                       sqlite3 -separator  $'\t' "${aChroma_SQLite3_DB}" "${aSQL1}" | awk -F"\t" "${aAWK}"
 #                                      sqlite3 -separator  $'\t' "${aChroma_SQLite3_DB}" "${aSQL1}"
     fi
     }
@@ -476,7 +500,7 @@ function  shoTable_embeddings_queue() {
 #   shoTable_Schema ${aTable}
 #   shoTable_Count embeddings; exit
 
-if [ "${aCmd}" = "collections"         ]; then shoTable_collections $2;            exit; fi
+if [ "${aCmd}" = "collection"          ]; then shoTable_collection $2;        exit; fi  # .(50514.03.4)
 if [ "${aCmd}" = "collection_metadata" ]; then shoTable_collection_metadata $2;    exit; fi
 if [ "${aCmd}" = "documents"           ]; then shoTable_documents   $2 $3;         exit; fi
 if [ "${aCmd}" = "chunks"              ]; then shoTable_chunks      $2 $3;         exit; fi
@@ -490,7 +514,7 @@ if [ "${aCmd}" = "start" ]; then startChromaDB  ./my_chroma_data; exit; fi
 if [ "${aCmd}" = "stop"  ]; then stopChromaDB;  exit; fi                                # .(50505.09.1 RAM Add stop command)
 if [ "${aCmd}" = "check" ]; then if [ "$( checkChromaDB )" == "1" ];  
                                   then echo "  Chroma is running.";
-                                  else echo "  Chroma is not running."; fi; exit; fi      # .(50511.09.1 RAM Add check command)
+                                  else echo "  Chroma is not running."; fi; exit; fi    # .(50511.09.1 RAM Add check command)
 
 # ----------------------------------------------------------------
 
