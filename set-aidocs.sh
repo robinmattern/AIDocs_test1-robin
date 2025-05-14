@@ -23,6 +23,8 @@
 #.(50303.01   3/03/25 RAM  9:30a| Copy set-aidocs from set-anyllm
 #.(50505.01   5/01/25 RAM  6:00a| Create scripts ait, aitestr, ai.testr.4u
 #.(50510.03   5/10/25 RAM  6:00p| Bump Version to 2.09
+#.(50513.01   5/13/25 RAM  1:30p| Bump Version to 2.10
+#.(50513.02   5/13/25 RAM  1:45p| Change name of AItestR_scr to run-aitestr.sh
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -32,6 +34,7 @@
 
   aVer="v0.05.50303.0930"  # set-aidocs.sh                                              # .(50303.01.4)
   aVer="v2.09.50310.1800"  # set-aidocs.sh                                              # .(50510.03.2)
+  aVer="v2.10.50313.1330"  # set-aidocs.sh                                              # .(50513.01.1)
 
   echo ""
 
@@ -145,7 +148,8 @@ function cpyToBin() {
   aJPTs_JDir="${aBinDir}"   # "/Users/Shared/._0/bin"
 # aJPTs_GitR="${aRepo_Dir}/._2/JPTs/gitr.sh"
   AIDocs_scr="${aRepo_Dir}/run-aidocs.sh"                                               # .(50303.01.12)
-  AItestR_scr="${aRepo_Dir}/run-tests.sh"                                               # .(50505.01.2)
+# AItestR_scr="${aRepo_Dir}/run-tests.sh"                                               ##.(50505.01.2).(50513.02.3)
+  AItestR_scr="${aRepo_Dir}/run-aitestr.sh"                                             # .(50513.02.3)
 
 # echo ""
 # echo " aJPTs_JDir: ${aJPTs_JDir}";

@@ -13,7 +13,7 @@ a12_t018.01, llama3.2:3b,            4000, GKN8-REAS, 0.6,   0,  0,   0, 1,   1,
 a12_t019.01, llama3.2:3b,            4000, GKN9-REAS, 0.9,   0,  0,   0, 1,   1, 1,  "Parms,Docs,Search,Stats,Result3"
 
 a12_t020.01, gemma2:2b,              4000, GKN1-SIMP, 0.7,   9,  1,   0, 1,   1, 0,  "RunId,Stats"
-a12_t021.01, gemma2:2b,              4000, GKN1-SIMP, 0.3,   1,  1,   0, 1,   0, 1,  "Parms,Docs,Search,Stats,Results"
+a12_t021.01, gemma2:2b,              4000, GKN1-SIMP, 0.3,   1,  1,   0, 1,   0, 1,  "Parms,Search,Results"
 a12_t022.01, gemma2:2b,              4000, GKN2-SIMP, 0.6,   1,  1,   0, 1,   0, 1,  "RunId,Stats"
 a12_t023.01, gemma2:2b,              4000, GKN3-SIMP, 0.9,   1,  1,   0, 1,   0, 1,  "RunId,Stats"
 a12_t024.01, gemma2:2b,              4000, GKN4-DETA, 0.3,   1,  1,   0, 1,   0, 1,  "RunId,Stats"
