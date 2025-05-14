@@ -1,0 +1,115 @@
+#!/bin/bash
+                                                                                        # .(50513.02 RAM Change name from run-tests.sh to run-aitestr.sh)
+#  aAIC="$( dirname "$0" )"; aPWD="$(pwd)"; #echo "  \${aAIC/\${aPWD}/}: ${aAIC/${aPWD}/} -- ${aAIC} in ${aPWD}/"     ##.(50511.04.1)
+#  aAIC="$( dirname "$0" )"; aPWD="$(pwd)";  echo "  \${aPWD/\${aAIC}/}: ${aPWD/${aAIC}/} -- ${aPWD} in ${aAIC}/"     ##.(50511.04.1)
+#  if [ "${aAIC/${aPWWD}}" == "${aAIC/${aPWD}}" ]; then  echo "  aPWD is in aAIC"; else echo "  aPWD is not in aAIC; cd ${aAIC}"; fi; exit
+   aAIC="$( dirname "$0" )"; aPWD="$(pwd)"; # if [ "${aAIC/${aPWWD}}" != "${aAIC/${aPWD}}" ]; then cd "${aAIC}"; fi;  ##.(50511.04.1 RAM Call from anywhere).(50511.04c.1)
+     cd "${aAIC}";  # echo "[ 7] cd ${aAIC}"                                                                          # .(50511.04c.1 RAM Call from script location)
+#  nPID=$PPID; aAIC=$(ps -o args= -p ${nPID} 2>/dev/null | awk '{print $1}'); echo "  aAIC: ${aAIC}"; exit 
+
+           aAIT="$1";   if [ "${aAIT/ait}" != "ait" ] && [ "$1" != "" ]; then shift; else aAIT="$0"; fi; 
+           aAIT="$( basename "${aAIT}" )"; export AIT="${aAIT}"; # echo "  aAIT: ${aAIT}, \$1: '${1:0:3}'"; exit 
+#          aDir="$(pwd)"; if [ "${aDir/_}" != "${aDir}" ]; then bash run-tests.sh "$@"; exit; fi  ##.(50505.02.1 RAM Need to be in __basedir)
+           aDir="$(pwd)"; if [ "${aDir/_}" != "${aDir}" ]; then aCmd="run here"; fi     # .(50505.02.1 RAM Need to be in __basedir)
+#          aDir="$(pwd)"; if [ "${aDir/_}" != "${aDir}" ]; then  cd ../../; fi          ##.(50505.02.1)
+
+   if [ "${aAIT}" == "ait"       ]; then aAIT="AIT"; fi 
+   if [ "${aAIT}" == "aitestr"   ]; then aAIT="AItestR"; fi 
+   if [ "${aAIT}" == "aitestr4u" ]; then aAIT="AI.testR.4u"; fi 
+
+                                         aCmd="        ";  
+   if [ "$1"          == ""      ]; then aCmd="help"; fi; b=0 
+   if [ "$1"          == "help"  ]; then aCmd="help"; fi 
+   if [ "$1"          == "Help"  ]; then aCmd="help"; fi 
+   if [ "${aCmd}"     != "help"  ]; then 
+   if [ "${1:0:3}"    == "ver"   ]; then  ._2/MWTs/AIC00_getVersion.sh;  exit;  fi      # .(50420.01b.2)
+   if [ "${1:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$2;  shift; b=2; shift; b=2; fi # .(50420.01b.3)
+   if [ "${2:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$1;  shift; b=2; shift; b=2; fi # .(50420.01b.5)
+   if [ "${1:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=s13; shift; b=1; fi      # .(50420.01b.4)
+   if [ "${1:0:3}"    == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi      # .(50505.05.1
+   if [ "${1:0:3}"    == "sql"   ]; then aCmd="sqlite  "; aApp=s13; shift; b=1; fi      # .(50505.06.1)
+   if [ "${1:0:3}"    == "chr"   ]; then aCmd="chroma  "; aApp=s13; shift; b=1; fi      # .(50505.06.2)
+   if [ "${1:0:3}"    == "exa"   ]; then aCmd="example "; aApp=s13; shift; b=1; fi      # .(50505.04.2 RAM Add example)
+   if [ "${aApp}"     == ""      ]; then                  aApp=$1;  shift; fi           # .(50420.01b.7)
+                                         aDir=""; aTests="$@"                           # .(50429.05.1)             
+   if [ "${aApp:0:3}" == "s11"   ]; then aDir="server1/s11_search-app";     shift; fi   # .(50429.05.2)             
+   if [ "${aApp:0:3}" == "s12"   ]; then aDir="server1/s12_search-web-app"; shift; fi   # .(50429.05.3)
+   if [ "${aApp:0:3}" == "s13"   ]; then aDir="server1/s13_search-rag-app"; shift; fi   # .(50429.05.4)
+ 
+#  echo "-- aCmd: '${aCmd}', aApp: '${aApp}', PWD: '${aPWD/*robin/}'; aDir: '${aDir}', aTests: '${aTests}'"; #  exit # .(50429.05.5
+
+   if [ "${b}" == "1" ] && [ "${aDir}" == "" ]; then                                    # .(50429.05.6 Beg)   
+      echo -e "\n* Note: Did you forget to provide an App?";                       aCmd="help"           
+      fi                                                                                   
+   if [ "${b}" == "2" ] && [ "${aDir}" != "" ] && [ "${aTests}" == "" ]; then
+      echo -e "\n* Note: Did you forget to provide a Test Id?";                    aCmd="help" 
+      fi 
+   if [ "${aCmd}" == "        " ] && [ "${aDir}" == "" ]; then
+      echo -e "\n* Error: Invalid app name. Please specify a valid app name.";     aCmd="help" 
+      echo -e   "    s11                for server1/s11_search-app" 
+      echo -e   "    s12                for server1/s12_search-web-app" 
+      echo -e   "    s13[a]             for server1/s13_search-rag-app" 
+      shift
+      fi;                                                                              
+      fi; # eif help                                                                    # .(50429.05.6 End)
+#  if [ "${aCmd}" == "help    " ]; then  
+#     echo -e "\n  Usage: ./run-tests.sh ..."; exit
+#     fi 
+
+#     echo -e "\n  ./run-tests.sh ${aCmd// /} ${aApp} ${aTests}" 
+
+#  if [ "${1:0:3}" == "lis" ]; then echo "do list"; exit; fi
+
+   if [ "${aCmd}" == "help" ]; then  
+      echo -e "\n  Usage: ${aAIT} ..."
+      echo -e   "    {App} {Test}       to run a test"
+      echo -e   "    {App} gen {Group}  to generate an .env template for a test model group"
+      echo -e   "    {App} list         to list all tests to run"
+      echo -e   "    import {App}       to import a collection of docs"                 # .(50505.05.2)
+      echo -e   "    chroma start       to start the Chroma Vector DB"                  # .(50505.06.3)
+      echo -e   "    sql {table}        to query a table in the Chroma Vector DB"       # .(50505.06.4)
+      echo -e   ""
+      echo -e   "  Where:"
+      echo -e   "    {App}              is an App Id for one type of test app, e.g. s11."
+      echo -e   "    {Test}             is one Test id, e.g. t011"
+      echo -e   "    {Group}            is a Group Id for one set of model tests, e.g. t010"
+      echo -e   ""                                                                      # .(50421.04.1 RAM Add more help Beg)
+      echo -e   "  For example:"                                                         
+      echo -e   "    ${aAIT} s11 help"
+      echo -e   "    ${aAIT} s11 t041"
+      echo -e   "    ${aAIT} s13g t041"                                                 # .(50429.05.7)
+      echo -e   "    ${aAIT} import s13a"                                               # .(50505.05.3)
+      echo -e   "    ${aAIT} sql collections"                                           # .(50429.05.7)
+      echo -e   "    ${aAIT} example s13"                                               # .(50505.04.3)
+#     echo -e   "    ${aAIT}"                                                           # .(50421.04.1 End)
+      if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
+      exit 
+      fi 
+#   -------------------------------------------------------------------------------
+
+      source "./run-tests.sh"                                                           # .(50513.02.1 RAM Get common parameters from __basedir/run-tests.sh)    
+
+#     export  APP="${aApp}"                                                             # .(50513.02.2)
+      export  ENVs=0; bEnvs="${ENVs}"                                                   # .(50513.05.1)
+       if [ "${bEnvs}" == "1" ]; then echo "  - S1000[  93]  APP: '${aApp}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit # .(50513.05.2)
+
+#     if [ "${aCmd}" == "run here " ]; then bash run-test.sh "$@"; exit; fi             ##.(50505.02b.1).(50505.02.12 RAM ??) 
+
+#     aPWD="$( pwd )"; echo "  aDir: '${aPWD}' == '${aDir}', '${aPWD/${aDir}}'"; # exit 
+#     aPWD="$( pwd )"; if [[ "${aPWD}" == *"${aDir}"* ]]; then echo "don't cd"; fi; exit
+#     if [ "${aCmd}" != "run here " ]; then                                             ##.(50505.02b.2 RAM Try this).(50505.02.12 RAM ??).(50511.04c.2)
+#     if [[ "$( pwd )" != *"${aDir}"* ]]; then cd "${aDir}"; echo "  cd ${aDir}"; fi    ##.(50511.04.2 RAM Was: PWD no workie in Unix)
+#     fi                                                                                ##.(50511.04.2).(50511.04c.2) 
+         cd "${aDir}"; # echo "[97]  cd ${aDir}";                                       # .(50511.04c.2 RAM Call from app location)
+#     echo ""
+#     pwd
+#      echo -- bash sqlite.sh "${aTests}"; exit 
+#      echo "-- node import_u1.03.mjs '${aApp}' '${aTests}'"; exit 
+#     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
+      if [ "${aCmd}" == "import  " ]; then node ../components/import_u1.03.mjs ${aTests}; exit; fi    # .(50514.04.4).(50505.07.1).(50505.05.4) 
+      if [ "${aCmd}" == "sqlite  " ]; then bash sqlite.sh ${aTests}; exit; fi           # .(50505.06.5) 
+      if [ "${aCmd}" == "chroma  " ]; then bash sqlite.sh ${aTests}; exit; fi           # .(50505.06.6) 
+      if [ "${aCmd}" == "example " ]; then bash run-tests2.sh; exit; fi                 # .(50505.04.4) 
+
+#  echo  "  ./run-tests.sh ${aCmd// /} ${aApp} ${aTests}"; exit                         ##.(50429.05.8)
+            ./run-tests.sh ${aCmd// /} ${aApp} ${aTests}                                # .(50429.05.8

@@ -14,6 +14,7 @@
 
      export APP=${aApp2}                                                                # .(50429.05.15)  
 
+    if [ "${DRYRUN}" == "" ]; then                                                      # .(50513.02.6)
 #    export LOGGER=
 #    export LOGGER="log"   
 #    export LOGGER="inputs"
@@ -25,6 +26,9 @@
      export SCORING="1"                         # .(50507.02.8 RAM New way to score it)                                           
  
      export PC_CODE="rm231d"
+     fi                                                                                 # .(50513.02.7)
+            bEnvs=${ENVs}                                                               # .(50513.05.17)
+    if [ "${bEnvs}" == "1" ]; then echo "  - S1200[  31]  APP: '${APP}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit  # .(50513.05.18)
 
 #    echo "" >run-tests.txt                     ##.(50507.08d.4 RAM Not here).(50507.08a.4 RAM Start MT)
      bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi

@@ -39,6 +39,7 @@
 #.(50510.04   5/10/25 RAM 10:00a| Deal with missing scores
 #.(50507.08d  5/11/25 RAM  9:30a| Start run-tests.txt MT
 #.(50511.01   5/11/25 RAM 10:30a| Do "\n" after run for bNoLog
+#.(50513.05   5/13/25 RAM  7:30p| Implement bEnvs debug msgs
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -56,6 +57,7 @@
 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
        var  aVer             = "u2.09"    // score_{aVer}.mjs                                               // .(50503.03.1 RAM Add Version)
+       var  bEnvs            =  process.env.ENVs || 0                                   // .(50513.05.10)
 
 //          LIBs.MWT         =( ) => "../../._2/MWTs"                                                       // .(50405.06.6)
        var  LIBs             ={ MWT: () => "../../._2/MWTs" }                                               //#.(50405.06.6 RAM Error: Only URLs with a scheme in: file, data, and node are supported by the default ESM loader.)
@@ -72,7 +74,7 @@
       var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()
       var   exit_wCR         =  FRT.exit_wCR
             global.bQuiet    =  0                                                       // .(50503.04.1 RAM Was 2, quieting sayMsg)
-   
+  
 //          await import( './test.mjs' )
 //          await import( './search_${aVer}.mjs' )
 //          await import( `./search_${aVer}.mjs` )
@@ -88,13 +90,14 @@
   async function  main( pArgs ) {  // score.mjs 
 
         if (process.env.SCORING != "1") {                                               // .(50508.01.1 RAM Skip if SCORING != 1 Beg)
-            sayMsg( "AIT14[  88]  Skipping scoring run")
+            sayMsg( "AIT14[  92]  Skipping scoring run" )
             exit_wCR()
             process.exit()
             }                                                                           // .(50508.01.1 End)
        var{ bDebug, bDoit }  =  FRT.setVars()
             global.bQuiet    =  0                                                       // .(50503.04.1 RAM Was 2, quieting sayMsg)
             global.bNoLog    = (process.env.LOGGING || '').match( /log/ ) == null                           // .(50510.01.1)
+            sayMsg( `S1401[  99]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${process.env.DRYRUN}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${"   "}', bNoLog: '${global.bNoLog ? 1 : 0}'`, bEnvs ); // .(50513.05.11) // process.exit() 
 
        var  pArgs            =  parseArgs()
             aModel           =  pArgs.modelName || 'gemma2:2b'
@@ -137,9 +140,9 @@
        var  mResponseFiles   =  findRespIds( mStatsSheet, mRespIds )                                        // .(50507.08b.1 RAM Do Use findRespIds)
             } // eif nRowNos                                                                                // .(50510.02.3 End) 
 
-        if (mResponseFiles.length == 0) {
+        if (mResponseFiles.length == 0 && bEnvs != 1) {                                 // .(50513.05.12)
             usrMsg( `\n* Opps, can't find any test runs in, '${ path.basename( aStatsSheetFile) }', for the last model run` )
-            usrMsg(   `        for these RunIds, '${ mRespIds.join( ', ') }'.` )
+            usrMsg(   `        in order to score these RunIds, '${ mRespIds.join( ', ') }'.` )
             exit_wCR() 
         } else { var  s      =  mResponseFiles.length == 1 ? '' : 's'  
                                 FRT.sayMsg( `AIT14[ 141]  Found ${mResponseFiles.length} statsheet row${s}.`, -1 )

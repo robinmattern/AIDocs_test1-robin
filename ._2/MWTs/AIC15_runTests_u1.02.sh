@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 ##=========+====================+================================================+
 ##RD       AIC15_runTests       | Generate Mac Hardware specs
 ##RFILE    +====================+=======+===============+======+=================+
@@ -43,11 +42,16 @@
 #.(50505.06   5/05/25 RAM  9:30p| Add ait sqlite/chroma commands 
 #.(50505.10   5/05/25 RAM 11:30p| Supress node warnings
 #.(50505.12   5/06/25 RAM 11:45p| Check if templates exist
-#.(50506.03   5/06/25 RAM  9:45a| Add DRY_RUN
+#.(50506.03   5/06/25 RAM  9:45a| Add DRYRUN
 #.(50507.02   5/07/25 RAM  7:00a| Move scripts to ./server1/components
 #.(50507.08c  5/09/25 RAM 10:10a| Save Stat row and count for delayed score runs 
 #.(50507.08   5/11/25 RAM  9:30a| Start run-tests.txt MT
-
+#.(50511.01   5/11/25 RAM 10:00a| Print line for LOGGER log and inputs
+#.(50513.04   5/13/25 RAM  7:25p| Implement DRYRUN
+#.(50513.05   5/13/25 RAM  7:30p| Implement bEnvs debug msgs
+#.(50514.01   5/14/25 RAM  8:15a| Add override parameters
+#.(50514.04   5/14/25 RAM  1:50p| Move script to components folder
+#
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
@@ -68,12 +72,11 @@
         aApp=${APP:0:3}                                                                 # .(50429.05.9)
         aApp2=${APP:0:4}                                                                # .(50429.05.9)
         aAIT=${AIT}; if [ "${aAIT}" == "" ]; then aAIT="bash run-tests.sh"; fi          # .(50505.02.2)
-#       echo -e "\n  - AIC15[  60]  aCmd: ${aCmd},  aApp: '${aApp}', aApp2: '${aApp2}', aPCCode: '${aPCCode}'"; # exit
-
+#       echo -e "\n  - AIC15[  73]  aCmd: ${aCmd},  aApp: '${aApp}', aApp2: '${aApp2}', aPCCode: '${aPCCode}'"; # exit
 #       aLogs="inputs"
         aLogs="${LOGGER}"
 #       aLogs="log"
-
+        bEnvs=${ENVs}                                                                   # .(50513.05.3)
         bDoit=${DOIT}
         bDebug=${DEBUG}
         bDryRun=${DRYRUN}                                                               # .(50506.03.2)
@@ -85,6 +88,7 @@
 #       ls -l ../../._2/MWTs/; exit
         genEnv="../../._2/MWTs/AIC19_genEnv_u1.01.sh"
         searchScript="${SEARCH_SCRIPT}"                                                 # .(50423.03.1 RAM Use ${Search_Script} instead of search_u2.05.sh)
+      if [ "${bEnvs}" == "1" ]; then echo "  - AIC15[  89] aApp: '${aApp2}', DOIT: '${bDoit}',  DEBUG: '${bDebug}', DRYRUN: '${bDryRun}', SCORING: '${SCORING}', PC_CODE: '${aPCCode}', LOGGER: '${aLogs}', "; fi # exit # .(50513.05.4)
 
 #       aCmd="run"; if [ "$1" == "gen" ]; then aCmd="gen"; shift; fi
 #       aArgs="$1,$2,$3,$4,$5,$6,$7,$8,$9"; aArgs=${aArgs//,,/}; s=""
@@ -101,7 +105,7 @@ function sayMsg() {
       }
 # -------------------------------------------------------------------
 
-      sayMsg "  - AIC15[  91]  aCmd: ${aCmd},  aApp2: '${aApp2}', aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}'"; # exit
+      sayMsg "  - AIC15[ 106]  aCmd: ${aCmd},  aApp2: '${aApp2}', aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}'" -1; # exit
 
    if [ "${aCmd}" == "sql" ]; then                                                      # .(50505.06.8 RAM Add sql command app Beg)
 #     echo "  sqlite '$@'"; exit
@@ -112,7 +116,7 @@ function sayMsg() {
 # -------------------------------------------------------------------
    if [ "${aCmd}" == "imp" ]; then                                                      # .(50505.05.9 RAM Add import app command Beg)
 #     echo "  importing '${aApp2}'"
-      node import_u1.03.mjs ${aApp2}
+      node "../../server1/components/import_u1.03.mjs" ${aApp2}                         # .(50514.04.1 RAM Move script to components folder)
       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
       exit 1
       fi                                                                                # .(50505.05.9 End)
@@ -129,7 +133,7 @@ function sayMsg() {
    if [ "${aCmd}" == "gen" ]; then
      if [ "${aArgs}" == "" ] || [ "${aArgs:3:1}" != "0" ]; then
         echo -e "\n* Please provide a test group id (t0#0) to create an .env test group file."
-        echo "   Example: bash run-tests.sh gen t040  # It must end with a zero."
+        echo "   Example: ${aAIT} gen t040  # It must end with a zero."                                     # .(50505.02c.1) 
         if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
         exit 1
       fi
@@ -146,8 +150,8 @@ function sayMsg() {
       echo -e "\n  Run any of the following tests for app: ${aApp2}:"                                                      # .(50422.03.1 RAM Add for app: ${aApp})
 #     echo -e   "    ${aAIT}  t041  # A single test for one sysprompt. (generated from s11_model-tests.txt)"               ##.(50505.02.3).(50420.04.2 RAM Add Help re run-tests.sh)
 #     echo -e   "    ${aAIT}  t0#0  # A group test for one model. (copied from .env_s11_t0#0_model_1-test.txt)"            ##.(50505.02.4).(50420.04.3)
-      echo -e   "    ${aAIT}  ${aApp}  t041  # A single test for one sysprompt (created from .env_${aApp}-template_{HWCD}.txt and ${aApp}_model-tests.txt)."  # .(50505.02.5).(50422.03.2 RAM Was s11).(50420.04.5)
-      echo -e   "    ${aAIT}  ${aApp}  t040  # A group test for one model (copied from .env_${aApp}_t040_qwen2;0.5b_4,6-tests.txt)"              # .(50505.02.6).(50422.03.2 RAM Was s11).(50420.04.5)
+      echo -e   "    ${aAIT}  ${aApp}  t010  # A group test for one model (copied from .env_${aApp}_t040_qwen2;0.5b_4,6-tests.txt)"              # .(50505.02.6).(50422.03.2 RAM Was s11).(50420.04.5)
+      echo -e   "    ${aAIT}  ${aApp}  t011  # A single test for one sysprompt (created from .env_${aApp}-template_{HWCD}.txt and ${aApp}_model-tests.txt)."  # .(50505.02.5).(50422.03.2 RAM Was s11).(50420.04.5)
 
    if ls .env_${aApp}_* >/dev/null 2>&1; then                                                                              # .(50505.12.1 RAM Check if templates exist)
       echo -e "\n  For example, these group tests are available to run:"                                                   # .(50420.04.4)
@@ -180,7 +184,7 @@ function sayMsg() {
       exit 1
     fi
 # -------------------------------------------------------------------
-        sayMsg "  - AIC15[ 182]  aCmd: ${aCmd},  aApp2: '${aApp2}', aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit
+        sayMsg "  - AIC15[ 185]  aCmd: ${aCmd},  aApp2: '${aApp2}', aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'" -1; # exit
         bUseCurrentId="0"; if [ "${aArgs:0:3}" == "cur" ]; then bUseCurrentId="1"; fi   # .(50429.06.1 RAM Use current .env file)
 
   if [ "${bUseCurrentId}" == "1" ]; then                                                # .(50429.06.2 RAM Run current .env file Beg)
@@ -212,8 +216,8 @@ function sayMsg() {
 
 function prt1stMsg() {
        s="s"; if [ "${nTests}" == "1" ]; then s=""; fi
-       if [ "${b}" == "1" ]; then return; fi                                            # .(50505.05.13 RAM Don't print if not a run command)
-    if [ "${aLogs/log}" != "${aLogs}" ]; then
+       if [ "${b}" == "1" ] || [ "${bEnvs}" == "1" ]; then return; fi                   # .(50513.05.5).(50505.05.13 RAM Don't print if not a run command)
+    if [ "${aLogs/log}" != "${aLogs}" ]; then                   
        aTS="$( date +%y%m%d.%H%M.%S)"; aTS="${aTS:1}";
        echo -e "\n${aTS}  ${aApp}           Running test${s}: ${aArgs}"
      else
@@ -308,6 +312,21 @@ BEGIN { aApp = "'${aApp2}'" }
    /DOC_COLLECTIONS/      { if (substr(aApp,2,2) == "13") {
                             print "   14. Collections:     "  getFld( $0 ) } }
 '
+# if [ "${SYSTEM_PROMPT}" != "" ]; then                                                 # .(50514.01.6 RAM Overide parameters Beg)                          
+# if [ "${SEARCH_MODEL}"  != "" ] && [ "${aApp}" != "s14" ]; then 
+                                                                                        
+aAWKscr2='
+BEGIN { aApp  = "'${aApp2}'"
+        bChg1 = "'${SYSTEM_PROMPT}'" != ""
+        bChg2 = "'${SEARCH_MODEL}'" != "" && aApp != "s14"
+        }
+   /SYS_PROMPT_CD/        && bChg1 { print "  SYS_PROMPT_CD=\"GKN0-INPT\""; next }      
+   /SYS_RUN_COUNT/        && bChg1 { print "  SYS_RUN_COUNT=1"; next }
+   /USE_SYS_PROMPTS_FILE/ && bChg1 { print "  USE_SYS_PROMPTS_FILE=0"; next }
+   /OLLAMA_MODEL_NAME/    && bChg2 { print "  OLLAMA_MODEL_NAME=\"${SEARCH_MODEL}\""; next }
+                                   { print }
+'
+# echo "  AWKscr2:\n${aAWKscr2}"; exit                                                  # .(50514.01.6 End)
 # -------------------------------------------------------------------
 
 function cpyEnv() {
@@ -315,11 +334,11 @@ function cpyEnv() {
 #               ls -l .env_${aApp}_$1* | awk '!/_v[0-9]/'
          aEnv="$( ls -l .env_${aApp}_$1* 2>/dev/null | awk '!/_v[0-9]/ { sub( /.+\.env/, ".env"); print; exit }' )"; # echo "--- aEnv: ${aEnv}"; exit
       if [ "${aEnv}" == "" ]; then
-         echo -e "\n* No .env file exists for $1. Create it with: ./run-tests.sh ${aApp} gen $1";
+         echo -e "\n* No .env file exists for $1. Create it with: ${aAIT} ${aApp} gen $1";                  # .(50505.02c.2) 
       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
          exit 1
          fi
-         sayMsg "  - AIC15[ 258]  Using .env group file: ${aEnv}"; # exit  1            # .(50429.05.10 RAM Was [ 111], then [ 222], but not any more)
+         sayMsg "  - AIC15[ 324]  Using .env group file: ${aEnv}" -1; # exit  1         # .(50429.05.10 RAM Was [ 111], then [ 222], but not any more)
          cp -p "${aEnv}" .env
          }
 # -------------------------------------------------------------------
@@ -342,28 +361,28 @@ function cpyEnv() {
 #          if [ "${aStatsFile}" == "" ]; then sayMsg "\n  - AIC15[ 342]* no stats sheet found" 1; exit; fi
            if [ "${aStatsFile}" == "" ]; then  nStats=1
                                          else  nStats=$( wc "${aStatsFile}" | awk '{ print $1 ? $1 : 0 }' ); fi 
-         sayMsg "  - AIC15[ 345]  ${aStatsFile}, nStats: ${nStats}" -1 # 1              # .(50507.08c.2 End
+         sayMsg "  - AIC15[ 347]  ${aStatsFile}, nStats: ${nStats}" -1 # 1              # .(50507.08c.2 End
          
 function savRespIds2() {                                                                # .(50507.08c.3 RAM Write savRespIds Beg)
-#        sayMsg "  - AIC15[ 339]  pwd: $( pwd )" 1
+#        sayMsg "  - AIC15[ 350]  pwd: $( pwd )" 1
          nLen=$( wc run-tests.txt | awk '{ print $2 }' )
          aRow=$( echo "${nStats}" | awk '{ printf "%03d\n", $1 + 1 }' )
 #        ls -l run-tests.txt     
          cp run-tests.txt ${aStatsDir}/a${aApp:1}_Tests_r${aRow},${nLen}.txt         
-         sayMsg "\n  - AIC15[ 353]  Saved: ${aStatsDir}/a${aApp:1}_Tests_r${nStats},${nLen}.txt" # 1
+         sayMsg "\n  - AIC15[ 353]  Saved: ${aStatsDir}/a${aApp:1}_Tests_r${nStats},${nLen}.txt" -1 # 1
          } # eof savRespIds2                                                            # .(50507.08c.3 End)
 # -------------------------------------------------------------------
 
-         sayMsg   "  - AIC15[ 357]  aCmd: ${aCmd},  aApp2: '${aApp2}', mArgs: '${mArgs[@]}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'"; # exit
+         sayMsg   "  - AIC15[ 359]  aCmd: ${aCmd},  aApp2: '${aApp2}', mArgs: '${mArgs[@]}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'" -1; # exit
 
-         prt1stMsg
+#        prt1stMsg
          echo "" >"$( pwd )/run-tests.txt"                                              # .(50507.08d.5RAM MT it here)
 
    if [ "${aApp}" == "s13" ]; then                                                      # .(50429.09.2 RAM Collections for App s13 only Beg)
          aFolder="../../data/AI.testR.4u/files"
          aCollection="$( get1stFile "${aApp2}" "${aFolder}" "txt" )"                    # .(50429.09.3 RAM Use get1stFile)
          if [ "${aCollection}" == "" ]; then echo -e "* No collection file found for App, '${aApp2}', in ${aFolder}."; exit; fi
-         sayMsg   "  - AIC15[ 364]  Using Collection: '$( basename ${aCollection%.*} )'"; # exit
+         sayMsg   "  - AIC15[ 368]  Using Collection: '$( basename ${aCollection%.*} )'"; # exit
          export COLLECTION="$( basename ${aCollection%.*} )"
        else
          export COLLECTION=""
@@ -386,12 +405,17 @@ function savRespIds2() {                                                        
 #     sayMsg  "  - AIC15[ 267]  Using aApp2: '${aApp2}', mArgs[0]: '${mArgs[0]}', bGroup: '${aTestId:3:1}', aLogs: '${aLogs}'"; # exit  1
 #     fi                                                                                ##.(50429.06.6 End)
 # -------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------
+
+      prt1stMsg
 
   for aTestId in "${mArgs[@]}"; do
 
       bGroup=0; if [ "${aTest:3:1}" == "0" ]; then bGroup=1; fi                         # .(50501.02.3 RAM Add bGroup)
-      sayMsg  "  - AIC15[ 383]  aApp2: '${aApp2}', aTestId: '${aTestId}', bGroup: '${bGroup}}', bUseCurrentId: '${bUseCurrentId}'"; # exit  1
-      sayMsg  "  - AIC15[ 384]  "${genEnv}" ${aApp2} ${aTestId/t} ${aLogs}";     # exit  1
+      sayMsg  "  - AIC15[ 398]  aApp2: '${aApp2}', aTestId: '${aTestId}', bGroup: '${bGroup}}', bUseCurrentId: '${bUseCurrentId}'" -1; # exit  1
+      sayMsg  "  - AIC15[ 399]  "${genEnv}" ${aApp2} ${aTestId/t} ${aLogs}";     # exit  1
+
+ # -----------------------------------------------------------------------------------
 
    if [ "${bUseCurrentId}"  == "0" ]; then                                              # .(50429.06.8 RAM Not using current .env file)
 
@@ -405,58 +429,78 @@ function savRespIds2() {                                                        
       if [ "${aTestId}"  == "t030" ]; then cpyEnv t030; fi;
       if [ "${aTestId}"  == "t040" ]; then cpyEnv t040; fi;
       fi # eif group run
-   fi # eif use current .env file
+
+   fi # eif generate or copy new current .env
+ # -----------------------------------------------------------------------------------
 
    if [ "${bUseCurrentId}"  == "1" ]; then                                              # .(50429.06.9 RAM Use current .env file Beg)
    if [ "${aLogs/inputs}" != "${aLogs}" ]; then
       echo -e "\n-----------------------------------------------------------"
       echo -e "\n  Using the current .env file with the following parameters:"
-      cat .env | awk "${aAWKscr}" | sort -k1,1
+      cat .env | awk "${aAWKscr2}" | awk "${aAWKscr}" | sort -k1,1                      # .(50514.01.7 RAM Display Overridden parameters)
       echo " "
-      fi; fi                                                                            # .(50429.06.9 End)
+      fi; 
+   fi # eif use current .env file                                                                             # .(50429.06.9 End)
 
-#    prt1stMsg
+#     prt1stMsg
+      sayMsg "  - AIC15[ 429] aApp: '${aApp2}', DOIT: '${bDoit}', bDebug: '${bDebug}', DRYRUN: '${bDryRun}', SCORING: '${SCORING}', PC_CODE: '${aPCCode}', LOGGER: '${aLogs}'" ${bEnvs}; # exit 
+#     echo "--- aDryRun: '${aDryRun}', bDryRun: '${bDryRun}', bDebug: '${bDebug}', bUseCurrentId: '${bUseCurrentId}'" 
+ # -----------------------------------------------------------------------------------
 
- if [ "${aTestId:3:1}" == "0" ] && [ "${bUseCurrentId}" != "1" ]; then                  # Group test, not current
+ if [ "${aTestId:3:1}" == "0" ] && [ "${bUseCurrentId}" != "1" ]; then                  # Group run and not current
 
    if [ "${aLogs/inputs}" != "${aLogs}" ]; then
-      if [ "${aLogs}" == "log,inputs" ]; then                                  # log,inputs
-      echo -e "\n-----------------------------------------------------------"
-        fi
+      if [ "${aLogs}" == "log,inputs"   ] && [ "${bEnvs}" != "1" ]; then   # log,inputs # .(50513.05.6)
+      sayMsg "\n----------------------------------------------------------" 1           # .(50513.05.7 RAM Lines)
+      sayMsg "\n-----------------------------------------------------------"  
+         fi
       echo -e "\n  Using a .env file (copied from ${aEnv}) with the following parameters:"
       cat .env | awk "${aAWKscr}" | sort -k1,1
       echo " "
       fi # eif show log,inputs
-   fi # eif group run
 
-   if [ "${aLogs/log}"   != "${aLogs}" ]; then                                 # log
-      aTS="$( date +%y%m%d.%H%M.%S)"; aTS="${aTS:1}";
-      echo -e "${aTS}  ${aApp}  ${aTestId}     Running ${searchScript} $@"
-      fi # eif show log
+   fi # eif ${aTestId:3:1}" == "0", i.e group run
+ # -----------------------------------------------------------------------------------
 
-   if [ "${bDoit}" == "1" ] || [ "${bDryRun}" == "1" ]; then                   # Run it # .(50506.03.3)
+   if [ "${bDoit}" == "1" ] || [ "${bDryRun}" == "1" ]; then               # Run it     # .(50513.04.0 RAM bDoit == "1" required for bDebug).(50506.03.3)
 #     echo ""
 #     echo "========== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== -----"
 #     echo "=================================================================================================================================================="
+      aDryRun=""; if [ "${bDryRun}" == "1" ]; then aDryRun="a Dry Run of "; fi          # .(50513.04.1)
 
       shift                                                                             # .(50429.02.2 RAM Yes, shift is necessary)
-      sayMsg  "  - AIC15[ 433]  Running ${searchScript} $@";
-      if [ "${bDryRun}" != "1" ] &&                                                     # .(50506.03.4)
+      sayMsg  "  - AIC15[ 455]  Running ${aDryRun}${searchScript} $@\n" 1; # exit       # .(50513.04.2 RAM Add aDryRun)
+
+   if [ "${aLogs/log}"   != "${aLogs}" ]; then                             # log
+      aTS="$( date +%y%m%d.%H%M.%S)"; aTS="${aTS:1}";
+      echo -e "${aTS}  ${aApp}  ${aTestId}     Running ${searchScript} $@"
+      fi # eif show log
+ 
+      if [ "${bDryRun}" != "1" ] &&                                                     # .(50506.03.4 RAM )
          [ "${bDebug}"  == "1" ]; then node --inspect-brk ${searchScript}  "$@"         # .(50501.04.1 RAM Add Attach debug).(50423.03.3 RAM Use ${Search_Script} instead of search_u2.05.sh)
-              else NODE_NO_WARNINGS=1 node                ${searchScript}  "$@"; fi     # .(50505.10.1).(50501.04.2)
+              else NODE_NO_WARNINGS=1  node               ${searchScript}  "$@"; fi     # .(50505.10.1).(50501.04.2)
                 if [ $? -ne 0 ]; then exit 1; fi                                        # .(50503.06.5 RAM Exit with exit code)
 
                                       savRespIds2                                       # .(50507.08c.4 RAM Save 2nd RespIds file )
       fi # eif doit
+ # -----------------------------------------------------------------------------------
 
    done  # eol aTestId in "${mArgs[@]}"
 
-# -------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------
 
-#  if [ "${LOGGER}" == "log,inputs" ]; then                                             # .(50420.03.1 RAM Move this to here from run.tests.sh Beg)
-   if [ "${LOGGER/log/}" != "${LOGGER}" ]; then                                         # .(50511.01.4 RAM Print line for both)
-     echo -e "\n-----------------------------------------------------------"
+#  if [ "${LOGGER}" == "log,inputs" ]; then                                             ##.(50420.03.1 RAM Move this to here from run.tests.sh Beg).(50511.01.4)
+   if [ "${LOGGER/log/}" != "${LOGGER}" ] && [ "${bEnvs}" != "1" ]; then                # .(50513.05.8 RAM Add bEnvs).(50511.01.4 RAM Print line for both)
+     sayMsg "\n----------------------------------------------------------" 1            # .(50513.05.9 RAM Lines)
      fi
      if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                      # .(50420.03.1 End)
 
-#  ---------------------------------------------------------------------------------
+# --  ---  --------  =  --  =  -------------------------------------------------------  #  --------------- #
+
+# ======================================================================================================== #  ===============================  #
+#>      S1201 END
+# ==== =================================================================================================== #
+#
+##SRCE     +====================+===============================================+
+##RFILE    +====================+=======+===================+======+=============+
+#

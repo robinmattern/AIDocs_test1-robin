@@ -121,12 +121,16 @@
 #.(50506.01   5/06/25 RAM  6:30a| Move update NEXT_STEP
 #.(50506.02   5/06/25 RAM  7:00a| Run multiple sysprompts even for t0x#
 #.(50507.04   5/07/25 RAM  1:50p| Write isInVSCode and assign FRT.inVSCode
-#.(50507.07   5/07/25 RAM  2:30p| Sett bDoit default to 1??
+#.(50507.07   5/07/25 RAM  2:30p| Set bDoit default to 1??
 #.(50507.08a  5/08/25 RAM  2:10p| Save and use TestIds for delayed score runs 
 #.(50507.08b  5/09/25 RAM 10:10a| Save and use RespIds for delayed score runs 
 #.(50510.01   5/10/25 RAM  8:45a| Display scores if no LOGGING
 #.(50507.08d  5/11/25 RAM  9:30a| Start run-tests.txt MT
-#.(50430.04b  5/11/25 RAM 11:10p| Check if FILES_PATH has been assigned)
+#.(50430.04b  5/11/25 RAM 11:10p| Check if FILES_PATH has been assigned
+#.(50513.04   5/13/25 RAM  7:25p| Implement DRYRUN
+#.(50513.05   5/13/25 RAM  7:30p| Implement bEnvs debug msgs
+#.(50514.01   5/14/25 RAM  9:10a| Overide run-tests.sh parameters
+#.(50514.04   5/14/25 RAM  1:50p| Move 2 scripts to components folder
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -148,21 +152,27 @@
 
        var  aLog             =  process.env.LOGGER || ""                                // .(50414.01.1 RAM Do print Log)
             aLog             =  aLog == "log,inputs" ? "log" : aLog                     // .(50414.01c.1 RAM Fix if aLog = "log", was: '')
-//     var  bDebug           =  process.env.DEBUG || 0                                  // .(50415.01.1 RAM It gets checked later, Uncomment for S1201[ 116])
-       var  bDoit            =  process.env.DOIT || 1                                   // .(50415.01.2)
+//     var  bDebug           =  process.env.DEBUG  || 0                                 // .(50415.01.1 RAM It gets checked later, Uncomment for S1201[ 116])
+       var  bDoit            =  process.env.DOIT   || 1                                 // .(50415.01.2)
+       var  bDryRun          =  process.env.DRYRUN || 0                                 // .(50513.04.3)
+       var  bEnvs            =  process.env.ENVs   || 0                                 // .(50513.05.13)
+
 //     var  aLog             = "log"                                                                        // .(50414.01.1 RAM Do print Log)
        var  bNoLog           =  aLog == "log" ? 0 : 1; global.bNoLog = bNoLog                               // .(50414.01.2 RAM Don't print shoMsg if 0)
             global.bQuiet    =  bNoLog == 0
         if (bDebug == 1) {
             console.log(   `  - S1201[ 156]  bDoit: '${bDoit}', aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: ${bDebug}, bQuiet: ${global.bQuiet}`) // process.exit()
-            }                                     
+            }    
+                                 
             LIBs.MWT         =        () => "../../._2/MWTs"                                                // .(50405.06.6)
 //     var  LIBs             = { MWT: () => "../../._2/MWTs" }                                              //#.(50405.06.6 RAM Error: Only URLs with a scheme in: file, data, and node are supported by the default ESM loader.)
 //     var  FRT              =( await import( `${LIBs.AIC()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.7)
        var  FRT              =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.8 RAM Call function: LIBS.MOD())
        var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
-       var  pURLs            =( await import( `${LIBs.MWT()}/MWT04_runWebSearch_u2.06.mjs` ) ).default      // .(50423.02.1 RAM Import MWT04_runWebSearch)
-       var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      // .(50423.02.2 RAM Import MWT06_runDocsSearch)
+//     var  pURLs            =( await import( `${LIBs.MWT()}/MWT04_runWebSearch_u2.06.mjs` ) ).default      //#.(50423.02.1 RAM Import MWT04_runWebSearch).(50514.04.2)
+//     var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      //#.(50423.02.2 RAM Import MWT06_runDocsSearch).(50514.04.3)
+       var  pURLs            =( await import( `../components/search-urls_u2.06.mjs`  ) ).default            // .(50514.04.2 RAM Move to components).(50423.02.1 RAM Import MWT04_runWebSearch)
+       var  pDOCs            =( await import( `../components/search-docs_u2.06.mjs`  ) ).default            // .(50514.04.3 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
 //                              FRT.writeFileSync( MWT.fixPath( FRT.__dirname, 'run-tests.txt' ), '' )      //#.(50507.08d.2 RAM Start MT, not here)
 
        var  aModel1
@@ -209,7 +219,7 @@
      global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.27)
      global.aPrtSections     = ''                                                                           // .(50404.01.27)
 //   global.bInVSCode        =  true
-            sayMsg(`S1201[ 200]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***`, 1 , 1 )     // .(50402.02.2)
+            sayMsg(`S1201[ 218]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***`, 1 , 1 )     // .(50402.02.2)
             }                                                                                               // .(50331.04.3 End)
           }  // eif FRT.inVSCode                                                        // .(50507.04.5)  
          }; // eof setDebug Vars                                                                            // .(50405.03.1 End)
@@ -244,12 +254,13 @@
        var  bDoit            =  process.env.DOIT || 1;  FRT.bDoit = bDoit               // .(50507.07.2 RAM bDoit ??).(50415.01.3 RAM bDoit)
             bQuiet           =  0                                                       // .(50404.02.5)
         if (bQuiet == 2) {
-            saysg(`A1201[ 246]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 1 )
+            saysg(`A1201[ 253]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 1 )
             }
             global.bQuiet    =  0                                                       // .(50404.02.6)
 //          global.bNoLog    =  0; bNoLog = 0                                           // .(50507.04.2)
 //          global.bDoit     =  0; bDoit  = 0                                           // .(50507.04.3)  
 
+            sayMsg(`S1201[ 259]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${bDryRun}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${aLog}', bNoLog: ${bNoLog}`, bEnvs ); // .(50513.05.14) // process.exit() 
        var  bDebug2          =  process.env.DEBUG; FRT.bDebug = bDebug2                 // .(50415.01.4 RAM bDebug2)
             global.bDebug    =  bDebug2 ? bDebug2 : global.bDebug;                      // .(50415.01.5)
 //          bNoLog           = (bNoLog == 0) ? bNoLog : (bDebug2 ? -1 : bNoLog)         // .(50415.01.6)
@@ -257,8 +268,8 @@
 
             global.bQuiet    =  bNoLog == -1 ? 1 : global.bQuiet
 
-            sayMsg(`A1201[ 259]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 0 )
-            sayMsg(`A1201[ 260]  aAppDir: ${ FRT.__dirname  }`, -1 ) 
+            sayMsg(`A1201[ 267]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 0 )
+            sayMsg(`A1201[ 268]  aAppDir: ${ FRT.__dirname  }`, -1 ) 
 
 //     Process .ENV Variables and command line arguments
 //     ---  --------  =  --  =  ------------------------------------------------------  #
@@ -303,8 +314,33 @@
        var  aModel           =  mArgs[0] ? mArgs[0] : aModel
        var  nCTX_Size        = (mArgs[1] ? mArgs[1] : nCTX_Size) * 1
 
+//     ---  --------  =  --  =  ------------------------------------------------------  #
+
 //                              usrMsg(   "----------------".padEnd( nWdt +  1, "-" ), bNoLog )             //#.(50414.01b.1).(50414.01.3).(50404.05.9)
                                 setDebugVars()                                          // .(50507.04.8 RAM Sets whatever).(50405.03.2 RAM Set them here)
+
+        if (process.env.SEARCH_MODEL && aApp == "s14") {
+            aModel           =  process.env.SEARCH_MODEL                                // .(50514.01.16 RAM Overide OLLAMA_MODEL_NAME parameter)                          
+            }
+        if (process.env.SYSTEM_PROMPT) {
+      pVars.SYS_PROMPT       =  process.env.SYSTEM_PROMPT                               // .(50514.01.17 RAM Overide SYS_PROMPT parameter)                          
+      pVars.SYS_RUN_COUNT    =  1
+      pVars.SYS_PROMPT_CD    = "GKN0-INPT"
+  pVars.USE_SYS_PROMPTS_FILE =  0
+            }
+        if (process.env.RAG_COLLECTIONS) {                                              // .(50514.01.18 RAM Overide SHOW_SECTIONS parameter)      
+            aDocsCollection  =  process.env.RAG_COLLECTIONS
+            }                                          
+        if (process.env.USER_PROMPT) {
+      pVars.USR_PROMPT       =  process.env.USER_PROMPT                                 // .(50514.01.19 RAM Overide USR_PROMPT parameter)                          
+      pVars.USR_RUN_COUNT    =  1
+      pVars.USR_PROMPT_CD    = "AA0"
+  pVars.USE_USR_PROMPTS_FILE =  0
+            }
+        if (process.env.SECTIONS) {                                                     // .(50514.01.20 RAM Overide SHOW_SECTIONS parameter)      
+     global.aPrtSections     =  process.env.SECTIONS  
+//          bNoLog           =  1 
+            }                                          
 
 //     Setup Model User Prompts
 //     ---  --------  =  --  =  ------------------------------------------------------  #
@@ -389,8 +425,8 @@
 //     var  aRunId           = `${aAppName.slice(0,3)}_${aSessionId}.${pVars.NEXT_POST}`                    //#.(50413.03.6).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId).(50429.09.13)
        var  aRunId           = `${aApp2}_${aSessionId}.${pVars.NEXT_POST}`                                  // .(50429.09.13 RAM Virual AppId).(50413.03.6).(50404.06.5).(50402.14.2).(50331.08.3 RAM Get RespId)
 
-            sayMsg( `A1201[ 386]  bDoit: '${bDoit}',  aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: '${bDebug}', global.bDebug: '${global.bDebug}', global.bQuiet: '${global.bQuiet}', global.aPrtSections: '${global.aPrtSections}' `, -1 ); // process.exit()
-            sayMsg( `A1201[ 387]  ${aSessionName}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )                   // .(50414.01.3)
+            sayMsg( `A1201[ 399]  bDoit: '${bDoit}',  aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: '${bDebug}', global.bDebug: '${global.bDebug}', global.bQuiet: '${global.bQuiet}', global.aPrtSections: '${global.aPrtSections}' `, -1 ); // process.exit()
+            sayMsg( `A1201[ 340]  ${aSessionName}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )                   // .(50414.01.3)
 //          }  // eol nSysCount                                                                             //#.(50413.03.7 Do the full double loop)
 //          --------  =  --  =  --------------------------------------------  #
 
@@ -464,7 +500,7 @@
                 } // eoo pParms
 //          --------  =  --  =  --------------------------------------------  #
 
-            sayMsg( `A1201[ 465]  global.bNoLog: ${global.bNoLog}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )   // .(50414.01.4)
+            sayMsg( `A1201[ 474]  global.bNoLog: ${global.bNoLog}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )   // .(50414.01.4)
 
                                 usrMsg(   "----------------".padEnd( nWdt - 12, "-" )                                      , shoMsg("all")     ) // .(50404.05b.1 RAM Was 25).(50404.05.10)
 
@@ -476,13 +512,13 @@
             console.log(       `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Starting ${pParms.model.padEnd(19)}  ${aPIDs}` )             // .(50414.01.7)
             }
 //          --------  =  --  =  --------------------------------------------  #
-        if (bDoit == 1) {                        
-                                sayMsg( `A1201[ 474]  Calling main( pParms ) for model: '${pParms.model}'`, -1 ); 
+        if (bDoit == 1 || bDryRun == 1) {                                                                   // .(50513.04.4)
+                                sayMsg( `A1201[ 487]  Calling main( pParms ) for model: '${pParms.model}'`, -1 ); 
             try {                                                                                           // .(50501.04.3)
                                 await  main( pParms )
 
-            } catch( err ) {    sayMsg( `A1201[ 478]  Error: ${err}`, -1);  }                               // .(50501.04.4)
-                                sayMsg( `A1201[ 479]  Completed test run:   ${pParms.runid.replace( /,/, ", ") }.`, -1 ); // .(50501.04.5)
+            } catch( err ) {    sayMsg( `A1201[ 491]  Error: ${err}`, -1);  }                               // .(50501.04.4)
+                                sayMsg( `A1201[ 492]  Completed test run:   ${pParms.runid.replace( /,/, ", ") }.`, -1 ); // .(50501.04.5)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )                         //#.(50506.01.1)
             }
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )                         // .(50506.01.1 RAM Set even if bDoit = 0)
@@ -659,8 +695,12 @@
 //          usrMsg(   "---------------------------------------------------------------------------------------------- "    , shoMsg('Results') ) //#.(50404.01.17).(50503.09.1)
             usrMsg(   `${ "--------".padEnd( nWdt, "-") }`                                                                 , shoMsg('Results') ) // .(50503.09.1).(50404.01.17)
     try {
+        if (bDryRun == 0) {                                                                                 // .(50513.04.5 RAM Don't run model)
        var  stream           =  await  ollama.generate( pParms );                                           // .(50408.16.1 RAM Run the Model)
        var[ pStats, aResult ]=  await    MWT.fmtStream( stream );                                           // .(50408.16.2 RAM Capture the Results and Stats)
+        } else {                                                                                            // .(50513.04.6)
+       var[ pStats, aResult ]= [ [], '']                                                                    // .(50513.04.7)
+            }                                                                                               // .(50513.04.8)
             pJSON_Results.Response       =  aResult                                                         // .(50408.06.14)
 
 //      if (global.nLog   != 1) {                                                                           //#.(50510.01.3)
@@ -686,7 +726,7 @@
             pParms.secs      = (pStats.total_duration / 1e9).toFixed(2)                                                                          // .(50414.01.14)
             pParms.tps       =  pStats.tokens_per_sec                                                                                            // .(50414.01.15)
 
-            sayMsg( `A1201[ 680]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)
+            sayMsg( `A1201[ 700]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)
             usrMsg(   `\n    > Ran Model: ${           pParms.model} in ${pParms.secs} secs (${aRunStr})\n`                , shoMsg('RunId')   ) // .(50404.01.23).(50403.03.8)
 //       if (global.bNoLog == 0) {                                                                                                               //#.(50414.01.16 RAM Do log it)
 //     var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  "), aPIDs = `${pParms.spc}  ${pParms.qpc}`                                 //#.(50414.01.16)
@@ -719,9 +759,9 @@
 
         } catch( error ) {
 //          console.error(        "Error in answerQuery:", error);                                          //#.(50404.08.5)
-            sayMsg(`A1201[ 713]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
-//          sayMsg(`A1201[ 714]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                 //#.(50404.08.6)
-            sayMsg(`A1201[ 715]    Ollama ${error.name}: ${error.message}`, 1 );                            // .(50404.08.6)
+            sayMsg(`A1201[ 733]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
+//          sayMsg(`A1201[ 734]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                 //#.(50404.08.6)
+            sayMsg(`A1201[ 735]    Ollama ${error.name}: ${error.message}`, 1 );                            // .(50404.08.6)
             sayMsg(`${ error.stack.replace( /\n */g, "\n    - " ) }`, -1 );             // .(50415.01.6)
             FRT.exit_wCR(1)                                                                                 // .(50409.03.42)
             }

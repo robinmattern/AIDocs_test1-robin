@@ -14,6 +14,7 @@
 
      export APP=${aApp2}                                                                # .(50429.05.15)  
 
+    if [ "${DRYRUN}" == "" ]; then                                                      # .(50513.02.4 RAM Get common parameters if not defined Beg)
 #    export LOGGER=
 #    export LOGGER="log"   
 #    export LOGGER="inputs"
@@ -25,6 +26,8 @@
      export SCORING="1"                         # .(50507.02.8 RAM New way to score it)                                           
 
      export PC_CODE="rm231d"
+     fi                                                                                 # .(50513.02.5 End)
+            bEnvs=${ENVs}                                                               # .(50513.05.15)
 
 #    echo "" >run-tests.txt                     ##.(50507.08d.3 RAM Not here).(50507.08a.3 RAM Start MT)
      bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi

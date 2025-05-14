@@ -14,6 +14,7 @@
 
      export APP=${aApp2}                                                                # .(50429.05.15 )
 
+    if [ "${DRYRUN}" == "" ]; then                                                      # .(50513.02.10)
 #    export LOGGER=
 #    export LOGGER="log"
 #    export LOGGER="inputs"
@@ -25,7 +26,15 @@
      export SCORING="1"                         # .(50507.02.8 RAM New way to score it)
 
      export PC_CODE="rm231d"
+     fi                                                                                 # .(50513.02.11)
+            SEARCH_MODEL="gemma2:2b"                                                    # .(50514.01.21 Beg)
+    if [ "${SEARCH_MODEL}" != "" ]; then 
+            SEARCH_MODEL="gemma2:2b"                                                    # .(50514.01.22 RAM Override SEARCH_MODEL parameterBeg)
+    fi                                                                                  # .(50514.01.23 End)
+
+            bEnvs=${ENVs}                                                               # .(50513.05.21)
+    if [ "${bEnvs}" == "1" ]; then echo "  - S1400[  31]  APP: '${APP}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit  # .(50513.05.22)
 
 #    echo "" >run-tests.txt                     ##.(50507.08d.6 RAM Not here).(50507.08a.6 RAM Start MT)
      bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi
-     node  "${SCORE_SCRIPT}" "gemma2:2b" "${aApp2}" "$@";
+     node  "${SCORE_SCRIPT}" "${SEARCH_MODEL}" "${aApp2}" "$@";
