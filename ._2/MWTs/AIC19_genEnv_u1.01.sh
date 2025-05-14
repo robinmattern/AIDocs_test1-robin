@@ -39,6 +39,7 @@
 #.(50502.01   5/02/25 RAM  5:05a| Add msg re No TestId found 
 #.(50503.10   5/05/25 RAM 11:59p| Fiddle with bDebug
 #.(50506.04   5/06/25 RAM  2:55p| Delete existing group files with del1stFile
+#.(50514.01   5/14/25 RAM  8:15a| Add override parameters  
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -217,7 +218,28 @@ if [ ! -f "${template_file}" ]; then
    placeholder="{PC_Code}";   replacement="${aPcCd}";       aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.02.3 RAM Add PC_Code)
    placeholder="{Collection}";replacement="${aCollection}"; aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50429.09.9 RAM Add Collection)
 
-
+   if [ "${SEARCH_MODEL}" != "" ] && [ "${aApp}" != "s14" ]; then 
+           mArray[1]="${SEARCH_MODEL}"                                                  # .(50514.01.8 RAM Display SEARCH_MODEL parameter)                          
+           fi
+   if [ "${SYSTEM_PROMPT}" != "" ]; then 
+#          pVars.SYS_PROMPT       =  process.env.SYSTEM_PROMPT                          
+           mArray[3]="GKN0-INPT"  #  SysPmt Code                                        # .(50514.01.9 RAM Display SYS_PROMPT_CD parameter)                          
+           mArray[9]="0"          #  Use SysPmt File                                    # .(50514.01.10 RAM Display USE_SYS_PROMPTS_FILE parameter)                          
+           mArray[5]="1"          #  SysPrompt Runs                                     # .(50514.01.11 RAM Display SYS_RUN_COUNT parameter)                          
+           fi
+   if [ "${USER_PROMPT}" != "" ]; then 
+#          pVars.USR_PROMPT       =  process.env.USER_PROMPT                            
+#          pVars.USR_PROMPT_CD    = "AA0"
+           mArray[10]="0"         #  Use UsrPmt File                                    # .(50514.01.12 RAM Display USE_USR_PROMPTS_FILE parameter)                          
+           mArray[6]="1"          #  UsrPrompt Runs                                     # .(50514.01.13 RAM Display USR_RUN_COUNT parameter)                          
+           fi
+   if [ "${SECTIONS}" != "" ]; then                                                          
+           part2="${SECTIONS}"    # Sections                                            # .(50514.01.14 RAM Display SHOW_SECTIONS parameter) 
+           fi
+   if [ "${RAG_COLLECTIONS}" != "" ]; then                                                          
+           aCollection="${RAG_COLLECTIONS}"                                             # .(50514.01.15 RAM Display SHOW_SECTIONS parameter) 
+           fi
+   
 #  sayMsg "  Using the following settings:"
    usrMsg "    1. Model:           ${mArray[1]}"
    usrMsg "    2. CTX_Size:        ${mArray[2]}"
