@@ -130,7 +130,7 @@
 #.(50513.04   5/13/25 RAM  7:25p| Implement DRYRUN
 #.(50513.05   5/13/25 RAM  7:30p| Implement bEnvs debug msgs
 #.(50514.01   5/14/25 RAM  9:10a| Overide run-tests.sh parameters  
-#.(50514.04   5/14/25 RAM  1:50p| Move 2 scripts to components folder
+#.(50514.02   5/14/25 RAM  1:50p| Move 2 scripts to components folder
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -169,10 +169,10 @@
 //     var  FRT              =( await import( `${LIBs.AIC()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.7)
        var  FRT              =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default            // .(50405.06.8 RAM Call function: LIBS.MOD())
        var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
-//     var  pURLs            =( await import( `${LIBs.MWT()}/MWT04_runWebSearch_u2.06.mjs` ) ).default      //#.(50423.02.1 RAM Import MWT04_runWebSearch).(50514.04.2)
-//     var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      //#.(50423.02.2 RAM Import MWT06_runDocsSearch).(50514.04.3)
-       var  pURLs            =( await import( `../components/search-urls_u2.06.mjs`  ) ).default            // .(50514.04.2 RAM Move to components).(50423.02.1 RAM Import MWT04_runWebSearch)
-       var  pDOCs            =( await import( `../components/search-docs_u2.06.mjs`  ) ).default            // .(50514.04.3 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
+//     var  pURLs            =( await import( `${LIBs.MWT()}/MWT04_runWebSearch_u2.06.mjs` ) ).default      //#.(50423.02.1 RAM Import MWT04_runWebSearch).(50514.02.3)
+//     var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      //#.(50423.02.2 RAM Import MWT06_runDocsSearch).(50514.02.4)
+       var  pURLs            =( await import( `../components/search-urls_u2.06.mjs`  ) ).default            // .(50514.02.3RAM Move to components).(50423.02.1 RAM Import MWT04_runWebSearch)
+       var  pDOCs            =( await import( `../components/search-docs_u2.06.mjs`  ) ).default            // .(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
 //                              FRT.writeFileSync( MWT.fixPath( FRT.__dirname, 'run-tests.txt' ), '' )      //#.(50507.08d.2 RAM Start MT, not here)
 
        var  aModel1

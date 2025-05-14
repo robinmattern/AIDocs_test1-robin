@@ -50,7 +50,7 @@
 #.(50513.04   5/13/25 RAM  7:25p| Implement DRYRUN
 #.(50513.05   5/13/25 RAM  7:30p| Implement bEnvs debug msgs
 #.(50514.01   5/14/25 RAM  8:15a| Add override parameters  
-#.(50514.04   5/14/25 RAM  1:50p| Move script to components folder
+#.(50514.02   5/14/25 RAM  1:50p| Move script to components folder
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -116,7 +116,7 @@ function sayMsg() {
 # -------------------------------------------------------------------
    if [ "${aCmd}" == "imp" ]; then                                                      # .(50505.05.9 RAM Add import app command Beg)
 #     echo "  importing '${aApp2}'"
-      node "../../server1/components/import_u1.03.mjs" ${aApp2}                         # .(50514.04.1 RAM Move script to components folder)
+      node "../../server1/components/import_u1.03.mjs" ${aApp2}                         # .(50514.02.2 RAM Move script to components folder)
       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
       exit 1
       fi                                                                                # .(50505.05.9 End)

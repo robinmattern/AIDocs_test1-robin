@@ -106,7 +106,7 @@
 #      echo -- bash sqlite.sh "${aTests}"; exit 
 #      echo "-- node import_u1.03.mjs '${aApp}' '${aTests}'"; exit 
 #     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi 
-      if [ "${aCmd}" == "import  " ]; then node ../components/import_u1.03.mjs ${aTests}; exit; fi    # .(50514.04.4).(50505.07.1).(50505.05.4) 
+      if [ "${aCmd}" == "import  " ]; then node ../components/import_u1.03.mjs ${aTests}; exit; fi    # .(50514.02.1).(50505.07.1).(50505.05.4) 
       if [ "${aCmd}" == "sqlite  " ]; then bash sqlite.sh ${aTests}; exit; fi           # .(50505.06.5) 
       if [ "${aCmd}" == "chroma  " ]; then bash sqlite.sh ${aTests}; exit; fi           # .(50505.06.6) 
       if [ "${aCmd}" == "example " ]; then bash run-tests2.sh; exit; fi                 # .(50505.04.4) 
