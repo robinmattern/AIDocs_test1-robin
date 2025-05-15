@@ -19,26 +19,27 @@
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
 #
-#    export  LOGGER=
-#    export  LOGGER="log"
-#    export  LOGGER="inputs"
-#    export  LOGGER="log,inputs"
-#    export  SECTIONS=Parms,Search,Results       # .(50514.01.1 Override parameters in s##_model-tests.txt)
-     export  SECTIONS=Parms,Results              # .(50514.01.1 Override parameters in s##_model-tests.txt)
-#    export  SECTIONS=RunId                      # .(50514.01.2)
+#    export SECTIONS=Parms,Search,Results       # .(50514.01.1 Override parameters in s##_model-tests.txt)
+#    export SECTIONS=Parms,Results              # .(50514.01.2)
+#    export SECTIONS=RunId                      # .(50514.01.3
 
-     export  DOIT="0"                            # .(50506.03.5 Do it unless DRYRUN="1".
-     export  DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
-     export  DRYRUN="1"                          # .(50506.03.1 RAM Add DRYRUN)
-     export  SCORING="1"                         # .(50507.02.8 RAM New way to score it)
+#    export LOGGER=
+#    export LOGGER="log"
+#    export LOGGER="inputs"
+     export LOGGER="log,inputs"
 
-     export  PC_CODE="rm231d"                    # .(50514.01.3)
+     export DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1".
+     export DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
+     export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
+     export SCORING="1"                         # .(50507.02.8 RAM New way to score it
 
-     export  SEARCH_MODEL="qwen2:1.5b"           # .(50514.01.4 RAM Override parameters -- no spaces before or after = sign)
-     export  SCORING_MODEL="qwen2:1.5b"          # .(50514.01.5)
-#    export  SYSTEM_PROMPT="my system prompt"     
-     export  RAG_COLLECTIONS="s13b_apple-os-pdfs"        
-     export  USER_PROMPT="What is so special about ios 17"        
+     export PC_CODE="cn0g0p"
+
+     export SEARCH_MODEL="qwen2:1.5b"           # .(50514.01.5 RAM Override parameters -- no spaces before or after = sign)
+     export SCORING_MODEL="qwen2:1.5b"          # .(50514.01.6)
+     export SYSTEM_PROMPT="Summarize the information provided and answer the user's prompt accordingly."     
+     export RAG_COLLECTIONS="s13b_apple-os-pdfs"        
+     export USER_PROMPT="What is so special about ios 17"        
 
 ##SRCE     +====================+===============================================+
 ##RFILE    +====================+=======+===================+======+=============+

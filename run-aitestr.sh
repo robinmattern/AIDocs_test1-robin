@@ -89,9 +89,15 @@
       fi 
 #   -------------------------------------------------------------------------------
 
-      source "./run-tests.sh"                                                           # .(50513.02.1 RAM Get common parameters from __basedir/run-tests.sh)    
+    source "./run-tests.sh"                                                             # .(50513.02.1 RAM Get common parameters from __basedir/run-tests.sh)    
 
-      export  ENVs=1; bEnvs="${ENVs}"                                                   # .(50513.05.1)
+#   export  SECTIONS="None"                                                             # .(50515.01.1)
+
+    export  ENVs="0"; bEnvs="${ENVs}"                                                   # .(50513.05.1)
+#   export  DOIT="0"                            # .(50506.03.5 Do it unless DRYRUN="1".
+#   export  DEBUG="1"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
+#   export  DRYRUN="1"                          # .(50506.03.1 RAM Add DRYRUN)
+#   export  SCORING="1"                         # .(50507.02.8 RAM New way to score it
 
        if [ "${bEnvs}" == "1" ]; then echo "  - S1000[  93]  APP: '${aApp}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit # .(50513.05.2)
 

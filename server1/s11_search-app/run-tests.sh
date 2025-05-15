@@ -20,14 +20,16 @@
 #    export LOGGER="inputs"
      export LOGGER="log,inputs"
 
-     export DOIT="1"
-     export DEBUG="0"                           #  Runs node with --inspect-brk 
-     export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)                                           
      export SCORING="1"                         # .(50507.02.8 RAM New way to score it)                                           
-
-     export PC_CODE="rm231d"
+     export PC_CODE="cn0g0p"
      fi                                                                                 # .(50513.02.5 End)
-            bEnvs=${ENVs}                                                               # .(50513.05.15)
+
+#    export ENVs="1"                                                                    # .(50513.05.15)
+#    export DOIT="0"                            # .(50506.03.5 Do it unless DRYRUN="1".
+#    export DEBUG="1"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
+#    export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
+
+            bEnvs=${ENVs}                                                               # .(50513.05.19)
 
 #    echo "" >run-tests.txt                     ##.(50507.08d.3 RAM Not here).(50507.08a.3 RAM Start MT)
      bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi

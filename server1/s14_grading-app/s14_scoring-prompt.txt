@@ -32,47 +32,16 @@ Score 2-3: Poorly organized with frequent logical breaks and difficult-to-follow
 Score 1: Disorganized, incoherent, or lacks any clear structure.
 
 ### Input
-- **System Prompt**: You are a helpful and informative AI assistant. Answer questions accurately and concisely, drawing on a wide range of general knowledge. If you don't know the answer, say so.
-- **User Prompt**: Explain the key differences between transformer and RNN architectures in deep learning.. -- 
-- **Response to Evaluate**: I'd be happy to explain the key differences between Transformer and RNN (Recurrent Neural Network) architectures in deep learning.
+- **System Prompt**: Summarize the information provided and answer the user's prompt accordingly.
+- **User Prompt**: What is so special about ios 17. -- 
+- **Response to Evaluate**: I'm not aware of any information about iOS 17 being released or having a specific set of features. My training data only goes up to December 2023, and I don't have real-time access to new software releases.
 
-**RNN Architecture:**
+However, I can provide some general information about past iOS versions and their notable features:
 
-RNNs are a type of neural network designed for sequential data processing. They are particularly useful for natural language processing, speech recognition, and time series forecasting. The core idea behind RNNs is to capture the temporal relationships between adjacent elements in a sequence.
+* iOS 16 was announced in June 2022 and brought several significant changes, including a redesigned Lock Screen, improved Focus modes, and enhanced Apple Pay support.
+* iOS 15 introduced features like Live Activities, which allow apps to share updates in real-time, and shared with Contacts.
 
-Key characteristics:
-
-1. **Temporal dependencies**: RNNs use recurrent connections (i.e., weights that connect each output node to its previous input node) to preserve information across time steps.
-2. **Memory cells**: Most RNNs, like LSTMs (Long Short-Term Memory) and GRUs (Gated Recurrent Units), use memory cells to store information from previous inputs and update it based on the current input.
-
-**Transformer Architecture:**
-
-Transformers were introduced in 2017 as a breakthrough innovation in natural language processing. They replaced traditional RNNs for sequence-to-sequence tasks like machine translation, question-answering, and text generation.
-
-Key characteristics:
-
-1. **Self-attention mechanism**: Transformers use self-attention to weight the importance of each element in a sequence relative to every other element. This allows the model to focus on relevant parts of the input.
-2. **Parallelization**: Unlike RNNs, which require sequential processing due to their recurrent connections, Transformers can be parallelized using multi-head attention and position-wise feed-forward networks.
-
-**Key differences:**
-
-1. **Sequential vs. parallel processing**: RNNs process sequences sequentially, while Transformers use self-attention mechanisms for parallel processing.
-2. **Temporal dependencies**: RNNs rely on temporal dependencies to capture context, whereas Transformers focus on local relationships between elements in a sequence.
-3. **Computational efficiency**: Transformers are typically more computationally efficient than RNNs due to their parallelization capabilities.
-
-**When to use each:**
-
-* Use RNNs for:
-	+ Time series forecasting
-	+ Speech recognition
-	+ Natural language processing tasks that require temporal dependencies (e.g., sentiment analysis)
-* Use Transformers for:
-	+ Sequence-to-sequence tasks like machine translation, question-answering, and text generation
-	+ Tasks where parallelization is beneficial (e.g., image captioning)
-
-Keep in mind that the choice between RNNs and Transformers ultimately depends on the specific task requirements and dataset characteristics.
-
-Do you have any further questions or would you like me to elaborate on any of these points?
+If you're looking for information about the latest iOS version, I recommend checking Apple's official website or reputable tech news sources for the most up-to-date information.
 
 ### Instructions
 1. Evaluate the response based on the three criteria.
