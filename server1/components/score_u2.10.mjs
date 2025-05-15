@@ -41,6 +41,7 @@
 #.(50511.01   5/11/25 RAM 10:30a| Do "\n" after run for bNoLog
 #.(50513.05   5/13/25 RAM  7:30p| Implement bEnvs debug msgs
 #.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
+#.(50513.05b  5/15/25 RAM  9:15a| More bEnvs 
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -247,17 +248,18 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
             FRT.writeFileSync(    MWT.fixPath( FRT.__basedir, aStatsSheetFile ), mSpreadsheet.join( "\n" ) )
 
 //      if (global.bNoLog == 0) {                                                                           //#.(50510.01b.1 RAM Always display scores).(50510.01.2 RAM Display scores Beg)
+        if (bEnvs != 1) {                                                                                   // .(50513.05b.3 RAM If not bEnvs)
         if (global.bNoLog == 1) {                                                                           // .(50510.01b.2)
             usrMsg( "" ) }                                                                                  // .(50510.01b.3 RAM But add a blank line if bNoLog)
        var  aRIDs = aTestId.split("_"); aRIDs = `${aRIDs[0].padEnd(4)} ${aRIDs[1]}`
             usrMsg(            `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${aScore}\n`)  // .(50511.01.1 RAM Do "\n" after run)  
-//          }                                                                                               //#.(50510.01b.3).(50510.01.2 End)
+            }                                                                                               // .(50510.01b.4).(50510.01.2 End)
         } catch (error) { 
             console.error('\n* Error:', error);
             process.exit(1);
             }
             
-        if (mNotFound.length > 0) {                                                     // .(50510.04.6 Beg)
+        if (mNotFound.length > 0 && bEnvs != 1) {                                                           // .(50513.05b.4).(50510.04.6 Beg)
             usrMsg(            `* These scores were not found: ${ mNotFound.join( ", " ) }.` )
             sayMsg( `AIT14[ 262]* These scores were not found: ${ mNotFound.join( ", " ) }.` )
             }                                                                           // .(50510.04.6 End)
@@ -432,12 +434,15 @@ return { scores, totalScore, scoreCount, formattedEvaluation };
 //      } else {
 //          usrMsg( `\n  Running test, '${aTestId}', for app ${aApp}.` )
 //          }
-        if (bNoLog == 0) {                                                                                  // .(50510.01b.4)
-            usrMsg( "" ) }                                                                                  // .(50510.01b.5 RAM But add a blank line if bNoLog)
-        if (bNoLog == 0) {
+//      if (bNoLog == 0) {                                                                                  //#.(50510.01b.4).(50515.01.3)
+//          usrMsg( "" ) }                                                                                  //#.(50510.01b.5 RAM But add a blank line if bNoLog).(50515.01.2)
+//      if (bNoLog == 0 && process.env.SECTIONS != 'none') {                                                //#.(50515.01.3).(50513.05b.5)
+        if (bNoLog == 0 && bEnvs != 1) {                                                                    // .(50513.05b.5)
+            usrMsg( "" )                                                                                    // .(50510.01b.5 RAM But add a blank line if bNoLog)
         var aTS = `${FRT.getDate(3,5)}.${FRT.getDate(3,7).slice(-2)}`
         var forOthTestId = aOthTestId ? ` for ${aOthTestId}` : '' 
             usrMsg( `${aTS}  ${aApp}  ${aTestId}     Running ${path.basename( __filename)}${forOthTestId}`) // .(50511.01.2 RAM not before)                      
+            usrMsg( "" )                                                                                    // .(50510.01b.5 RAM But add a blank line if bNoLog)
             } // eif show log   
         } // prt1stMsg                                                                  // .(50503.04.5 End)
 // ------------------------------------------------------------------------------

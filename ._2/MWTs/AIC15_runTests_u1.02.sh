@@ -52,6 +52,7 @@
 #.(50514.01   5/14/25 RAM  8:15a| Add override parameters  
 #.(50514.02   5/14/25 RAM  1:50p| Move script to components folder
 #.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
+#.(50515.02   5/15/25 RAM  9:25a| Display running script_u2.10.mjs
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -446,7 +447,7 @@ function savRespIds2() {                                                        
    fi # eif use current .env file                                                                             # .(50429.06.9 End)
 
 #        prt1stMsg
-         sayMsg "AIC15[ 447] aApp: '${aApp2}', DOIT: '${bDoit}', bDebug: '${bDebug}', DRYRUN: '${bDryRun}', SCORING: '${SCORING}', PC_CODE: '${aPCCode}', LOGGER: '${aLogs}'" ${bEnvs}; # exit 
+         sayMsg "AIC15[ 450] aApp: '${aApp2}', DOIT: '${bDoit}', bDebug: '${bDebug}', DRYRUN: '${bDryRun}', SCORING: '${SCORING}', PC_CODE: '${aPCCode}', LOGGER: '${aLogs}'" ${bEnvs}; # exit 
 #        echo "--- aDryRun: '${aDryRun}', bDryRun: '${bDryRun}', bDebug: '${bDebug}', bUseCurrentId: '${bUseCurrentId}'" 
  # -----------------------------------------------------------------------------------
 
@@ -472,11 +473,12 @@ function savRespIds2() {                                                        
       aDryRun=""; if [ "${bDryRun}" == "1" ]; then aDryRun="a Dry Run of "; fi          # .(50513.04.1)
 
          shift                                                                          # .(50429.02.2 RAM Yes, shift is necessary)
-         sayMsg "AIC15[ 473]  Running ${aDryRun}${searchScript} $@\n" 1; # exit         # .(50513.04.2 RAM Add aDryRun)
+         sayMsg "AIC15[ 476]  Running ${aDryRun}${searchScript} $@\n" -1;   # exit      # .(50513.04.2 RAM Add aDryRun)
 
-   if [ "${aLogs/log}"   != "${aLogs}" ]; then                             # log
+   if [ "${aLogs/log}"   != "${aLogs}"  ] && [ "${bEnvs}" != "1" ]; then   # log        # .(50513.05b.1)
       aTS="$( date +%y%m%d.%H%M.%S)"; aTS="${aTS:1}";
-      echo -e "${aTS}  ${aApp}  ${aTestId}     Running ${searchScript} $@"
+#     echo -e "${aTS}  ${aApp}  ${aTestId}     Running ${searchScript} $@"              ##.(50515.02.1)
+      echo -e "${aTS}  ${aApp}  ${aTestId}     Running search_${aVer}.mjs $@"           # .(50515.02.1)
       fi # eif show log
  
       if [ "${bDryRun}" != "1" ] &&                                                     # .(50506.03.4 RAM )
@@ -493,7 +495,7 @@ function savRespIds2() {                                                        
 # ---------------------------------------------------------------------------------------------------
 
 #  if [ "${LOGGER}" == "log,inputs" ]; then                                             ##.(50420.03.1 RAM Move this to here from run.tests.sh Beg).(50511.01.4)
-   if [ "${LOGGER/log/}" != "${LOGGER}" ] && [ "${bEnvs}" != "1" ]; then                # .(50513.05.8 RAM Add bEnvs).(50511.01.4 RAM Print line for both)
+   if [ "${LOGGER/log/}" != "${LOGGER}" ] && [ "${bEnvs}" != "1" ]; then   # log        # .(50513.05b.2).(50513.05.8 RAM Add bEnvs).(50511.01.4 RAM Print line for both)
      echo -e "\n----------------------------------------------------------"             # .(50513.05.9 RAM Lines)
      fi
      if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                      # .(50420.03.1 End)

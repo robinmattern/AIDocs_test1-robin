@@ -132,6 +132,7 @@
 #.(50514.01   5/14/25 RAM  9:10a| Overide run-tests.sh parameters  
 #.(50514.02   5/14/25 RAM  1:50p| Move 2 scripts to components folder
 #.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
+#.(50405.02b  5/15/25 RAM  2:02p| Add century to DocsDir 
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -238,7 +239,7 @@
        var  aAppDir          =       aAppPath.split( /[\\\/]/ ).slice(-1)[0]            // Was splice
        var  aAppName         = 'a' + aAppDir.slice(1)                                   // .(50404.06.3 RAM Was aDocsDir).(50402.14.1 RAM Apps in docs have 'a' prefix)
 //     var  aDocsDir         = `${aAppName}/${ FRT.getDate(-2) }/{TName}`               //#.(50405.02.1 RAM Was TNum).(50404.06.4 RAM Redefine aDocsDir)
-       var  aDocsDir         = `${aAppName}/${ FRT.getDate(-2).slice(0,9) }/{SName}`    // .(50405.02.2 RAM Remove Day).(50405.02.1 RAM Was TNum).(50404.06.4 RAM Redefine aDocsDir)
+       var  aDocsDir         = `${aAppName}/20${ FRT.getDate(-2).slice(0,9) }/{SName}`  // .(50405.02b.1 RAM Add century).(50405.02.2 RAM Remove Day).(50405.02.1 RAM Was TNum).(50404.06.4 RAM Redefine aDocsDir)
        var  aApp             =  aAppDir.replace( /_.+/, '' )                            // .(50503.05.1 RAM We need it)
 
      global.aAppDir          =  aAppDir
@@ -372,7 +373,7 @@
        var  mSysPrompts      =  [
              { SysPmtCd      :  pVars.SYS_PROMPT_CD || "GKN0-SIMP"
              , Temperature   : (pVars[`${aPlatform}_TEMPERATURE`] || .07        ) * 1
-             , SysPrompt     :  pVars.SYS_PROMPT    || "Please use the information in the following text"
+             , SysPrompt     :  pVars.SYS_PROMPT    || "Please use the information in the following text."
                } ]
        for (var i = 0; i < 8; i++ ) { mSysPrompts.push( mSysPrompts[0] ) }
 
@@ -459,7 +460,7 @@
             aDocsDir         =  aDocsDir.replace( /{SName}/, `a${aApp.slice(1)}_${aSessionName}` )          // .(50503.05.3 RAM Add aApp to aDocsDir).(50404.06.6)
             aDocsDir         =  aDocsDir.replace( /:/, `;` )                                                // .(50413.03.13 RAM Model nameshave ":"
 //     var  aLogFile         =      `./${aAppDir}/${aAppDir.slice(0,3)}_t001.01.4.${aTS}_Response.txt`      //#.(50331.02.5)
-       var  aLogFile         = `./docs/${aDocsDir}/${aRunId}.4.${aTS}_Response.txt`                         // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
+       var  aLogFile         = `./docs/${ aDocsDir}/${aRunId}.4.${aTS}_Response.txt`                        // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
 
 //     var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`                                  //#.(50405.01b.2 RAM Was: docs/${aAppName}/YY.MM.Mth/)
@@ -505,7 +506,7 @@
 
                                 usrMsg(   "----------------".padEnd( nWdt - 12, "-" )                                      , shoMsg("all")     ) // .(50404.05b.1 RAM Was 25).(50404.05.10)
 
-        if (global.bNoLog == 0) {                                                                                                                // .(50414.01.5 RAM Do log it)
+        if (global.bNoLog == 0 && bEnvs != 1) {                                                                                                  // .(50414.01.5 RAM Do log it)
 //     var  aRIDs            =  pParms.runid.slice(0,11).replace( /_/, "  ")                                                                     //#.(50429.09c.1)
        var  aRIDs            =  pParms.runid.split( /[_,]/ ).slice(0,2).map( (a,i) => i==0 ? a.padEnd(5) : a ).join('')                          // .(50429.09c.1 RAM Accomodate aApp2)
        var  aPIDs            = `${pParms.spc}  ${pParms.qpc}  ${ `${nCTX_Size}`.padStart(6) }  ${nTemperature}`                                  // .(50414.01b.1 RAM Add CTX and Temp) .(50414.01.6)
@@ -513,6 +514,7 @@
             console.log(       `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Starting ${pParms.model.padEnd(19)}  ${aPIDs}` )             // .(50414.01.7)
             }
 //          --------  =  --  =  --------------------------------------------  #
+
         if (bDoit == 1 || bDryRun == 1) {                                                                   // .(50513.04.4)
                                 sayMsg( `A1201[ 487]  Calling main( pParms ) for model: '${pParms.model}'`, -1 ); 
             try {                                                                                           // .(50501.04.3)
@@ -522,8 +524,10 @@
                                 sayMsg( `A1201[ 492]  Completed test run:   ${pParms.runid.replace( /,/, ", ") }.`, -1 ); // .(50501.04.5)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )                         //#.(50506.01.1)
             }
+//          --------  =  --  =  --------------------------------------------  #
+                                
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )                         // .(50506.01.1 RAM Set even if bDoit = 0)
-            if (global.bNoLog == 0) {
+            if (global.bNoLog == 0&& bEnvs != 1) {                                                                                               // .(50414.01.5 
        var  aSecs            = `in ${pParms.secs} secs, ${pParms.tps} tps`; aRIDs = "            "                                               // .(50414.01.9)                                                        // .(50414.01.x RAM Do log it)
             console.log(       `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${pParms.model.padEnd(17)} ${aSecs}` )              // .(50414.01.10)
             }                                                                                                                                    // .(50414.01.11)
@@ -729,7 +733,7 @@
 
             sayMsg( `A1201[ 700]  bNoLog: '${bNoLog}', pParms.model: '${pParms.model}', global.aPrtSections: '${global.aPrtSections}'`, -1)      // .(50414.01.14)
             usrMsg(   `\n    > Ran Model: ${           pParms.model} in ${pParms.secs} secs (${aRunStr})\n`                , shoMsg('RunId')   ) // .(50404.01.23).(50403.03.8)
-//       if (global.bNoLog == 0) {                                                                                                               //#.(50414.01.16 RAM Do log it)
+//      if (global.bNoLog == 0) {                                                                                                                //#.(50414.01.16 RAM Do log it)
 //     var  aRIDs         = pParms.runid.slice(0,11).replace( /_/, "  "), aPIDs = `${pParms.spc}  ${pParms.qpc}`                                 //#.(50414.01.16)
 //          console.log( `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${pParms.model}  ${aPIDs}` )                              //#.(50414.01.16)
 //          }                                                                                                                                    // .(50414.01.16)
