@@ -1,0 +1,47 @@
+{
+  "RunId": "s13b_t011.01 ",
+  "WebSearch": {},
+  "DocSearch": {},
+  "ModelQuery": {
+    "Model": "llama3.2:3b",
+    "Platform": "Ollama",
+    "CompinedPrompt": {
+      "UsrPrompt": "What is so special about ios 17",
+      "SysPrompt": "You are a helpful and informative AI assistant. Answer questions accurately and concisely, drawing on a wide range of general knowledge. If you don't know the answer, say so.",
+      "Documents": "5 Sources, 4964 bytes  ",
+      "PromptTemplate": "{Query}. {SysPrompt}, {Docs}",
+      "Prompt": "What is so special about ios 17.You are a helpful and informative AI assistant. Answer questions accurately and concisely, drawing on a wide range of general knowledge. If you don't know the answer, say so. iOS 17 The 2023 version of Apple's operating system for iPhone. By MacRumors Staff on September 23, 2024 At a Glance Apple's iOS 17 update was released to the public on September 18, 2023. iOS 17 Features Updates to Messages, Phone, and FaceTime Improved Autocorrect No more 'Hey' for Siri activation StandBy mode Interactive widgets Mood tracking and journaling Shared AirTags and AirPods improvements Video All > iPhone 16e WWDC 2025 iPhone 17 iPhone 17 Air iPhone 17 Pro MacB iPhone 16e WWDC 2025 iPhone 17 iPhone 17 Air iPhone 17 Pro MacB 4/25/25, 1:19 PM iOS 17: Features, Compatible Devices, and More https://www.macrumors.com/roundup/ios-17/ 1/67 Contents Roundup Archived 09/2024 Subscribe for regular MacRumors news and future iOS 17 info. Email Address Subscribe Upgrade to iOS 18 With the release of iOS 18 in September 2024, iOS 17 is no longer the most recent major version of Apple's iPhone operating system. While Apple may continue to release minor security updates to iOS 17 for users who don't wish to immediately upgrade, the roundup below is no longer being updated. iOS 17 New Features - Everything You Need to Know iOS 17 is the newest version of iOS , the operating system that is designed to run on the iPhone. Previewed in June, iOS 17 is available now on the 4/25/25, 1:19 PM iOS 17: Features, Compatible Devices, and More https://www.macrumors.com/roundup/ios-17/ 2/67 1. Upgrade to iOS 18 2. iOS 17 New Features - Everything You Need to Know 3. Current Version 4. iOS 17 Guides and How Tos 5. Lock Screen Updates StandBy Interactive Widgets 6. Keyboard Changes 7. AirDrop Updates Other AirDrop Features 8. App Updates Phone Other Phone App Changes Messages FaceTime Journal Safari and Passwords Maps Photos Health App Mail Apple Music Weather App Reminders Notes iPhone XR/XS and later.\n\nFor more on the privacy and security features included in iOS 17, we have a dedicated guide . Accessibility iOS 17 includes a number of accessibility features, including Personal Voice for those who are in danger of losing their ability to speak, and Assistive Access for a simpler iOS interface. 4/25/25, 1:19 PM iOS 17: Features, Compatible Devices, and More https://www.macrumors.com/roundup/ios-17/ 61/67 Assistive Access - Simplifies iPhone and iPad apps to their core features, with custom experiences for Phone, FaceTime, Photos, and more. Live Speech - Live Speech lets iPhone, iPad, and Mac users type what they want to say and have it spoken during phone calls, FaceTime calls, and in-person conversations. Personal Voice - Personal Voice allows users to create a digital voice that sounds like them through a randomized set of text prompts. Personal Voice can be used with Live Speech. 4/25/25, 1:19 PM iOS 17: Features, Compatible Devices, and More https://www.macrumors.com/roundup/ios-17/ 62/67 Magnifier Point and Speak - The Magnifier app can be used to read text on an object like a household appliance.\n\nPoint and Speak reads text on physical objects for those who have low vision or are blind. 4/25/25, 1:19 PM iOS 17: Features, Compatible Devices, and More https://www.macrumors.com/roundup/ios-17/ 7/67 Note: See an error in this roundup or want to offer feedback? Send us an email here . Current Version The current version of iOS 17 is iOS 17.6.1 , released in August. iOS 17.6.1 focused bug fixes, addressing an issue that could cause the Advanced Data Protection security setting not to work as intended. iOS 17 Guides and How Tos We have guides and tutorials on all of the features that are available in iOS 17, and links to our content can be found in our dedicated iOS 17 Ultimate Guide . Lock Screen Updates Apple made major changes to the Lock Screen in iOS 16, and with iOS 17, there are even more tweaks to make your Lock Screen more useful.\n\n4/25/25, 1:19 PM iOS 17: Features, Compatible Devices, and More https://www.macrumors.com/roundup/ios-17/ 5/67 The Photos app can recognize pets , and Visual Look Up works in paused video. The option can now identify food to provide recipes, plus it recognizes storefronts, signs, and videos. Passwords and passkeys can be shared with other people through a Family Sharing feature available in the Passwords app. Everyone in the group can add and edit passwords that are shared safely through iCloud Keychain. This feature is useful for passwords that need to be accessed by more than one person, such as for streaming services. Apple Music supports Collaborative Playlists for listening to music with friends, and thanks to SharePlay in the car , passengers can add songs to what's playing through CarPlay even without an Apple Music subscription. With crossfade , songs fade into one another so there's never a pause.\n\nPrivacy and Security 14. Accessibility 15. Sideloading 16. Other New System Features 17. Compatibility 18. iOS 17 Roundup Changelog 19. iOS 17 Timeline FaceTime features, including Handoff, for transferring calls between an iOS device and the TV."
+    },
+    "Response": "iOS 17 is a significant update to Apple's iPhone operating system, released on September 18, 2023. Here are some special features that make it stand out:\n\n1. **Accessibility Features**: iOS 17 includes several accessibility features, such as Personal Voice, Live Speech, and Magnifier Point and Speak, which can assist users with disabilities.\n2. **Interactive Widgets**: Interactive widgets have been introduced on the Lock Screen, allowing users to easily access information like weather forecasts, news, and calendar events.\n3. **Mood Tracking and Journaling**: iOS 17 includes a feature that allows users to track their emotions and maintain a journal, which can be accessed through the Notes app.\n4. **Shared AirTags and AirPods**: Users can now share AirTags and AirPods with others more easily, making it easier to locate shared devices.\n5. **Improved Autocorrect**: iOS 17 has improved autocorrect functionality, reducing errors in text messages and emails.\n6. **StandBy Mode**: A new StandBy mode has been introduced, which allows users to quickly switch between apps or lock their device with a simple gesture.\n7. **Video Improvements**: iOS 17 includes features like video stabilization, HDR, and improved video editing capabilities.\n8. **AirDrop Updates**: AirDrop has received several updates, including the ability to share passwords and passkeys with others through Family Sharing.\n\nThese are just a few of the notable features in iOS 17. If you have any specific questions or want more information on a particular feature, feel free to ask!",
+    "RunStats": {
+      "RespId": "s13b_t011.01 ",
+      "PCode": "rm231d",
+      "ModelName": "llama3.2:3b",
+      "ContextSize": 4000,
+      "Temperature": 0.3,
+      "TokensPerSecond": 97.12,
+      "Duration": 3.36,
+      "Accuracy": 9,
+      "Relevance": 8,
+      "Coherence": "  0",
+      "DateTime": "  2025-05-14 14:12",
+      "UPC": "AA0",
+      "EvalTokens": 320,
+      "EvalDuration": 3.3,
+      "PromptEvalTokens": 1268,
+      "SysPmtCd": "GKN1-SIMP",
+      "CPU_GPU": "i7-13700HX, RTX 4080   ",
+      "RAM": 32,
+      "OS": "Win11 Pro",
+      "Computer": "HP OMEN 1",
+      "Server": "rm228d-w10p_Windows-Prod1 (127.0.0.1)",
+      "Quality": 8,
+      "Overall": 0
+    },
+    "Evaluation": "### Evaluation for Response\n\n**Accuracy**: 9/10\nJustification: The response is accurate and contains correct information supported by evidence. It provides a concise summary of the iOS 17 update and highlights some of its unique features.\n\n**Relevance**: 8/10\nJustification: While the response addresses the user's question about the special aspects of iOS 17, it could have provided more detailed information on specific features or benefits from iOS 17. The summary is still relevant to the user's inquiry, but it could have been expanded for a more comprehensive answer.\n\n**Coherence**: 8/10\nJustification: The response is generally coherent and logically organized, with appropriate formatting throughout. However, there are some minor logical gaps or awkward transitions that could be improved.\n\n**Total Score**: 7/10\nOverall Comments: The response provides a brief summary of the iOS 17 update, highlighting some unique features. However, it could have provided more detailed information to make it more comprehensive. The response is generally coherent and logically organized, but there are some minor logical gaps or awkward transitions that could be improved."
+  },
+  "Files": {
+    "TextResponse": "./docs/a13_search-rag-app/25.05.May/a13_t011_llama3.2;3b_1,1-test on rm231d/s13b_t011.01.4.50514.1412_Response.txt",
+    "JSONResponse": "./docs/a13_search-rag-app/25.05.May/a13_t011_llama3.2;3b_1,1-test on rm231d/s13b_t011.01.4.50514.1412_Response.json"
+  }
+}

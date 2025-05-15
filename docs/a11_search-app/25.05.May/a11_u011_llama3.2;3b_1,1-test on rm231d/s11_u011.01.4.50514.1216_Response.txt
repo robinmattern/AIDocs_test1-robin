@@ -1,0 +1,36 @@
+-------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------
+* No text content for the AI model to query or summarize.
+
+Combined Prompt for Model: llama3.2:3b  (RunId: s11_t011.01, No: 1 of 1)
+---------------------------------------------------------------------------------------------- 
+  Docs:      "0 Sources, 0 bytes from collection, ''."
+  SysPrompt: "my system prompt "
+  UsrPrompt: "AA0: =my"
+  Prompt:    "{UsrPrompt}. {SysPrompt}, {Docs}"
+
+Ollama Response for Model: llama3.2:3b  (RunId: s11_t011.01, No: 1 of 1)
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------
+Ollama Run Statistics:
+---------------------------------------------------------
+    Server: rm228d-w10p_Windows-Prod1 (127.0.0.1)
+    Operating System:       Win11 Pro
+    CPU/GPU/RAM:            i7-13700HX, RTX 4080, 32 GB
+    Computer:               HP OMEN 16
+    Session.Post ID:        s11_t011.01.4.50514.1216
+    Model Name:             llama3.2:3b
+    Temperature:            0.3
+    Context Window:         4000 bytes
+    Total Duration:         1.97 seconds
+    Eval Count:             156 tokens
+    Eval Duration:          1.90 seconds
+    Prompt Eval Count:      30 tokens
+    Tokens per Second:      82.04 tps
+
+---------------------------------------------------------------------------------------------- 
+
+    > Ran Model: llama3.2:3b in 1.97 secs (RunId: s11_t011.01, No: 1 of 1)
+
+========== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== -----

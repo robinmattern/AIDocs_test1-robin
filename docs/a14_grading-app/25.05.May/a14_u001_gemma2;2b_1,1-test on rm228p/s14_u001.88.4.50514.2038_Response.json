@@ -1,0 +1,48 @@
+{
+  "RunId": "s14_t001.88  ",
+  "WebSearch": {},
+  "DocSearch": {
+    "Response": {
+      "URLs": "1 Source, 6029 bytes from file, 's14_scoring-prompt.txt'."
+    }
+  },
+  "ModelQuery": {
+    "Model": "qwen2:1.5b",
+    "Platform": "Ollama",
+    "CompinedPrompt": {
+      "UsrPrompt": "What is so special about ios 17",
+      "SysPrompt": "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:",
+      "Documents": "1 Source, 6029 bytes   ",
+      "PromptTemplate": "{Query}. {SysPrompt}, {Docs}",
+      "Prompt": "What is so special about ios 17.Summarize the information and provide an answer. Use only the information in the following articles to answer the question: You are an expert evaluator tasked with grading a response based on three criteria: Accuracy, Relevance, and Coherence. Below are the definitions for each criterion and the scoring instructions.\n\n### Scoring Criteria Definitions\r\n-##Accuracy (1-10)\r\nThe degree to which the response contains correct, verifiable information supported by evidence or widely accepted knowledge. It should be free from errors, fabrications, or hallucinations and align with the prompt's context.\n\nScore 10: Entirely accurate with no errors or unsupported claims. All information is verifiable and precisely addresses the prompt's requirements.\r\nScore 8-9: Highly accurate with minimal errors that don't impact the overall value of the response.\r\nScore 6-7: Generally accurate with a few minor errors or slightly unsupported assertions.\r\nScore 4-5: Mixed accuracy with some correct information alongside noticeable errors or unverifiable claims.\r\nScore 2-3: Predominantly inaccurate with occasional correct information.\r\nScore 1: Major factual errors or fabrications dominate the response.\n\n-##Relevance (1-10)\r\nThe extent to which the response directly addresses the prompt, includes necessary information, and excludes unnecessary content.\n\nScore 10: Answer fully addresses the prompt, is concise, and has very little unnecessary information.\r\nScore 8-9: Response addresses the core of the prompt with minimal tangential information.\r\nScore 6-7: Response mostly addresses the prompt but includes some unnecessary information or misses minor aspects.\r\nScore 4-5: Response partially addresses the prompt with significant omissions or contains substantial irrelevant information.\r\nScore 2-3: Response barely addresses the prompt, focusing mostly on tangential information.\r\nScore 1: Response does not address the prompt or is overwhelmed with irrelevant information.\n\n-##Coherence (1-10)\r\nThe logical structure, organization, and flow of the response, including appropriate formatting and clarity of expression.\n\nScore 10: Exceptionally clear, logically organized, and well-formatted with perfect flow between ideas.\r\nScore 8-9: Very clear structure with strong logical flow and appropriate formatting throughout.\r\nScore 6-7: Generally clear organization with a few awkward transitions or minor formatting issues.\r\nScore 4-5: Somewhat organized but with noticeable logical gaps, confusing transitions, or inconsistent formatting.\r\nScore 2-3: Poorly organized with frequent logical breaks and difficult-to-follow structure.\r\nScore 1: Disorganized, incoherent, or lacks any clear structure.\n\n### Input\r\n- **System Prompt**: Summarize the information and provide an answer. Use only the information in the following articles to answer the question:\r\n- **User Prompt**: What is so special about ios 17. --  Source: https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)\n\n\t\t\t\t\t\tFrom Wikipedia, the free encyclopedia\n\t\t\t\t\tThe Roman Empire was one of the most powerful and influential civilizations in world history. At its height, it controlled vast territories across Europe, North Africa, and the Middle East. Roman leaders developed a complex government structure, including a Senate and legal codes that have shaped modern democratic systems. They also made great advances in engineering and architecture, building roads, aqueducts, and monuments that still stand today. Latin, the language of Rome, became the foundation for many modern languages such as Spanish, French, and Italian. Roman culture, law, and ideas about citizenship deeply influenced later societies, especially in Europe. Though the empire eventually fell, its legacy continues to shape the modern world through its contributions to politics, language, architecture, and law.\nThe Roman Empire was one of the most powerful and influential civilizations in world history. At its height, it controlled vast territories across Europe, North Africa, and the Middle East. Roman leaders developed a complex government structure, including a Senate and legal codes that have shaped modern democratic systems. They also made great advances in engineering and architecture, building roads, aqueducts, and monuments that still stand today. Latin, the language of Rome, became the foundation for many modern languages such as Spanish, French, and Italian. Roman culture, law, and ideas about citizenship deeply influenced later societies, especially in Europe. Though the empire eventually fell, its legacy continues to shape the modern world through its contributions to politics, language, architecture, and law.\n\nRoman Empire (TV series), 2016 American documentary television series\n\nHoly Roman Empire\nLatin Empire\nRomania\nRoman's Empire, a comedy television show on BBC Two\nThe Fall of the Roman Empire (film), a 1964 epic film by Paramount Pictures\nRome (disambiguation)\nRoman Republic (disambiguation)\nAncient Rome (disambiguation)\nDecline and fall of the Roman Empire (disambiguation)\nHistory of Rome\nDecline of the Roman Empire\nFall of the Western Roman Empire\nNew Roman Empire (disambiguation)\n\nAll pages with titles beginning with Roman Empire\nAll pages with titles containing Roman Empire\n\nSource: https://duckduckgo.com/Roman_Empire\nDuckDuckGo\n\nSource: https://duckduckgo.com/Byzantine_Empire\nDuckDuckGo\n\nSource: https://duckduckgo.com/Holy_Roman_Empire\nDuckDuckGo\n\nSource: https://duckduckgo.com/Ancient_Rome\nDuckDuckGo\r\n- **Response to Evaluate**: \n\n### Instructions\r\n1. Evaluate the response based on the three criteria.\r\n2. Assign a score from 1 to 10 for each criterion.\r\n3. Provide a brief justification for each score.\r\n4. If a criterion is not applicable (e.g., no suggestions requested), state this in the justification and assign a 0/10.\r\n5. Format the output as follows:\n\n### Evaluation for Response\n\n**Accuracy**: [Score]\r\nJustification: [Your reasoning]\n\n**Relevance**: [Score]\r\nJustification: [Your reasoning]\n\n**Coherence**: [Score]\r\nJustification: [Your reasoning]\n\n**Total Score**: [Total Score]\r\nOverall Comments: [Optional brief summary or additional notes]\n\nPlease provide the evaluation in this exact format.\r\n"
+    },
+    "Response": "",
+    "RunStats": {
+      "RespId": "s14_t001.88  ",
+      "PCode": "rm228p",
+      "ModelName": "qwen2:1.5b",
+      "ContextSize": 4000,
+      "Temperature": 0.7,
+      "TokensPerSecond": null,
+      "Duration": null,
+      "Accuracy": "  0",
+      "Relevance": "  0",
+      "Coherence": "  0",
+      "DateTime": "  2025-05-14 20:38",
+      "UPC": "AA0",
+      "EvalTokens": null,
+      "EvalDuration": null,
+      "PromptEvalTokens": null,
+      "SysPmtCd": "GKN0-SIMP",
+      "CPU_GPU": "i7-13700HX, RTX 4080   ",
+      "RAM": 32,
+      "OS": "Win11 Pro",
+      "Computer": "HP OMEN 1",
+      "Server": "rm228d-w10p_Windows-Prod1 (127.0.0.1)"
+    }
+  },
+  "Files": {
+    "TextResponse": "./docs/a14_grading-app/25.05.May/a14_t001_gemma2;2b_1,1-test on rm228p/s14_t001.88.4.50514.2038_Response.txt",
+    "JSONResponse": "./docs/a14_grading-app/25.05.May/a14_t001_gemma2;2b_1,1-test on rm228p/s14_t001.88.4.50514.2038_Response.json"
+  }
+}

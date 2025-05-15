@@ -1,0 +1,47 @@
+{
+  "RunId": "s11_t011.01  ",
+  "WebSearch": {},
+  "DocSearch": {},
+  "ModelQuery": {
+    "Model": "llama3.2:3b",
+    "Platform": "Ollama",
+    "CompinedPrompt": {
+      "UsrPrompt": "=my",
+      "SysPrompt": "my system prompt",
+      "Documents": "0 Sources, 0 bytes     ",
+      "PromptTemplate": "{Query}. {SysPrompt}, {Docs}",
+      "Prompt": "=my.my system prompt "
+    },
+    "Response": "It looks like you're using a Linux or macOS system. The `my` prompt is often used by the Bash shell (a Unix-like shell) to indicate that it's the current user's interactive shell session.\n\nHere are some common types of system prompts:\n\n* `~`: Indicates the current user's home directory.\n* `#`: Used in single-user mode or when running a command as root.\n* `$`: Used in interactive shells, such as Bash or Zsh.\n* `%` or `>>`: Used for logging or recording commands.\n\nIn your case, `my.my` is likely a custom prompt set by the user. The dot notation (e.g., `~`, `.`) is used to denote the current directory and user's home directory, respectively.",
+    "RunStats": {
+      "RespId": "s11_t011.01  ",
+      "PCode": "rm231d",
+      "ModelName": "llama3.2:3b",
+      "ContextSize": 4000,
+      "Temperature": 0.3,
+      "TokensPerSecond": 82.04,
+      "Duration": 1.97,
+      "Accuracy": 8,
+      "Relevance": 6,
+      "Coherence": "  0",
+      "DateTime": "  2025-05-14 12:16",
+      "UPC": "AA0",
+      "EvalTokens": 156,
+      "EvalDuration": 1.9,
+      "PromptEvalTokens": 30,
+      "SysPmtCd": "GKN0-INPT",
+      "CPU_GPU": "i7-13700HX, RTX 4080   ",
+      "RAM": 32,
+      "OS": "Win11 Pro",
+      "Computer": "HP OMEN 1",
+      "Server": "rm228d-w10p_Windows-Prod1 (127.0.0.1)",
+      "Quality": 4,
+      "Overall": 0
+    },
+    "Evaluation": "### Evaluation for Response\n\n**Accuracy**: 8/10\nJustification: The response includes accurate information related to Linux and macOS system prompts, but it does not fully address the prompt as it is missing context and may be unclear due to incorrect or incomplete information.\n\n**Relevance**: 6/10\nJustification: The response partially addresses the prompt by mentioning common types of system prompts, but it does not include necessary information for evaluating the accuracy, relevance, and coherence criteria mentioned in the instructions.\n\n**Coherence**: 4/10\nJustification: The response is generally organized with a few awkward transitions or minor formatting issues, making it difficult to follow. However, there are no logical gaps that significantly affect the overall value of the response.\n\n**Total Score**: 20\nOverall Comments: The response includes accurate information related to Linux and macOS system prompts but lacks necessary context and may be unclear due to incorrect or incomplete information. The response is generally organized with a few awkward transitions or minor formatting issues, making it difficult to follow. The total score reflects the importance of accuracy in responses as it directly affects the quality of the information provided."
+  },
+  "Files": {
+    "TextResponse": "./docs/a11_search-app/25.05.May/a11_t011_llama3.2;3b_1,1-test on rm231d/s11_t011.01.4.50514.1216_Response.txt",
+    "JSONResponse": "./docs/a11_search-app/25.05.May/a11_t011_llama3.2;3b_1,1-test on rm231d/s11_t011.01.4.50514.1216_Response.json"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "RunId": "s12_t011.01  ",
+  "WebSearch": {
+    "URL": "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
+    "Prompt": "roman empire",
+    "Response": {
+      "AbstractURL": "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
+      "Results": "",
+      "RelatedTopics": "\n     https://duckduckgo.com/Roman_Empire\n       Roman Empire The Roman Empire ruled the Mediterranean and much of Europe, Western Asia and North Africa.\n     https://duckduckgo.com/Byzantine_Empire\n       Eastern Roman Empire The continuation of the Roman Empire centred in Constantinople during late antiquity and the...\n     https://duckduckgo.com/Holy_Roman_Empire\n       Holy Roman Empire A polity in Central and Western Europe, usually headed by the Holy Roman Emperor.\n     https://duckduckgo.com/Ancient_Rome\n       Ancient Rome The Roman civilisation from the founding of the Italian city of Rome in the 8th century BC to the...\n     https://duckduckgo.com/Roman_Kingdom\n       Kingdom of Rome The earliest period of Roman history when the city and its territory were ruled by kings.\n     https://duckduckgo.com/Roman_Republic\n       Roman Republic The era of classical Roman civilisation beginning with the overthrow of the Roman Kingdom and...\n     https://duckduckgo.com/Western_Roman_Empire\n       Western Roman Empire The western provinces of the Roman Empire, collectively, during any period in which they were...",
+      "URLs": [
+        "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
+        "https://duckduckgo.com/Roman_Empire",
+        "https://duckduckgo.com/Byzantine_Empire",
+        "https://duckduckgo.com/Holy_Roman_Empire",
+        "https://duckduckgo.com/Ancient_Rome"
+      ]
+    }
+  },
+  "DocSearch": {},
+  "ModelQuery": {
+    "Model": "llama3.2:3b",
+    "Platform": "Ollama",
+    "CompinedPrompt": {
+      "UsrPrompt": "What is so special about ios 17",
+      "SysPrompt": "Summarize the information and provide an answer. Use only the information in the following articles to answer the question:",
+      "Documents": "5 Sources, 2596 bytes  ",
+      "PromptTemplate": "{Query}. {SysPrompt}, {Docs}",
+      "Prompt": "What is so special about ios 17.Summarize the information and provide an answer. Use only the information in the following articles to answer the question: Source: https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)\n\n\t\t\t\t\t\t\t\n\n\t\t\t\t\t\tFrom Wikipedia, the free encyclopedia\n\t\t\t\t\tThe Roman Empire was one of the most powerful and influential civilizations in world history. At its height, it controlled vast territories across Europe, North Africa, and the Middle East. Roman leaders developed a complex government structure, including a Senate and legal codes that have shaped modern democratic systems. They also made great advances in engineering and architecture, building roads, aqueducts, and monuments that still stand today. Latin, the language of Rome, became the foundation for many modern languages such as Spanish, French, and Italian. Roman culture, law, and ideas about citizenship deeply influenced later societies, especially in Europe. Though the empire eventually fell, its legacy continues to shape the modern world through its contributions to politics, language, architecture, and law.\nThe Roman Empire was one of the most powerful and influential civilizations in world history. At its height, it controlled vast territories across Europe, North Africa, and the Middle East. Roman leaders developed a complex government structure, including a Senate and legal codes that have shaped modern democratic systems. They also made great advances in engineering and architecture, building roads, aqueducts, and monuments that still stand today. Latin, the language of Rome, became the foundation for many modern languages such as Spanish, French, and Italian. Roman culture, law, and ideas about citizenship deeply influenced later societies, especially in Europe. Though the empire eventually fell, its legacy continues to shape the modern world through its contributions to politics, language, architecture, and law.\n\n\nRoman Empire (TV series), 2016 American documentary television series\n\n\nHoly Roman Empire\nLatin Empire\nRomania\nRoman's Empire, a comedy television show on BBC Two\nThe Fall of the Roman Empire (film), a 1964 epic film by Paramount Pictures\nRome (disambiguation)\nRoman Republic (disambiguation)\nAncient Rome (disambiguation)\nDecline and fall of the Roman Empire (disambiguation)\nHistory of Rome\nDecline of the Roman Empire\nFall of the Western Roman Empire\nNew Roman Empire (disambiguation)\n\nAll pages with titles beginning with Roman Empire\nAll pages with titles containing Roman Empire\n\n\n\n\n\n\n\n\n\n\n\nSource: https://duckduckgo.com/Roman_Empire\nDuckDuckGo\n\n\n\nSource: https://duckduckgo.com/Byzantine_Empire\nDuckDuckGo\n\n\n\nSource: https://duckduckgo.com/Holy_Roman_Empire\nDuckDuckGo\n\n\n\nSource: https://duckduckgo.com/Ancient_Rome\nDuckDuckGo\n\n"
+    },
+    "Response": "",
+    "RunStats": {
+      "RespId": "s12_t011.01  ",
+      "PCode": "rm231d",
+      "ModelName": "llama3.2:3b",
+      "ContextSize": 4000,
+      "Temperature": 0.3,
+      "TokensPerSecond": null,
+      "Duration": null,
+      "Accuracy": 0,
+      "Relevance": 0,
+      "Coherence": "  0",
+      "DateTime": "  2025-05-14 20:39",
+      "UPC": "AA0",
+      "EvalTokens": null,
+      "EvalDuration": null,
+      "PromptEvalTokens": null,
+      "SysPmtCd": "GKN0-WEBP",
+      "CPU_GPU": "i7-13700HX, RTX 4080   ",
+      "RAM": 32,
+      "OS": "Win11 Pro",
+      "Computer": "HP OMEN 1",
+      "Server": "rm228d-w10p_Windows-Prod1 (127.0.0.1)",
+      "Quality": 0,
+      "Overall": 0
+    },
+    "Evaluation": ""
+  },
+  "Files": {
+    "TextResponse": "./docs/a12_search-web-app/25.05.May/a12_t011_llama3.2;3b_1,1-test on rm231d/s12_t011.01.4.50514.2039_Response.txt",
+    "JSONResponse": "./docs/a12_search-web-app/25.05.May/a12_t011_llama3.2;3b_1,1-test on rm231d/s12_t011.01.4.50514.2039_Response.json"
+  }
+}
