@@ -66,6 +66,7 @@
 #.(50505.11   5/06/25 RAM 10:30p| Remove : from FixPath 
 #.(50331.05d  5/08/25 RAM  7:45a| Fix saving response file in pStats 
 #.(50429.09d  5/10/25 RAM  2:35p| Accomodate pParms.resp_id for aApp2 
+#.(50515.01   4/15/25 RAM  8:00a| Add none to shoMsg
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -189,24 +190,24 @@
                   continue; // Skip if extension doesn't match
                   }
               }
-//         return fileName;                                                             //#.(50428.02.5 RAM No need to pass aFolder back, although it has been fixed) )
-           return path.join( aFolder, fileName);                                        // .(50428.02.5 RAM Need to "Return the full path of the matching file" cuz of recursive calls 
+//  return  fileName;                                                                   //#.(50428.02.5 RAM No need to pass aFolder back, although it has been fixed) )
+    return  path.join( aFolder, fileName);                                              // .(50428.02.5 RAM Need to "Return the full path of the matching file" cuz of recursive calls 
           }
        }  }
-    for (var item of items) { // If no matching file found, recursively check subdirectories
-         if (item.isDirectory()) {
-        var  subdirPath =  path.join(aFolder, item.name);
-        var  result     =  await get1stFile(aStr, subdirPath, aExt);
-         if (result) {
-     return  result; // Return the first match found in subdirectories
-        }
-      } }
-    return null; // No matching file found
-  } catch (error) {
-    console.error(`Error in get1stFile: ${error.message}`);
-    return null;
-     }
-  } // eof get1stFile                                                                   // .(50428.02.2 End)  
+   for (var item of items) { // If no matching file found, recursively check subdirectories
+        if (item.isDirectory()) {
+       var  subdirPath =  path.join(aFolder, item.name);
+       var  result     =  await get1stFile(aStr, subdirPath, aExt);
+        if (result) {
+    return  result; // Return the first match found in subdirectories
+            }
+        } }
+    return  null; // No matching file found
+        } catch (error) {
+            console.error(`Error in get1stFile: ${error.message}`);
+    return  null;
+            }
+      } // eof get1stFile                                                               // .(50428.02.2 End)  
 // ---------------------------------------------------------------
 
   function  sqzLines( aText ) {                                                         // .(50503.08.1 RAM Write sqzLines Beg)
@@ -275,7 +276,8 @@
         if (global.bNoLog == 0) { return false }                                        // .(50414.01.17 RAM aLog == 'log'
        var  aSections  = `,${global.aPrtSections.toLowerCase()},`
             aSection   = `,${aSection.toLowerCase()},`
-        if (aSections == ',all,' || ',all,' == aSection) { return true }
+        if (aSections == ',none,' || ',none,' == aSection) { return false }             // .(50515.01.2 RAM Add none)
+        if (aSections == ',all,'  || ',all,'  == aSection) { return true }
     return  aSections.match( aSection ) ? 1 : 0
             } // eof ask4Text                                                           // .(50404.01.25 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
@@ -587,7 +589,12 @@ function  fmtResults(results) {
 //          console.log( '-8   ', `'${ take( -8, "123"                             )}'` )
 //          process.exit() 
 //          makFlds() 
-  function  makFlds(  ) {                                                               // .(50503.01.3 RAM Write makFlds Beg)            
+  function  makFlds(  ) {                                                               // .(50503.01.3 RAM Write makFlds Beg)    
+    
+// TPS|                         -6
+//   Duration|                  -7    
+//   Web Search Prompt    |     27 chop
+
     var aTemplate= `
 RespId       |                13
 HW CD |                        5
@@ -595,7 +602,7 @@ Model Name                 |  27 chop
 Context|                      -7
  Temp|                        -5
 TPS|                          -6
-  Duration|                   -7
+   Duration|                  -7
  Sc|                          -3
  or|                          -3
  es|                          -3
@@ -607,7 +614,7 @@ Eval Tokens|                  -5
 Prompt Eval Tokens|           -6
 SysPmtCd|                      9
 Model System Prompt|          35 chop
-  Web Search Prompt    |      27 chop
+  Web Search Prompt     |     27 chop
 Doc-File Name          |      23 min
 Web Search URL         |      23
 CPU_GPU                |      23
@@ -646,10 +653,10 @@ Response File|
             pStats.Coherence        = take(  -3,  0 )                                   // .(50503.01.8)
             pStats.DateTime         = take( -18,  parms.datetime )                      // .(50413.02.3)
             pStats.UPC              = take(   3,  parms.qpc )                           // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
-            pStats.EvalTokens       = take(  -5,  stats.eval_count)                     // .(50404.05.05)
+            pStats.EvalTokens       = take(  -5,  stats.eval_count * 1 )                // .(50404.05c.01 RAM Save 'NaN, not 'undefined').(50404.05.05)
             pStats.UsrPrompt        = chop(  27,  parms.usrprompt )                     // .(50410.04c.1).(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
             pStats.EvalDuration     = take(  -6, (stats.eval_duration /1e9).toFixed(2)) // .(50404.05.06)
-            pStats.PromptEvalTokens = take(  -5,  stats.prompt_eval_count )             // .(50404.05.07)
+            pStats.PromptEvalTokens = take(  -5,  stats.prompt_eval_count * 1 )         // .(50404.05c.02).(50404.05.07)
             pStats.SysPmtCd         = take(   9,  parms.spc )                           // .(50413.02.4)
             pStats.SysPrompt        = chop(  35,  parms.sysprompt )                     // .(50410.04c.2).(50413.02.5)
             pStats.WebSearch        = chop(  27,  parms.websearch )                     // .(50410.04c.3).(50330.04c.4)
@@ -714,6 +721,7 @@ Response File|
 //     var  mFlds                   =["RespId","Model","Context","Temperature","Duration","Eval Tokens","Query","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  //#.(50407.03.7)
 //     var  mFlds                   =["RespId     ","Model Name               ","Context","Temp","Duration","Eval Tokens","QPC","Model Query Prompt","Eval Duration","Prompt Eval Tokens","Tokens Per Second","Web Search","Docs","Web Search URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]              //#.(50407.03.7 RAM Add QPC column).(50413.02.7)
        var  mFlds                   =["RespId     ","Model Name               ","Context","Temp","Duration","Date Time","Eval Tokens","UPC","Model User Prompt","Eval Duration","Prompt Eval Tokens","Tokens Per Second","SysPmtCd","Model SYstem Prompt","Web Search","Docs","Web Search URL","CPU_GPU","RAM","OS","Computer","Server","Response File" ]  // .(50413.02.7).(50407.03.7 RAM Add QPC column)
+
        var  aDelim                  =  aExt.match( /tab/ ) ? "\t" : '","',  aQQ = aDelim == "\t" ? '' : '"'
        var  aFlds                   =  mFlds.join( aDelim )
        var  aRow                    =  aQQ + mStats.join( aDelim ) + aQQ                // .(50403.04.2 End)

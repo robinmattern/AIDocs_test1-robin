@@ -40,7 +40,9 @@
 #.(50503.10   5/05/25 RAM 11:59p| Fiddle with bDebug
 #.(50506.04   5/06/25 RAM  2:55p| Delete existing group files with del1stFile
 #.(50514.01   5/14/25 RAM  8:15a| Add override parameters  
-
+#.(50515.03   5/15/25 RAM  9:25a| Save PC_CODE to root run-tests.sh 
+#.(50515.04   5/15/25 RAM  9:45a| Allways say hardware msgs
+#
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
@@ -56,9 +58,10 @@
    aEnvFile="${ENV_TEMPLATE}"
    aCollection="${COLLECTION}"                                                                              # .(50429.09.8)
    bDebug=${DEBUG}; if [ "${bDebug}" == "1" ]; then                                                         # .(50503.10.1 RAM Even though sayMsg isn't defined yet)  
-   echo -e "\n  - AIC19[  52]  bDebug: '${bDebug}', aApp2: '${aApp2}', aPcCd: '${aPcCd}', aCollection: '${aCollection}', aEnvFile: '${aEnvFile}'"
+   echo -e "\n  - AIC19[  60]  bDebug: '${bDebug}', aApp2: '${aApp2}', aPcCd: '${aPcCd}', aCollection: '${aCollection}', aEnvFile: '${aEnvFile}'"
    fi                                                                                                       # .(50503.10.2)
-   if [ "${aTest:2:1}" == "0" ]; then  aLogs="log,inputs"; fi
+   if [ "${aTest:2:1}" == "0"   ]; then  aLogs="log,inputs"; fi
+#  if [ "${aLogs}"     == "log" ]; then  aLogs="log,inputs"; fi                         ##.(50515.04.1 RAM Allways do inputs if just "logs")
 
 # -----------------------------------------------------------------
 
@@ -73,7 +76,8 @@ function  YorN() {
 # -----------------------------------------------------------------
 
 function  usrMsg() {
-   if [ "${aLogs/inputs}" != "${aLogs}" ] || [ "${aLogs}" == "" ] || [ "$bDebug" == "1" ]; then echo -e "$1"; fi
+   if [ "$2" == "1" ]; then echo -e "$1"; return; fi                                    # .(50515.04.2 RAM Allways say hardware msgs)     
+   if [ "${aLogs/inputs}" != "${aLogs}" ] || [ "${aLogs}" == "" ] || [ "${bDebug}" == "1" ]; then echo -e "$1"; fi
 #  if [ "${bInputs}" == "1" ]; then echo "$1"; fi
    }
 # -----------------------------------------------------------------
@@ -116,31 +120,32 @@ function  chkEnvTemplate() {                                                    
    if [ -f "$1" ]; then return; fi
 
    aForPcCd="for ..."; if [ "${aPcCd}" != "" ]; then aForPcCd="for '${aPcCd}'."; fi
-   sayMsg "AIC19[  114]  Need to create an .env template file, '$1', ${aForPcCd}."
-   usrMsg "* Creating app .env template file for PC_Code: ${aForPcCd:4}."              # .(50427.04.1 RAM Change prompt).(50419.06.1 RAM Add Creating hardware file msg)
+   sayMsg "AIC19[ 122]  Need to create an .env template file, '$1', ${aForPcCd}."
+   if [ "${aLogs/inputs}" == "${aLogs}" ]; then usrMsg "" 1; fi                         # .(50515.04.3)
+   usrMsg "* Creating app .env template file for PC_Code: ${aForPcCd:4}." 1             # .(50515.04.4).(50427.04.1 RAM Change prompt).(50419.06.1 RAM Add Creating hardware file msg)
 
-   aDir="../../data/AI.testR.4u/settings"                                              # .(50427.04.2 RAM Move to here Beg).(50422.01.1)
-   if [ -d "._2" ]; then aDir="./data/AI.testR.4u/settings"; fi                        # .(50422.01.2).(50419.03.4)
+   aDir="../../data/AI.testR.4u/settings"                                               # .(50427.04.2 RAM Move to here Beg).(50422.01.1)
+   if [ -d "._2" ]; then aDir="./data/AI.testR.4u/settings"; fi                         # .(50422.01.2).(50419.03.4)
 
-#  if [ "$1" != "" ]; then THE_PC_CODE="$1"; fi                                        # .(50417.06.1)
+#  if [ "$1" != "" ]; then THE_PC_CODE="$1"; fi                                         # .(50417.06.1)
    aPC_CODE="$( echo "${aPcCd}" | tr '[:upper:]' '[:lower:]' )"
 #  aServerName="${aPC_CODE}-${THE_SERVER#*-}"
-   aHdwFile="${aDir}/hardware-settings_${aPC_CODE}.txt"                                # .(50427.04.2 End)
+   aHdwFile="${aDir}/hardware-settings_${aPC_CODE}.txt"                                 # .(50427.04.2 End)
 
-   if [ ! -f "${aHdwFile}" ]; then                                                     # .(50427.04.3 RAM Check if it exists)
-      sayMsg "AIC19[ 126]  Creating hardware file: '${aHdwFile}'"
-      usrMsg "  Creating hardware file ${aForPcCd}."                                   # .(50427.04.4 RAM Change prompt).(50419.06.1 RAM Add Creating hardware file msg)
-      hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh" ${aPcCd} )"
-      sayMsg "AIC19[ 129]  Created .env template file: '${hardware_file}'"             # .(50427.04.5 Beg)
-   else
-      hardware_file="${aHdwFile}"
-      fi                                                                               # .(50427.04.6 End)
+if [ ! -f "${aHdwFile}" ]; then                                                         # .(50427.04.3 RAM Check if it exists)
+   sayMsg "AIC19[ 134]  Creating hardware file: '${aHdwFile}'"
+   usrMsg "  Creating hardware file ${aForPcCd}." 1                                     # .(50515.04.5).(50427.04.4 RAM Change prompt).(50419.06.1 RAM Add Creating hardware file msg)
+   hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh" ${aPcCd} )"
+   sayMsg "AIC19[ 137]  Created .env template file: '${hardware_file}'"                 # .(50427.04.5 Beg)
+ else
+   hardware_file="${aHdwFile}"
+   fi                                                                                   # .(50427.04.6 End)
    aPcCd="${hardware_file#*_}"; aPcCd="${aPcCd/.txt/}"
    template_file=".env_${aApp}-template_${aPcCd}.txt"
    template_master_file=".env_${aApp}-template.txt"                                     # .(50418.01. RAM Remove _${aPcCd} from template_master_file)
-   sayMsg "AIC19[ 107]  Saving hardware for, '${aPcCd}', info into the template file: '${template_file}'"
-   usrMsg "  Saving hardware info for ${aPcCd} into the template file: '${template_file}'" # .(50427.04.6)
-   usrMsg ""
+   sayMsg "AIC19[ 144]  Saving hardware for, '${aPcCd}', info into the template file: '${template_file}'"
+   usrMsg "  Saving hardware info for ${aPcCd} into the template file: '${template_file}'" 1 # .(50515.04.6).(50427.04.6)
+#  usrMsg "" 1                                                                          ##.(50515.04.7)        
 
 #  aSpecs="$( cat "${hardware_file}" )"; echo  "${aSpecs}"
 #
@@ -150,9 +155,10 @@ function  chkEnvTemplate() {                                                    
 #  sed    '/{HARDWARE_SPECS}/ {r '"${hardware_file}"';d;}' "${template_master_file}" >"${template_file}"
 #  sed -e "/{HARDWARE_SPECS}/ {" -e "r ${hardware_file}" -e "d;" -e "}" "${template_master_file}" > "${template_file}"
 
+   awk '/PC_CODE=/ { print "     export PC_CODE=\"'${aPcCd}'\"" } !/PC_CODE/ { print }' ../../run-tests.sh > @temp && mv @temp ../../run-tests.sh   # .(50515.03.1)
    awk '/PC_CODE=/ { print "     export PC_CODE=\"'${aPcCd}'\"" } !/PC_CODE/ { print }' run-tests.sh > @temp && mv @temp run-tests.sh
    chmod 755 run-tests.sh
-   sayMsg "AIC19[ 153]  Saved PC_CODE, ${aPcCd}, info into the file, run-tests.sh"
+   sayMsg "AIC19[ 155]  Saved PC_CODE, ${aPcCd}, info into the file, run-tests.sh" 
 #  echo "             i.e. '$(pwd)/${template_file}'"
 #  cat "$(pwd)/${template_file}"
 

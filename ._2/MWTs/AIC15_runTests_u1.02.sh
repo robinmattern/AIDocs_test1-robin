@@ -52,7 +52,7 @@
 #.(50514.01   5/14/25 RAM  8:15a| Add override parameters  
 #.(50514.02   5/14/25 RAM  1:50p| Move script to components folder
 #.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
-#.(50515.02   5/15/25 RAM  9:25a| Display running script_u2.10.mjs
+#.(50515.02   5/15/25 RAM  9:25a| Display running script_u2.10.mjs  
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |

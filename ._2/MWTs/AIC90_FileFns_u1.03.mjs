@@ -224,12 +224,12 @@
   //   ---------------------  =  --------------------------------------------------------
 
     if (typeof(vscode) == 'object')  {                                                  // .(40819.10.5 RAM Need to reassign __basedir Beg)
-        var  workspaceFolders = vscode.workspace.workspaceFolders;
-         if (workspaceFolders && workspaceFolders.length > 0) {
-        var   aAppName  =   'AICodeR_VSCodeExt'                                         // .(40828.02.3)
-        var __dirname   =   workspaceFolders[0].uri.fsPath;
-        var __basedir   = __dirname.replace( /[\\\/]\._2.+/, '' ).replace( /^\/([A-Z]):/, '$1:' )
-        var  _TS        =   getDate()
+       var  workspaceFolders = vscode.workspace.workspaceFolders;
+        if (workspaceFolders && workspaceFolders.length > 0) {
+      var   aAppName  =   'AICodeR_VSCodeExt'                                           // .(40828.02.3)
+      var __dirname   =   workspaceFolders[0].uri.fsPath;
+      var __basedir   = __dirname.replace( /[\\\/]\._2.+/, '' ).replace( /^\/([A-Z]):/, '$1:' )
+      var  _TS        =   getDate()
             console.log( `  FRT[1]: __basedir: '${__basedir}'`)
             }
           } else {  // eif typeof(vscode) == 'object'                                   // .(40828.02.4)
@@ -238,37 +238,37 @@
 //  --------------------------------------------------------------
 
   function  setPaths( aAppName ) {
-        var   aLibFile  =  new URL( import.meta.url ).pathname                          // .(40819.03.1 RAM ES6 Module, this script's file name)
-//      var   aLibFile  =  __filename                                                   // .(40819.03.1 RAM CommonJS Module)
-   if (typeof(vscode) != 'object')  {                                                   // .(40819.10.6 RAM Don't assign __basedir if in extensionBeg)
+      var   aLibFile  =  new URL( import.meta.url ).pathname                            // .(40819.03.1 RAM ES6 Module, this script's file name)
+//    var   aLibFile  =  __filename                                                     // .(40819.03.1 RAM CommonJS Module)
+ if (typeof(vscode) != 'object')  {                                                     // .(40819.10.6 RAM Don't assign __basedir if in extensionBeg)
 
-     global.__libpath   =  path.dirname( aLibFile )                                     // this script's folder name
-     global.__dirname   =  path.dirname( process.argv[1] )                              // calling folder name
-            __dirname   =  global.__dirname                                             // .(40828.02.6 RAM It's not defined in "this" closure???)
-     global.__basedir   =  aLibFile.replace( /[\\\/]\._2.+/, '' ).replace( /^\/([A-Z]):/, '$1:' )           // .40815.02.1 RAM Remove leading '/C:/)
-            __basedir   =  global.__basedir                                             // .(40828.02.6 RAM It's not defined in "this" closure???)
-     global._TS         =  getDate( )
-            _TS         =  global._TS                                                   // .(40828.02.6)
-     global.__appname   =  getAppName( __dirname, aAppName  )
-        var   aCS       = (__appname.match( /^c/ ) ?  'client' : 'server') + __appname.substring( 1, 2 )
-//            aCS       =  aCS.match( /[0-9]$/ ) ? aCS : '._2/FRTs/AICodeR'             //#.(40819.03.x RAM ?? )
-              aCS       =  aCS.match( /[0-9]$/ ) ? aCS : '._2/FRTs'                     // .(40819.03.x RAM ?? )
-     global.__apppath   =  path.join(  __basedir, `${aCS}/${ __appname }` )
-//            console.log(`  FRT[2]: __basedir:  '${ __basedir }'`  )                   // .(40908.01.1 RAM setPath is called 4 times)
-     global.__basedir2  = `${ process.cwd() }`.replace( /[\\\/]/g, '/' ).replace( /^\/([A-Z]):/, '$1:' )    // .(50106.03.2 RAM Assign __BaseDir2 )
-         if ("showPaths" != "showPaths") {
-              console.log(`  setPaths[1]: __libpath:  '${ __libpath }'`  )
-              console.log(`  setPaths[2]: __dirname:  '${ __dirname }'`  )
-              console.log(`  setPaths[3]: __basedir:  '${ __basedir }'`  )
-              console.log(`  setPaths[4]: __basedir2: '${ __basedir2 }'`  )                                 // .(50106.03.3)
-              console.log(`  setPaths[5]: __appname:  '${ __appname }'`  )
-              console.log(`  setPaths[6]:  _TS:       '${  _TS      }'`  )
-//            console.log(`  setPaths[6]:   aCS:      '${   aCS     }'`  )
-              }
-       return global.__appname
-              } // eif Not running VSCode extension
+   global.__libpath   =  path.dirname( aLibFile )                                       // this script's folder name
+   global.__dirname   =  path.dirname( process.argv[1] )                                // calling folder name
+          __dirname   =  global.__dirname                                               // .(40828.02.6 RAM It's not defined in "this" closure???)
+   global.__basedir   =  aLibFile.replace( /[\\\/]\._2.+/, '' ).replace( /^\/([A-Z]):/, '$1:' )             // .40815.02.1 RAM Remove leading '/C:/)
+          __basedir   =  global.__basedir                                               // .(40828.02.6 RAM It's not defined in "this" closure???)
+   global._TS         =  getDate( )
+          _TS         =  global._TS                                                     // .(40828.02.6)
+   global.__appname   =  getAppName( __dirname, aAppName  )
+      var   aCS       = (__appname.match( /^c/ ) ?  'client' : 'server') + __appname.substring( 1, 2 )
+//          aCS       =  aCS.match( /[0-9]$/ ) ? aCS : '._2/FRTs/AICodeR'               //#.(40819.03.x RAM ?? )
+            aCS       =  aCS.match( /[0-9]$/ ) ? aCS : '._2/FRTs'                       // .(40819.03.x RAM ?? )
+   global.__apppath   =  path.join(  __basedir, `${aCS}/${ __appname }` )
+//          console.log(`  FRT[2]: __basedir:  '${ __basedir }'`  )                     // .(40908.01.1 RAM setPath is called 4 times)
+   global.__basedir2  = `${ process.cwd() }`.replace( /[\\\/]/g, '/' ).replace( /^\/([A-Z]):/, '$1:' )      // .(50106.03.2 RAM Assign __BaseDir2 )
+       if ("showPaths" != "showPaths") {
+            console.log(`  setPaths[1]: __libpath:  '${ __libpath }'`  )
+            console.log(`  setPaths[2]: __dirname:  '${ __dirname }'`  )
+            console.log(`  setPaths[3]: __basedir:  '${ __basedir }'`  )
+            console.log(`  setPaths[4]: __basedir2: '${ __basedir2 }'`  )                                   // .(50106.03.3)
+            console.log(`  setPaths[5]: __appname:  '${ __appname }'`  )
+            console.log(`  setPaths[6]:  _TS:       '${  _TS      }'`  )
+//          console.log(`  setPaths[6]:   aCS:      '${   aCS     }'`  )
+            }
+     return global.__appname
+            } // eif Not running VSCode extension
 
-              }   // eof setPaths()
+            }   // eof setPaths()
 //  --------------------------------------------------------------
 
   function  setVars( bDebug_, bQuiet_, bDoit_, bForce_ ) {                              // .(50125.01.1).(50125.01.2 RAM Write setVars Beg)
