@@ -1,5 +1,7 @@
 #!/bin/bash
-                                                                                        # .(50513.02 RAM Change name from run-tests.sh to run-aitestr.sh)
+           
+            aVer="u2.10"                                                                # .(50514.07.1 RAM Bump Version)
+                                                                                        # .(50513.02.x RAM Change name from run-tests.sh to run-aitestr.sh)
 #  aAIC="$( dirname "$0" )"; aPWD="$(pwd)"; #echo "  \${aAIC/\${aPWD}/}: ${aAIC/${aPWD}/} -- ${aAIC} in ${aPWD}/"     ##.(50511.04.1)
 #  aAIC="$( dirname "$0" )"; aPWD="$(pwd)";  echo "  \${aPWD/\${aAIC}/}: ${aPWD/${aAIC}/} -- ${aPWD} in ${aAIC}/"     ##.(50511.04.1)
 #  if [ "${aAIC/${aPWWD}}" == "${aAIC/${aPWD}}" ]; then  echo "  aPWD is in aAIC"; else echo "  aPWD is not in aAIC; cd ${aAIC}"; fi; exit
@@ -61,7 +63,7 @@
 #  if [ "${1:0:3}" == "lis" ]; then echo "do list"; exit; fi
 
    if [ "${aCmd}" == "help" ]; then  
-      echo -e "\n  Usage: ${aAIT} ..."
+      echo -e "\n  Usage: ${aAIT} ...       ${aVer}"                                    # .(50505.05.1)
       echo -e   "    {App} {Test}       to run a test"
       echo -e   "    {App} gen {Group}  to generate an .env template for a test model group"
       echo -e   "    {App} list         to list all tests to run"
@@ -89,8 +91,8 @@
 
       source "./run-tests.sh"                                                           # .(50513.02.1 RAM Get common parameters from __basedir/run-tests.sh)    
 
-#     export  APP="${aApp}"                                                             # .(50513.02.2)
-      export  ENVs=0; bEnvs="${ENVs}"                                                   # .(50513.05.1)
+      export  ENVs=1; bEnvs="${ENVs}"                                                   # .(50513.05.1)
+
        if [ "${bEnvs}" == "1" ]; then echo "  - S1000[  93]  APP: '${aApp}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit # .(50513.05.2)
 
 #     if [ "${aCmd}" == "run here " ]; then bash run-test.sh "$@"; exit; fi             ##.(50505.02b.1).(50505.02.12 RAM ??) 

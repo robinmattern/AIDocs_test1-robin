@@ -468,7 +468,7 @@ D. Run three sample models
 
         -----------------------------------------------------------
 
-        50512.0958.24  s14  t001     Running score_u2.09.mjs for s11_t011.01
+        50512.0958.24  s14  t001     Running score_u2.10.mjs for s11_t011.01
         50512.0958.24  s14  t001.12  Starting qwen2:0.5b           GKN0-SIMP  KP0    4000  0.7
         50512.0958.29                Finished qwen2:0.5b        in 5.17 secs, 55.74 tps
         50512.0958.29  s11  t011.01  Finished with these scores of 10, 9, 8
@@ -510,7 +510,7 @@ D. Run three sample models
 
         -----------------------------------------------------------
 
-        50513.0938.53  s14  t001     Running score_u2.09.mjs for s12_t011.01
+        50513.0938.53  s14  t001     Running score_u2.10.mjs for s12_t011.01
         50513.0938.53  s14  t001.27  Starting gemma2:2b            GKN0-SIMP  KP0    4000  0.7
         50513.0939.10                Finished gemma2:2b         in 16.66 secs, 23.32 tps
         50513.0939.10  s12  t011.01  Finished with these scores of 8, 6, 7
@@ -553,7 +553,7 @@ D. Run three sample models
 
         -----------------------------------------------------------
 
-        50513.1013.13  s14  t001     Running score_u2.09.mjs for s13_t011.01
+        50513.1013.13  s14  t001     Running score_u2.10.mjs for s13_t011.01
         50513.1013.13  s14  t001.16  Starting gemma2:2b            GKN0-SIMP  KP0    4000  0.7
         50513.1013.16                Finished gemma2:2b         in 2.50 secs, 110.42 tps
         50513.1013.16  s13  t011.01  Finished with these scores of 8, 7, 9
@@ -572,38 +572,50 @@ E. Change some runtime parameters
 
     <details><summary<code>Open the file: <code>run-tests.sh</code></summary>
 
-        #!/bin/bash
-
-             if [ "${1:0:3}" == "ver" ]; then "../../._2/MWTs/AIC00_getVersion.sh"; exit; fi    # .(50420.01.4)
-             aApp2="s11"; if [[ "$1" =~ [acs][0-9]{2} ]]; then aApp2=$1; shift; fi              # .(50429.05.13)
-                          if [[ "$2" =~ [acs][0-9]{2} ]]; then aApp2=$2; aArgs=("$@"); unset "aArgs[1]"; set -- "${aArgs[@]}"; fi       # .(50429.05.14 )
-
-        #    if [ "${aApp2}" == "example" ]; then bash run-tests2.sh; exit; fi                  # .(50505.04.6 Add example)
-
-             export RUN_TESTS="../../._2/MWTs/AIC15_runTests_u1.02.sh"
-        #    export SCORE_SCRIPT="../components/score_u2.08.mjs"                                ##.(50507.02.6)
-        #    export SEARCH_SCRIPT="../components/search_u2.09.mjs"                              ##.(50507.02.7)
-             export SCORE_SCRIPT="../s14_grading-app/run-tests.mjs"                             # .(50507.02.6)
-             export SEARCH_SCRIPT="./run-tests.mjs"                                             # .(50507.02.7)
-
-             export APP=${aApp2}                                                                # .(50429.05.15)  
-
-        #    export LOGGER=
-        #    export LOGGER="log"   
-        #    export LOGGER="inputs"
-             export LOGGER="log,inputs"
-
-             export DOIT="1"
-             export DEBUG="0"                           #  Runs node with --inspect-brk 
-             export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)                                           
-             export SCORING="1"                         # .(50507.02.8 RAM New way to score it)                                           
-
-             export PC_CODE=""
-
-        #    echo "" >run-tests.txt                     ##.(50507.08d.3 RAM Not here).(50507.08a.3 RAM Start MT)
-             bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi
-             node  "${SCORE_SCRIPT}" "gemma2:2b" "${aApp2}" "$@";         
-
+          #!/bin/bash
+          ##=========+====================+================================================+
+          ##RD       run-tests.sh         | Assign Parameters for all model runs
+          ##RFILE    +====================+=======+===============+======+=================+
+          ##DESC     .--------------------+-------+---------------+------+-----------------+
+          #            This script is used by run-aitestr.sh
+          #
+          ##LIC      .--------------------+----------------------------------------------+
+          #            Copyright (c) 2025 JScriptWare and 8020Date-FormR * Released under
+          #            MIT License: http://www.opensource.org/licenses/mit-license.php
+          ##CHGS     .--------------------+----------------------------------------------+
+          #.(50416.08   4/16/25 RAM  5:50p| Witten by Robin Mattern
+          #.(50506.03   5/06/25 RAM  9:45a| Add DRYRUN
+          #.(50507.02   5/07/25 RAM  7:00a| New way to turn score on an off 
+          #.(50513.02   5/13/25 RAM  2:35p| Put paramaters in this script in project dir
+          #.(50514.01   5/14/25 RAM  8:15a| Add override parameters 
+          #
+          ##PRGM     +====================+===============================================+
+          ##ID 69.600. Main0              |
+          ##SRCE     +====================+===============================================+
+          #
+          #    export  LOGGER=
+          #    export  LOGGER="log"
+          #    export  LOGGER="inputs"
+          #    export  LOGGER="log,inputs"
+          #    export  SECTIONS=Parms,Search,Results       # .(50514.01.1 Override parameters in s##_model-tests.txt)
+               export  SECTIONS=Parms,Results              # .(50514.01.1 Override parameters in s##_model-tests.txt)
+          #    export  SECTIONS=RunId                      # .(50514.01.2)
+  
+               export  DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1".
+               export  DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
+               export  DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
+               export  SCORING="1"                         # .(50507.02.8 RAM New way to score it)
+  
+               export  PC_CODE="rm231d"                    # .(50514.01.3)
+  
+               export  SEARCH_MODEL="qwen2:1.5b"           # .(50514.01.4 RAM Override parameters -- no spaces before or after = sign)
+               export  SCORING_MODEL="qwen2:1.5b"          # .(50514.01.5)
+          #    export  SYSTEM_PROMPT="my system prompt"     
+               export  RAG_COLLECTIONS="s13b_apple-os-pdfs"        
+               export  USER_PROMPT="What is so special about ios 17"        
+  
+          ##SRCE     +====================+===============================================+
+          ##RFILE    +====================+=======+===================+======+=============+
     </details>   
 
     We're changing 3 variables in the run script.  
@@ -728,7 +740,7 @@ E. Change some runtime parameters
         ----------------------------------------------------------------------------------------------
         ========== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== ------ ===== -----
 
-        50513.1017.07  s14  t001     Running score_u2.09.mjs for s11_t011.01
+        50513.1017.07  s14  t001     Running score_u2.10.mjs for s11_t011.01
         --------------------------------------------------------------------------------------------------------------------------------------------------
           - AIC90[ 192]  Setting logfile to: './docs/a14_grading-app/25.05.May/a14_t001_gemma2;2b_1,1-test on rm228p/s14_t001.18.4.50513.1017_Response.txt
         -------------------------------------------------------------------------------------------------------------------------------------

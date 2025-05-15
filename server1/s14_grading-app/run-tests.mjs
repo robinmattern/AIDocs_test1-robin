@@ -1,10 +1,10 @@
-  import  main from '../components/score_u2.09.mjs'       // .(50507.05.2 RAM Put script into components)
+  import  main from '../components/score_u2.10.mjs'       // .(50514.07.10).(50507.05.2 RAM Put script into components)
 
 //    process.argv[2] =  "search"
   if (process.argv[2] == "search") {
       process.argv[2] =  "" 
 
-      await import( '../components/search_u2.09.mjs' )    // .(50507.05.1 RAM Put script into components)
+      await import( '../components/search_u2.10.mjs' )    // .(50514.07.11).(50507.05.1 RAM Put script into components)
 
   } else {  
   // main( ...process.argv.slice(2) )

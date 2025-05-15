@@ -131,6 +131,7 @@
 #.(50513.05   5/13/25 RAM  7:30p| Implement bEnvs debug msgs
 #.(50514.01   5/14/25 RAM  9:10a| Overide run-tests.sh parameters  
 #.(50514.02   5/14/25 RAM  1:50p| Move 2 scripts to components folder
+#.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -148,7 +149,7 @@
 
 // Import modules using dynamic imports
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-       var  aVer             = "u2.09"  // search_{aVer}.mjs                            // .(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
+       var  aVer             = "u2.10"  // search_{aVer}.mjs                            // .(50514.07.6).(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
 
        var  aLog             =  process.env.LOGGER || ""                                // .(50414.01.1 RAM Do print Log)
             aLog             =  aLog == "log,inputs" ? "log" : aLog                     // .(50414.01c.1 RAM Fix if aLog = "log", was: '')

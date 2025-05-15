@@ -40,6 +40,7 @@
 #.(50507.08d  5/11/25 RAM  9:30a| Start run-tests.txt MT
 #.(50511.01   5/11/25 RAM 10:30a| Do "\n" after run for bNoLog
 #.(50513.05   5/13/25 RAM  7:30p| Implement bEnvs debug msgs
+#.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -56,7 +57,8 @@
     const __dirname          =  path.dirname(__filename);               // components 
 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-       var  aVer             = "u2.09"    // score_{aVer}.mjs                                               // .(50503.03.1 RAM Add Version)
+
+       var  aVer             = "u2.10"    // score_{aVer}.mjs                           // .(50514.07.4).(50503.03.1 RAM Add Version)
        var  bEnvs            =  process.env.ENVs || 0                                   // .(50513.05.10)
 
 //          LIBs.MWT         =( ) => "../../._2/MWTs"                                                       // .(50405.06.6)
@@ -90,14 +92,14 @@
   async function  main( pArgs ) {  // score.mjs 
 
         if (process.env.SCORING != "1") {                                               // .(50508.01.1 RAM Skip if SCORING != 1 Beg)
-            sayMsg( "AIT14[  92]  Skipping scoring run" )
+            sayMsg( "AIT14[  95]  Skipping scoring run" )
             exit_wCR()
             process.exit()
             }                                                                           // .(50508.01.1 End)
        var{ bDebug, bDoit }  =  FRT.setVars()
             global.bQuiet    =  0                                                       // .(50503.04.1 RAM Was 2, quieting sayMsg)
             global.bNoLog    = (process.env.LOGGING || '').match( /log/ ) == null                           // .(50510.01.1)
-            sayMsg( `S1401[  99]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${process.env.DRYRUN}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${"   "}', bNoLog: '${global.bNoLog ? 1 : 0}'`, bEnvs ); // .(50513.05.11) // process.exit() 
+            sayMsg( `S1401[ 102]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${process.env.DRYRUN}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${"   "}', bNoLog: '${global.bNoLog ? 1 : 0}'`, bEnvs ); // .(50513.05.11) // process.exit() 
 
        var  pArgs            =  parseArgs()
             aModel           =  pArgs.modelName || 'gemma2:2b'
@@ -226,10 +228,11 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
        var  aSheetVer        =  aStatsSheetFile.replace( /.+_u/,'').replace( /\.csv/, '')                    // .(50507.10.1 RAM Big error. Was aVer)
        var  aTestId          =  path.basename( aResponseFile).match( /(s.+?\.[0-9s]{2,3})\./ )[1]
        var  mSpreadsheet     =  FRT.readFileSync(  MWT.fixPath( FRT.__basedir, aStatsSheetFile ) ).split( "\n") 
-        if (aSheetVer == "2.08" || aSheetVer == "2.09" ) {                                                  // .(50507.10.1 RAM Big error)
+
+        if (aSheetVer == "2.08" || aSheetVer == "2.09" || aSheetVer == "2.10" ) {       // .(50514.07.5).(50507.10.1 RAM Big error)
        var  aRow             =  mSpreadsheet.filter( aRow => aRow.split( "\t" )[0].trim() == aTestId )      // .(50503.03.3 RAM Add trim)
         if (aRow.length > 0) {
-            aRow             =    aRow.splice(-1)[0]                                      // .(50503.03.4 RAM get the last one)
+            aRow             =    aRow.splice(-1)[0]                                    // .(50503.03.4 RAM get the last one)
        var  mCols            =    aRow.split( "\t" )
             mCols[7]         = `${pStats.Accuracy }`.padStart(3)
             mCols[8]         = `${pStats.Quality  }`.padStart(3)
@@ -256,7 +259,7 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
             
         if (mNotFound.length > 0) {                                                     // .(50510.04.6 Beg)
             usrMsg(            `* These scores were not found: ${ mNotFound.join( ", " ) }.` )
-            sayMsg( `AIT14[ 247]* These scores were not found: ${ mNotFound.join( ", " ) }.` )
+            sayMsg( `AIT14[ 262]* These scores were not found: ${ mNotFound.join( ", " ) }.` )
             }                                                                           // .(50510.04.6 End)
 
   function  getScore( aCriteria ) {                                                     // .(50510.04.7 RAM Write getScore Beg)
@@ -324,7 +327,7 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
 //  return { content: pResult.message.content, metrics: pResult };
     return { content: aResponse, metrics: pMetrics };
 
-     } catch (error) {     FRT.sayMsg( `AIT14[ 314]  Error evaluating response with Ollama:\n                 ${error.message}`, -1 );
+     } catch (error) {     FRT.sayMsg( `AIT14[ 330]  Error evaluating response with Ollama:\n                 ${error.message}`, -1 );
          throw new Error( 'Error' );
          }
 } // eof evaluateResponse
@@ -341,7 +344,7 @@ function getScores( evaluation ) {
   
     let  match;                                             // Collect scores and reformat
  while ((match = scoreRegex.exec(evaluation)) !== null) {
-        FRT.sayMsg( `AIT14[ 332]  getScores found: ${match}`, -1 )
+        FRT.sayMsg( `AIT14[ 347]  getScores found: ${match}`, -1 )
      if (match[1] !== 'Total Score') {                       // Skip "Total Score" during the regex collection phase
     var  score = parseInt(match[2], 10);
          totalScore += score;
@@ -392,7 +395,7 @@ return { scores, totalScore, scoreCount, formattedEvaluation };
        var  aStatRespId      =  aResponseFile.match( `${aStatTestId}[.0-9]+` );                             // .(50507.08b.4 RAM Extract aStatRestId to match. May fail)
             aStatRespId      =  aStatRespId ? aStatRespId[0] : ''                       
         if (aStatRespId == aRespId) { 
-            FRT.sayMsg( `AIT14[ 383]  Found ${nRow}: ${ path.basename( aResponseFile ) }.`, -1 )
+            FRT.sayMsg( `AIT14[ 398]  Found ${nRow}: ${ path.basename( aResponseFile ) }.`, -1 )
             mFoundFiles.push(   aResponseFile.replace( /\.txt$/, '.json' ) )
             break 
             }               

@@ -27,9 +27,9 @@
      export  SECTIONS=Parms,Results              # .(50514.01.1 Override parameters in s##_model-tests.txt)
 #    export  SECTIONS=RunId                      # .(50514.01.2)
 
-     export  DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1".
+     export  DOIT="0"                            # .(50506.03.5 Do it unless DRYRUN="1".
      export  DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
-     export  DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
+     export  DRYRUN="1"                          # .(50506.03.1 RAM Add DRYRUN)
      export  SCORING="1"                         # .(50507.02.8 RAM New way to score it)
 
      export  PC_CODE="rm231d"                    # .(50514.01.3)
