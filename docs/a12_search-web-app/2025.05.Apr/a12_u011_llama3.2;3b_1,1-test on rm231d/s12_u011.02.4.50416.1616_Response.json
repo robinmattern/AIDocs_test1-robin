@@ -39,7 +39,7 @@
       "Accuracy": 0,
       "Relevance": 0,
       "Coherence": "  0",
-      "DateTime": "  2025-05-14 20:39",
+      "DateTime": "  2025-04-16 16:16",
       "UPC": "AA0",
       "EvalTokens": null,
       "EvalDuration": null,
@@ -56,7 +56,7 @@
     "Evaluation": ""
   },
   "Files": {
-    "TextResponse": "./docs/a12_search-web-app/25.05.May/a12_t011_llama3.2;3b_1,1-test on rm231d/s12_t011.01.4.50514.2039_Response.txt",
-    "JSONResponse": "./docs/a12_search-web-app/25.05.May/a12_t011_llama3.2;3b_1,1-test on rm231d/s12_t011.01.4.50514.2039_Response.json"
+    "TextResponse": "./docs/a12_search-web-app/2025.04.Apr/a12_t011_llama3.2;3b_1,1-test on rm231d/s12_t011.02.4.50416.1616_Response.txt",
+    "JSONResponse": "./docs/a12_search-web-app/2025.04.Apr/a12_t011_llama3.2;3b_1,1-test on rm231d/s12_t011.02.4.50416.1616_Response.json"
   }
 }
