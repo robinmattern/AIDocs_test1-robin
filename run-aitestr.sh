@@ -27,7 +27,8 @@
    if [ "${1:0:3}"    == "ver"   ]; then  ._2/MWTs/AIC00_getVersion.sh;  exit;  fi      # .(50420.01b.2)
    if [ "${1:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$2;  shift; b=2; shift; b=2; fi # .(50420.01b.3)
    if [ "${2:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$1;  shift; b=2; shift; b=2; fi # .(50420.01b.5)
-   if [ "${1:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=s13; shift; b=1; fi      # .(50420.01b.4)
+   if [ "${1:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=$2;  shift; b=1; fi      # .(50516.07.1 RAM Was s13).(50420.01b.4)
+   if [ "${2:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=$1;  shift; b=1; fi      # .(50516.07.2 RAM Do list for each app)
    if [ "${1:0:3}"    == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi      # .(50505.05.1
    if [ "${1:0:3}"    == "sql"   ]; then aCmd="sqlite  "; aApp=s13; shift; b=1; fi      # .(50505.06.1)
    if [ "${1:0:3}"    == "chr"   ]; then aCmd="chroma  "; aApp=s13; shift; b=1; fi      # .(50505.06.2)
@@ -41,7 +42,7 @@
 #  echo "-- aCmd: '${aCmd}', aApp: '${aApp}', PWD: '${aPWD/*robin/}'; aDir: '${aDir}', aTests: '${aTests}'"; #  exit # .(50429.05.5
 
    if [ "${b}" == "1" ] && [ "${aDir}" == "" ]; then                                    # .(50429.05.6 Beg)
-      echo -e "\n* Note: Did you forget to provide an App?";                       aCmd="help"
+      echo -e "\n* Note: You didn't provide a valid App: s11, s12 or s13.";        aCmd="help"
       fi
    if [ "${b}" == "2" ] && [ "${aDir}" != "" ] && [ "${aTests}" == "" ]; then
       echo -e "\n* Note: Did you forget to provide a Test Id?";                    aCmd="help"
@@ -63,11 +64,22 @@
 #  if [ "${1:0:3}" == "lis" ]; then echo "do list"; exit; fi
 
    if [ "${aCmd}" == "help" ]; then
+   if [ "${2:0:2}" == "pc" ]; then                                                      # .(50516.08.1 RAM pc_code help Beg)
+      echo -e "\n  Before testing model performance on your computer, we need to determine the hardware specs"
+      echo      "  for your PC. To do that, just run any test, e.g. ait s11 t011.  Your PC's specs will be"
+      echo      "  saved along with a unique 6 digit hexidecimal PC_CODE.  If you'd like to create a more user"
+      echo      "  friendly PC_CODE, you can assign a 6 digit code on line 36 of this file, run-tests.sh,"
+      echo      "  and run the test again."
+      if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
+      exit
+      fi                                                                                # .(50516.08.1 End)
       aDate2="$( date +'%B %d, %Y %l:%M%p' )"; aDate="${aDate/AM/a}"; aDate="${aDate/PM/p}" # .(50516.04.4 RAM Add nice version date)
       echo -e "\n  Usage: ${aAIT} ...       Ver: ${aVer}  (${aDate2})"                  # .(50516.04.5).(50505.05.1)
+      echo -e   "" 
       echo -e   "    {App} {Test}       to run a test"
       echo -e   "    {App} gen {Group}  to generate an .env template for a test model group"
       echo -e   "    {App} list         to list all tests to run"
+      echo -e   "    help pc_code       to save computer hardware specs"                # .(50516.08.2)
       echo -e   "    import {App}       to import a collection of docs"                 # .(50505.05.2)
       echo -e   "    chroma start       to start the Chroma Vector DB"                  # .(50505.06.3)
       echo -e   "    sql {table}        to query a table in the Chroma Vector DB"       # .(50505.06.4)
@@ -100,7 +112,7 @@
 #   export  DRYRUN="1"                          # .(50506.03.1 RAM Add DRYRUN)
 #   export  SCORING="1"                         # .(50507.02.8 RAM New way to score it
 
-       if [ "${bEnvs}" == "1" ]; then echo "  - S1000[  93]  APP: '${aApp}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit # .(50513.05.2)
+      if [ "${bEnvs}" == "1" ]; then echo "  - S1000[  93]  APP: '${aApp}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit # .(50513.05.2)
 
 #     if [ "${aCmd}" == "run here " ]; then bash run-test.sh "$@"; exit; fi             ##.(50505.02b.1).(50505.02.12 RAM ??)
 
