@@ -95,7 +95,7 @@ function getBinVersion() {
   else
      aBinFile="$( cat "${aBinDir}/$1" | awk '/\.sh/ { sub( /"\$.+/, "" ); sub( /^ */, "" ); sub( / *$/, "" ); print }' )"
      fi
-     echo "-- aBinFile: '${aBinFile}'"
+#    echo "-- aBinFile: '${aBinFile}'"
 #    aBinFile="$( cat "${aBinDir}/$1" | awk '/\.sh/' )"; echo "  '${aBinFile}'"; exit
 #    aBinVer="$(  cat "${aBinFile}"   | awk '/ aVer=/           { sub( /aVer=/, "" ); a = $1 }; END{ print a }' )"
      aBinVer="$(  cat "${aBinFile}"   | awk '/ aVer="[uv][0-9]/ { sub( /aVer=/, "" ); sub( /\\/, "" ); a = $1 }; END{ print a }' )"  # .(50516.04.2 RAM Remove backslash)
