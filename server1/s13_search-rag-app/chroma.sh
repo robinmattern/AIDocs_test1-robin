@@ -1,6 +1,6 @@
 #!/bin/bash
- 
-if [ "${OS:0:3}" == "Win" ]; then 
+
+if [ "${OS:0:3}" == "Win" ]; then
 #   Python="C:\Users\Robin\AppData\Local\Microsoft\WindowsApps\python3.12.exe"
     Python_Packages="/C/Users/Robin/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/LocalCache/local-packages/Python312/Scripts"
 #   Python_Packages="/Users/robin/Library/Python/3.9/lib/python/site-packages"
@@ -11,14 +11,14 @@ if [ "${OS:0:3}" == "Win" ]; then
   ${Python_Packages}/chroma.exe "$@"
 # ${Python_Packages}/chroma "$@"
 
-  else 
+  else
 
 #  /Users/robin/Library/Python/3.9/lib/python/site-packages/chromadb
 #  /Library/python/3.9/site-packages/chromadb
 
 #   Python_Exec="/c/Users/Robin/AppData/Local/Microsoft/WindowsApps/python"
 #   Python_Exec="/usr/bin/python3"
-    Python_Exec="${ which python3 }"
+    Python_Exec="$( which python3 )"            # .(50516.06.1 RAM Fix)
 
 #   echo "Starting ChromaDB server..."
 # "${Python_Exec}" -m chromadb.cli.cli run --host "$HOST" --port "$PORT" --path "$DB_PATH" --log-path "$LOG_PATH"
@@ -26,5 +26,5 @@ if [ "${OS:0:3}" == "Win" ]; then
 #   echo "Running ChromaDB... with: python3 -m chromadb.cli.cli $@"
 
  "${Python_Exec}" -m chromadb.cli.cli "$@"
-   fi 
+   fi
 

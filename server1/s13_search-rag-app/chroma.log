@@ -18,4 +18,3 @@ Getting started guide: https://docs.trychroma.com/docs/overview/getting-started
 
 OpenTelemetry is not enabled because it is missing from the config.
 Listening on localhost:8808
-./chroma.sh: line 29: 62473 Killed                  ${Python_Packages}/chroma.exe "$@"

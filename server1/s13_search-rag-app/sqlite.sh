@@ -56,17 +56,18 @@ function stopChromaDB() {                                                       
 #        aPID="$( ps aux | grep -i chroma | awk '{ print $1 }' )"
 #        aPID="$( ps aux | grep 'chromadb.cli.cli run' | awk '{ print $2 }' )"
 #                 ps aux | awk '/chroma/ { if ( $11 != "awk" ) { print    } }'
-     if [ "${OS:0:3}" == "Win" ]; then 
+     if [ "${OS:0:3}" == "Win" ]; then
          aPID="$( ps aux | awk '/chroma/ { print $1; exit }' )"
          aPID2="$( ps aux | awk '/chroma/ { print $2; exit }' )"
-       else   
+       else
          aPID="$( ps aux | awk '/chroma/ { if ( $11 != "awk" ) { print $2 }; exit }' )"
          aPID2=aPID
-         fi 
- 
+         fi
+
      if [ "${aPID}" == "" ]; then echo "  ChromaDB is not running.";
        else kill -9 "${aPID}";    echo "  ChromaDB PID ${aPID2} stopped.";
-     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi; exit 1; fi
+      if [ "${OS:0:3}" != "Win" ]; then echo ""; fi;
+         exit 1; fi
          }                                                                              # .(50505.09.1 End)
 # ----------------------------------------------------------------
 
@@ -90,6 +91,8 @@ function startChromaDB() {
 if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
     aPID2=$( cat "chroma.pid" )
     echo "  ChromaDB is already running on $CHROMA_HOST:$CHROMA_PORT (PID: ${aPID2})"                       # .(50511.02.5)
+       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                    # .(50516.05.1 RAM Add blank line)
+    exit 1
   else
     echo "  ChromaDB is not running. Starting it now..."
 
@@ -105,12 +108,17 @@ if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
 
 #   if nc -z $CHROMA_HOST $CHROMA_PORT 2>/dev/null; then  # Verify it's running
 #   if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
-            aPID="$( ps aux | grep -i chroma | awk '{ print $1 }' )"
-    if [ "${aPID}" != "" ]; then
-        echo "  ChromaDB successfully started"
+#           aPID="$( ps aux | grep -i chroma | awk '{ print $1 }' )"
+#   if [ "${aPID}" != "" ]; then
+    if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
+       echo "  ChromaDB successfully started"
+       cat chroma.log
+       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                    # .(50516.05.2 RAM Add blank line)
     else
-        echo "* Failed to start ChromaDB. Check chroma.log for details"
-        exit 1
+       echo "* Failed to start ChromaDB. Check chroma.log for details"
+       cat chroma.log
+       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                    # .(50516.05.3 RAM Add blank line)
+       exit 1
     fi
 fi
 #  echo "  ChromaDB is ready for use"
@@ -140,11 +148,11 @@ function  shoTable_Count() {
     }
 # ----------------------------------------------------------------
 
-function  shoTable_collection() {                                                       # .(50514.03.3 RAM Write shoTable_Collection for one collection Beg) 
+function  shoTable_collection() {                                                       # .(50514.03.3 RAM Write shoTable_Collection for one collection Beg)
     aTable="collections"
     aSQL="SELECT name from collections where name like '$1%'"
 #   echo "  SQL: ${aSQL}"
-    sqlite3 "${aChroma_SQLite3_DB}" "${aSQL}" | awk '{ print "  " $0 }' 
+    sqlite3 "${aChroma_SQLite3_DB}" "${aSQL}" | awk '{ print "  " $0 }'
     }                                                                                   # .(50514.03.3 End)
 # ----------------------------------------------------------------
 
@@ -500,21 +508,23 @@ function  shoTable_embeddings_queue() {
 #   shoTable_Schema ${aTable}
 #   shoTable_Count embeddings; exit
 
-if [ "${aCmd}" = "collection"          ]; then shoTable_collection $2;        exit; fi  # .(50514.03.4)
-if [ "${aCmd}" = "collection_metadata" ]; then shoTable_collection_metadata $2;    exit; fi
-if [ "${aCmd}" = "documents"           ]; then shoTable_documents   $2 $3;         exit; fi
-if [ "${aCmd}" = "chunks"              ]; then shoTable_chunks      $2 $3;         exit; fi
-if [ "${aCmd}" = "embeddings"          ]; then shoTable_embeddings  $2;            exit; fi
-if [ "${aCmd}" = "metadata"            ]; then shoTable_embedding_metadata  $2 $3; exit; fi
-if [ "${aCmd}" = "queue"               ]; then shoTable_embeddings_queue    $2;    exit; fi
+if [ "${aCmd}" = "collection"          ]; then shoTable_collection $2;             fi  # .(50514.03.4)
+if [ "${aCmd}" = "collections"         ]; then shoTable_collections $2;            fi  # .(50514.03.5)
+if [ "${aCmd}" = "collection_metadata" ]; then shoTable_collection_metadata $2;    fi
+if [ "${aCmd}" = "documents"           ]; then shoTable_documents   $2 $3;         fi
+if [ "${aCmd}" = "chunks"              ]; then shoTable_chunks      $2 $3;         fi
+if [ "${aCmd}" = "embeddings"          ]; then shoTable_embeddings  $2;            fi
+if [ "${aCmd}" = "metadata"            ]; then shoTable_embedding_metadata  $2 $3; fi
+if [ "${aCmd}" = "queue"               ]; then shoTable_embeddings_queue    $2;    fi
 
 # ----------------------------------------------------------------
-echo ""
-if [ "${aCmd}" = "start" ]; then startChromaDB  ./my_chroma_data; exit; fi
-if [ "${aCmd}" = "stop"  ]; then stopChromaDB;  exit; fi                                # .(50505.09.1 RAM Add stop command)
-if [ "${aCmd}" = "check" ]; then if [ "$( checkChromaDB )" == "1" ];  
-                                  then echo "  Chroma is running.";
-                                  else echo "  Chroma is not running."; fi; exit; fi    # .(50511.09.1 RAM Add check command)
+
+if [ "${aCmd}" = "start" ]; then echo ""; startChromaDB  ./my_chroma_data; exit; fi
+if [ "${aCmd}" = "stop"  ]; then echo ""; stopChromaDB;  exit; fi                                # .(50505.09.1 RAM Add stop command)
+if [ "${aCmd}" = "check" ]; then echo -e "\n  Checking: curl http://localhost:${nPort}/api/v2/heartbeat"
+if [ "$( checkChromaDB )" == "1" ]; then echo "  Chroma is running.";
+                                    else echo "  Chroma is not running."; fi; fi        # .(50511.09.1 RAM Add check command)
+#      if [ "${OS:0:3}" != "Win" ]; then echo "ss"; fi                                  ##.(50516.05.4 RAM Add blank line)
 
 # ----------------------------------------------------------------
 

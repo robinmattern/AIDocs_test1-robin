@@ -119,7 +119,7 @@ you'll need to re-open the terminal window.
  
     <details><summary><code>frtools help</code></summary>
 
-          Useful FRTools  (u1.09)               (Apr 8, 2025 9:20a)
+          Useful FRTools  (u1.09)               (May 16, 2025 9:50a)
           ------------------------------------  ---------------------------------
              FRT [Help]
 
@@ -168,7 +168,7 @@ you'll need to re-open the terminal window.
  
     <details><summary><code>frt version</code></summary>
 
-           formR Tools: u1.09   (Apr 8, 2025 9:20a)
+           formR Tools: u1.09   (May 16, 2025 9:50a)
 
     </details>
     
@@ -237,23 +237,26 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
             Copying .env file from ./AIDocs_test1/server1/s13_search-rag-app/.env_example  to  .env
             Copying .env file from ./AIDocs_test1/server1/s14_grading-app/.env_example  to  .env
 
-          Copied:  /Users/Shared/._0/bin/ait
-          Copied:  /Users/Shared/._0/bin/aitestr
-          Copied:  /Users/Shared/._0/bin/ai.testr.4u
         Password:
-          Copied:  /Users/Shared/._0/bin/aidocs
-          Version: v0.01.50510.1730
+            Copied:  /Users/Shared/._0/bin/ait
+            Copied:  /Users/Shared/._0/bin/aitestr
+            Copied:  /Users/Shared/._0/bin/ai.testr.4u
+            Version: u2.10.138`50516.1001
 
-          Run the AI model testr in any of the server1 apps folder, for example
+        //  ------  End of Install  ----------------------------------------------------------------------------- \n
 
-             cd AIDocs_test1/server1/s11_*
-             ai.testr.4u help
-             aitestr s11 t041
-             ait chroma start
-             ait import s13
-             ait s13 t041
+          After changing into the project folder: cd AIDocs_test1
+            and setting your PC_CODE in the script, run-tests.sh,
+            you can run any of these AI model testr commands, for example:
+
+            ai.testr.4u help
+            aitestr s11 t011
+            ait chroma start
+            ait import s13
+            ait s13 t011
 
           Run, bash install, again to see other repos to install
+
     </details>
 
  2. Update the latest version of the AIDocs testR app.    
@@ -292,7 +295,6 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
     </details>
     
 </details>
-
 
 <details><summary style="font-size:16px; color:blue">
 C. Get Help
