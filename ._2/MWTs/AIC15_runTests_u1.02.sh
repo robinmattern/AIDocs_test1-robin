@@ -53,6 +53,7 @@
 #.(50514.02   5/14/25 RAM  1:50p| Move script to components folder
 #.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
 #.(50515.02   5/15/25 RAM  9:25a| Display running script_u2.10.mjs
+#.(50516.08   5/16/25 RAM  2:50p| Add App to model-tests listing
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -127,8 +128,8 @@ function sayMsg() {
 # -------------------------------------------------------------------
 
    if [ "${aCmd}" == "lis" ]; then
-        echo -e "\n  Run any of the following tests:"
-        cat "${aApp}_model-tests.txt" | awk 'NF { sub( /a[0-9][0-9]_/, "    "); sub( /\.01/, "   "); gsub( /,/, " "); print "  " $0 }'
+        echo -e "\n  Run any of the following tests for app: ${aApp}:"                   # .(50516.08.3)
+        cat "${aApp}_model-tests.txt" | awk 'NF { sub( /a[0-9][0-9]_/, "    "); sub( /\.01/, "   "); gsub( /,/, " "); aApp = NR > 3 ? "  '${aApp}'  " : (NR == 3 ? "  ---  " : (NR == 2 ? "  App  " : "       " )); print aApp $0 }' # .(50516.08.4)
         if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
         exit 1
      fi
