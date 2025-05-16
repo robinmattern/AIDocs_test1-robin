@@ -144,7 +144,7 @@ if [ ! -f "${aHdwFile}" ]; then                                                 
    template_file=".env_${aApp}-template_${aPcCd}.txt"
    template_master_file=".env_${aApp}-template.txt"                                     # .(50418.01. RAM Remove _${aPcCd} from template_master_file)
    sayMsg "AIC19[ 144]  Saving hardware for, '${aPcCd}', info into the template file: '${template_file}'"
-   usrMsg "  Saving hardware info for ${aPcCd} into the template file: '${template_file}'" 1 # .(50515.04.6).(50427.04.6)
+   usrMsg "  Saving hardware info for ${aPcCd} into the template file: '${template_file}'\n" 1 # .(50515.04.6).(50427.04.6)
 #  usrMsg "" 1                                                                          ##.(50515.04.7)        
 
 #  aSpecs="$( cat "${hardware_file}" )"; echo  "${aSpecs}"

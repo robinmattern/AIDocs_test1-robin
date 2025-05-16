@@ -18,7 +18,7 @@ if [ "${OS:0:3}" == "Win" ]; then
 
 #   Python_Exec="/c/Users/Robin/AppData/Local/Microsoft/WindowsApps/python"
 #   Python_Exec="/usr/bin/python3"
-    Python_Exec="$( which python3 )"            # .(50516.06.1 RAM Fix)
+    Python_Exec="$( which python3 )"            # .(50516.06.1 RAM Fix ${ which python3 })
 
 #   echo "Starting ChromaDB server..."
 # "${Python_Exec}" -m chromadb.cli.cli run --host "$HOST" --port "$PORT" --path "$DB_PATH" --log-path "$LOG_PATH"

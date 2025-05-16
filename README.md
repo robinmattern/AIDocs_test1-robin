@@ -304,60 +304,35 @@ C. Get Help
 
     <details><summary><code>AI.testR.4u Help</code></summary>
 
-          Usage: AI.testR.4u ...
-            {App} {Test}       to run a test
-            {App} gen {Group}  to generate an .env template for a test model group
-            {App} list         to list all tests to run
-            import {App}       to import a collection of docs
-            chroma start       to start the Chroma Vector DB
-            sql {table}        to query a table in the Chroma Vector DB
+        Usage: AI.testR.4u ...       Ver: u2.10.138  (May 16, 2025  1:32PM)
 
-          Where:
-            {App}              is an App Id for one type of test app, e.g. s11.
-            {Test}             is one Test id, e.g. t011
-            {Group}            is a Group Id for one set of model tests, e.g. t010
+          {App} {Test}       to run a test
+          {App} gen {Group}  to generate an .env template for a test model group
+          {App} list         to list all tests to run
+          help pc_code       to save computer hardware specs
+          import {App}       to import a collection of docs
+          chroma start       to start the Chroma Vector DB
+          sql {table}        to query a table in the Chroma Vector DB
 
-          For example:
-            AI.testR.4u s11 help
-            AI.testR.4u s11 t041
-            AI.testR.4u s13g t041
-            AI.testR.4u import s13a
-            AI.testR.4u sql collections
-            AI.testR.4u example s13
+        Where:
+          {App}              is an App Id for one type of test app, e.g. s11.
+          {Test}             is one Test id, e.g. t011
+          {Group}            is a Group Id for one set of model tests, e.g. t010
 
-    </details>
-
- 2. Run the `aitestr help` command from the `AIDocs_test1` directory.
-
-    <details><summary><code>cd AIDocs_test1</code></summary></details>
-    <details><summary><code>aitestr help</code></summary>
-
-          Usage: AItestR ...
-            {App} {Test}       to run a test
-            {App} gen {Group}  to generate an .env template for a test model group
-            {App} list         to list all tests to run
-            import {App}       to import a collection of docs
-            chroma start       to start the Chroma Vector DB
-            sql {table}        to query a table in the Chroma Vector DB
-
-          Where:
-            {App}              is an App Id for one type of test app, e.g. s11.
-            {Test}             is one Test id, e.g. t011
-            {Group}            is a Group Id for one set of model tests, e.g. t010
-
-          For example:
-            AItestR s11 help
-            AItestR s11 t041
-            AItestR s13g t041
-            AItestR import s13a
-            AItestR sql collections
-            AItestR example s13
+        For example:
+          AI.testR.4u s11 help
+          AI.testR.4u s11 t011
+          AI.testR.4u import s13a
+          AI.testR.4u chroma collections
+          AI.testR.4u s13g t041
+          AI.testR.4u example s13
 
     </details>
 
- 3. Get help for a specific application
+ 2. Get help for a specific application, e.g. `aitestr s13 help` from the app folder: `s13_search-rag-app`.
 
-    <details><summary><code>AIT s13 help</code></summary>
+    <details><summary><code>cd AIDocs_test1/server1/s13_*</code></summary></details>
+    <details><summary><code>aitestr s13 help</code></summary>
 
           Run any of the following tests for app: s13:
             ait  s13  t041  # A single test for one sysprompt (created from .env_s13-template_{HWCD}.txt and s13_model-tests.txt).
@@ -389,9 +364,9 @@ C. Get Help
 
     </details>
 
- 4. Get with the Chroma Vector database
+ 3. Get help with the Chroma Vector database
 
-    <details><summary><code>ait sql help</code></summary>
+    <details><summary><code>ait chroma help</code></summary>
 
           Usage: aitestr chroma {Command} [{IDs}] [{Format}]
 
@@ -427,6 +402,33 @@ C. Get Help
     </details>
 
 </details>
+
+<details><summary style="font-size:16px; color:blue">
+D. Set Hardware Specs
+</summary>
+
+ 4. You will need to save your computer's hardware specs.  To get help for that, run this command, 
+    `aitestr help pc_code`, from the main `AIDocs_test1` directory.
+
+    <details><summary><code>cd AIDocs_test1</code></summary></details>
+    <details><summary><code>ait help pc_code</code></summary>
+
+        Before testing model performance on your computer, we need to determine the hardware specs
+        for your PC. To do that, just run any test, e.g. ait s11 t011.  Your PC's specs will be
+        saved along with a unique 6 digit hexidecimal PC_CODE.  If you'd like to create a more user
+        friendly PC_CODE, you can assign a 6 digit code on line 36 of this file, run-tests.sh.
+        and run the test again.
+
+    </details>
+
+ 2. Save hardware specs for a user assigned PC_CODE.  
+    <details><summary><code>ait s11 t011</code></summary>
+
+    </details>
+
+</details>
+
+<!-- ---------------------------------------------------------------------------------- -->
 
 <!-- ---------------------------------------------------------------------------------- -->
 

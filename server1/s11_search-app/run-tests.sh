@@ -21,7 +21,7 @@
      export LOGGER="log,inputs"
 
      export SCORING="1"                         # .(50507.02.8 RAM New way to score it)                                           
-     export PC_CODE="cn0g0p"
+     export PC_CODE=""
      fi                                                                                 # .(50513.02.5 End)
 
 #    export ENVs="1"                                                                    # .(50513.05.15)
@@ -29,7 +29,8 @@
 #    export DEBUG="1"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
 #    export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
 
-            bEnvs=${ENVs}                                                               # .(50513.05.19)
+            bEnvs=${ENVs}                                                               # .(50513.05.16)
+    if [ "${bEnvs}" == "1" ]; then echo "  - S1200[  33]  APP: '${APP}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit  # .(50513.05.17)
 
 #    echo "" >run-tests.txt                     ##.(50507.08d.3 RAM Not here).(50507.08a.3 RAM Start MT)
      bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi
