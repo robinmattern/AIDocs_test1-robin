@@ -25,7 +25,7 @@
 #.(50510.03   5/10/25 RAM  6:00p| Bump Version to 2.09
 #.(50513.01   5/13/25 RAM  1:30p| Bump Version to 2.10
 #.(50513.02   5/13/25 RAM  1:45p| Change name of AItestR_scr to run-aitestr.sh
-#.(50516.04   5/16/25 RAM 10:00a| Bump AIDocs version
+#.(50516.04   5/16/25 RAM 10:00a| Bump AIDocs version in run-aidocs.sh
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -160,9 +160,9 @@ function cpyToBin() {
 # echo " copying run-aidocs.sh and gitr to: \"${aJPTs_JDir}\""; echo ""                 # .(50303.01.13)
 
   if [ ! -d  "${aJPTs_JDir}"  ]; then sudo mkdir -p  "${aJPTs_JDir}";                         echo "    Created: ${aJPTs_JDir}";
-                                      Sudo chmod 777 "${aJPTs_JDir}"; fi
+                                 Sudo chmod 777 "${aJPTs_JDir}"; fi
 
-  if [   -f  "${AIDocs_scr}"  ]; then mkScript  "${AIDocs_scr}"  "${aJPTs_JDir}" "aidocs";    echo "    Copied:  ${aJPTs_JDir}/aidocs";  # .(50303.01.14)
+  if [   -f  "${AIDocs_scr}"  ]; then mkScript  "${AIDocs_scr}"  "${aJPTs_JDir}" "aidocs";  # echo "    Copied:  ${aJPTs_JDir}/aidocs";  # .(50303.01.14)
                                  Sudo chmod 777 "${AIDocs_scr}"; fi                     # .(50303.01.15)
 
   if [   -f  "${AItestR_scr}" ]; then mkScript2 "${AItestR_scr}" "${aJPTs_JDir}" "ait"         "ait";        echo "    Copied:  ${aJPTs_JDir}/ait";         # .(50505.01.3)

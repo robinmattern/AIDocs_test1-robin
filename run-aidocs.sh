@@ -28,6 +28,7 @@
 #.(50304.06   3/04/25 RAM  9:45a| Display invalid command & other Opps
 #.(50304.05   3/04/25 RAM  5:45p| Improve logs commands
 #.(50510.03   5/10/25 RAM  8:30a| Bump Version
+#.(50516.04   5/16/25 RAM 10:00a| Bump AIDocs version in run-aidocs.sh
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -39,6 +40,7 @@
   aVer="v0.01.50303.1015"  # run-aidocs.sh
   aVer="v0.01.50304.1745"  # run-aidocs.sh
   aVer="v2.09.50510.1730"  # run-aidocs.sh                                              # .(50510.03.1)
+  aVer="u2.10.138\`50516.1000"  # set-aidocs.sh                                         # .(50516.04.2)
 
 function exit_wCR() {
       if [ "${OS:0:7}" != "Windows" ]; then echo ""; fi
