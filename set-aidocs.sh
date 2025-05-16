@@ -36,7 +36,7 @@
   aVer="v0.05.50303.0930"  # set-aidocs.sh                                              # .(50303.01.4)
   aVer="v2.09.50310.1800"  # set-aidocs.sh                                              # .(50510.03.2)
   aVer="v2.10.50313.1330"  # set-aidocs.sh                                              # .(50513.01.1)
-  aVer="u2.10.138\`50516.1000"  # set-aidocs.sh                                         # .(50516.04.1)
+  aVer="u2.10.138\`50516.1001"  # set-aidocs.sh                                          # .(50516.04.1)
 
   echo ""
 
@@ -95,9 +95,10 @@ function getBinVersion() {
   else
      aBinFile="$( cat "${aBinDir}/$1" | awk '/\.sh/ { sub( /"\$.+/, "" ); sub( /^ */, "" ); sub( / *$/, "" ); print }' )"
      fi
+     echo "-- aBinFile: '${aBinFile}'"
 #    aBinFile="$( cat "${aBinDir}/$1" | awk '/\.sh/' )"; echo "  '${aBinFile}'"; exit
-     aBinVer="$(  cat "${aBinFile}"   | awk '/ aVer=/         { sub( /aVer=/, "" ); a = $1 }; END{ print a }' )"
-     aBinVer="$(  cat "${aBinFile}"   | awk '/ aVer="?v[0-9]/ { sub( /aVer=/, "" ); a = $1 }; END{ print a }' )"
+#    aBinVer="$(  cat "${aBinFile}"   | awk '/ aVer=/           { sub( /aVer=/, "" ); a = $1 }; END{ print a }' )"
+     aBinVer="$(  cat "${aBinFile}"   | awk '/ aVer="[uv][0-9]/ { sub( /aVer=/, "" ); sub( /\\/, "" ); a = $1 }; END{ print a }' )"  # .(50516.04.2 RAM Remove backslash)
      }
 # -----------------------------------------------------------
 
@@ -176,6 +177,7 @@ function cpyToBin() {
    git config core.fileMode false
 
   echo "    Version: ${aBinVer//\"}"
+# echo "    Version: ${aBinVer/\`/}"
   }
 # ---------------------------------------------------------------------------
 
