@@ -40,7 +40,7 @@
   aVer="v0.01.50303.1015"  # run-aidocs.sh
   aVer="v0.01.50304.1745"  # run-aidocs.sh
   aVer="v2.09.50510.1730"  # run-aidocs.sh                                              # .(50510.03.1)
-  aVer="u2.10.138\`50516.1000"  # set-aidocs.sh                                         # .(50516.04.2)
+  aVer="u2.10.138\`50516.1001"  # set-aidocs.sh                                         # .(50516.04.3)
 
 function exit_wCR() {
       if [ "${OS:0:7}" != "Windows" ]; then echo ""; fi
