@@ -63,9 +63,9 @@
 #.(50404.07   4/04/25 RAM 10:00p| Return -1 if sayMsg an error msg
 #.(50201.09c  4/04/25 RAM  4:45p| Modify exit_wCR()
 #.(50410.02   4/10/25 RAM  2:45p| Add bDoit_ to makDirSync
-#.(50414.01   4/14/25 RAM  9:45a| Do bNoLog in here  
-#.(50414.02   4/14/25 RAM  6:00a| Try to quiet AIC90[ 193] logfile msg  
-#.(50503.07   5/03/25 RAM  8:25p| Add aVal to .Env  
+#.(50414.01   4/14/25 RAM  9:45a| Do bNoLog in here
+#.(50414.02   4/14/25 RAM  6:00a| Try to quiet AIC90[ 193] logfile msg
+#.(50503.07   5/03/25 RAM  8:25p| Add aVal to .Env
 #.(50507.03   5/07/25 RAM  8:35a| Write runShell for score script
 #.(50507.04   5/07/25 RAM  1:50p| Write isInVSCode and assign FRT.inVSCode
 #.(40910.03b  5/10/25 RAM 10:30a| Handle MT path in cleanPath
@@ -75,7 +75,7 @@
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
 \*/
-//========================================================================================================= #  ===============================  #
+/*====================================================================================  //  ============ *\\\\ =============================== *\
 
 // import   vscode           from 'vscode'                                              // .(40819.10.4 RAM Yuk!}
 // import { exec as execPromise } from 'node:child_process/promises';                   //#.(50507.03.1 RAM v15)
@@ -90,7 +90,7 @@
    import   dotenv           from 'dotenv';
    import   os               from 'os'                                                  // .(40910.03.1)
 
-//   -- --- ---------------  =  ------------------------------------------------------  #  ---------------- #
+//  --- --  --------------  =  -------------------------------------------------------- // -------------- \\
 
        var  __basedir                                                                   // .(40828.02.1)
        var  __dirname                                                                   //#.(40828.02.2 RAM Assigned in CommonJS)
@@ -98,7 +98,7 @@
        var  _TS                                                                         // .(40908.02.x RAM Need this too)
        var  _OS              =  os.platform                                             // .(40910.03.2)
 
-//   ---------------------  = --------------------------------------------------------- // -------- // ---- //
+//  ----------------------  = --------------------------------------------------------- // -------------  \\
         //  debugger
 
  //      var m = getDir( '', 'docs/a51_claude-app' ); console.log( m ); process.exit()
@@ -168,7 +168,7 @@
 //     ---  --------  =  --  =  ------------------------------------------------------  #
 
   function  sayFile_log( aMsg ) {
-        if (global.aLogFile == null) { return }                                         // .(50414.01.18 RAM Don't write to file if not set)  
+        if (global.aLogFile == null) { return }                                         // .(50414.01.18 RAM Don't write to file if not set)
             fsync.appendFileSync( global.aLogFile, aMsg + '\n');
 //          console.log( '  - AIC90[ 138]  Writing to log:', aMsg )
             } // eof sayFile_log                                                        // .(50218.01.6 End)
@@ -196,8 +196,8 @@
             fsync.mkdirSync(  aLogDir, { recursive: true } )                            // .(50331.02.3).(50329.04b.2)
             fsync.writeFileSync( global.aLogFile, '' );
 
-        if (global.bNoLog == 0) { return }                                              // .(50414.01.19 RAM Don't print if aLog == "log") 
-        if (global.bQuiet == 1) { return }                                              // .(50414.02.1 xRAM Don't print if bQuiet == 1) 
+        if (global.bNoLog == 0) { return }                                              // .(50414.01.19 RAM Don't print if aLog == "log")
+        if (global.bQuiet == 1) { return }                                              // .(50414.02.1 xRAM Don't print if bQuiet == 1)
         if (global.aLogFile.match(/bash|user/) == null) {                               // .(50301.02.1)
 //          console.log( `\n  - AIC90[ 179]  Setting logfile to: '${global.aLogFile}` ) // .(50404.02.3 RAM Flag for later)
             console.log( `  - AIC90[ 192]  Setting logfile to: '${aLogFile}` )          // .(50404.06.7 RAM Anot a full path)
@@ -286,7 +286,7 @@
             pVars.sayMsg = sayMsg
             pVars.exit_wCR = exit_wCR
             pVars.bQuiet = 2; bQuiet = pVars.bQuiet; global.bQuiet = bQuiet;            // .(50202.01.3 RAM Try this)
-            pVars.inVSCode = isInVSCode()                                               // .(50507.04.1 RAM Assign inVSCode)                                               
+            pVars.inVSCode = isInVSCode()                                               // .(50507.04.1 RAM Assign inVSCode)
     return  pVars
   function  QT(b,c,d) { return (typeof( b ) != 'undefined') ? b : (typeof( c ) != 'undefined' ? c : d) || 0 }
             } // eof setVars                                                            // .(50125.01.2 End)
@@ -412,7 +412,7 @@
                              ,  updatedOn: ''
                              ,  isNotDir: true
                              ,  isDir: false }
-     try { 
+     try {
        var  aStats           =  fsync.statSync( aFilePath );
             pStats.size      =  aStats.size
             pStats.updatedOn =  aStats.mtime.toISOString()
@@ -559,15 +559,15 @@ createDirectoryIfNotExists(dirPath).then( result => {
     return  result;
             }                                                                           // .(50107.03.2 End)
 // --------------------------------------------------------------
- 
+
   function  setEnv( aVar, aVal, aDir, bSkip ) {                                         // .(50331.08.1 RAM Add setEnv Beg)
             sayMsg( `AIC90[ 560]  Setting ${aVar.padEnd(17)} to: '${aVal}'`, -1 )
        var  aEnvFile    =   FRT_path( aDir ? aDir : __basedir2, '.env' )
        var  aEnvVar     =   aVar.toUpperCase()
        var  mMyEnvs     =   readFileSync(  aEnvFile, 'ASCII' ).split( /\n/ )
        var  iEnv        =   mMyEnvs.findIndex( aVar => aVar.match( new RegExp( `^ *${aEnvVar}` ) ) )
-            iEnv        =   iEnv == -1 ? mMyEnvs.length : iEnv                          // .(50503.07.1 RAM Add aVal to .Env)  
-     if (`${mMyEnvs[ iEnv - 1 ]}` != '' && bSkip) { mMyEnvs[ iEnv ] = ''; iEnv++ }      // .(50503.07.2)  
+            iEnv        =   iEnv == -1 ? mMyEnvs.length : iEnv                          // .(50503.07.1 RAM Add aVal to .Env)
+     if (`${mMyEnvs[ iEnv - 1 ]}` != '' && bSkip) { mMyEnvs[ iEnv ] = ''; iEnv++ }      // .(50503.07.2)
             mMyEnvs[ iEnv ] = `  ${aEnvVar}="${aVal}"`
             process.env[    aEnvVar ] = aVal
                             writeFileSync( aEnvFile , mMyEnvs.join( "\n" ) )
@@ -841,7 +841,7 @@ createDirectoryIfNotExists(dirPath).then( result => {
          }   // eof appendFileSync                                                                  // .(50210.02b,2 End)
 // --------------------------------------------------------------
 
-async function  runShell_Async( aCmd ) {                                                            //#.(50507.03.2 RAM Write runShell Beg) 
+async function  runShell_Async( aCmd ) {                                                            //#.(50507.03.2 RAM Write runShell Beg)
         try {
 //    var { stdout, stderr } =  await  execPromise( aCmd );                                         //#.(50507.03.5 RAM v15)
       var { stdout, stderr } =  await  exec( aCmd );                                                //#.(50507.03.5 RAM v16+)
@@ -851,25 +851,25 @@ async function  runShell_Async( aCmd ) {                                        
             } // eof runShell_Async                                                                 //#.(50507.03.2 End)
 // --------------------------------------------------------------
 
-//function  runShell_ASync( aCmd ) { ... }                                                          //#.(50507.03.2 RAM Write runShell Beg) 
-//          exec(     aCmd, (error, stdout, stderr) => { ... }                                      //#.(50507.03.6 RAM Write runShell Beg) 
+//function  runShell_ASync( aCmd ) { ... }                                                          //#.(50507.03.2 RAM Write runShell Beg)
+//          exec(     aCmd, (error, stdout, stderr) => { ... }                                      //#.(50507.03.6 RAM Write runShell Beg)
 //       if (error) { console.error(`Failed  to execute script: ${ error.message }`); return; }
 //                    console.log(   stdout );
 //      if (stderr) { console.error('Errors:', stderr ); }
 //          } );
-//          } // eof runShell_ASync                                                                 //#.(50507.03.2 End)       
+//          } // eof runShell_ASync                                                                 //#.(50507.03.2 End)
 // --------------------------------------------------------------
 
-  function  runShell_Sync( aCmd ) {                                                                 // .(50507.03.7 RAM Write runShell Beg) 
+  function  runShell_Sync( aCmd ) {                                                                 // .(50507.03.7 RAM Write runShell Beg)
        try {
-       var  stdout = execSync( aCmd, { encoding: 'utf8' });                                         // .(50507.03.8) 
+       var  stdout = execSync( aCmd, { encoding: 'utf8' });                                         // .(50507.03.8)
             console.log( stdout);
             return stdout;
         } catch (error) {
             console.error('Failed to execute script:', error);
             throw error;
             }
-        } // eof runShell                                                                           //#.(50507.03.7 End)       
+        } // eof runShell                                                                           //#.(50507.03.7 End)
 // --------------------------------------------------------------
 
      async  function fetchFromOpenAI( aAPI_URL, pMessageObject, aAPI_KEY ) {                        // .(40701.06.1 RAM Add API_URL and API_KEY)
@@ -936,7 +936,7 @@ async function  runShell_Async( aCmd ) {                                        
        } catch(error) {
             sayMsg(        `AIC90[ 710]:  * An error has occured in the imported module`)
             }
-//   -- --  ---------------  =  ------------------------------------------------------  #  ---------------- #
+//   -- --  --------------  =  -------------------------------------------------------- // -------------  \\
 
 //          dotenv.config( { path: path.join( __basedir, '.env' ) } );                                      //#.(40607.02.1 RAM Load environment variables from .env file in script's folder)
 //  export  default { getDate, _TS, checkFileASync }
@@ -959,13 +959,13 @@ async function  runShell_Async( aCmd ) {                                        
          ,  bDoit: bDoit, bDebug: bDebug, bQuiet: bQuiet, bForce: bForce                                    // .(50215.01.8 RAM Set bForce)
          ,  sayMsg, usrMsg, setSay, say,  inVSCode: isInVSCode()                                            // .(50507.04.3).(50218.01.10).(50210.02.4)
             }
-//      --  ---------------  =  ------------------------------------------------------  #
+//  --- --  --------------  =  -------------------------------------------------------- // -------------- \\
 
     export  default pFRT                                                                                    // .(40819.03.5)
 
-/*========================================================================================================= #  ===============================  *\
+/*====================================================================================================== *\\\\ =============================== *\
 #>      AIC90 END
-\*===== =================================================================================================== */
+\*===== ================================================================================================ */
 /*\
 ##SRCE     +====================+===============================================+
 ##RFILE    +====================+=======+===================+======+=============+

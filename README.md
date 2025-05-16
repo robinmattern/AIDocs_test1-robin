@@ -54,7 +54,9 @@ you'll need to re-open the terminal window.
         Password:
   
         The FormR install scripts have been downloaded into your Repos folder.
-  
+
+        //  ------  End of Install  ----------------------------------------------------------------------------- \  
+
         You can now run any of these install commands from your Repos folder:
   
             bash install frtools       # first, then login again, or run:
@@ -103,11 +105,13 @@ you'll need to re-open the terminal window.
 
         * The path, '/Users/Shared/._0/bin', is already in the User's ~/.zshrc file.
 
-        * You may need to run, source /Users/robin/.zshrc, or login again.
+            FRTools are installed.
 
-          FRTools are installed.
+          //  ------  End of Install  ----------------------------------------------------------------------------- \
 
-          Run, bash install, again to see other repos to install  
+          * You may need to run, source /Users/robin/.zshrc, or login again.
+
+            Run, bash install, again to see other repos to install
           
     </details>
 
