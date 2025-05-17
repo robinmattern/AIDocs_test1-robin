@@ -133,7 +133,7 @@ function  chkEnvTemplate() {                                                    
    aHdwFile="${aDir}/hardware-settings_${aPC_CODE}.txt"                                 # .(50427.04.2 End)
 
 if [ ! -f "${aHdwFile}" ]; then                                                         # .(50427.04.3 RAM Check if it exists)
-   sayMsg "AIC19[ 134]  Creating hardware file: '${aHdwFile}'"
+#  sayMsg "AIC19[ 134]  Creating hardware file: '${aHdwFile}'"
    usrMsg "  Creating hardware file ${aForPcCd}." 1                                     # .(50515.04.5).(50427.04.4 RAM Change prompt).(50419.06.1 RAM Add Creating hardware file msg)
    hardware_file="$( "../../._2/MWTs/AIC18_getHdwSpecs_u1.01.sh" ${aPcCd} )"
    sayMsg "AIC19[ 137]  Created .env template file: '${hardware_file}'"                 # .(50427.04.5 Beg)

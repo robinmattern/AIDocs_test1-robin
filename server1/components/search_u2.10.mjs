@@ -133,6 +133,7 @@
 #.(50514.02   5/14/25 RAM  1:50p| Move 2 scripts to components folder
 #.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
 #.(50405.02b  5/15/25 RAM  2:02p| Add century to DocsDir 
+#.(50405.01c  5/17/25 RAM  1:04p| Put stats into a month folder  
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -215,13 +216,13 @@
         if (bDebug) {
             nRunCount        =  1                                                                           // .(50403.03.1)
             aModel           =  aModel1
-            nCTX_Size        =  nCTX_Size1
-            pVars.SESSION_ID = 't009'
-            pVars.NEXT_POST  = '05'
-     global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.27)
-     global.aPrtSections     = ''                                                                           // .(50404.01.27)
+//          nCTX_Size        =  nCTX_Size1
+//          pVars.SESSION_ID = 't009'
+//          pVars.NEXT_POST  = '05'
+//   global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.27)
+//   global.aPrtSections     = ''                                                                           // .(50404.01.27)
 //   global.bInVSCode        =  true
-            sayMsg(`S1201[ 218]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***`, 1 , 1 )     // .(50402.02.2)
+            sayMsg(`S1201[ 224]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***`, 1 , 1 )     // .(50402.02.2)
             }                                                                                               // .(50331.04.3 End)
           }  // eif FRT.inVSCode                                                        // .(50507.04.5)  
          }; // eof setDebug Vars                                                                            // .(50405.03.1 End)
@@ -239,7 +240,8 @@
        var  aAppDir          =       aAppPath.split( /[\\\/]/ ).slice(-1)[0]            // Was splice
        var  aAppName         = 'a' + aAppDir.slice(1)                                   // .(50404.06.3 RAM Was aDocsDir).(50402.14.1 RAM Apps in docs have 'a' prefix)
 //     var  aDocsDir         = `${aAppName}/${ FRT.getDate(-2) }/{TName}`               //#.(50405.02.1 RAM Was TNum).(50404.06.4 RAM Redefine aDocsDir)
-       var  aDocsDir         = `${aAppName}/20${ FRT.getDate(-2).slice(0,9) }/{SName}`  // .(50405.02b.1 RAM Add century).(50405.02.2 RAM Remove Day).(50405.02.1 RAM Was TNum).(50404.06.4 RAM Redefine aDocsDir)
+       var  aMonth           = `20${ FRT.getDate(-2).slice(0,9)}`                       // .(50405.01c.1).(50405.02b.1 RAM Add century)
+       var  aDocsDir         = `${aAppName}/${aMonth}/{SName}`                          // .(50405.01c.2).(50405.02b.2 RAM Add century).(50405.02.2 RAM Remove Day).(50405.02.1 RAM Was TNum).(50404.06.4 RAM Redefine aDocsDir)
        var  aApp             =  aAppDir.replace( /_.+/, '' )                            // .(50503.05.1 RAM We need it)
 
      global.aAppDir          =  aAppDir
@@ -464,7 +466,8 @@
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
 
 //     var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`                                  //#.(50405.01b.2 RAM Was: docs/${aAppName}/YY.MM.Mth/)
-       var  aStatsDir        = `./docs/${aAppName}/${aAppName.slice(0,3)}-saved-stats`                      // .(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/)
+//     var  aStatsDir        = `./docs/${aAppName}/${aAppName.slice(0,3)}-saved-stats`                      //#.(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/).(50405.01c.3)
+       var  aStatsDir        = `./docs/${aAppName}/${aMonth}_${aAppName.slice(0,3)}-saved-stats`            // .(50405.01c.3 RAM Add aMonth).(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/)
 //     var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aAppDir.slice(0,3)}_Stats.csv` )
 //     var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.${aStatsFmt}`       //#.(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)(50405.01.1).(50429.09.15)
        var  aStatsFile       = `${aAppName.slice(0,3)}_Stats-${aSvr}_u${aVer.slice(1)}.csv`                 // .(50429.09.15 RAM No change).(50410.01.1 RAM Was ${aStatsFmt}).(50405.01b.2 RAM Add Stats-).(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)

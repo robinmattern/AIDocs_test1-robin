@@ -54,6 +54,7 @@
 #.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
 #.(50515.02   5/15/25 RAM  9:25a| Display running script_u2.10.mjs
 #.(50516.07   5/16/25 RAM  2:50p| Add App to model-tests listing
+#.(50405.01c  5/17/25 RAM  1:04p| Put stats into a month folder  
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -352,21 +353,22 @@ function cpyEnv() {
 #        sayMsg "AIC15[ 347]  get1stFile \"s13\" \"${aFolder}\" \"txt\":\n $( ls -l "${aStatsDir}" )" 1;  #exit
 #        aCollection="$( get1stFile "s13" "${aFolder}" "txt" )" echo "  aCollection: ${aCollection}";#  exit
 
+         aMonth="$( date '+%Y.%m.%B')"                                                  # .(50405.01c.4))
          aAppName="$( basename "$( pwd )" )"                                            # .(50507.08c.2 RAM get number of row in stats sheet before runs Beg)
 #        aRespsDir="../../docs/a${aAppName:1}/$( date +'%y.%m.%B')"
-         aStatsDir="../../docs/a${aAppName:1}/a${aApp:1}-saved-stats"
+         aStatsDir="../../docs/a${aAppName:1}/${aMonth}_a${aApp:1}-saved-stats"         # .(50405.01c.5 RAM Add aMonth here too)
 #echo "  aStatsDir: '${aStatsDir}"; ls -l ${aStatsDir}; exit
-#        sayMsg "AIC15[ 355]  get1stFile \"a${aApp:1}_Stats\" \"../../docs/${aApp}/$( date +'%y.%m.%B')\" \".csv\"" 1;    # exit
-#        sayMsg "AIC15[ 356]  get1stFile \"a${aApp:1}_Stats-\" \"${aStatsDir}\" \".csv\":\n $( ls -l "${aStatsDir}" )" 1; # exit
-#        sayMsg "AIC15[ 357]  get1stFile \"a${aApp:1}_Stats-\" \"${aStatsDir}\" \".csv\":\n $( ls -l "../../docs" )" 1;   # exit
-#        sayMsg "AIC15[ 358]  get1stFile  \"_${aVer}\"         \"${aStatsDir}\" \".csv\" 1" 1;                            # exit
-#                  aStatsFile="$( get1stFile  "a${aApp:1}"          "${aStatsDir}"   ".csv"   )";  # echo "     aStatsFile: ${aStatsFile}"; # exit
-#                  aStatsFile="$( get1stFile  "a${aApp:1}*_${aVer}" "${aStatsDir}"   ".csv"   )";  # echo "     aStatsFile: ${aStatsFile}"; # exit
-                   aStatsFile="$( get1stFile  "_${aVer}"            "${aStatsDir}"   ".csv" 1 )";  # echo "     aStatsFile: ${aStatsFile}"; # exit
-#          if [ "${aStatsFile}" == "" ]; then sayMsg "\n  - AIC15[ 342]* no stats sheet found" 1; exit; fi
-           if [ "${aStatsFile}" == "" ]; then  nStats=1
+#        sayMsg "AIC15[ 360]  get1stFile \"a${aApp:1}_Stats\" \"../../docs/${aApp}/$( date +'%y.%m.%B')\" \".csv\"" 1;    # exit
+#        sayMsg "AIC15[ 361]  get1stFile \"a${aApp:1}_Stats-\" \"${aStatsDir}\" \".csv\":\n $( ls -l "${aStatsDir}" )" 1; # exit
+#        sayMsg "AIC15[ 362]  get1stFile \"a${aApp:1}_Stats-\" \"${aStatsDir}\" \".csv\":\n $( ls -l "../../docs" )" 1;   # exit
+#        sayMsg "AIC15[ 363]  get1stFile  \"_${aVer}\"         \"${aStatsDir}\" \".csv\" 1" 1;                            # exit
+#              aStatsFile="$( get1stFile  "a${aApp:1}"          "${aStatsDir}"   ".csv"   )";  # echo "     aStatsFile: ${aStatsFile}"; # exit
+#              aStatsFile="$( get1stFile  "a${aApp:1}*_${aVer}" "${aStatsDir}"   ".csv"   )";  # echo "     aStatsFile: ${aStatsFile}"; # exit
+               aStatsFile="$( get1stFile  "_${aVer}"            "${aStatsDir}"   ".csv" 1 )";  # echo "     aStatsFile: ${aStatsFile}"; # exit
+#      if [ "${aStatsFile}" == "" ]; then sayMsg "\n  - AIC15[ 342]* no stats sheet found" 1; exit; fi
+       if [ "${aStatsFile}" == "" ]; then  nStats=1
                                          else  nStats=$( wc "${aStatsFile}" | awk '{ print $1 ? $1 : 0 }' ); fi
-         sayMsg "AIC15[ 365]  ${aStatsFile}, nStats: ${nStats}" -1 # 1              # .(50507.08c.2 End
+         sayMsg "AIC15[ 370]  ${aStatsFile}, nStats: ${nStats}" -1 # 1                  # .(50507.08c.2 End
 
 function savRespIds2() {                                                                # .(50507.08c.3 RAM Write savRespIds Beg)
 #        sayMsg "AIC15[ 368]  pwd: $( pwd )" 1
