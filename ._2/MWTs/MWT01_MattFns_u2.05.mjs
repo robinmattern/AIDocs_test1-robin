@@ -67,7 +67,8 @@
 #.(50331.05d  5/08/25 RAM  7:45a| Fix saving response file in pStats 
 #.(50429.09d  5/10/25 RAM  2:35p| Accomodate pParms.resp_id for aApp2 
 #.(50515.01   4/15/25 RAM  8:00a| Add none to shoMsg
-
+#.(50517.01   5/17/25 RAM 10:30a| Write and use sayColor_Log
+#
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
@@ -278,8 +279,11 @@
             aSection   = `,${aSection.toLowerCase()},`
         if (aSections == ',none,' || ',none,' == aSection) { return false }             // .(50515.01.2 RAM Add none)
         if (aSections == ',all,'  || ',all,'  == aSection) { return true }
-    return  aSections.match( aSection ) ? 1 : 0
-            } // eof ask4Text                                                           // .(50404.01.25 End)
+//     var  nSection = global.aPrtSections.split(',').indexOf(aSection) + 1 || 0;       //#.(50517.01.4 RAM Set nSection)
+     global.aCurrentSection = aSection                                                  // .(50517.01.4 RAM Set aSection to global)
+//  return  nSection                                                                    //#.(50517.01.5 RAM return nSection)
+    return  aSections.match( aSection ) ? 1 : 0                                         // .(50517.01.5 RAM no change)
+             } // eof shoMsg                                                            // .(50404.01.25 End)
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
 async  function  ask4Text( aPrompt ) {                                                  // .(50330.03.2 RAM Write ask4Text Beg)

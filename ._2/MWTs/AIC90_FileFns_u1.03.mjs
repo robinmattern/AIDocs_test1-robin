@@ -70,7 +70,8 @@
 #.(50507.04   5/07/25 RAM  1:50p| Write isInVSCode and assign FRT.inVSCode
 #.(40910.03b  5/10/25 RAM 10:30a| Handle MT path in cleanPath
 #.(40910.03c  5/10/25 RAM 10:35a| Add isFile to checkFile
-
+#.(50517.01   5/17/25 RAM 10:30a| Write and use sayColor_Log
+#
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
@@ -162,8 +163,8 @@
             aMsg  =  aMsg ? `  ${aChr} ${aMsg}` : aChr;
        var  nLog_ = ((typeof(global.nLog) != 'undefined') ? global.nLog : nLog ) * 1    // .(50218.01.6 RAM Add File logging Beg)
             nLog_ =  nLog2 ? nLog2 : nLog_
-        if (nLog_ == 1 || nLog_ == 3) { console.log( aMsg ) }
-        if (nLog_ == 2 || nLog_ == 3) { sayFile_log( aMsg ) }
+        if (nLog_ == 1 || nLog_ == 3) { sayColor_Log( aMsg ) }                          // .(50517.01.1 RAM Was console.log( aMsg ))
+        if (nLog_ == 2 || nLog_ == 3) { sayFile_log(  aMsg ) }
             } // eof say
 //     ---  --------  =  --  =  ------------------------------------------------------  #
 
@@ -172,6 +173,43 @@
             fsync.appendFileSync( global.aLogFile, aMsg + '\n');
 //          console.log( '  - AIC90[ 138]  Writing to log:', aMsg )
             } // eof sayFile_log                                                        // .(50218.01.6 End)
+//     ---  --------  =  --  =  ------------------------------------------------------  #
+
+  function  sayColor_Log( aMsg ) {                                                      // .(50517.01.2 RAM Write sayColor_Log Beg) 
+       var  aSection         = (global.aCurrentSection || '').replace( /,/g, '' )       // .(50517.01.3 RAM Use global)
+       var  pColors          =                                                // ANSI color codes for terminal colors
+             { 'reset'       : '\x1b[0m'
+             , 'red'         : '\x1b[31m'
+             , 'green'       : '\x1b[32m'
+             , 'yellow'      : '\x1b[33m'
+             , 'blue'        : '\x1b[34m'
+             , 'magenta'     : '\x1b[35m'
+             , 'cyan'        : '\x1b[36m'
+             , 'white'       : '\x1b[37m'
+                };
+       var  pColors          =                                                // ANSI color codes for bright terminal colors
+             { 'reset'       : '\x1b[0m'
+             , 'gray'        : '\x1b[90m'
+             , 'red'         : '\x1b[91m'
+             , 'green'       : '\x1b[92m'
+             , 'yellow'      : '\x1b[93m'
+             , 'blue'        : '\x1b[94m'
+             , 'magenta'     : '\x1b[95m'
+             , 'cyan'        : '\x1b[96m'
+             , 'white'       : '\x1b[97m'
+                };
+    const   pDefaultColors   =                                                // Default color mapping if global.aColorSections is not defined
+             { 'parms'       : 'cyan'
+             , 'docs'        : 'green'
+             , 'search'      : 'yellow'
+             , 'stats'       : 'magenta'
+             , 'results'     : 'blue'
+                };
+     const  pColorMap        =  global.pColorSections || pDefaultColors;      // Get the color mapping from global or use default
+       var  aSectionColor    =  pColorMap[ aSection.trim() ] || 'white';      // Get the color for this section or default to white
+            aSectionColor    =  aMsg.slice(0,16).match( /\*/) ? 'red' : aSectionColor 
+            console.log(`${pColors[aSectionColor]}${aMsg}${pColors.reset}`);  // Print the message with color and reset after
+            } // eof sayColor_Log                                                       // .(50517.01.2 End) 
 //     ---  --------  =  --  =  ------------------------------------------------------  #
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
@@ -215,7 +253,7 @@
 
   function  usrMsg( aMsg, nOpt, bCR ) {                                                 // .(50125.01.1 RAM Write usrMsg)
        var  bQuiet_   =  global.bQuiet == 1; if (typeof( bQuiet_ ) == 'undefined') { bQuiet_ = bQuiet }
-        if (bQuiet_ || nOpt == 0) { say( aMsg, '', 2 ); return }                        // .(50404.02.4 RAM Print to file is specified)
+        if (bQuiet_ || nOpt == 0) { say( aMsg, '', 2 ); return }                        // .(50404.02.4 RAM Print to file only if nOpt/bShow/nSection is false)
         if (bCR)      {  say( "" ) }                                                    // .(50218.01.8 RAM Was: console.log)
                          say( aMsg );                                                   // .(50218.01.9)
         if (nOpt == 2) { exit_wCR( ) }                                                  // .(50129.02.2 RAM Was process.exit())
