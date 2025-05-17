@@ -26,5 +26,6 @@ if [ "${OS:0:3}" == "Win" ]; then
 #   echo "Running ChromaDB... with: python3 -m chromadb.cli.cli $@"
 
  "${Python_Exec}" -m chromadb.cli.cli "$@"
+ 
    fi
 

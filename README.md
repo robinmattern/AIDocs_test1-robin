@@ -300,7 +300,7 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
 C. Get Help
 </summary>
 
- 1. Run the `AI.testR.4u Help` command from any location.
+ 1. Run the command, `AI.testR.4u Help`, from any location.
 
     <details><summary><code>AI.testR.4u Help</code></summary>
 
@@ -335,11 +335,11 @@ C. Get Help
     <details><summary><code>aitestr s13 help</code></summary>
 
           Run any of the following tests for app: s13:
-            ait  s13  t041  # A single test for one sysprompt (created from .env_s13-template_{HWCD}.txt and s13_model-tests.txt).
-            ait  s13  t040  # A group test for one model (copied from .env_s13_t040_qwen2;0.5b_4,6-tests.txt)
+            aitestr  s13  t041  # A single test for one sysprompt (created from .env_s13-template_{HWCD}.txt and s13_model-tests.txt).
+            aitestr  s13  t040  # A group test for one model (copied from .env_s13_t040_qwen2;0.5b_4,6-tests.txt)
 
           No group test are defined. Define them for three models with:
-            ait  gen  s13  all
+            aitestr  gen  s13  all
 
           For the s13_search-rag-app, you can give a collection name, s13a, s13b, etc
             s13_apple-ipad
@@ -353,18 +353,18 @@ C. Get Help
             s13h_sourcedocs
 
           For example:
-            ait  s13b  t041
-            ait  s13b  current
+            aitestr  s13b  t041
+            aitestr  s13b  current
 
           For these to work you will need to import them into to ChromaDB Vector DB first:
-            ait  import s13b
-            ait  import s13x_other-docs
+            aitestr  import s13b
+            aitestr  import s13x_other-docs
 
           You can also query the ChromaDB Vector DB. See ait sql help:
 
     </details>
 
- 3. Get help with the Chroma Vector database
+ 3. Get help with the Chroma Vector database from any location.
 
     <details><summary><code>ait chroma help</code></summary>
 
@@ -407,8 +407,8 @@ C. Get Help
 D. Set Hardware Specs
 </summary>
 
- 4. You will need to save your computer's hardware specs.  To get help for that, run this command, 
-    `aitestr help pc_code`, from the main `AIDocs_test1` directory.
+ 1. You will need to save your computer's hardware specs.  To get help for that, run this command, 
+    `ait help pc_code`, from the main `AIDocs_test1` directory.
 
     <details><summary><code>cd AIDocs_test1</code></summary></details>
     <details><summary><code>ait help pc_code</code></summary>
@@ -420,6 +420,17 @@ D. Set Hardware Specs
         and run the test again.
 
     </details>
+
+ 2. Let's open VSCode and look at the `run-tests.sh` script in the `AIDocs-test1` folder.
+
+    <details><summary><code>code AIDocs_test1-robin.code-workspace</code></summary></details>  
+
+ 2. Save hardware specs for a user assigned PC_CODE.  
+    <details><summary><code>ait s11 t011</code></summary>
+
+    </details>
+
+
 
  2. Save hardware specs for a user assigned PC_CODE.  
     <details><summary><code>ait s11 t011</code></summary>
@@ -614,7 +625,7 @@ E. Change some runtime parameters
                export  DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
                export  SCORING="1"                         # .(50507.02.8 RAM New way to score it)
   
-               export  PC_CODE="rm231d"                    # .(50514.01.3)
+               export  PC_CODE=""                          # .(50514.01.3)
   
                export  SEARCH_MODEL="qwen2:1.5b"           # .(50514.01.4 RAM Override parameters -- no spaces before or after = sign)
                export  SCORING_MODEL="qwen2:1.5b"          # .(50514.01.5)

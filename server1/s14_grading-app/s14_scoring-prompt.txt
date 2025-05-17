@@ -32,16 +32,20 @@ Score 2-3: Poorly organized with frequent logical breaks and difficult-to-follow
 Score 1: Disorganized, incoherent, or lacks any clear structure.
 
 ### Input
-- **System Prompt**: Summarize the information provided and answer the user's prompt accordingly.
-- **User Prompt**: What is so special about ios 17. -- 
-- **Response to Evaluate**: I'm not aware of any information about iOS 17 being released or having a specific set of features. My training data only goes up to December 2023, and I don't have real-time access to new software releases.
+- **System Prompt**: Summarize the information and provide an answer. Use only the information in the model to answer the question:
+- **User Prompt**: Summarize the key events in the history of Artifical Intelligence.. -- 
+- **Response to Evaluate**: Here are the key events in the history of Artificial Intelligence:
 
-However, I can provide some general information about past iOS versions and their notable features:
+1. 1950: Alan Turing publishes "Computing Machinery and Intelligence," a paper that proposes the Turing Test as a measure of a machine's ability to exhibit intelligent behavior equivalent to, or indistinguishable from, that of a human.
+2. 1956: The Dartmouth Summer Research Project on Artificial Intelligence is established, led by John McCarthy, Marvin Minsky, Nathaniel Rochester, and Claude Shannon. This project is considered the birthplace of AI as a field of research.
+3. 1960s: The first AI programs are developed, including ELIZA, a natural language processing program that simulates a conversation with a human.
+4. 1970s: Rule-based expert systems become popular in AI research and development. These systems use a set of rules to reason about a particular domain or problem.
+5. 1980s: Expert systems experience a resurgence in popularity, but also face criticism for their limited ability to generalize across different domains.
+6. 1990s: Machine learning algorithms begin to gain popularity, particularly neural networks and decision trees. These algorithms can learn from data and improve their performance over time.
+7. 2000s: Deep learning techniques become prominent, with the use of large amounts of data and powerful computing resources. This leads to significant advancements in areas such as image recognition and natural language processing.
+8. 2011: The IBM Watson system defeats human opponents on the game show Jeopardy!, demonstrating its ability to answer questions and reason about complex information.
 
-* iOS 16 was announced in June 2022 and brought several significant changes, including a redesigned Lock Screen, improved Focus modes, and enhanced Apple Pay support.
-* iOS 15 introduced features like Live Activities, which allow apps to share updates in real-time, and shared with Contacts.
-
-If you're looking for information about the latest iOS version, I recommend checking Apple's official website or reputable tech news sources for the most up-to-date information.
+Today, AI is being used in a wide range of applications, from virtual assistants like Siri and Alexa to self-driving cars and medical diagnosis systems.
 
 ### Instructions
 1. Evaluate the response based on the three criteria.
