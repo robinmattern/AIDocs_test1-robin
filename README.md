@@ -207,8 +207,8 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
           git clone "https://github.com/robinmattern/AIDocs_test1-robin.git" AIDocs_test1
         - This could take a while. You may have to enter your password to set .sh permissions.
 
-          Please change into the project folder: cd AIDocs_test1
-          You can now work on it in VSCode with: code AIDocs_test1*
+          After changing into the project folder: cd AIDocs_testR
+              and setting your PC_CODE in the script, run-tests.sh
 
           cd AIDocs_test1/._2
         npm warn deprecated @aws-sdk/protocol-http@3.374.0: This package has moved to @smithy/protocol-http

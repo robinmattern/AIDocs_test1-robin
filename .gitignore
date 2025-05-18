@@ -10,6 +10,7 @@ _env
 run-tests.txt
 chroma.pid 
 chroma.log 
+s14_scoring-prompt.txt
 
 node_modules
 package-lock.json

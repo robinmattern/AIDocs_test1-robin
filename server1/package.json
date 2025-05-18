@@ -1,7 +1,14 @@
 {
-  "name": "2024-04-08-build-rag-with-javascript",
+  "name": "aidocs_testr-server1-apps",
+  "version": "2.10.139",
+  "description": "AIDocs apps based of formR structure",
   "type": "module",
-  "main": "search.js",
+  "scripts": { "test": "echo \"Error: no test specified\" && exit 1" },
+  "repository": { "type": "git", "url": "git+https://github.com/robinmattern/AIDocs_testR.git" },
+  "homepage": "https://github.com/robinmattern/AIDocs_testR#readme",
+  "keywords": [ "ai", "models", "scoring" ],
+  "author": "Robin Mattern",
+  "license": "ISC",
   "dependencies": {
     "chromadb": "^1.8.1",
     "html-to-text": "^9.0.5",
