@@ -176,8 +176,9 @@
 //     var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      //#.(50423.02.2 RAM Import MWT06_runDocsSearch).(50514.02.4)
        var  pURLs            =( await import( `../components/search-urls_u2.06.mjs`  ) ).default            // .(50514.02.3RAM Move to components).(50423.02.1 RAM Import MWT04_runWebSearch)
        var  pDOCs            =( await import( `../components/search-docs_u2.06.mjs`  ) ).default            // .(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
-//                              FRT.writeFileSync( MWT.fixPath( FRT.__dirname, 'run-tests.txt' ), '' )      //#.(50507.08d.2 RAM Start MT, not here)
+//      if (pDOCs.bLoaded == 0) { console.log( "  - S1201[ 179]  Can't use ChromaDB" ) }                    // .(50518.02.4 RAM ChromaDB may not be loaded
 
+//                              FRT.writeFileSync( MWT.fixPath( FRT.__dirname, 'run-tests.txt' ), '' )      //#.(50507.08d.2 RAM Start MT, not here)
        var  aModel1
        var  nCTX_Size1
 

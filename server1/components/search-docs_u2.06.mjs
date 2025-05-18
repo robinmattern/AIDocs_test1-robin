@@ -25,6 +25,7 @@
 #.(50430.04   4/30/25 RAM  8:15p| Find first file in FILES_PATH 
 #.(50503.06   5/03/25 RAM 10:00p| Abort if no docs found
 #.(50511.02   5/11/25 RAM 10:15a| Change Chroma Port from 8000 to 8808
+#.(50518.02   5/18/25 RAM 11:35a| Don't load ChromaClient if it doesn't exist
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -33,14 +34,20 @@
 //========================================================================================================= #  ===============================  #
        
    import   ollama          from "ollama";
-   import { ChromaClient }  from "chromadb";
+   import   LIBs            from '../../._2/FRT_Libs.mjs'                                                   // .(50423.02.7)
+
+// import { ChromaClient }  from "chromadb";                                            //#.(50518.02.1)
+   try { var { ChromaClient } =  await import('chromadb' ), bLoaded = true              // .(50518.02.1 RAM Conditional load Beg)
+     } catch(e) { console.log( "* Can't import chromadb" ); bLoaded = false 
+         }
+   if (bLoaded) {                                                                       // .(50518.02.1 End)
+
 // import { getConfig    }  from "./utilities.js";
       var   aMeta        =  await import.meta.url; 
       var   __dirname    =  aMeta.replace( /file:\/\//, "" ).split( /[\\\/]/ ).slice(0,-1).join( '/' ); 
 
       var   CHROMA_PORT  =  8808                                                       // .(50511.02.1 RAM Change Chroma Port from 8000)
 
-   import   LIBs            from '../../._2/FRT_Libs.mjs'                                                   // .(50423.02.7)
       var   FRT          =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default                // .(50423.02.8).(50405.06.8 RAM Call function: LIBS.MOD())
       var   MWT          =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default                // .(50423.02.9).(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
       var   pVars        =  FRT.getEnvVars( FRT.__dirname )                                                 // .(50423.02.11).(50403.02.6 RAM Was MWT).(50331.04.3 RAM Get .env vars Beg)
@@ -52,6 +59,7 @@
       var { embedmodel, mainmodel } = await MWT.getConfig( FRT.__dirname );                                 // .(50428.04.1)
 
       var   chroma       =  new ChromaClient({ path: `http://localhost:${CHROMA_PORT}` }); // Explicit http://
+      } // eif bLoaded                                                                  // .(50518.02.2)
 /*
        var  query = process.argv.slice(2).join(" ");
        var  query = "What are these documents about?";
@@ -204,6 +212,7 @@ async  function  getRelevantDocs( aCollection, query ) {                        
 //           { getDocs
              { getRelevantDocs
              , getCleanedText_fromDOCs
+             , bLoaded                                                                  // .(50518.02.3) 
                };                                                                       // .(50423.02.14 End)
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 /*========================================================================================================= #  ===============================  *\
