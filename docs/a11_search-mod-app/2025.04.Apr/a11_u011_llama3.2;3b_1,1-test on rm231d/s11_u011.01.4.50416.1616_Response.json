@@ -41,7 +41,7 @@
     "Evaluation": "### Evaluation for Response\n\n**Accuracy**: 8/10\nJustification: The response includes accurate information related to Linux and macOS system prompts, but it does not fully address the prompt as it is missing context and may be unclear due to incorrect or incomplete information.\n\n**Relevance**: 6/10\nJustification: The response partially addresses the prompt by mentioning common types of system prompts, but it does not include necessary information for evaluating the accuracy, relevance, and coherence criteria mentioned in the instructions.\n\n**Coherence**: 4/10\nJustification: The response is generally organized with a few awkward transitions or minor formatting issues, making it difficult to follow. However, there are no logical gaps that significantly affect the overall value of the response.\n\n**Total Score**: 20\nOverall Comments: The response includes accurate information related to Linux and macOS system prompts but lacks necessary context and may be unclear due to incorrect or incomplete information. The response is generally organized with a few awkward transitions or minor formatting issues, making it difficult to follow. The total score reflects the importance of accuracy in responses as it directly affects the quality of the information provided."
   },
   "Files": {
-    "TextResponse": "./docs/a11_search-app/2025.04.Apr/a11_t011_llama3.2;3b_1,1-test on rm231d/s11_t011.01.4.50416.1616_Response.txt",
-    "JSONResponse": "./docs/a11_search-app/2025.04.Apr/a11_t011_llama3.2;3b_1,1-test on rm231d/s11_t011.01.4.50416.1616_Response.json"
+    "TextResponse": "./docs/a11_search-mod-app/2025.04.Apr/a11_t011_llama3.2;3b_1,1-test on rm231d/s11_t011.01.4.50416.1616_Response.txt",
+    "JSONResponse": "./docs/a11_search-mod-app/2025.04.Apr/a11_t011_llama3.2;3b_1,1-test on rm231d/s11_t011.01.4.50416.1616_Response.json"
   }
 }

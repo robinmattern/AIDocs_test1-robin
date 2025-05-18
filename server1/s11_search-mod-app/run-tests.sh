@@ -30,6 +30,7 @@
 #    export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
 
             bEnvs=${ENVs}                                                               # .(50513.05.16)
+    if [ "${bEnvs}" == "1" ]; then echo "  - S1200[  33]  APP: '${APP}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit  # .(50513.05.20)
 
 #    echo "" >run-tests.txt                     ##.(50507.08d.3 RAM Not here).(50507.08a.3 RAM Start MT)
      bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi
