@@ -64,7 +64,7 @@ you'll need to re-open the terminal window.
   
             bash install anyllm        # then run, anyllm, to check it.
             bash install aidocs demo1  # then run, aidocs, to check it.
-            bash install aidocs test1  # then run, aidocs, to check it.
+            bash install aidocs testr  # then run, aidocs, to check it.
   
         * Note: You must install FRTools before any other projects.  After that,
         you can clone or create your own projects folder with:
@@ -204,18 +204,18 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
  1. Install the testR version of AIDocs.              
     <details><summary><code>bash install aidocs test1</code></summary>
 
-          git clone "https://github.com/robinmattern/AIDocs_test1-robin.git" AIDocs_test1
+          git clone "https://github.com/robinmattern/AIDocs_testR-robin.git" AIDocs_testR
         - This could take a while. You may have to enter your password to set .sh permissions.
 
           After changing into the project folder: cd AIDocs_testR
               and setting your PC_CODE in the script, run-tests.sh
 
-          cd AIDocs_test1/._2
+          cd AIDocs_testR/._2
         npm warn deprecated @aws-sdk/protocol-http@3.374.0: This package has moved to @smithy/protocol-http
         npm warn deprecated @aws-sdk/signature-v4@3.374.0: This package has moved to @smithy/signature-v4
         npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
-          cd AIDocs_test1/client1
-          cd AIDocs_test1/server1
+          cd AIDocs_testR/client1
+          cd AIDocs_testR/server1
           npm install
         npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
 
@@ -231,11 +231,11 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
 
             Run `npm audit` for details.
 
-            Copying .env file from ./AIDocs_test1/client1/c16_aidocs-review-app/utils/FRTs/_env_local-local.txt  to  .env
-            Copying .env file from ./AIDocs_test1/server1/s11_search-app/.env_example  to  .env
-            Copying .env file from ./AIDocs_test1/server1/s12_search-web-app/.env_example  to  .env
-            Copying .env file from ./AIDocs_test1/server1/s13_search-rag-app/.env_example  to  .env
-            Copying .env file from ./AIDocs_test1/server1/s14_grading-app/.env_example  to  .env
+            Copying .env file from ./AIDocs_testR/client1/c16_aidocs-review-app/utils/FRTs/_env_local-local.txt  to  .env
+            Copying .env file from ./AIDocs_testR/server1/s11_search-app/.env_example  to  .env
+            Copying .env file from ./AIDocs_testR/server1/s12_search-web-app/.env_example  to  .env
+            Copying .env file from ./AIDocs_testR/server1/s13_search-rag-app/.env_example  to  .env
+            Copying .env file from ./AIDocs_testR/server1/s14_grading-app/.env_example  to  .env
 
         Password:
             Copied:  /Users/Shared/._0/bin/ait
@@ -245,7 +245,7 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
 
         //  ------  End of Install  ----------------------------------------------------------------------------- \n
 
-          After changing into the project folder: cd AIDocs_test1
+          After changing into the project folder: cd AIDocs_testR
             and setting your PC_CODE in the script, run-tests.sh,
             you can run any of these AI model testr commands, for example:
 
@@ -261,7 +261,7 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
 
  2. Update the latest version of the AIDocs testR app.    
  
-    <details><summary><code>cd AIDocs_test1</code></summary></details>
+    <details><summary><code>cd AIDocs_testR</code></summary></details>
     <details><summary><code>aitestr version</code></summary>
 
           AIDocs - AI.testR.4u  Ver: u2.08.136
@@ -272,7 +272,7 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
 
           RepoDir is: /Users/Shared/Repos/, branch: master
 
-          About to update repo, 'origin', for branch, 'master', from remote, 'robinmattern/AIDocs_test1-robin'.
+          About to update repo, 'origin', for branch, 'master', from remote, 'robinmattern/AIDocs_testR-robin'.
 
         * The branch, 'master', has 11 uncommitted files, that will be stashed.
             1.             ?   2025-05-06 10:47  data/AI.testR.4u/settings/hardware-settings_h2q6nv.txt
@@ -290,7 +290,7 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
           HEAD is now at ea344ed .(50505.13_More fixes
         Password:
 
-          Updated repo, 'origin', for branch, 'master', from remote, 'robinmattern/AIDocs_test1-robin'.
+          Updated repo, 'origin', for branch, 'master', from remote, 'robinmattern/AIDocs_testR-robin'.
 
     </details>
     
@@ -331,7 +331,7 @@ C. Get Help
 
  2. Get help for a specific application, e.g. `aitestr s13 help` from the app folder: `s13_search-rag-app`.
 
-    <details><summary><code>cd AIDocs_test1/server1/s13_*</code></summary></details>
+    <details><summary><code>cd AIDocs_testR/server1/s13_*</code></summary></details>
     <details><summary><code>aitestr s13 help</code></summary>
 
           Run any of the following tests for app: s13:
@@ -408,9 +408,9 @@ D. Set Hardware Specs
 </summary>
 
  1. You will need to save your computer's hardware specs.  To get help for that, run this command, 
-    `ait help pc_code`, from the main `AIDocs_test1` directory.
+    `ait help pc_code`, from the main `AIDocs_testR` directory.
 
-    <details><summary><code>cd AIDocs_test1</code></summary></details>
+    <details><summary><code>cd AIDocs_testR</code></summary></details>
     <details><summary><code>ait help pc_code</code></summary>
 
         Before testing model performance on your computer, we need to determine the hardware specs
@@ -423,7 +423,7 @@ D. Set Hardware Specs
 
  2. Let's open VSCode and look at the `run-tests.sh` script in the `AIDocs-test1` folder.
 
-    <details><summary><code>code AIDocs_test1-robin.code-workspace</code></summary></details>  
+    <details><summary><code>code AIDocs_testR-robin.code-workspace</code></summary></details>  
 
  2. Save hardware specs for a user assigned PC_CODE.  
     <details><summary><code>ait s11 t011</code></summary>
@@ -449,7 +449,7 @@ D. Run three sample models
 
  1. Run a model in `s11_search-app` from it's `server1` directory.  
  
-    <details><summary><code>cd AIDocs_test1/server1/s11_*</code></summary></details>
+    <details><summary><code>cd AIDocs_testR/server1/s11_*</code></summary></details>
     <details><summary><code>ait s11 t011</code></summary>
 
 
@@ -494,7 +494,7 @@ D. Run three sample models
         
     </details>   
 
- 2. Run a model in s12_search-web-app from the AIDocs_test1 directory.  
+ 2. Run a model in s12_search-web-app from the AIDocs_testR directory.  
  
     <details><summary><code>cd ../s12_*</code></summary></details>
     <details><summary><code>ait s12 t011</code></summary>
@@ -536,7 +536,7 @@ D. Run three sample models
 
     </details>   
 
- 3. Run a model in s12_search-web-app from the AIDocs_test1 directory.  
+ 3. Run a model in s12_search-web-app from the AIDocs_testR directory.  
  
     <details><summary><code>cd ../s12_*</code></summary></details>
     <details><summary><code>ait s13 t011</code></summary>
@@ -587,7 +587,7 @@ E. Change some runtime parameters
 
  1. Let's open VSCode and look at the `run-tests.sh` script in the s11_search-app folder.
 
-    <details><summary><code>code AIDocs_test1-robin.code-workspace</code></summary></details>  
+    <details><summary><code>code AIDocs_testR-robin.code-workspace</code></summary></details>  
 
     <details><summary<code>Open the file: <code>run-tests.sh</code></summary>
 
