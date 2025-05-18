@@ -10,7 +10,7 @@
 #    export SCORE_SCRIPT="../components/score_u2.08.mjs"                                ##.(50507.02.6)
 #    export SEARCH_SCRIPT="../components/search_u2.09.mjs"                              ##.(50507.02.7)
 #    export SCORE_SCRIPT="../s14_grading-app/run-tests.mjs"                             # .(50507.02.6)
-     export SCORE_SCRIPT="../../server1/s14_grading-app/run-tests.mjs"                  # .(50518.01.2 RAM).(50507.02.6)
+     export SCORE_SCRIPT="../../server1/s14_grading-app/run-tests.mjs"                  # .(50518.01.5 RAM Up and over).(50507.02.6)
      export SEARCH_SCRIPT="./run-tests.mjs"                                             # .(50507.02.7)
 
      export APP=${aApp2}                                                                # .(50429.05.15)  
@@ -29,7 +29,7 @@
 #    export DOIT="0"                            # .(50506.03.5 Do it unless DRYRUN="1".
 #    export DEBUG="1"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
 #    export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
-     export SCORING="1"                         # .(50518.01.3 RAM Don't score s01).(50507.02.8 RAM New way to score it)                                           
+     export SCORING="0"                         # .(50518.01.6 RAM Don't score s01).(50507.02.8 RAM New way to score it)                                           
 
             bEnvs=${ENVs}                                                               # .(50513.05.16)
     if [ "${bEnvs}" == "1" ]; then echo "  - S1200[  33]  APP: '${APP}', DOIT: '${DOIT}',  DEBUG: '${DEBUG}', DRYRUN: '${DRYRUN}', SCORING: '${SCORING}', PC_CODE: '${PC_CODE}', LOGGER: '${LOGGER}'"; fi # exit  # .(50513.05.20)

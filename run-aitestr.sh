@@ -35,11 +35,11 @@
    if [ "${1:0:3}"    == "exa"   ]; then aCmd="example "; aApp=s13; shift; b=1; fi      # .(50505.04.2 RAM Add example)
    if [ "${aApp}"     == ""      ]; then                  aApp=$1;  shift; fi           # .(50420.01b.7)
                                          aDir=""; aTests="$@"                           # .(50429.05.1)
-#  if [ "${aApp:0:3}" == "s11"   ]; then aDir="server1/s11_search-app";     shift; fi   # .(50429.05.2)
-   if [ "${aApp:0:3}" == "s11"   ]; then aDir="server1/s11_search-mod-app"; shift; fi   # .(50518.01.4 RAM Rename ./server1/s11_search-app).(50429.05.2)
+#  if [ "${aApp:0:3}" == "s11"   ]; then aDir="server1/s11_search-app";     shift; fi   ##.(50429.05.2).(50518.01.1)
+   if [ "${aApp:0:3}" == "s01"   ]; then aDir="server/s01_search-app";      shift; fi   # .(50518.01.1 RAM Add     ./server/s01_search-app)
+   if [ "${aApp:0:3}" == "s11"   ]; then aDir="server1/s11_search-mod-app"; shift; fi   # .(50518.01.2 RAM Rename ./server1/s11_search-app).(50429.05.2)
    if [ "${aApp:0:3}" == "s12"   ]; then aDir="server1/s12_search-web-app"; shift; fi   # .(50429.05.3)
    if [ "${aApp:0:3}" == "s13"   ]; then aDir="server1/s13_search-rag-app"; shift; fi   # .(50429.05.4)
-   if [ "${aApp:0:3}" == "s01"   ]; then aDir="server/s01_search-app";      shift; fi   # .(50518.01.1 RAM Add     ./server/s01_search-app)
 
 #  echo "-- aCmd: '${aCmd}', aApp: '${aApp}', PWD: '${aPWD/*robin/}'; aDir: '${aDir}', aTests: '${aTests}'"; #  exit # .(50429.05.5
 
@@ -51,7 +51,8 @@
       fi
    if [ "${aCmd}" == "        " ] && [ "${aDir}" == "" ]; then
       echo -e "\n* Error: Invalid app name. Please specify a valid app name.";     aCmd="help"
-      echo -e   "    s11                for server1/s11_search-app"
+      echo -e   "    s01                for server/s01_search-app"                      # .(50518.01.3)
+      echo -e   "    s11                for server1/s11_search-mod-app"                 # .(50518.01.4)
       echo -e   "    s12                for server1/s12_search-web-app"
       echo -e   "    s13[a]             for server1/s13_search-rag-app"
       shift

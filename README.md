@@ -86,22 +86,22 @@ you'll need to re-open the terminal window.
         Password:
 
           Won't create BinDir. It already exists: "/Users/Shared/._0/bin"
-          Created script in: /Users/Shared/._0/bin/jpt      for "/Users/robin/Repos3/FRTools/._2/JPTs/JPT30_Main0.sh"
-          Created script in: /Users/Shared/._0/bin/rss      for "/Users/robin/Repos3/FRTools/._2/JPTs/RSS/RSS01_Main1.sh"
-          Created script in: /Users/Shared/._0/bin/rss2     for "/Users/robin/Repos3/FRTools/._2/JPTs/RSS/RSS02_Main1.sh"
-          Created script in: /Users/Shared/._0/bin/rdir     for "/Users/robin/Repos3/FRTools/._2/JPTs/RSS/fileList/RSS21_FileList.sh"
-          Created script in: /Users/Shared/._0/bin/dirlist  for "/Users/robin/Repos3/FRTools/._2/JPTs/RSS/dirList/RSS22_DirList.sh"
-          Created script in: /Users/Shared/._0/bin/info     for "/Users/robin/Repos3/FRTools/._2/JPTs/RSS/infoR/RSS23_Info.sh"
-          Created script in: /Users/Shared/._0/bin/frt      for "/Users/robin/Repos3/FRTools/._2/FRTs/FRT40_Main0.sh"
-          Created script in: /Users/Shared/._0/bin/keys     for "/Users/robin/Repos3/FRTools/._2/FRTs/keyS/FRT41_keyS1.sh"
-          Created script in: /Users/Shared/._0/bin/gitr     for "/Users/robin/Repos3/FRTools/._2/FRTs/gitR/FRT42_gitR2.sh"
-          Created script in: /Users/Shared/._0/bin/gitr1    for "/Users/robin/Repos3/FRTools/._2/FRTs/gitR/FRT42_gitR1.sh"
-          Created script in: /Users/Shared/._0/bin/gitr2    for "/Users/robin/Repos3/FRTools/._2/FRTs/gitR/FRT42_gitR2.sh"
-          Created script in: /Users/Shared/._0/bin/netr     for "/Users/robin/Repos3/FRTools/._2/FRTs/netR/FRT44_netR1.sh"
-          Created script in: /Users/Shared/._0/bin/dokr     for "/Users/robin/Repos3/FRTools/._2/FRTs/dokR/FRT45_dokR1.sh"
-          Created script in: /Users/Shared/._0/bin/docr     for "/Users/robin/Repos3/FRTools/._2/FRTs/FRT46_docR0.sh"
+          Created script in: /Users/Shared/._0/bin/jpt      for "/Users/Shared/Repos/FRTools/._2/JPTs/JPT30_Main0.sh"
+          Created script in: /Users/Shared/._0/bin/rss      for "/Users/Shared/Repos/FRTools/._2/JPTs/RSS/RSS01_Main1.sh"
+          Created script in: /Users/Shared/._0/bin/rss2     for "/Users/Shared/Repos/FRTools/._2/JPTs/RSS/RSS02_Main1.sh"
+          Created script in: /Users/Shared/._0/bin/rdir     for "/Users/Shared/Repos/FRTools/._2/JPTs/RSS/fileList/RSS21_FileList.sh"
+          Created script in: /Users/Shared/._0/bin/dirlist  for "/Users/Shared/Repos/FRTools/._2/JPTs/RSS/dirList/RSS22_DirList.sh"
+          Created script in: /Users/Shared/._0/bin/info     for "/Users/Shared/Repos/FRTools/._2/JPTs/RSS/infoR/RSS23_Info.sh"
+          Created script in: /Users/Shared/._0/bin/frt      for "/Users/Shared/Repos/FRTools/._2/FRTs/FRT40_Main0.sh"
+          Created script in: /Users/Shared/._0/bin/keys     for "/Users/Shared/Repos/FRTools/._2/FRTs/keyS/FRT41_keyS1.sh"
+          Created script in: /Users/Shared/._0/bin/gitr     for "/Users/Shared/Repos/FRTools/._2/FRTs/gitR/FRT42_gitR2.sh"
+          Created script in: /Users/Shared/._0/bin/gitr1    for "/Users/Shared/Repos/FRTools/._2/FRTs/gitR/FRT42_gitR1.sh"
+          Created script in: /Users/Shared/._0/bin/gitr2    for "/Users/Shared/Repos/FRTools/._2/FRTs/gitR/FRT42_gitR2.sh"
+          Created script in: /Users/Shared/._0/bin/netr     for "/Users/Shared/Repos/FRTools/._2/FRTs/netR/FRT44_netR1.sh"
+          Created script in: /Users/Shared/._0/bin/dokr     for "/Users/Shared/Repos/FRTools/._2/FRTs/dokR/FRT45_dokR1.sh"
+          Created script in: /Users/Shared/._0/bin/docr     for "/Users/Shared/Repos/FRTools/._2/FRTs/FRT46_docR0.sh"
 
-          THE_SERVER is: xx000-os23_Robins-Mac-mini (10.0.0.37)
+          THE_SERVER is: rm231-os23_Robins-Mac-mini (10.0.0.37)
 
         * The path, '/Users/Shared/._0/bin', is already in the User's ~/.zshrc file.
 
@@ -202,9 +202,9 @@ you'll need to re-open the terminal window.
 Install the AI.testR.4u app from a terminal window in a Repos folder.  
 
  1. Install the testR version of AIDocs.              
-    <details><summary><code>bash install aidocs test1</code></summary>
+    <details><summary><code>bash install aidocs testr</code></summary>
 
-          git clone "https://github.com/robinmattern/AIDocs_testR-robin.git" AIDocs_testR
+          git clone "https://github.com/robinmattern/AIDocs_testR-master.git" AIDocs_testR
         - This could take a while. You may have to enter your password to set .sh permissions.
 
           After changing into the project folder: cd AIDocs_testR
@@ -272,7 +272,7 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
 
           RepoDir is: /Users/Shared/Repos/, branch: master
 
-          About to update repo, 'origin', for branch, 'master', from remote, 'robinmattern/AIDocs_testR-robin'.
+          About to update repo, 'origin', for branch, 'master', from remote, 'robinmattern/AIDocs_testR-master'.
 
         * The branch, 'master', has 11 uncommitted files, that will be stashed.
             1.             ?   2025-05-06 10:47  data/AI.testR.4u/settings/hardware-settings_h2q6nv.txt
@@ -290,7 +290,7 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
           HEAD is now at ea344ed .(50505.13_More fixes
         Password:
 
-          Updated repo, 'origin', for branch, 'master', from remote, 'robinmattern/AIDocs_testR-robin'.
+          Updated repo, 'origin', for branch, 'master', from remote, 'robinmattern/AIDocs_testR-master'.
 
     </details>
     
@@ -423,7 +423,7 @@ D. Set Hardware Specs
 
  2. Let's open VSCode and look at the `run-tests.sh` script in the `AIDocs-test1` folder.
 
-    <details><summary><code>code AIDocs_testR-robin.code-workspace</code></summary></details>  
+    <details><summary><code>code AIDocs_testR-master.code-workspace</code></summary></details>  
 
  2. Save hardware specs for a user assigned PC_CODE.  
     <details><summary><code>ait s11 t011</code></summary>
@@ -587,7 +587,7 @@ E. Change some runtime parameters
 
  1. Let's open VSCode and look at the `run-tests.sh` script in the s11_search-app folder.
 
-    <details><summary><code>code AIDocs_testR-robin.code-workspace</code></summary></details>  
+    <details><summary><code>code AIDocs_testR-master.code-workspace</code></summary></details>  
 
     <details><summary<code>Open the file: <code>run-tests.sh</code></summary>
 
