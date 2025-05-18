@@ -1,0 +1,48 @@
+                                                           Runs,    DOCs,   USPF,  # Use s13_system-prompt.txt file
+   TestId,   Model,              CTX_SIZE, SysPmtCd, Temp,   Tests,   URLs,   UUPF,  Sections
+-----------, --------------------, ------, ---------, ---, ---,---, ---,--, ---,--,  ---------------------------------
+a11_t010.01, llama3.2:3b,            4000, GKN1-SIMP, 0.7,   2,  4,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
+a11_t011.01, llama3.2:3b,            4000, GKN1-SIMP, 0.3,   1,  1,   0, 0,   0, 0,  "Parms,Search,Results"
+a11_t012.01, llama3.2:3b,            4000, GKN2-SIMP, 0.6,   1,  4,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
+a11_t013.01, llama3.2:3b,            4000, GKN3-SIMP, 0.9,   0,  0,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
+a11_t014.01, llama3.2:3b,            4000, GKN4-DETA, 0.3,   0,  0,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
+a11_t015.01, llama3.2:3b,            4000, GKN5-DETA, 0.6,   0,  0,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
+a11_t016.01, llama3.2:3b,            4000, GKN6-DETA, 0.9,   0,  0,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
+a11_t017.01, llama3.2:3b,            4000, GKN7-REAS, 0.3,   0,  0,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
+a11_t018.01, llama3.2:3b,            4000, GKN8-REAS, 0.6,   0,  0,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
+a11_t019.01, llama3.2:3b,            4000, GKN9-REAS, 0.9,   0,  0,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Result3"
+
+a11_t020.01, phi3,                   4000, GKN1-SIMP, 0.7,   9,  1,   0, 0,   1, 0,  "RunId,Stats"
+a11_t021.01, phi3,                   4000, GKN1-SIMP, 0.3,   1,  1,   0, 0,   0, 1,  "RunId,Stats"
+a11_t022.01, phi3,                   4000, GKN2-SIMP, 0.6,   1,  1,   0, 0,   0, 1,  "RunId,Stats"
+a11_t023.01, phi3,                   4000, GKN3-SIMP, 0.9,   1,  1,   0, 0,   0, 1,  "RunId,Stats"
+a11_t024.01, phi3,                   4000, GKN4-DETA, 0.3,   1,  1,   0, 0,   0, 1,  "RunId,Stats"
+a11_t025.01, phi3,                   4000, GKN5-DETA, 0.6,   1,  1,   0, 0,   0, 1,  "RunId,Stats"
+a11_t026.01, phi3,                   4000, GKN6-DETA, 0.9,   1,  1,   0, 0,   0, 1,  "RunId,Stats"
+a11_t027.01, phi3,                   4000, GKN7-REAS, 0.3,   1,  1,   0, 0,   0, 1,  "RunId,Stats"
+a11_t028.01, phi3,                   4000, GKN8-REAS, 0.6,   1,  1,   0, 0,   0, 1,  "RunId,Stats"
+a11_t029.01, phi3,                   4000, GKN9-REAS, 0.9,   1,  1,   0, 0,   0, 1,  "RunId,Stat3"
+
+a11_t030.01, granite3.1-dense:2b,    4000, GKN1-SIMP, 0.7,   9, 25,   0, 0,   0, 1,  "Parms,Stats,Results"
+a11_t031.01, granite3.1-dense:2b,    4000, GKN1-SIMP, 0.3,   1, 25,   0, 0,   1, 1,  "Parms,Stats,Results"
+a11_t032.01, granite3.1-dense:2b,    4000, GKN2-SIMP, 0.6,   1, 25,   0, 0,   1, 1,  "Parms,Stats,Results"
+a11_t033.01, granite3.1-dense:2b,    4000, GKN3-SIMP, 0.9,   1, 25,   0, 0,   1, 1,  "Parms,Stats,Results"
+a11_t034.01, granite3.1-dense:2b,    4000, GKN4-DETA, 0.3,   1, 25,   0, 0,   1, 1,  "Parms,Stats,Results"
+a11_t035.01, granite3.1-dense:2b,    4000, GKN5-DETA, 0.6,   1, 25,   0, 0,   1, 1,  "Parms,Stats,Results"
+a11_t036.01, granite3.1-dense:2b,    4000, GKN6-DETA, 0.9,   1, 25,   0, 0,   1, 1,  "Parms,Stats,Results"
+a11_t037.01, granite3.1-dense:2b,    4000, GKN7-REAS, 0.3,   1, 25,   0, 0,   1, 1,  "Parms,Stats,Results"
+a11_t038.01, granite3.1-dense:2b,    4000, GKN8-REAS, 0.6,   1, 25,   0, 0,   1, 1,  "Parms,Stats,Results"
+a11_t039.01, granite3.1-dense:2b,    4000, GKN9-REAS, 0.9,   1, 25,   0, 0,   1, 1,  "Parms,Stats,Result3"
+
+a11_t040.01, qwen2:0.5b,             6000, GKN1-SIMP, 0.7,   4,  6,   0, 0,   1, 1,  "RunId"
+a11_t041.01, qwen2:0.5b,            16000, GKN1-SIMP, 0.3,   1,  1,   0, 0,   0, 0,  "Parms,Search,Results"
+a11_t042.01, qwen2:0.5b,            32000, GKN2-SIMP, 0.6,   1,  2,   0, 0,   1, 0,  "RunId"
+a11_t043.01, qwen2:0.5b,            32768, GKN3-SIMP, 0.9,   3,  1,   0, 0,   1, 1,  "RunId"
+a11_t044.01, qwen2:0.5b,             4000, GKN4-DETA, 0.3,   2,  2,   0, 0,   1, 1,  "RunId"
+a11_t045.01, qwen2:0.5b,             4000, GKN5-DETA, 0.6,   1,  5,   0, 0,   0, 1,  "RunId"
+a11_t046.01, qwen2:0.5b,             4000, GKN6-DETA, 0.9,   2,  3,   0, 0,   1, 1,  "RunId"
+a11_t047.01, qwen2:0.5b,             4000, GKN7-REAS, 0.3,   7,  1,   0, 0,   1, 0,  "RunId"
+a11_t048.01, qwen2:0.5b,             4000, GKN8-REAS, 0.6,   1,  8,   0, 0,   0, 1,  "RunId"
+a11_t049.01, qwen2:0.5b,             4000, GKN9-REAS, 0.9,   0,  0,   0, 0,   0, 0,  "RunId"
+
+

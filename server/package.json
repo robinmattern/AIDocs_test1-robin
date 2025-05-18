@@ -1,5 +1,30 @@
 {
+  "name": "aidocs_testr-server-apps",
+  "version": "2.10.139",
+  "description": "AIDocs apps based of formR structure",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robinmattern/AIDocs_testR.git"
+  },
+  "homepage": "https://github.com/robinmattern/AIDocs_testR#readme",
+  "keywords": [
+    "ai",
+    "models",
+    "scoring"
+  ],
+  "author": "Robin Mattern",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2"
+    "@mozilla/readability": "^0.5.0",
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.21.2",
+    "html-to-text": "^9.0.5",
+    "jsdom": "^24.0.0",
+    "matts-llm-tools": "^0.0.2",
+    "ollama": "^0.5.15"
   }
 }
