@@ -1,10 +1,6 @@
 {
     "folders": [
         {
-            "name": "._",
-            "path": "../._"
-        },
-        {
             "name": "AIDocs_testR-master",
             "path": "."
         }
