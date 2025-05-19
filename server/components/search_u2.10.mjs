@@ -134,7 +134,7 @@
 #.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
 #.(50405.02b  5/15/25 RAM  2:02p| Add century to DocsDir 
 #.(50405.01c  5/17/25 RAM  1:04p| Put stats into a month folder  
-#.(50519.01b  5/19/25 RAM 10:11a| Overide SEARCH_MODEL
+#.(50514.01b  5/19/25 RAM 10:11a| Overide SEARCH_MODEL
 #.(50409.03b  5/19/25 RAM 10:15a| Set searchPrompt = aWebSearch
 #
 ##PRGM     +====================+===============================================+
@@ -211,7 +211,8 @@ import   ollama              from "ollama";
        var  aModel1          = 'gemma2:2b'                 // 1.6  GB on rm231
        var  aModel1          = 'qwen2:7b'                  // 4.4  GB on rm228
        var  aModel1          = 'qwen2:0.5b'                //  .35 GB on rm228
-       var  aModel1          =  process.env.OLLAMA_MODEL_NAME || aModel1
+       var  aModel1          = 'qwen2:1.5b'                //  .93 GB on rm228
+//     var  aModel1          =  process.env.OLLAMA_MODEL_NAME || aModel1
 
        var  nCTX_Size1       =  4000
 //     var  nCTX_Size1       =  16000
@@ -579,7 +580,7 @@ import   ollama              from "ollama";
             } // eof interactive                                                                                                                 // .(50409.03b.2)
         }  // not inVSCode  
         if (bUseWebURLs) {                                                                                                                       // .(50409.03.20)
-            searchPrompt     = aWebSearch                                                                                                        // .(50409.03b.1 RAM Set searchPrompt = aWebSearch)
+            searchPrompt     = aWebSearch                                                                                                        // .(50409.03b.3 RAM Set searchPrompt = aWebSearch)
             usrMsg(""                                                                                                      , shoMsg('Parms')   ) // .(50404.01.1)
             usrMsg(`Web Search Prompt: "${searchPrompt}"`                                                                  , shoMsg('Parms')   ) // .(50404.01.2)
 //          usrMsg(`  AI Prompt:       "${aiPrompt}"`                                                                      , shoMsg('Parms')   ) // .(50404.01.3)
