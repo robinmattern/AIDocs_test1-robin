@@ -49,14 +49,14 @@
       "RAM": 32,
       "OS": "Win11 Pro",
       "Computer": "HP OMEN 1",
-      "Server": "rm228d-w10p_Windows-Prod1 (127.0.0.1)",
+      "Server": "rm228p-w10p_Windows-Prod1 (127.0.0.1)",
       "Quality": 0,
       "Overall": 0
     },
     "Evaluation": ""
   },
   "Files": {
-    "TextResponse": "./docs/a12_search-web-app/2025.04.Apr/a12_t011_llama3.2;3b_1,1-test on rm231d/s12_t011.02.4.50416.1616_Response.txt",
-    "JSONResponse": "./docs/a12_search-web-app/2025.04.Apr/a12_t011_llama3.2;3b_1,1-test on rm231d/s12_t011.02.4.50416.1616_Response.json"
+    "TextResponse": "./docs/a12_search-web-app/2025.04.Apr/a12_t011_llama3.2;3b_1,1-test on rm228p/s12_t011.02.4.50416.1616_Response.txt",
+    "JSONResponse": "./docs/a12_search-web-app/2025.04.Apr/a12_t011_llama3.2;3b_1,1-test on rm228p/s12_t011.02.4.50416.1616_Response.json"
   }
 }

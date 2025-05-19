@@ -34,14 +34,14 @@
       "RAM": 32,
       "OS": "Win11 Pro",
       "Computer": "HP OMEN 1",
-      "Server": "rm228d-w10p_Windows-Prod1 (127.0.0.1)",
+      "Server": "rm228p-w10p_Windows-Prod1 (127.0.0.1)",
       "Quality": 8,
       "Overall": 0
     },
     "Evaluation": "### Evaluation for Response\n\n**Accuracy**: 9/10\nJustification: The response is accurate and contains correct information supported by evidence. It provides a concise summary of the iOS 17 update and highlights some of its unique features.\n\n**Relevance**: 8/10\nJustification: While the response addresses the user's question about the special aspects of iOS 17, it could have provided more detailed information on specific features or benefits from iOS 17. The summary is still relevant to the user's inquiry, but it could have been expanded for a more comprehensive answer.\n\n**Coherence**: 8/10\nJustification: The response is generally coherent and logically organized, with appropriate formatting throughout. However, there are some minor logical gaps or awkward transitions that could be improved.\n\n**Total Score**: 7/10\nOverall Comments: The response provides a brief summary of the iOS 17 update, highlighting some unique features. However, it could have provided more detailed information to make it more comprehensive. The response is generally coherent and logically organized, but there are some minor logical gaps or awkward transitions that could be improved."
   },
   "Files": {
-    "TextResponse": "./docs/a13_search-rag-app/2025.04.Apr/a13_t011_llama3.2;3b_1,1-test on rm231d/s13b_t011.01.4.50416.1616_Response.txt",
-    "JSONResponse": "./docs/a13_search-rag-app/2025.04.Apr/a13_t011_llama3.2;3b_1,1-test on rm231d/s13b_t011.01.4.50416.1616_Response.json"
+    "TextResponse": "./docs/a13_search-rag-app/2025.04.Apr/a13_t011_llama3.2;3b_1,1-test on rm228p/s13b_t011.01.4.50416.1616_Response.txt",
+    "JSONResponse": "./docs/a13_search-rag-app/2025.04.Apr/a13_t011_llama3.2;3b_1,1-test on rm228p/s13b_t011.01.4.50416.1616_Response.json"
   }
 }

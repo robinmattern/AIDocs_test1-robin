@@ -1865,7 +1865,7 @@ Ollama Response for Model: llama3.2:3b  (RunId: s12_t011.01, No: 1 of 1)
 ----------------------------------------------------------------------------------------------
 Ollama Run Statistics:
 ---------------------------------------------------------
-    Server: rm228d-w10p_Windows-Prod1 (127.0.0.1)
+    Server: rm228p-w10p_Windows-Prod1 (127.0.0.1)
     Operating System:       Win11 Pro
     CPU/GPU/RAM:            i7-13700HX, RTX 4080, 32 GB
     Computer:               HP OMEN 16

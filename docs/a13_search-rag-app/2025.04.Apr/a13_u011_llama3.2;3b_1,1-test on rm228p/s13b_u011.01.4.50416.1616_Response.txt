@@ -111,7 +111,7 @@ These are just a few of the notable features in iOS 17. If you have any specific
 ----------------------------------------------------------------------------------------------
 Ollama Run Statistics:
 ---------------------------------------------------------
-    Server: rm228d-w10p_Windows-Prod1 (127.0.0.1)
+    Server: rm228p-w10p_Windows-Prod1 (127.0.0.1)
     Operating System:       Win11 Pro
     CPU/GPU/RAM:            i7-13700HX, RTX 4080, 32 GB
     Computer:               HP OMEN 16
