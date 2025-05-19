@@ -34,7 +34,7 @@ you'll need to re-open the terminal window.
 
  1. Goto FRTools GitHub Repository. Scroll down to the README and copy the Option 2 line of code    
 
-    <details><summary><a href="https://github.com/robinmattern/FRTools_prod2-master">https://github.com/robinmattern/FRTools_prod2-master)</a></summary></details>
+    <details><summary><a href="https://github.com/robinmattern/AIDocs_testR-master">https://github.com/robinmattern/AIDocs_testR-master)</a></summary></details>
 
  2. Open a terminal window, cd into the Repos folder, paste the code and press enter:
 
@@ -166,7 +166,7 @@ you'll need to re-open the terminal window.
 
  5. Update the latest version of FRTools. This can be done at anytime. 
  
-    <details><summary><code>frt version</code></summary>
+    <details><summary><code>frtools version</code></summary>
 
            formR Tools: u1.09   (May 16, 2025 9:50a)
 
@@ -232,7 +232,8 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
             Run `npm audit` for details.
 
             Copying .env file from ./AIDocs_testR/client1/c16_aidocs-review-app/utils/FRTs/_env_local-local.txt  to  .env
-            Copying .env file from ./AIDocs_testR/server1/s11_search-app/.env_example  to  .env
+            Copying .env file from ./AIDocs_testR/server/s01_search-app/.env_example  to  .env
+            Copying .env file from ./AIDocs_testR/server1/s11_search-mod-app/.env_example  to  .env
             Copying .env file from ./AIDocs_testR/server1/s12_search-web-app/.env_example  to  .env
             Copying .env file from ./AIDocs_testR/server1/s13_search-rag-app/.env_example  to  .env
             Copying .env file from ./AIDocs_testR/server1/s14_grading-app/.env_example  to  .env
@@ -264,13 +265,13 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
     <details><summary><code>cd AIDocs_testR</code></summary></details>
     <details><summary><code>aitestr version</code></summary>
 
-          AIDocs - AI.testR.4u  Ver: u2.08.136
+          AIDocs - AI.testR.4u  u2.10.138  (May 18, 2025  2:48p)
 
     </details>
     
     <details><summary><code>frt gitr update -d    </code></summary>
 
-          RepoDir is: /Users/Shared/Repos/, branch: master
+          RepoDir is: /Users/Shared/Repos/AIDocs_testR/, branch: master
 
           About to update repo, 'origin', for branch, 'master', from remote, 'robinmattern/AIDocs_testR-master'.
 
@@ -366,7 +367,7 @@ C. Get Help
 
  3. Get help with the Chroma Vector database from any location.
 
-    <details><summary><code>ait chroma help</code></summary>
+    <details><summary><code>ait chroma </code></summary>
 
           Usage: aitestr chroma {Command} [{IDs}] [{Format}]
 
@@ -423,19 +424,60 @@ D. Set Hardware Specs
 
  2. Let's open VSCode and look at the `run-tests.sh` script in the `AIDocs-test1` folder.
 
-    <details><summary><code>code AIDocs_testR-master.code-workspace</code></summary></details>  
+    <details><summary><code>code AIDocs_testR-master.code-workspace</code></summary>  
 
- 2. Save hardware specs for a user assigned PC_CODE.  
+      <video width="640" height="360" autoplay muted loop playsinline style="margin:10px 0 0 -35px;">
+        <source src="docs/appinfo/d00_AIDocs_testR/VIDs/d00-001_Open-VSCode.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+    </details>
+
+ 3. Open the main script, `run-test.sh`. Save hardware specs for a user assigned `PC_CODE`. 
+ 
+    <details><summary>Open <code>run-test.sh</code>. Initially the <code>PC_CODE</code> is set to nothing.</summary>
+      <img      src="docs/appinfo/d00_AIDocs_testR/IMGs/d00-002a_Edit-run-tests.sh.png"></img>
+    </details>
+
+ 4. Set the `DRY_RUN` parameter to "0" and SCORING to "0" to generate a `PC_CODE` without running a model.  
+ 5. Open the VSCode Terminal, and run the first test, `t011` for the first model app, `s11`.  
     <details><summary><code>ait s11 t011</code></summary>
+
+        50518.1555.22  s11           Running test: t011
+
+        * Creating app .env template file for PC_Code: ....
+          Creating hardware file for ....
+          Saving hardware info for h2q6nv into the template file: '.env_s11-template_h2q6nv.txt'
+
+        50518.1555.23  s11  t011     Running search_u2.10.mjs 
+
+        50518.1555.23  s11  t011.01  Starting llama3.2:3b          GKN0-MODP  MOD    4000  0.3
+        50518.1555.23                Finished llama3.2:3b       in NaN secs, NaN tps
 
     </details>
 
+    <details><summary>View how the PC_CODE has been set to 6 digits of the embedded hardware serial number.</summary>
+      <img      src="docs/appinfo/d00_AIDocs_testR/IMGs/d00-002b_Edit-run-tests.sh.png"></img>
+    </details>
 
+ 6. You can set the `PC_CODE` to a more readable code to uniquely identify your PC, e.g. `bt001p`.  
 
- 2. Save hardware specs for a user assigned PC_CODE.  
+    <details><summary><span style="font-size:11px; padding-left:23px">Change line 21    </span><code> &nbsp; export PC_CODE=""</code></summary> 
+       <ul><li style="font-size:11px;"><code>PC_CODE</code>: by setting it, the Hardware specs of your PC will be associated with this code.</li></ul>  
+    </details>  
+
+ 7. Run the model test dry run again.  
     <details><summary><code>ait s11 t011</code></summary>
 
-    </details>
+        50518.1609.20  s11           Running test: t011
+
+        * Creating app .env template file for PC_Code: 'bt001p'..
+          Creating hardware file for 'bt001p'..
+          Saving hardware info for bt001p into the template file: '.env_s11-template_bt001p.txt'
+
+        50518.1609.21  s11  t011     Running search_u2.10.mjs 
+
+        50518.1609.21  s11  t011.01  Starting llama3.2:3b          GKN0-MODP  MOD    4000  0.3
+        50518.1609.21                Finished llama3.2:3b       in NaN secs, NaN tps
 
 </details>
 
@@ -444,24 +486,108 @@ D. Set Hardware Specs
 <!-- ---------------------------------------------------------------------------------- -->
 
 <details><summary style="font-size:16px; color:blue">
-D. Run three sample models
+E. Run three sample models
 </summary>
 
- 1. Run a model in `s11_search-app` from it's `server1` directory.  
+ 1. To set the parameters back for a real model test run, set the following:
+
+    <details><summary>Here is what the `run-tests.sh` paramaters should look like.</summary>
+      <img src="docs/appinfo/d00_AIDocs_testR/IMGs/d00-002c_Edit-run-tests.sh.png"></img>
+    </details>  
+    <details><summary>As text</summary>
+
+         1  #!/bin/bash
+         2  ##=========+====================+================================================+
+         3  ##RD       run-tests.sh         | Assign Parameters for all model runs
+         4  ##RFILE    +====================+=======+===============+======+=================+
+         5  ##DESC     .--------------------+-------+---------------+------+-----------------+
+         6  #            This script is used by run-aitestr.sh
+         7  #
+         8  ##LIC      .--------------------+----------------------------------------------+
+         9  #            Copyright (c) 2025 JScriptWare and 8020Date-FormR * Released under
+        10  #            MIT License: http://www.opensource.org/licenses/mit-license.php
+        11  ##CHGS     .--------------------+----------------------------------------------+
+        12  #.(50416.08   4/16/25 RAM  5:50p| Witten by Robin Mattern
+        13  #.(50506.03   5/06/25 RAM  9:45a| Add DRYRUN
+        14  #.(50507.02   5/07/25 RAM  7:00a| New way to turn score on an off
+        15  #.(50513.02   5/13/25 RAM  2:35p| Put paramaters in this script in project dir
+        16  #.(50514.01   5/14/25 RAM  8:15a| Add override parameters
+        17  
+        18  ##PRGM     +====================+===============================================+
+        19  ##ID 69.600. Main0              |
+        20  ##SRCE     +====================+===============================================+
+        21  #
+        22  #   export SECTIONS=Parms,Search,Results       # .(50514.01.1 Override parameters in s##_model-tests.txt)
+        23  #   export SECTIONS=Parms,Results              # .(50514.01.2)
+        24  #   export SECTIONS=RunId                      # .(50514.01.3
+        25  
+        26  #   export LOGGER=
+        27  #   export LOGGER="log"
+        28  #   export LOGGER="inputs"
+        29      export LOGGER="log,inputs"
+        30  
+        31      export DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1".
+        32      export DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
+        33      export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
+        34      export SCORING="1"                         # .(50507.02.8 RAM New way to score it
+        35  
+        36      export PC_CODE="bt001p"
+        37  
+        38      export SEARCH_MODEL="qwen2:0.5b"           # .(50514.01.5 RAM Override parameters -- no spaces before or after = sign)
+        39      export SCORING_MODEL="qwen2:0.5b"          # .(50514.01.6)
+        40  #   export SYSTEM_PROMPT="Summarize the information provided and answer the user's prompt accordingly."
+        41  #   export RAG_COLLECTIONS="s13b_apple-os-pdfs"
+        42  #   export USER_PROMPT="What is so special about ios 17"
+        43  
+        44  ##SRCE     +====================+===============================================+
+        45  ##RFILE    +====================+=======+===================+======+=============+
+        46
+
+    </details>
+
+    <details><summary>Change these parameters</summary>
+
+      <details style="padding-left:20px;"><summary><span style="font-size:11px; padding-left:17px">Comment line 27    </span><code> # export LOGGER="log"</code></summary>
+      <ul><li style="font-size:11px;">Commenting-out a parameter disables it.<br>  
+          Normally multiple sections are displayed when the model is run -- for the searched documents, the results and run statistics.<br>
+          Setting <code>LOGGER</code> to <code>log</code> hides those sections, just showing a two line summary for each nodel test run.  
+          </li></ul>   
+      </details>
+
+      <details style="padding-left:20px;"><summary><span style="font-size:11px; padding-left:2px" >Un-comment line 29 </span><code> &nbsp;  export LOGGER="log,inputs"</code></summary>
+         <ul><li style="font-size:11px;"><code>LOGGER</code>: by setting this log display parameter to <code>log,inputs</code>, 
+          we'll see all the input variables before the next model run or series of model test runs.
+      </details>  
+  
+      <details style="padding-left:20px;"><summary><span style="font-size:11px; padding-left:25px">Change line 33     </span><code> &nbsp; export DRY_RUN="0";</code></summary> 
+         <ul><li style="font-size:11px;"><code>DRYRUN</code> by turning it on, the model test run invoke the ollama model.</li></ul>
+      </details>  
+  
+      <details style="padding-left:20px;"><summary><span style="font-size:11px; padding-left:25px">Change line 34     </span><code> &nbsp; export SCORING="1";</code></summary> 
+         <ul><li style="font-size:11px;"><code>SCORING</code> by turning it on, the model test run will be scored.</li></ul>
+      </details>  
+  
+      <details style="padding-left:20px;"><summary><span style="font-size:11px; padding-left:2px" >Un-comment line 38 </span><code> &nbsp; export SEARCH_MMODEL="qwen2:0.5"</code></summary>
+         <ul><li style="font-size:11px;"><code>SEARCH_MODEL</code> by entering an Ollama model name, the model test run or runs will use this model. The <code>qwen2:0.5</code> is the smallest and fastest model</li></ul>
+      </details>  
+
+      <details style="padding-left:20px;"><summary><span style="font-size:11px; padding-left:2px" >Un-comment line 39 </span><code> &nbsp; export SCORING_MMODEL="qwen2:0.5"</code></summary>
+         <ul><li style="font-size:11px;"><code>SCORING_MODEL</code> The <code>qwen2:0.5</code> model is the smallest and fastest model</li></ul>
+      </details>  
+
+    </details>
+    
+ 1. Run a model in `s11_search-mod-app` folder in it's `server1` directory.   
+    This app only ask questions of the model.  
  
     <details><summary><code>cd AIDocs_testR/server1/s11_*</code></summary></details>
     <details><summary><code>ait s11 t011</code></summary>
-
 
         50512.0958.03  s11           Running test: t011
 
         -----------------------------------------------------------
 
-        * Creating app .env template file for PC_Code: ....
-          Creating hardware file for ....
-          Saving hardware info for h2q6nv into the template file: '.env_s11-template_h2q6nv.txt'
-
-          Merging file, .env_s11-template_h2q6nv.txt, with file, s11_model-tests.txt.
+          Merging file, .env_s11-template_bt001p.txt, with file, s11_model-tests.txt.
            to create an .env file with the following parameters:
 
             1. Model:           llama3.2:3b
@@ -494,7 +620,8 @@ D. Run three sample models
         
     </details>   
 
- 2. Run a model in s12_search-web-app from the AIDocs_testR directory.  
+ 2. Run a model in s12_search-web-app from it's folder.   
+    This app will search the Internet for web pages or documents that we can ask questions of. 
  
     <details><summary><code>cd ../s12_*</code></summary></details>
     <details><summary><code>ait s12 t011</code></summary>
@@ -536,9 +663,17 @@ D. Run three sample models
 
     </details>   
 
- 3. Run a model in s12_search-web-app from the AIDocs_testR directory.  
- 
-    <details><summary><code>cd ../s12_*</code></summary></details>
+ 3. Run a model in s13_search-rag-app from its folder.    
+    <details><summary><code>cd ../s13_*</code></summary></details>
+
+    This app will search local files.  Before running it there are a couple of prequisites.
+    The local files must be imported into a ChromaDB vector database. We'll do this later by importing a colection of documents.
+    For now, the Chroma vector database must be running.
+    
+    <details><summary><code>ait chroma start</code></summary>
+      <img src="docs/appinfo/d00_AIDocs_testR/IMGs/d00-003b_Start-Chroma.png"></img>
+    </details>  
+    
     <details><summary><code>ait s13 t011</code></summary>
 
         50513.1013.06  s13           Running test: t011
@@ -582,86 +717,26 @@ D. Run three sample models
 </details>
 
 <details><summary style="font-size:16px; color:blue">
-E. Change some runtime parameters
+F. View all output for each model run...
 </summary>
-
- 1. Let's open VSCode and look at the `run-tests.sh` script in the s11_search-app folder.
-
-    <details><summary><code>code AIDocs_testR-master.code-workspace</code></summary></details>  
-
-    <details><summary<code>Open the file: <code>run-tests.sh</code></summary>
-
-          #!/bin/bash
-          ##=========+====================+================================================+
-          ##RD       run-tests.sh         | Assign Parameters for all model runs
-          ##RFILE    +====================+=======+===============+======+=================+
-          ##DESC     .--------------------+-------+---------------+------+-----------------+
-          #            This script is used by run-aitestr.sh
-          #
-          ##LIC      .--------------------+----------------------------------------------+
-          #            Copyright (c) 2025 JScriptWare and 8020Date-FormR * Released under
-          #            MIT License: http://www.opensource.org/licenses/mit-license.php
-          ##CHGS     .--------------------+----------------------------------------------+
-          #.(50416.08   4/16/25 RAM  5:50p| Witten by Robin Mattern
-          #.(50506.03   5/06/25 RAM  9:45a| Add DRYRUN
-          #.(50507.02   5/07/25 RAM  7:00a| New way to turn score on an off 
-          #.(50513.02   5/13/25 RAM  2:35p| Put paramaters in this script in project dir
-          #.(50514.01   5/14/25 RAM  8:15a| Add override parameters 
-          #
-          ##PRGM     +====================+===============================================+
-          ##ID 69.600. Main0              |
-          ##SRCE     +====================+===============================================+
-          #
-          #    export  LOGGER=
-          #    export  LOGGER="log"
-          #    export  LOGGER="inputs"
-          #    export  LOGGER="log,inputs"
-          #    export  SECTIONS=Parms,Search,Results       # .(50514.01.1 Override parameters in s##_model-tests.txt)
-               export  SECTIONS=Parms,Results              # .(50514.01.1 Override parameters in s##_model-tests.txt)
-          #    export  SECTIONS=RunId                      # .(50514.01.2)
-  
-               export  DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1".
-               export  DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
-               export  DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
-               export  SCORING="1"                         # .(50507.02.8 RAM New way to score it)
-  
-               export  PC_CODE=""                          # .(50514.01.3)
-  
-               export  SEARCH_MODEL="qwen2:1.5b"           # .(50514.01.4 RAM Override parameters -- no spaces before or after = sign)
-               export  SCORING_MODEL="qwen2:1.5b"          # .(50514.01.5)
-          #    export  SYSTEM_PROMPT="my system prompt"     
-               export  RAG_COLLECTIONS="s13b_apple-os-pdfs"        
-               export  USER_PROMPT="What is so special about ios 17"        
-  
-          ##SRCE     +====================+===============================================+
-          ##RFILE    +====================+=======+===================+======+=============+
-    </details>   
-
-    We're changing 3 variables in the run script.  
-
-    <details><summary><span style="font-size:11px; padding-left:13px">Comment line 16   </span><code> # export LOGGER="log,inputs"</code></summary>
-       <ul><li style="font-size:11px;"><code>LOGGER</code>: by turning off this override, we'll see all the sections set for this test in the `model-script.txt` files.</li></ul>   
-    </details>  
-
-    <details><summary><span style="font-size:11px; padding-left:23px">Change line 21    </span><code> &nbsp; export PC_CODE=""</code></summary> 
-       <ul><li style="font-size:11px;"><code>PC_CODE</code>: by making it empty, a new Hardware code will be generated.</li></ul>  
-    </details>  
-
-    <details><summary><span style="font-size:11px; padding-left: 2px">Change line 25    </span><code> &nbsp; export SCORING="0";</code></summary> 
-       <ul><li style="font-size:11px;"><code>SCOREIT</code> by turning it on, the model test run will be scored.</li></ul>
-    </details>  
     
+ 1. Let's open the `run-tests.sh` bash script again and change the sections that are displayed.
 
- 3. Let's run it again to see a new hardware code being created, all output for sections: `Parms,Docs,Stats,Results, 
-    as well running the scoring model.              
+    <details><summary><span style="font-size:11px; padding-left:0px">Comment line 29   </span><code> # export LOGGER="log,inputs"</code></summary>
+       <ul><li style="font-size:11px;"><code>LOGGER</code>: by turning off this override, we'll see all the sections set for subsequent test runs.</li></ul>   
+    </details>  
+
+    <details><summary>Here is what the `run-tests.sh` paramaters should look like.</summary>
+      <img src="docs/appinfo/d00_AIDocs_testR/IMGs/d00-002d_Edit-run-tests.sh.png"></img>
+    </details>  
+
+    
+ 2. Let's run the three model apps again to see the output for all sections: `Parms,Search, Docs,Stats,Results, 
+    as well all sections when running the scoring model.              
     
     <details><summary><code>ait s11 011</code></summary>    
 
           Running test for: 't011' for app s11.
-
-        * Creating app .env template file for PC_Code: ....
-          Creating hardware file for ....
-          Saving hardware info for cn0g0p into the template file: '.env_s11-template_cn0g0p.txt'
 
           Merging file, .env_s11-template_cn0g0p.txt, with file, s11_model-tests.txt.
            to create an .env file with the following parameters:
@@ -799,7 +874,6 @@ E. Change some runtime parameters
         Overall Comments: The response effectively and accurately addresses the user prompt, providing a clear and detailed explanation of RNNs vs.
             Transformers. It is highly relevant to the request and exhibits good coherence in its presentation.
 
-
         -------------------------------------------------------------------------------------------------------------------------------------------------
 
         ----------------------------------------------------------------------------------------------
@@ -826,15 +900,13 @@ E. Change some runtime parameters
 
     </details>
 
- 1. Let's change the `PC_CODE` to something more readable.
+</details>
 
-    <details><summary<code>Open the file: <code>run-tests.sh</code> again.</summary></details>
+<details><summary style="font-size:16px; color:blue">
+G. Change the prompts for the model test runs
+</summary>
     
-    <details><summary><span style="font-size:11px; padding-left:23px">Change line 21    </span><code> &nbsp; export PC_CODE="bt101a"</code></summary> 
-       <ul><li style="font-size:11px;"><code>PC_CODE</code>: by giving it a value, a new readable hardware code will be generated.</li></ul>  
-    </details>  
-    
- 2. Let's look at the `model-tests` files and change the sections to be displayed.
+ 1. Let's look at the `model-tests` file for the first model app, `s11_search-web-app` and change the sections to be displayed.
 
     <details><summary<code>Open the file: <code>server1/s11_search-app/s11_model-tests.txt</code></summary>
     
