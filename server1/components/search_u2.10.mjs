@@ -134,6 +134,8 @@
 #.(50514.07   5/14/25 RAM  7:45p| Bump version from u2.09 to u2.10
 #.(50405.02b  5/15/25 RAM  2:02p| Add century to DocsDir 
 #.(50405.01c  5/17/25 RAM  1:04p| Put stats into a month folder  
+#.(50519.01b  5/19/25 RAM 10:11a| Overide SEARCH_MODEL
+#.(50409.03b  5/19/25 RAM 10:15a| Set searchPrompt = aWebSearch
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -141,7 +143,7 @@
 \*/
 //========================================================================================================= #  ===============================  #
 
-   import   ollama              from "ollama";
+import   ollama              from "ollama";
 // import { createInterface }   from 'readline';
 // import * as readline         from 'readline';
 // import { createInterface }   from 'node:readline/promises';
@@ -284,8 +286,8 @@
             usrMsg( `* An .env file or it's variables do not exist in ${aEnvDir}.`)                         // .(50428.03.2 RAM New msg) 
             process.exit(1)
             }                                                                                               // .(50403.02.7 End)
-       var  aWebSearch       =  pVars.WEB_SEARCH    || "Lexington Va"
-       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                        // .(50409.03.10 RAM Do Web Search)
+       var  aWebSearch       =  pVars.WEB_SEARCH    || "roman empire"
+       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                      // .(50409.03.10 RAM Do Web Search)
        var  bUseDocFiles     =  pVars.USE_DOCS == 1  ?  true : false                                        // .(50409.03.11 RAM Do Docs Search)
        var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.12)
        var  aDocsCollection  =  pVars.DOCS_COLLECTION                                                       // .(50428.04.3)
@@ -324,8 +326,11 @@
 //                              usrMsg(   "----------------".padEnd( nWdt +  1, "-" ), bNoLog )             //#.(50414.01b.1).(50414.01.3).(50404.05.9)
                                 setDebugVars()                                          // .(50507.04.8 RAM Sets whatever).(50405.03.2 RAM Set them here)
 
-        if (process.env.SEARCH_MODEL && aApp == "s14") {
-            aModel           =  process.env.SEARCH_MODEL                                // .(50514.01.16 RAM Overide OLLAMA_MODEL_NAME parameter)                          
+        if (process.env.SEARCH_MODEL) {                                                 // .(50514.01b.1 RAM Overide SEARCH_MODEL)  
+            aModel           =  process.env.SEARCH_MODEL                                // .(50514.01b.2)                                                         
+            }                                                                           // .(50514.01b.3)  
+        if (process.env.SCORING_MODEL && aApp == "s14") {                               // .(50514.01b.4 RAM S.B. SCORING_MODEL)
+            aModel           =  process.env.SCORING_MODEL                               // .(50514.01.16 RAM Overide OLLAMA_MODEL_NAME parameter)                          
             }
         if (process.env.SYSTEM_PROMPT) {
       pVars.SYS_PROMPT       =  process.env.SYSTEM_PROMPT                               // .(50514.01.17 RAM Overide SYS_PROMPT parameter)                          
@@ -554,7 +559,7 @@
        let  aiPrompt         =  pParms.usrprompt;                                       // .(50414.03.2 XAI Prompt user for search and AI queries)
 
         if (bDebug == true  ||  bInVSCode || global.bNoLog == "0") {                                        // .(50503.02.1 RAM Don't Prompt if not bNoLog).(50201.09c.4).(50331.07.2)
-            searchPrompt     =  aWebSearch    // "Lexington Va";                                                                                 // .(50331.04.6)
+            searchPrompt     =  aWebSearch    // "roman empire";                                                                                 // .(50331.04.6)
 //      var searchDocFile    =  aDocFilePath                                                                                                     //#.(50409.03.13).(50428.04.4)
 //          aiPrompt         =  aUsrPrompt          // "The city's restaurants";                                                                 //#.(50331.04.7).(50413.02.13)
             aiPrompt         =  pParms.usrprompt    // "The city's restaurants";                                                                 // .(50413.02.13)
@@ -574,6 +579,7 @@
             } // eof interactive                                                                                                                 // .(50409.03b.2)
         }  // not inVSCode  
         if (bUseWebURLs) {                                                                                                                       // .(50409.03.20)
+            searchPrompt     = aWebSearch                                                                                                        // .(50409.03b.1 RAM Set searchPrompt = aWebSearch)
             usrMsg(""                                                                                                      , shoMsg('Parms')   ) // .(50404.01.1)
             usrMsg(`Web Search Prompt: "${searchPrompt}"`                                                                  , shoMsg('Parms')   ) // .(50404.01.2)
 //          usrMsg(`  AI Prompt:       "${aiPrompt}"`                                                                      , shoMsg('Parms')   ) // .(50404.01.3)
