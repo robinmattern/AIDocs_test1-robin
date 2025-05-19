@@ -26,6 +26,7 @@
 #.(50513.01   5/13/25 RAM  1:30p| Bump Version to 2.10
 #.(50513.02   5/13/25 RAM  1:45p| Change name of AItestR_scr to run-aitestr.sh
 #.(50516.04   5/16/25 RAM 10:00a| Bump AIDocs version in run-aidocs.sh
+#.(50519.03   5/19/25 RAM  8:30a| Bump AIDocs version to u2.10.139, not here
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -36,7 +37,8 @@
   aVer="v0.05.50303.0930"  # set-aidocs.sh                                              # .(50303.01.4)
   aVer="v2.09.50310.1800"  # set-aidocs.sh                                              # .(50510.03.2)
   aVer="v2.10.50313.1330"  # set-aidocs.sh                                              # .(50513.01.1)
-  aVer="u2.10.138\`50516.1001"  # set-aidocs.sh                                          # .(50516.04.1)
+  aVer="u2.10.138\`50516.1001"  # set-aidocs.sh                                         # .(50516.04.1)
+  aVer="u2.10.139\`50519.0830"  # set-aidocs.sh                                         # .(50519.03.1)
 
   echo ""
 
