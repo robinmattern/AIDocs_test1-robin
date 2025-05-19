@@ -57,7 +57,7 @@ function stopChromaDB() {                                                       
 #        aPID="$( ps aux | grep 'chromadb.cli.cli run' | awk '{ print $2 }' )"
 #                 ps aux | awk '/chroma/ { if ( $11 != "awk" ) { print    } }'
      if [ "${OS:0:3}" == "Win" ]; then
-         aPID="$( ps aux | awk '/chroma/ { print $1; exit }' )"
+         aPID="$(  ps aux | awk '/chroma/ { print $1; exit }' )"
          aPID2="$( ps aux | awk '/chroma/ { print $2; exit }' )"
        else
          aPID="$( ps aux | awk '/chroma/ { if ( $11 != "awk" ) { print $2 }; exit }' )"
@@ -89,7 +89,8 @@ function startChromaDB() {
 # Check if ChromaDB is running
 #f nc -z $CHROMA_HOST $CHROMA_PORT 2>/dev/null; then # return 0; fi
 if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
-    aPID2=$( cat "chroma.pid" )
+
+    aPID2="?"; if [ -f "chroma.pid" ]; then aPID2=$( cat "chroma.pid" ); fi                                 # .(50519.01.1 RAM Check if chroma.pid exists)
     echo "  ChromaDB is already running on $CHROMA_HOST:$CHROMA_PORT (PID: ${aPID2})"                       # .(50511.02.5)
        if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                    # .(50516.05.1 RAM Add blank line)
     exit 1

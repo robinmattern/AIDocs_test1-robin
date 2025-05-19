@@ -1,6 +1,15 @@
 #!/bin/bash
 
-if [ "${OS:0:3}" == "Win" ]; then
+   HOST="localhost"
+   PORT="8808"
+   DB_PATH="my_chroma_data"
+ 
+#                       aArgs="$@"
+# if [ "$1" == "" ]; then aArgs="run --host \"$HOST\" --port \"$PORT\" --path \"$DB_PATH\" --log-path \"$LOG_PATH\""; fi 
+# if [ "$1" == "" ]; then aArgs="run --host \"$HOST\" --port \"$PORT\" --path \"$DB_PATH\" --log-path \".\""; fi 
+# if [ "$1" == "" ]; then aArgs="run --host $HOST --port $PORT --path $DB_PATH --log-path ."; fi 
+
+if [ "${OS:0:3}" == "Win" ]; then 
 #   Python="C:\Users\Robin\AppData\Local\Microsoft\WindowsApps\python3.12.exe"
     Python_Packages="/C/Users/Robin/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/LocalCache/local-packages/Python312/Scripts"
 #   Python_Packages="/Users/robin/Library/Python/3.9/lib/python/site-packages"
@@ -9,6 +18,8 @@ if [ "${OS:0:3}" == "Win" ]; then
 
 # ${Python_Packages}/chroma.exe run --host localhost --port 8000 --path ./my_chroma_data
   ${Python_Packages}/chroma.exe "$@"
+# ${Python_Packages}/chroma.exe "${aArgs}"
+
 # ${Python_Packages}/chroma "$@"
 
   else
@@ -25,7 +36,8 @@ if [ "${OS:0:3}" == "Win" ]; then
 
 #   echo "Running ChromaDB... with: python3 -m chromadb.cli.cli $@"
 
- "${Python_Exec}" -m chromadb.cli.cli "$@"
+  "${Python_Exec}" -m chromadb.cli.cli "$@"
+# "${Python_Exec}" -m chromadb.cli.cli "${aArgs}"
  
    fi
 
