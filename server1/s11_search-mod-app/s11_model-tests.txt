@@ -2,7 +2,7 @@
    TestId,   Model,              CTX_SIZE, SysPmtCd, Temp,   Tests,   URLs,   UUPF,  Sections
 -----------, --------------------, ------, ---------, ---, ---,---, ---,--, ---,--,  ---------------------------------
 a11_t010.01, llama3.2:3b,            4000, GKN1-SIMP, 0.7,   2,  4,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
-a11_t011.01, llama3.2:3b,            4000, GKN1-SIMP, 0.3,   1,  1,   0, 0,   0, 0,  "Parms,Search,Results"
+a11_t011.01, llama3.2:3b,            4000, GKN1-SIMP, 0.3,   1,  1,   0, 0,   0, 0,  "Parms,Docs,Search,Stats,Results"
 a11_t012.01, llama3.2:3b,            4000, GKN2-SIMP, 0.6,   1,  4,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
 a11_t013.01, llama3.2:3b,            4000, GKN3-SIMP, 0.9,   0,  0,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"
 a11_t014.01, llama3.2:3b,            4000, GKN4-DETA, 0.3,   0,  0,   0, 0,   1, 1,  "Parms,Docs,Search,Stats,Results"

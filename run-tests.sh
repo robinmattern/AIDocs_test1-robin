@@ -24,19 +24,19 @@
 #    export SECTIONS=RunId                      # .(50514.01.3
 
 #    export LOGGER=
-#    export LOGGER="log"
+     export LOGGER="log"
 #    export LOGGER="inputs"
-     export LOGGER="log,inputs"
+#    export LOGGER="log,inputs"
 
      export DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1".
      export DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
      export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
      export SCORING="1"                         # .(50507.02.8 RAM New way to score it
 
-     export PC_CODE="cn0g0p"
+     export PC_CODE=""
 
-#    export SEARCH_MODEL="qwen2:1.5b"           # .(50514.01.5 RAM Override parameters -- no spaces before or after = sign)
-#    export SCORING_MODEL="qwen2:1.5b"          # .(50514.01.6)
+     export SEARCH_MODEL="qwen2:1.5b"           # .(50514.01.5 RAM Override parameters -- no spaces before or after = sign)
+     export SCORING_MODEL="qwen2:1.5b"          # .(50514.01.6)
 #    export SYSTEM_PROMPT="Summarize the information provided and answer the user's prompt accordingly."     
 #    export RAG_COLLECTIONS="s13b_apple-os-pdfs"        
 #    export USER_PROMPT="What is so special about ios 17"        
