@@ -68,6 +68,7 @@
 #.(50429.09d  5/10/25 RAM  2:35p| Accomodate pParms.resp_id for aApp2 
 #.(50515.01   4/15/25 RAM  8:00a| Add none to shoMsg
 #.(50517.01   5/17/25 RAM 10:30a| Write and use sayColor_Log
+#.(50519.04   5/19/25 RAM 12:15p| Put aPC_CODE into THE_SERVER
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -470,7 +471,9 @@ function  fmtResults(results) {
 //          console.log( `  CPU/GPU/RAM: ${aCPU_GPU_RAM}` ); debugger
 
   function  getServerInfo( ) {                                                          // .(50330.04.8 RAM Write getServerInfo Beg)
-       var  aServer          =   process.env.THE_SERVER
+       var  aPC_CODE         =  (process.env.THE_PC_CODE || '').toLowerCase()           // .(50519.04.1 RAM)
+       var  aServer          =   process.env.THE_SERVER  || ''
+       var  aServer          ="${aPC_CODE}-${ aServer.replace( /^.+-/, '' ) }"          // .(50519.04.2 RAM Put aPC_CODE into THE_SERVER)
        var  aCPU_GPU         =`${process.env.THE_CPU}${                                 // .(50330.04b.5 Beg)
                                 (process.env.THE_CPU != process.env.THE_GPU)
                           ? `, ${process.env.THE_GPU}` : '' }`
