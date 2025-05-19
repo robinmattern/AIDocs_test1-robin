@@ -65,7 +65,7 @@ function stopChromaDB() {                                                       
          fi
 
      if [ "${aPID}" == "" ]; then echo "  ChromaDB is not running.";
-       else kill -9 "${aPID}";    echo "  ChromaDB PID ${aPID2} stopped.";
+       else kill -9 "${aPID}";    echo "  ChromaDB stopped (PID ${aPID2}).";
       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi;
          exit 1; fi
          }                                                                              # .(50505.09.1 End)
@@ -90,7 +90,7 @@ function startChromaDB() {
 #f nc -z $CHROMA_HOST $CHROMA_PORT 2>/dev/null; then # return 0; fi
 if [ "$( checkChromaDB )" == "1" ]; then # return 0; fi
 
-    aPID2="?"; if [ -f "chroma.pid" ]; then aPID2=$( cat "chroma.pid" ); fi                                 # .(50519.01.1 RAM Check if chroma.pid exists)
+    aPID2="?"; if [ -f "chroma.pid" ]; then aPID2=$( cat "chroma.pid" ); fi             # .(50519.01.1 RAM Check if chroma.pid exists)
     echo "  ChromaDB is already running on $CHROMA_HOST:$CHROMA_PORT (PID: ${aPID2})"                       # .(50511.02.5)
        if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                    # .(50516.05.1 RAM Add blank line)
     exit 1
@@ -523,7 +523,8 @@ if [ "${aCmd}" = "queue"               ]; then shoTable_embeddings_queue    $2; 
 if [ "${aCmd}" = "start" ]; then echo ""; startChromaDB  ./my_chroma_data; exit; fi
 if [ "${aCmd}" = "stop"  ]; then echo ""; stopChromaDB;  exit; fi                                # .(50505.09.1 RAM Add stop command)
 if [ "${aCmd}" = "check" ]; then echo -e "\n  Checking: curl http://localhost:${nPort}/api/v2/heartbeat"
-if [ "$( checkChromaDB )" == "1" ]; then echo "  Chroma is running.";
+      aPID="$( cat "chroma.pid" )"
+if [ "$( checkChromaDB )" == "1" ]; then echo "  Chroma is running on port ${nPort} (PID: ${aPID}).";
                                     else echo "  Chroma is not running."; fi; fi        # .(50511.09.1 RAM Add check command)
 #      if [ "${OS:0:3}" != "Win" ]; then echo "ss"; fi                                  ##.(50516.05.4 RAM Add blank line)
 
