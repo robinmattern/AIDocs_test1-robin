@@ -50,6 +50,7 @@
 #.(50530.01   5/31/25 RAM  1:00p| Display error if no mStatsSheet is found
 #.(50531.02   5/31/25 RAM 13:00p| Rework Scoring Names
 #.(50531.07   5/31/25 RAM 10:00p| Remove double quotes in parseArgs if any
+#.(50601.01   6/01/25 RAM  2:00p| Save stats to MySQL
 #.(50601.02   6/01/25 RAM  3:00p| Remove double push of aScore   
 #
 ##PRGM     +====================+===============================================+

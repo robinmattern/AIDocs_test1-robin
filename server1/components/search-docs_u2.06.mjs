@@ -158,10 +158,10 @@ async  function  getRelevantDocs( aCollection, query ) {                        
           return  pDoc                                                                  // .(50429.01.5) End 
                   } )
 
-              if (mRelevantDocs.length == 0 ) {                                                             // .(50503.06.3 RAM If no docs are returned)
-                  usrMsg(`\n* No Relevant Documents were returned from the Vector DB for the Collection: ${aCollection}.`   , 1 ) // shoMsg('Search') )   
-                  sayMsg(  `MWT06[ 150]* No Relevant Documents were returned from the Vector DB for the Collection: ${aCollection}.`, -1 )                    
-         return { DocsResponse: [], DOCs: [], Texts: [] }
+        if (mRelevantDocs.length == 0 ) {                                                             // .(50503.06.3 RAM If no docs are returned)
+            usrMsg(`\n* No Relevant Documents were returned from the Vector DB for the Collection: ${aCollection}.`   , 1 ) // shoMsg('Search') )   
+            sayMsg(  `MWT06[ 150]* No Relevant Documents were returned from the Vector DB for the Collection: ${aCollection}.`, -1 )                    
+   return { DocsResponse: [], DOCs: [], Texts: [] }
                   }
 // You can now use both
             mRelevantDocs    =  mRelevantDocs.map(  aDoc    => { return aDoc.replace( /[ \r\n]+/g, " ") } )                                      // .(50429.01.8 Beg)  

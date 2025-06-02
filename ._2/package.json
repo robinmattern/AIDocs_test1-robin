@@ -9,7 +9,9 @@
     "html-to-text": "^9.0.5",
     "inquirer": "^12.5.0",
     "jsdom": "^26.0.0",
+    "mysql2": "^3.14.1",
     "ollama": "^0.5.15",
+    "papaparse": "^5.5.3",
     "pdf-parse": "^1.1.1",
     "pdf.js-extract": "^0.2.1"
   }
