@@ -136,6 +136,14 @@
 #.(50405.01c  5/17/25 RAM  1:04p| Put stats into a month folder  
 #.(50514.01b  5/19/25 RAM 10:11a| Overide SEARCH_MODEL
 #.(50409.03b  5/19/25 RAM 10:15a| Set searchPrompt = aWebSearch
+#.(50404.01b  5/22/25 RAM  7:20a| Show SYS_PROMPT_CD in Search section
+#.(50503.05b  5/31/25 RAM  4:55p| Add Log dir name to DocsDir
+#.(50503.05c  5/31/25 RAM  5:30p| Use s## for docs sub folders
+#.(50522.02b  5/31/25 RAM  5:15p| Bump version from u2.10 to u2.11
+#.(50531.03   5/31/25 RAM  6:25p| Removed "Ollama" from err msg
+#.(50531.03   5/31/25 RAM  6:30p| Add space to end of RIDs
+#.(50531.04   5/31/25 RAM 11:55p| Write console_log to force white
+#.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -153,7 +161,7 @@ import   ollama              from "ollama";
 
 // Import modules using dynamic imports
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
-       var  aVer             = "u2.10"  // search_{aVer}.mjs                            // .(50514.07.6).(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
+       var  aVer             = "u2.11"  // search_{aVer}.mjs                            // .(50522.02b.7).(50514.07.6).(50407.02.1 Was u2.02).(50402.02.1 RAM Add Version)
 
        var  aLog             =  process.env.LOGGER || ""                                // .(50414.01.1 RAM Do print Log)
             aLog             =  aLog == "log,inputs" ? "log" : aLog                     // .(50414.01c.1 RAM Fix if aLog = "log", was: '')
@@ -166,7 +174,7 @@ import   ollama              from "ollama";
        var  bNoLog           =  aLog == "log" ? 0 : 1; global.bNoLog = bNoLog                               // .(50414.01.2 RAM Don't print shoMsg if 0)
             global.bQuiet    =  bNoLog == 0
         if (bDebug == 1) {
-            console.log(   `  - S1201[ 156]  bDoit: '${bDoit}', aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: ${bDebug}, bQuiet: ${global.bQuiet}`) // process.exit()
+            console_log(   `  - S1201[ 156]  bDoit: '${bDoit}', aLog: '${aLog}', bNoLog: ${bNoLog}, bDebug: ${bDebug}, bQuiet: ${global.bQuiet}`, 'yellow' ) // process.exit() // .(50531.05.4) 
             }    
                                  
             LIBs.MWT         =        () => "../../._2/MWTs"                                                // .(50405.06.6)
@@ -226,7 +234,7 @@ import   ollama              from "ollama";
 //   global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.27)
 //   global.aPrtSections     = ''                                                                           // .(50404.01.27)
 //   global.bInVSCode        =  true
-            sayMsg(`S1201[ 224]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size} ***`, 1 , 1 )     // .(50402.02.2)
+            sayMsg( `S1201[ 224]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size1} ***`, 1 , 1 )    // .(50522.02e.1).(50402.02.2)
             }                                                                                               // .(50331.04.3 End)
           }  // eif FRT.inVSCode                                                        // .(50507.04.5)  
          }; // eof setDebug Vars                                                                            // .(50405.03.1 End)
@@ -268,7 +276,7 @@ import   ollama              from "ollama";
 //          global.bNoLog    =  0; bNoLog = 0                                           // .(50507.04.2)
 //          global.bDoit     =  0; bDoit  = 0                                           // .(50507.04.3)  
 
-            sayMsg(`S1201[ 259]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${bDryRun}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${aLog}', bNoLog: ${bNoLog}`, bEnvs ); // .(50513.05.14) // process.exit() 
+            sayMsg( `S1201[ 259]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${bDryRun}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${aLog}', bNoLog: ${bNoLog}`, bEnvs ); // .(50513.05.14) // process.exit() 
        var  bDebug2          =  process.env.DEBUG; FRT.bDebug = bDebug2                 // .(50415.01.4 RAM bDebug2)
             global.bDebug    =  bDebug2 ? bDebug2 : global.bDebug;                      // .(50415.01.5)
 //          bNoLog           = (bNoLog == 0) ? bNoLog : (bDebug2 ? -1 : bNoLog)         // .(50415.01.6)
@@ -276,8 +284,8 @@ import   ollama              from "ollama";
 
             global.bQuiet    =  bNoLog == -1 ? 1 : global.bQuiet
 
-            sayMsg(`A1201[ 267]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 0 )
-            sayMsg(`A1201[ 268]  aAppDir: ${ FRT.__dirname  }`, -1 ) 
+            sayMsg( `A1201[ 267]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 0 )
+            sayMsg( `A1201[ 268]  aAppDir: ${ FRT.__dirname  }`, -1 ) 
 
 //     Process .ENV Variables and command line arguments
 //     ---  --------  =  --  =  ------------------------------------------------------  #
@@ -466,18 +474,23 @@ import   ollama              from "ollama";
 //          Setup logfile
 //          --------  =  --  =  --------------------------------------------  #
 //          aDocsDir         =  aDocsDir.replace( /{TNum}/, `_${pVars.SESSION_ID}` )                        //#.(50404.06.6).(50405.02.4)
-            aDocsDir         =  aDocsDir.replace( /{SName}/, `a${aApp.slice(1)}_${aSessionName}` )          // .(50503.05.3 RAM Add aApp to aDocsDir).(50404.06.6)
-            aDocsDir         =  aDocsDir.replace( /:/, `;` )                                                // .(50413.03.13 RAM Model nameshave ":"
+//          aDocsDir         =  aDocsDir.replace( /{SName}/, `a${aApp.slice(1)}_${aSessionName}` )          //#.(50503.05.3 RAM Add aApp to aDocsDir).(50404.06.6).(50503.05c.1 RAM Keep 's')
+//     var  aLogDir          = `_a${aApp.slice(1)}-log-files/a${aApp.slice(1)}`                             //#.(50503.05b.1).(50503.05c.2)
+       var  aLogDir          = `_${aApp}-log-files/${aApp}`   //                                            // .(50503.05c.2).(50503.05b.1 RAM Add Log dir name)
+            aDocsDir         =  aDocsDir.replace( /\/{SName}/, `${aLogDir}_${aSessionName}` )               // .(50503.05b.2).(50503.05.3 RAM Add aApp to aDocsDir).(50404.06.6)
+            aDocsDir         =  aDocsDir.replace( /:/, `;` )                                                // .(50413.03.13 RAM Model names can have ":"
 //     var  aLogFile         =      `./${aAppDir}/${aAppDir.slice(0,3)}_t001.01.4.${aTS}_Response.txt`      //#.(50331.02.5)
        var  aLogFile         = `./docs/${ aDocsDir}/${aRunId}.4.${aTS}_Response.txt`                        // .(50402.14.3).(50331.08.6).(50331.02.5 RAM put it in /docs)
                                 FRT.setSay( nLog, aLogFile )                                                // .(50331.04.5 RAM nLog was 3)
 
 //     var  aStatsDir        = `./docs/${ aDocsDir.replace( /_t.+/, "") }`                                  //#.(50405.01b.2 RAM Was: docs/${aAppName}/YY.MM.Mth/)
 //     var  aStatsDir        = `./docs/${aAppName}/${aAppName.slice(0,3)}-saved-stats`                      //#.(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/).(50405.01c.3)
-       var  aStatsDir        = `./docs/${aAppName}/${aMonth}_${aAppName.slice(0,3)}-saved-stats`            // .(50405.01c.3 RAM Add aMonth).(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/)
+//     var  aStatsDir        = `./docs/${aAppName}/${aMonth}_${aAppName.slice(0,3)}-saved-stats`            //#.(50405.01c.3 RAM Add aMonth).(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/).(50503.05c.3)
+       var  aStatsDir        = `./docs/${aAppName}/${aMonth}_${aApp}-saved-stats`                           // .(50503.05c.3).(50405.01c.3 RAM Add aMonth).(50405.01b.2 RAM Was: docs/${aAppName}/a##-saved-stats/)
 //     var  aStatsFile       =  FRT.join( __basedir, `./docs/${aAppDir}/${aAppDir.slice(0,3)}_Stats.csv` )
 //     var  aStatsFile       = `${aDocsDir.slice(0,3)}_Stats_u${aTS.slice(0,5)}-${aSvr}.${aStatsFmt}`       //#.(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)(50405.01.1).(50429.09.15)
-       var  aStatsFile       = `${aAppName.slice(0,3)}_Stats-${aSvr}_u${aVer.slice(1)}.csv`                 // .(50429.09.15 RAM No change).(50410.01.1 RAM Was ${aStatsFmt}).(50405.01b.2 RAM Add Stats-).(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
+//     var  aStatsFile       = `${aAppName.slice(0,3)}_Stats-${aSvr}_u${aVer.slice(1)}.csv`                 //#.(50429.09.15 RAM No change).(50410.01.1 RAM Was ${aStatsFmt}).(50405.01b.2 RAM Add Stats-).(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name).(50503.05c.4)
+       var  aStatsFile       = `${aApp}_Stats-${aSvr}_u${aVer.slice(1)}.csv`                                // .(50503.05c.4).(50429.09.15 RAM No change).(50410.01.1 RAM Was ${aStatsFmt}).(50405.01b.2 RAM Add Stats-).(50405.01.2 RAM Add aVer).(50403.04.5).(50402.14.4).(50331.04b.1 RAM Update StatsFile name)
                                 FRT.makDirSync( FRT.join( __basedir, aStatsDir ), true );                   // .(50410.01.2)
        var  aStatsFile       =  FRT.join( __basedir, `${aStatsDir}/${aStatsFile}` )                         // .(50402.14.5).(50331.04b.2)
 
@@ -521,25 +534,26 @@ import   ollama              from "ollama";
        var  aRIDs            =  pParms.runid.split( /[_,]/ ).slice(0,2).map( (a,i) => i==0 ? a.padEnd(5) : a ).join('')                          // .(50429.09c.1 RAM Accomodate aApp2)
        var  aPIDs            = `${pParms.spc}  ${pParms.qpc}  ${ `${nCTX_Size}`.padStart(6) }  ${nTemperature}`                                  // .(50414.01b.1 RAM Add CTX and Temp) .(50414.01.6)
             if (pVars.NEXT_POST== "01") { console.log( "") }
-            console.log(       `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Starting ${pParms.model.padEnd(19)}  ${aPIDs}` )             // .(50414.01.7)
+            aRIDs            =  aRIDs.padEnd(13)                                                                                                 // .(50531.03.1)
+            console_log(       `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Starting ${pParms.model.padEnd(19)}  ${aPIDs}` )             // .(50531.04.1).(50414.01.7)
             }
 //          --------  =  --  =  --------------------------------------------  #
 
         if (bDoit == 1 || bDryRun == 1) {                                                                   // .(50513.04.4)
-                                sayMsg( `A1201[ 487]  Calling main( pParms ) for model: '${pParms.model}'`, -1 ); 
+            sayMsg( `A1201[ 487]  Calling main( pParms ) for model: '${pParms.model}'`, -1 ); 
             try {                                                                                           // .(50501.04.3)
                                 await  main( pParms )
-
-            } catch( err ) {    sayMsg( `A1201[ 491]  Error: ${err}`, -1);  }                               // .(50501.04.4)
-                                sayMsg( `A1201[ 492]  Completed test run:   ${pParms.runid.replace( /,/, ", ") }.`, -1 ); // .(50501.04.5)
+        } catch( err ) {    
+            sayMsg( `A1201[ 491]  Error: ${err}`, -1);  }                                                   // .(50501.04.4)
+            sayMsg( `A1201[ 492]  Completed test run:   ${pParms.runid.replace( /,/, ", ") }.`, -1 );       // .(50501.04.5)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )                         //#.(50506.01.1)
             }
 //          --------  =  --  =  --------------------------------------------  #
-                                
+                           
                                 FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )                         // .(50506.01.1 RAM Set even if bDoit = 0)
             if (global.bNoLog == 0&& bEnvs != 1) {                                                                                               // .(50414.01.5 
-       var  aSecs            = `in ${pParms.secs} secs, ${pParms.tps} tps`; aRIDs = "            "                                               // .(50414.01.9)                                                        // .(50414.01.x RAM Do log it)
-            console.log(       `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${pParms.model.padEnd(17)} ${aSecs}` )              // .(50414.01.10)
+       var  aSecs            = `in ${pParms.secs} secs, ${pParms.tps} tps`; aRIDs = "".padEnd(13)                                                // .(50531.03.2).(50414.01.9)                                                        // .(50414.01.x RAM Do log it)
+            console_log(       `${FRT.getDate(3,5)}.${FRT.getDate(13,7)}  ${aRIDs}  Finished ${pParms.model.padEnd(17)} ${aSecs}` )              // .(50531.04.2).(50414.01.10)
             }                                                                                                                                    // .(50414.01.11)
                                 } // eol Run User Prompt loop                                               // .(50403.03.5)
 //          --------  =  --  =  --------------------------------------------  #
@@ -550,6 +564,20 @@ import   ollama              from "ollama";
                                 usrMsg(  "========== ------".padEnd( nWdt +  1, " ===== ------" ), bNoLog ) // .(50414.01.12).(50404.05.11)
 //                              FRT.exit_wCR()                                                              // .(50403.03a.1).(50403.03b.1)
 //                              usrMsg(  "" )                                                               // .(50403.03b.1)
+// --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
+
+  function  console_log( aMsg, aColor ) {                                               // .(50531.04.3 RAM Write console_log Beg)
+            aColor    =  aColor || 'white'
+       var  pColors          =                                                          // ANSI color codes for bright terminal colors
+             { 'reset'       : '\x1b[0m'
+             , 'gray'        : '\x1b[90m', 'red'     : '\x1b[91m'
+             , 'green'       : '\x1b[92m', 'yellow'  : '\x1b[93m'
+             , 'blue'        : '\x1b[94m', 'magenta' : '\x1b[95m'
+             , 'cyan'        : '\x1b[96m', 'white'   : '\x1b[97m'
+                };            
+            console.log( `${pColors[ aColor ]}${aMsg}${pColors[ 'reset' ]}` )
+            }                                                                           // .(50531.04.3 End)
+//          --------  =  --  =  ------------------------------------------------------  # 
 
 // Main Execution
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -691,7 +719,8 @@ import   ollama              from "ollama";
 //          usrMsg(   `  Docs:      "${texts.length} Sources,${ `${aSources.length}`.padStart(6) } bytes from ${document}"`, shoMsg('Parms')   ) // .(50404.01.12).(50331b.01.5).(50331.01.5 RAM Add documents).(50430.04.15)
             usrMsg(   `  Docs:      "${pJSON_Results.Docs}"`                                                               , shoMsg('Parms')   ) // .(50430.04.16).(50404.01.12).(50331b.01.5).(50331.01.5 RAM Add documents)
             }
-            usrMsg(   `  SysPrompt: "${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "" ) }"`               , shoMsg('Parms')   ) // .(50404.01.13)
+//          usrMsg(   `  SysPrompt:                "${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "") }"` , shoMsg('Parms')   ) //#.(50404.01.13)..(50404.01b.1)
+            usrMsg(   `  SysPrompt: "${pParms.qpc}: ${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "") }"` , shoMsg('Parms')   ) // .(50404.01b.1 RAM Show SYS_CD).(50404.01.13)
 //          usrMsg(   `  Query:     "${query}"`                                                                            , shoMsg('Parms')   ) //#.(50404.01.14).(50408.08.1)
 //          usrMsg(   `  UsrPrompt: "{Query}: ${query}"` )  // aka aiPrompt, Model Query Prompt                            , shoMsg('Parms')   ) // .(50408.08.1 Was Query).(50404.01.14)
             usrMsg(   `  UsrPrompt: "${pParms.qpc}: ${query}"`                                                             , shoMsg('Parms')   ) // .(50410.04a.3).(50408.08.1 Was Query).(50404.01.14)
@@ -721,16 +750,16 @@ import   ollama              from "ollama";
 
 //      if (global.nLog   != 1) {                                                                           //#.(50510.01.3)
 //      if (global.bNoLog != 1) {                                                                           // .(50510.01.3 RAM Opps, will it mattern)
-        if (global.bNoLog == 1) {                                                                           // .(50510.01.3 RAM Opps, it does mattern)
-                     aResult          =  MWT.wrap( MWT.sqzLines( aResult ), nWdt, 4 )                                // .(50503.02.x RAM Remove dup blank lines).(50330.06a.7).(50330.06.3)
+//      if (global.bNoLog == 1) {                                                                           //#.(50510.01.3 RAM Opps, it does mattern).(50510.01b.1 RAM Not needed)
+                    aResult  =  MWT.wrap( MWT.sqzLines( aResult ), nWdt, 4 )                                // .(50503.02.x RAM Remove dup blank lines).(50330.06a.7).(50330.06.3)
             usrMsg( aResult                                                                                                , shoMsg('Results') ) // .(50404.01.18).(50330.06a.7).(50330.06.3)
             usrMsg(   `${ "--------".padEnd( nWdt, "-") }`                                                                 , shoMsg('Results') ) // .(50503.09.2) 
-            }
-            pStats.query     =  query                                                   // .(50331.03.4 Beg)
+//          }                                                                                               // .(50510.01b.2)
+            pStats.query     =  query                                                                       // .(50331.03.4 Beg)
             pStats.url       =  document.replace( /collection, |file, /g, "").replace( /',*/g, "" )         // .(50430.03.9)
-            pParms.websearch =  aWebSearch                                              // .(50330.04c.3 RAM Add)
+            pParms.websearch =  aWebSearch                                                                  // .(50330.04c.3 RAM Add)
             pStats.docs      = `${texts.length} Source${s}, ${aSources.length} bytes`                       // .(50430.04.17 RAM Add ${s})
-            pParms.logfile   = `${FRT.__basedir}/${aLogFile}`                           // .(50331.05.6 RAM Add logfile)
+            pParms.logfile   = `${FRT.__basedir}/${aLogFile}`                                               // .(50331.05.6 RAM Add logfile)
             pParms.jsonfile  =  pParms.logfile.replace( /.txt/, '.json' )                                   // .(50408.06.15 RAM Use ...response.json)
             pParms.mdfile    =  pParms.logfile.replace( /.txt/, '.md'   )                                   // .(50408.10.3 RAM Use ...response.md)
             pParms.temp      =  nTemperature
@@ -775,10 +804,10 @@ import   ollama              from "ollama";
 
         } catch( error ) {
 //          console.error(        "Error in answerQuery:", error);                                          //#.(50404.08.5)
-            sayMsg(`A1201[ 733]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
-//          sayMsg(`A1201[ 734]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                 //#.(50404.08.6)
-            sayMsg(`A1201[ 735]    Ollama ${error.name}: ${error.message}`, 1 );                            // .(50404.08.6)
-            sayMsg(`${ error.stack.replace( /\n */g, "\n    - " ) }`, -1 );             // .(50415.01.6)
+            sayMsg( `A1201[ 733]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
+//          sayMsg( `A1201[ 734]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                 //#.(50404.08.6)
+            sayMsg( `A1201[ 735]    ${error.name}: ${error.message}`, 1 );                                   // .(50531.03.3 RAM Removed "Ollama").(50404.08.6)
+            sayMsg( `${ error.stack.replace( /\n */g, "\n    - " ) }`, -1 );             // .(50415.01.6)
             FRT.exit_wCR(1)                                                                                 // .(50409.03.42)
             }
          }; // eof answerQuery
