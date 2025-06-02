@@ -71,6 +71,7 @@
 #.(40910.03b  5/10/25 RAM 10:30a| Handle MT path in cleanPath
 #.(40910.03c  5/10/25 RAM 10:35a| Add isFile to checkFile
 #.(50517.01   5/17/25 RAM 10:30a| Write and use sayColor_Log
+#.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -137,7 +138,8 @@
             process.exit()
 */
   function  sayMsg( aMsg, nSay, bCR ) {                                                 // .(50107.02.3 RAM Add sayMsg Beg)
-//      if (bCR) { console.log("") }                                                                        //#.(50121.03.5).(50121.03b.5)
+            global.aCurrentSection = 'debug'                                            // .(50531.05.1 RAM ??)
+//      if (bCR) { console.log("") }                                                    //#.(50121.03.5).(50121.03b.5)
         if (global.bQuiet == 2 ) { return }                                             // .(50404.02.1 RAM Make sure it gets turned back to 1 or 0)
         if (aMsg == "" || aMsg.slice(0,1) == "\n" ){ say( aMsg ); return }              // .(50218.02.5 RAM Just say it)
             nSay    =  nSay > 0 ? nSay : -[0,3,2,1,4][-nSay]                                                // .(50209.01c.1 RAM -e,-c,-b,-g)
@@ -155,7 +157,8 @@
         if (nSay   ==  "1" ) {                                      if (bCR) { say("") }; say( "-", aMsg )} //                           .(50209.01b.5)
         if (nSay   ==  "2" ) {                                      if (bCR) { say("") }; say( "-", aMsg ); exit_wCR()} // p.exit() } // .(50209.01b.6).(50201.09.11 RAM Use exit_wCR)
         if (nSay   ==  "3" ) {                                      if (bCR) { say("") }; say( "-", aMsg ); }                         // .(50313.03.x Same as 1 for return vs exit)
-    }; // eof sayMsg                                                            // .(50107.02.3 End)
+            global.aCurrentSection = ''                                                 // .(50531.05.2 RAM ??)
+            }; // eof sayMsg                                                            // .(50107.02.3 End)
 //     ---  --------  =  --  =  ------------------------------------------------------  #
 
   function  say( aChr, aMsg, nLog2 ) {                                                  // .(50209.01b.7)
@@ -177,42 +180,57 @@
 
   function  sayColor_Log( aMsg ) {                                                      // .(50517.01.2 RAM Write sayColor_Log Beg) 
        var  aSection         = (global.aCurrentSection || '').replace( /,/g, '' )       // .(50517.01.3 RAM Use global)
-       var  pColors          =                                                // ANSI color codes for terminal colors
-             { 'reset'       : '\x1b[0m'
-             , 'red'         : '\x1b[31m'
-             , 'green'       : '\x1b[32m'
-             , 'yellow'      : '\x1b[33m'
-             , 'blue'        : '\x1b[34m'
-             , 'magenta'     : '\x1b[35m'
-             , 'cyan'        : '\x1b[36m'
-             , 'white'       : '\x1b[37m'
-                };
-       var  pColors          =                                                // ANSI color codes for bright terminal colors
-             { 'reset'       : '\x1b[0m'
-             , 'gray'        : '\x1b[90m'
-             , 'red'         : '\x1b[91m'
-             , 'green'       : '\x1b[92m'
-             , 'yellow'      : '\x1b[93m'
-             , 'blue'        : '\x1b[94m'
-             , 'magenta'     : '\x1b[95m'
-             , 'cyan'        : '\x1b[96m'
-             , 'white'       : '\x1b[97m'
-                };
-    const   pDefaultColors   =                                                // Default color mapping if global.aColorSections is not defined
+       var  pColors2         =  
+             { 'normal':                                                       // ANSI color codes for terminal colors
+                { 'reset'    : '\x1b[0m'
+                , 'red'      : '\x1b[1;31m' //  '\x1b[31m'
+                , 'green'    : '\x1b[32m'
+                , 'yellow'   : '\x1b[33m'
+                , 'blue'     : '\x1b[34m'
+                , 'magenta'  : '\x1b[35m'
+                , 'cyan'     : '\x1b[36m'
+                , 'white'    : '\x1b[37m'
+                   }
+//      var  pColors         =                                                  
+             , 'bright':                                                      // ANSI color codes for bright terminal colors
+                { 'reset'    : '\x1b[0m'
+                , 'gray'     : '\x1b[90m'
+                , 'red'      : '\x1b[91m'
+                , 'red2'     : '\x1b[1;91m'         // bold red 
+                , 'red5'     : '\x1b[38;5;196m'     // 256-color true red
+                , 'red6'     : '\x1b[38;5;9m'       // 256-color bright red
+                , 'red7'     : '\x1b[38;2;255;0;0m' // RGB true red
+                , 'green'    : '\x1b[92m'
+                , 'yellow'   : '\x1b[93m'
+                , 'blue'     : '\x1b[94m'
+                , 'magenta'  : '\x1b[95m'
+                , 'cyan'     : '\x1b[96m'
+                , 'white'    : '\x1b[97m'
+                   }
+              }   
+       var  pColors          =  pColors2.bright 
+     const  pDefaultColors   =                                                // Default color mapping if global.aColorSections is not defined
              { 'parms'       : 'cyan'
              , 'docs'        : 'green'
              , 'search'      : 'yellow'
+             , 'debug'       : 'yellow'                                                 // .(50531.05.3 RAM Add "debug' section)
              , 'stats'       : 'magenta'
              , 'results'     : 'blue'
                 };
      const  pColorMap        =  global.pColorSections || pDefaultColors;      // Get the color mapping from global or use default
+
+//     var  aSectionColor    =  pColors[ pColorMap[ aSection.trim() ] || pColors[ 'white' ] ];       // .*50531.09.1 RAM Try to get bright red to display)
+//          aSectionColor    =  aMsg.slice(0,16).match( /\*/) ? pColors2.bright['red7'] : aSectionColor 
+//          console.log( `  - AIC90[ 221]  aSectionColor: '${ JSON.stringify(aSectionColor) }'` )
+//          console.log( `${aSectionColor}${aMsg}${pColors.reset}`);  // Print the message with color and reset after
+
        var  aSectionColor    =  pColorMap[ aSection.trim() ] || 'white';      // Get the color for this section or default to white
             aSectionColor    =  aMsg.slice(0,16).match( /\*/) ? 'red' : aSectionColor 
-            console.log(`${pColors[aSectionColor]}${aMsg}${pColors.reset}`);  // Print the message with color and reset after
+            console.log( `${pColors[aSectionColor]}${aMsg}${pColors.reset}`);  // Print the message with color and reset after
             } // eof sayColor_Log                                                       // .(50517.01.2 End) 
 //     ---  --------  =  --  =  ------------------------------------------------------  #
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
-
+  
   function  setSay( nLog_, aFile ) {                                                    // .(50218.01.7 RAM Write saySet Beg)
             global.nLog  = nLog_ ? nLog_ : 1
         if (nLog_ == 2 || nLog_ == 3) {
@@ -638,12 +656,12 @@ createDirectoryIfNotExists(dirPath).then( result => {
   function  listFiles( aPath ) {
 //           debugger
             aPath     =  FRT_path( aPath )                                              // .(40829.03.1 RAM Was: path.join( cleanpath() ))
-        var mFiles1   =  fsync.readdirSync( aPath );
-        var mFiles2   = [ ];
-   for (var aFile of mFiles1) {
-        var aFilePath =  FRT_path( aPath, aFile ); // Join path with filename           // .(40829.03.2)
-//      var pStats    =  checkFileSync( aFilePath);
-        var pStats    =  fsync.statSync( aFilePath);
+       var  mFiles1   =  fsync.readdirSync( aPath );
+       var  mFiles2   = [ ];
+  for (var  aFile of mFiles1) {
+       var  aFilePath =  FRT_path( aPath, aFile ); // Join path with filename           // .(40829.03.2)
+//     var  pStats    =  checkFileSync( aFilePath);
+       var  pStats    =  fsync.statSync( aFilePath);
             mFiles2.push(
              [  pStats.size.toLocaleString('en-US').padStart(10) // File size in bytes
              ,  getDate( pStats.mtime, -1 ) // Last modification time as a Date object
@@ -961,18 +979,18 @@ async function  runShell_Async( aCmd ) {                                        
 //     var  aAppName    =   setPaths( )                                                                     //#.(40828.02.7 RAM Will it set the global vars? No)
        var  bDebug_AIC90 = 0; _ENV_Debug = 0 // or bDebug or -1                                                                               // .(50213.03.1 RAM bDebug for AIC909)
 //          dotenv.config({ path: FRT.path( __basedir, '.env' ), override: true, debug: _debug } );         //#.(40829.01.4).(40607.02.1 RAM Load environment variables from .env file in script's folder).(40829.03.15)
-            sayMsg(        `AIC90[ 757]  __basedir2: '${ __basedir2 }'`,                                        bDebug_AIC90 )  // .(50213.03.2)
+            sayMsg( `AIC90[ 757]  __basedir2: '${ __basedir2 }'`,                                        bDebug_AIC90 )  // .(50213.03.2)
             dotenv.config({ path: FRT_path(__basedir2, '.env' ), override: true, debug: _ENV_Debug } );     // .(50126.03.24).(40829.03.15 RAM Was FRT.path).(40829.01.4).(40607.02.1 RAM Load environment variables from .env file in script's folder)
-            sayMsg(        `AIC90[ 759]  __basedir:  '${ __basedir  }'`,                                        bDebug_AIC90 )  // .(50213.03.3)
-            sayMsg(        `AIC90[ 760]  FRT_.ENV:   '${ process.env['FRT_.ENV'] }'`,                           bDebug_AIC90 )  // .(50213.03.4).(40908.06.1 RAM Must be quoted name)
-//          sayMsg(        `AIC90[ 761] .env:        '${ cleanPath( path.join( __basedir, '.env' ) ) }'`)                       //#.(40829.03.9)
-            sayMsg(        `AIC90[ 762] .env:        '${ FRT_path(__basedir2, '.env' ).replace( /\\/, '/') }'`, bDebug_AIC90 )  // .(50213.03.5).(50126.03.25).(40829.03.16 RAM Was FRT.path).(40829.03.4)
-            sayMsg(        `AIC90[ 763]  process.env['FRT_APPNAME'] : '${ process.env['FRT_APPNAME'] }'` ,      bDebug_AIC90 )
-            sayMsg(        `AIC90[ 764]  process.env['FRT_MODEL'  ] : '${ process.env['FRT_MODEL'  ] }'` ,      bDebug_AIC90 )
+            sayMsg( `AIC90[ 759]  __basedir:  '${ __basedir  }'`,                                        bDebug_AIC90 )  // .(50213.03.3)
+            sayMsg( `AIC90[ 760]  FRT_.ENV:   '${ process.env['FRT_.ENV'] }'`,                           bDebug_AIC90 )  // .(50213.03.4).(40908.06.1 RAM Must be quoted name)
+//          sayMsg( `AIC90[ 761] .env:        '${ cleanPath( path.join( __basedir, '.env' ) ) }'`)                       //#.(40829.03.9)
+            sayMsg( `AIC90[ 762] .env:        '${ FRT_path(__basedir2, '.env' ).replace( /\\/, '/') }'`, bDebug_AIC90 )  // .(50213.03.5).(50126.03.25).(40829.03.16 RAM Was FRT.path).(40829.03.4)
+            sayMsg( `AIC90[ 763]  process.env['FRT_APPNAME'] : '${ process.env['FRT_APPNAME'] }'` ,      bDebug_AIC90 )
+            sayMsg( `AIC90[ 764]  process.env['FRT_MODEL'  ] : '${ process.env['FRT_MODEL'  ] }'` ,      bDebug_AIC90 )
 //          Object.freeze(process.env); // Lock it after loading
 //          console.log( '' )
        } catch(error) {
-            sayMsg(        `AIC90[ 710]:  * An error has occured in the imported module`)
+            sayMsg( `AIC90[ 710]:  * An error has occured in the imported module`)
             }
 //   -- --  --------------  =  -------------------------------------------------------- // -------------  \\
 

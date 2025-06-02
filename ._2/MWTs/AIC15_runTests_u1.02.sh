@@ -55,6 +55,9 @@
 #.(50515.02   5/15/25 RAM  9:25a| Display running script_u2.10.mjs
 #.(50516.07   5/16/25 RAM  2:50p| Add App to model-tests listing
 #.(50405.01c  5/17/25 RAM  1:04p| Put stats into a month folder  
+#.(50503.05c  5/31/25 RAM  5:30p| Use s## for docs sub folders
+#.(50405.01c  5/31/25 RAM 11:00p| But with a 3 letter Month name
+#.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -107,7 +110,8 @@
 #*  --- --  --------------  =  ------------------------------------------------------   #   ------------ *#
 
 function sayMsg() {
-   if [ "${bDebug}" == "1" ] || [ "$2" == "1" ]; then echo -e "  - $1"; fi
+#  if [ "${bDebug}" == "1" ] || [ "$2" == "1" ]; then echo -e "  - $1"; fi
+   if [ "${bDebug}" == "1" ] || [ "$2" == "1" ]; then echo -e "\x1b[93m  - $1\x1b[0m"; fi                   # .(50531.05.5 RAM Add yellow)
       }
 # -------------------------------------------------------------------
 
@@ -225,9 +229,11 @@ function prt1stMsg() {
        if [ "${b}" == "1" ] || [ "${bEnvs}" == "1" ]; then return; fi                   # .(50513.05.5).(50505.05.13 RAM Don't print if not a run command)
     if [ "${aLogs/log}" != "${aLogs}" ]; then
        aTS="$( date +%y%m%d.%H%M.%S)"; aTS="${aTS:1}";
-       echo -e "\n${aTS}  ${aApp}           Running test${s}: ${aArgs}"
+       echo -e "\n${aTS}  ${aApp}            Running test${s}: ${aArgs}"                                    # .(50531.05.6)
+#      echo -e "\x1b[97m\n${aTS}  ${aApp}           Running test${s}: ${aArgs}\x1b[0m"                      ##.(50531.05.6 RAM Force white)
      else
-       echo -e "\n  Running test${s} for: '${aArgs}' for app ${aApp2}."; # exit         # .(50428.05.x RAM Add ${aApp})
+       echo -e "\n  Running test${s} for: '${aArgs}' for app ${aApp2}."; # exit                             # .(50428.05.7 RAM Add ${aApp}).(50531.05.x)
+#      echo -e "\x1b[97m\n  Running test${s} for: '${aArgs}' for app ${aApp2}.\x1b[0m"; # exit              ##.(50531.05.7).(50428.05.x RAM Add ${aApp})
        if [ "$s" == "" ] || [ "${aArgs:4:1}" == "0" ]; then echo ""; fi
        fi
      }
@@ -353,10 +359,11 @@ function cpyEnv() {
 #        sayMsg "AIC15[ 347]  get1stFile \"s13\" \"${aFolder}\" \"txt\":\n $( ls -l "${aStatsDir}" )" 1;  #exit
 #        aCollection="$( get1stFile "s13" "${aFolder}" "txt" )" echo "  aCollection: ${aCollection}";#  exit
 
-         aMonth="$( date '+%Y.%m.%B')"                                                  # .(50405.01c.4))
+         aMonth="$( date '+%Y.%m.%b')"                                                  # .(50405.01d.1 RAM Was: Big B).(50405.01c.4))
          aAppName="$( basename "$( pwd )" )"                                            # .(50507.08c.2 RAM get number of row in stats sheet before runs Beg)
 #        aRespsDir="../../docs/a${aAppName:1}/$( date +'%y.%m.%B')"
-         aStatsDir="../../docs/a${aAppName:1}/${aMonth}_a${aApp:1}-saved-stats"         # .(50405.01c.5 RAM Add aMonth here too)
+#        aStatsDir="../../docs/a${aAppName:1}/${aMonth}_a${aApp:1}-saved-stats"         ##.(50405.01c.5 RAM Add aMonth here too).(50503.05c.5)
+         aStatsDir="../../docs/a${aAppName:1}/${aMonth}_${aApp}-saved-stats"            # .(50503.05c.5).(50405.01c.5 RAM Add aMonth here too)
 #echo "  aStatsDir: '${aStatsDir}"; ls -l ${aStatsDir}; exit
 #        sayMsg "AIC15[ 360]  get1stFile \"a${aApp:1}_Stats\" \"../../docs/${aApp}/$( date +'%y.%m.%B')\" \".csv\"" 1;    # exit
 #        sayMsg "AIC15[ 361]  get1stFile \"a${aApp:1}_Stats-\" \"${aStatsDir}\" \".csv\":\n $( ls -l "${aStatsDir}" )" 1; # exit
@@ -365,9 +372,9 @@ function cpyEnv() {
 #              aStatsFile="$( get1stFile  "a${aApp:1}"          "${aStatsDir}"   ".csv"   )";  # echo "     aStatsFile: ${aStatsFile}"; # exit
 #              aStatsFile="$( get1stFile  "a${aApp:1}*_${aVer}" "${aStatsDir}"   ".csv"   )";  # echo "     aStatsFile: ${aStatsFile}"; # exit
                aStatsFile="$( get1stFile  "_${aVer}"            "${aStatsDir}"   ".csv" 1 )";  # echo "     aStatsFile: ${aStatsFile}"; # exit
-#      if [ "${aStatsFile}" == "" ]; then sayMsg "\n  - AIC15[ 342]* no stats sheet found" 1; exit; fi
+#      if [ "${aStatsFile}" == "" ]; then  sayMsg "\n  - AIC15[ 342]* no stats sheet found" 1; exit; fi
        if [ "${aStatsFile}" == "" ]; then  nStats=1
-                                         else  nStats=$( wc "${aStatsFile}" | awk '{ print $1 ? $1 : 0 }' ); fi
+                                     else  nStats=$( wc "${aStatsFile}" | awk '{ print $1 ? $1 : 0 }' ); fi
          sayMsg "AIC15[ 370]  ${aStatsFile}, nStats: ${nStats}" -1 # 1                  # .(50507.08c.2 End
 
 function savRespIds2() {                                                                # .(50507.08c.3 RAM Write savRespIds Beg)
@@ -409,7 +416,7 @@ function savRespIds2() {                                                        
 #if [ "${aUseTestId}" != "" ]; then                                                     ##.(50429.06.6 Beg)
 #        node ${searchScript}  ${aUseTestId}                                            ##.(50423.03.3 RAM Use ${Search_Script} instead of search_u2.05.sh)
 #        mArgs[0]="${aUseTestId}"                                                       ##.(50429.06.7)
-#        sayMsg  "AIC15[ 406]  Using aApp2: '${aApp2}', mArgs[0]: '${mArgs[0]}', bGroup: '${aTestId:3:1}', aLogs: '${aLogs}'"; # exit  1
+#        sayMsg "AIC15[ 406]  Using aApp2: '${aApp2}', mArgs[0]: '${mArgs[0]}', bGroup: '${aTestId:3:1}', aLogs: '${aLogs}'"; # exit  1
 #        fi                                                                             ##.(50429.06.6 End)
 # -------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------
@@ -447,10 +454,10 @@ function savRespIds2() {                                                        
       cat .env | awk "${aAWKscr2}" | awk "${aAWKscr}" | sort -k1,1                      # .(50514.01.7 RAM Display Overridden parameters)
       echo " "
       fi;
-   fi # eif use current .env file                                                                             # .(50429.06.9 End)
+   fi # eif use current .env file                                                                           # .(50429.06.9 End)
 
 #        prt1stMsg
-         sayMsg "AIC15[ 450] aApp: '${aApp2}', DOIT: '${bDoit}', bDebug: '${bDebug}', DRYRUN: '${bDryRun}', SCORING: '${SCORING}', PC_CODE: '${aPCCode}', LOGGER: '${aLogs}'" ${bEnvs}; # exit
+         sayMsg "AIC15[ 450]  aApp: '${aApp2}', DOIT: '${bDoit}', bDebug: '${bDebug}', DRYRUN: '${bDryRun}', SCORING: '${SCORING}', PC_CODE: '${aPCCode}', LOGGER: '${aLogs}'" ${bEnvs}; # exit
 #        echo "--- aDryRun: '${aDryRun}', bDryRun: '${bDryRun}', bDebug: '${bDebug}', bUseCurrentId: '${bUseCurrentId}'"
  # -----------------------------------------------------------------------------------
 
@@ -475,13 +482,13 @@ function savRespIds2() {                                                        
 #     echo "=================================================================================================================================================="
       aDryRun=""; if [ "${bDryRun}" == "1" ]; then aDryRun="a Dry Run of "; fi          # .(50513.04.1)
 
-         shift                                                                          # .(50429.02.2 RAM Yes, shift is necessary)
-         sayMsg "AIC15[ 476]  Running ${aDryRun}${searchScript} $@\n" -1;   # exit      # .(50513.04.2 RAM Add aDryRun)
+            shift                                                                          # .(50429.02.2 RAM Yes, shift is necessary)
+            sayMsg "AIC15[ 476]  Running ${aDryRun}${searchScript} $@\n" -1;   # exit      # .(50513.04.2 RAM Add aDryRun)
 
    if [ "${aLogs/log}"   != "${aLogs}"  ] && [ "${bEnvs}" != "1" ]; then   # log        # .(50513.05b.1)
       aTS="$( date +%y%m%d.%H%M.%S)"; aTS="${aTS:1}";
 #     echo -e "${aTS}  ${aApp}  ${aTestId}     Running ${searchScript} $@"              ##.(50515.02.1)
-      echo -e "${aTS}  ${aApp}  ${aTestId}     Running search_${aVer}.mjs $@"           # .(50515.02.1)
+      echo -e "${aTS}  ${aApp}  ${aTestId}      Running search_${aVer}.mjs $@"          # .(50515.02.1)
       fi # eif show log
 
       if [ "${bDryRun}" != "1" ] &&                                                     # .(50506.03.4 RAM )
