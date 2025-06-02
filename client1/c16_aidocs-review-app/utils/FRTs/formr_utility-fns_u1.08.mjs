@@ -398,26 +398,26 @@ async function  traceR( aFLNo, aMsg, nSay, pObj ) {                             
          }; // eof traceR                                                                           // .(30416.02.1 RAM End)
 //--------  ------  =  -----------------------------------------------------
 
-      function  getHelp( ) {                                                                        // .(40406.01.1 RAM Beg Write function Help)
-                sayMsg( 2, '\n  FRT Function        Description'
-                        +  '\n  ------------------  -------------------------------'
-                        +  '\n  sayMsg              Display a message'
-                        +  '\n  sayErr              Display an error message'
-                        +  '\n  getEnv              Get variables in .env or _env'
+  function  getHelp( ) {                                                                        // .(40406.01.1 RAM Beg Write function Help)
+            sayMsg( 2, '\n  FRT Function        Description'
+                    +  '\n  ------------------  -------------------------------'
+                    +  '\n  sayMsg              Display a message'
+                    +  '\n  sayErr              Display an error message'
+                    +  '\n  getEnv              Get variables in .env or _env'
 //                      +  '\n  getEnv_sync         '                                               //#.(40406.02.8)
-                        +  '\n  setAPI_URL          '
-                        +  '\n  setHTML             '
-                        +  '\n  setQuiet            Set quiet mode: default is true'                // .(40407.03.2)
-                        +  '\n  traceR              Output aFLNo, aMsg, nSay, pObj'
-                        +  '\n  getHelp             This help message'
-                        +  '\n  handleFormSubmit    '
-                        +  '\n  getHeaders          '
-                        +  '\n  __dirname           The current directory name'
-                        +  '\n  __appDir            The current app directory'
-                        +  '\n  __OS                The currnet operating system'
-                        +  '\n'
-                        )
-                }; // eof getHelp                                                                   // .(40406.01.1 RAM End)
+                    +  '\n  setAPI_URL          '
+                    +  '\n  setHTML             '
+                    +  '\n  setQuiet            Set quiet mode: default is true'                // .(40407.03.2)
+                    +  '\n  traceR              Output aFLNo, aMsg, nSay, pObj'
+                    +  '\n  getHelp             This help message'
+                    +  '\n  handleFormSubmit    '
+                    +  '\n  getHeaders          '
+                    +  '\n  __dirname           The current directory name'
+                    +  '\n  __appDir            The current app directory'
+                    +  '\n  __OS                The currnet operating system'
+                    +  '\n'
+                    )
+            }; // eof getHelp                                                                   // .(40406.01.1 RAM End)
 //--------  ------  =  -----------------------------------------------------
 //----------------------------  =  --------------------------------- ------------------
 
