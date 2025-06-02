@@ -9,7 +9,7 @@
      export RUN_TESTS="../../._2/MWTs/AIC15_runTests_u1.02.sh"
 #    export SCORE_SCRIPT="../components/score_u2.08.mjs"                                ##.(50507.02.6)
 #    export SEARCH_SCRIPT="../components/search_u2.08.mjs"                              ##.(50507.02.7)
-     export SCORE_SCRIPT="../s14_grading-app/run-tests.mjs"                             # .(50507.02.6)
+     export SCORE_SCRIPT="../s14_scoring-app/run-tests.mjs"                             # .(50602.01.1 RAM Was s14_grading).(50507.02.6)
      export SEARCH_SCRIPT="./run-tests.mjs search"                                      # .(50507.02.7)
 
      export APP=${aApp2}                                                                # .(50429.05.15)
@@ -38,4 +38,5 @@
      fi                                                                                 # .(50514.01.23 End)
 #    echo "" >run-tests.txt                     ##.(50507.08d.6 RAM Not here).(50507.08a.6 RAM Start MT)
      bash  "${RUN_TESTS}" "$@";                 if [ $? -ne 0 ]; then exit 1; fi
+     
      node  "${SCORE_SCRIPT}" "${SEARCH_MODEL}" "${aApp2}" "$@";
