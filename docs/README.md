@@ -231,7 +231,7 @@ Install the AI.testR.4u app from a terminal window in a Repos folder.
             Copying .env file from ./AIDocs_test1/server1/s11_search-app/.env_example  to  .env
             Copying .env file from ./AIDocs_test1/server1/s12_search-web-app/.env_example  to  .env
             Copying .env file from ./AIDocs_test1/server1/s13_search-rag-app/.env_example  to  .env
-            Copying .env file from ./AIDocs_test1/server1/s14_grading-app/.env_example  to  .env
+            Copying .env file from ./AIDocs_test1/server1/s14_scoring-app/.env_example  to  .env
 
           Copied:  /Users/Shared/._0/bin/ait
           Copied:  /Users/Shared/._0/bin/aitestr
@@ -583,7 +583,7 @@ E. Change some runtime parameters
              export RUN_TESTS="../../._2/MWTs/AIC15_runTests_u1.02.sh"
         #    export SCORE_SCRIPT="../components/score_u2.08.mjs"                                ##.(50507.02.6)
         #    export SEARCH_SCRIPT="../components/search_u2.09.mjs"                              ##.(50507.02.7)
-             export SCORE_SCRIPT="../s14_grading-app/run-tests.mjs"                             # .(50507.02.6)
+             export SCORE_SCRIPT="../s14_scoring-app/run-tests.mjs"                             # .(50602.01.1 RAM Was s14_grading).(50507.02.6)
              export SEARCH_SCRIPT="./run-tests.mjs"                                             # .(50507.02.7)
 
              export APP=${aApp2}                                                                # .(50429.05.15)  
@@ -860,7 +860,7 @@ E. Change some runtime parameters
        <ul><li style="font-size:11px;"><code>PC_CODE</code>: by making it empty, a new Hardware code will be generated.</li></ul>  
     </details>  
 
-    <details><summary<code>Open the file: <code>server1/s14_grading-app/s14_model-tests.txt</code></summary>
+    <details><summary<code>Open the file: <code>server1/s14_scoring-app/s14_model-tests.txt</code></summary>
 
                                                                    Runs,    DOCs,   USPF,  # Use s13_system-prompt.txt file
            TestId,   Model,              CTX_SIZE, SysPmtCd, Temp,   Tests,   URLs,   UUPF,  Sections
