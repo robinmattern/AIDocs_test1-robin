@@ -10,36 +10,36 @@
 #            MIT License: http://www.opensource.org/licenses/mit-license.php
 ##CHGS     .--------------------+----------------------------------------------+
 #.(50416.08   4/16/25 RAM  5:50p| Witten by Robin Mattern
-#.(50506.03   5/06/25 RAM  9:45a| Add DRYRUN
+#.(50506.03   5/06/25 RAM  9:45a| Add DRYRUN to affect DOIT and DEBUG
 #.(50507.02   5/07/25 RAM  7:00a| New way to turn score on an off 
-#.(50513.02   5/13/25 RAM  2:35p| Put paramaters in this script in project dir
-#.(50514.01   5/14/25 RAM  8:15a| Add override parameters 
-
+#.(50514.01   5/14/25 RAM  8:15a| Add override parameters in project dir
+#
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
 #
-#    export SECTIONS=Parms,Search,Results       # .(50514.01.1 Override parameters in s##_model-tests.txt)
-#    export SECTIONS=Parms,Results              # .(50514.01.2)
-#    export SECTIONS=RunId                      # .(50514.01.3
-
 #    export LOGGER=
-     export LOGGER="log"
+     export LOGGER="log"                        # .(50514.01.1 RAM Override display sections -- no spaces before or after = sign)
 #    export LOGGER="inputs"
 #    export LOGGER="log,inputs"
 
-     export DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1".
-     export DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0"
-     export DRYRUN="0"                          # .(50506.03.1 RAM Add DRYRUN)
-     export SCORING="1"                         # .(50507.02.8 RAM New way to score it
+     export DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1")
+     export DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0")
+     export DRYRUN="0"                          # .(50506.03.7 RAM Add DRYRUN)
+     export SCORING="1"                         # .(50507.02.8 RAM Run scoring after models are run)
 
-     export PC_CODE=""
+     export PC_CODE="rm288p"
 
-     export SEARCH_MODEL="qwen2:1.5b"           # .(50514.01.5 RAM Override parameters -- no spaces before or after = sign)
-     export SCORING_MODEL="qwen2:1.5b"          # .(50514.01.6)
-#    export SYSTEM_PROMPT="Summarize the information provided and answer the user's prompt accordingly."     
-#    export RAG_COLLECTIONS="s13b_apple-os-pdfs"        
-#    export USER_PROMPT="What is so special about ios 17"        
+     export SEARCH_MODEL="qwen2:0.5b"           # .(50514.01.2 RAM Override models)
+     export SCORING_MODEL="qwen2:0.5b"          # .(50514.01.3)
+#    export SCORING_MODEL="gemma2:2b"           # .(50514.01.3)
+     
+#    export SCORING_SECTIONS="Results,RunId"    # .(50521.01.1 RAM Override display sections for scoring model run)
+#    export SCORING_SECTIONS="Stats,RunId"      # .(50521.01.1 RAM Override display sections for scoring model run)
+
+     export SYSTEM_PROMPT="all-sys: Summarize the information provided and answer the user's prompt accordingly."     
+     export USER_PROMPT="all-usr: What is so special about ios 17"        
+     export RAG_COLLECTIONS="s13_apple-ipad-txt"        
 
 ##SRCE     +====================+===============================================+
 ##RFILE    +====================+=======+===================+======+=============+

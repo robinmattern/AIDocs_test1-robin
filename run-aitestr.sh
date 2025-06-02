@@ -16,13 +16,16 @@
 ##CHGS     .--------------------+----------------------------------------------+
 #.(50101.01   5/01/25 MW   7:00a| Created by Robin mattern
 #.(50519.02   5/19/25 RAM 10:00a| Write and use shoSource
+#.(50520.01b  5/20/25 RAM  7:50a| Add chroma import command
+#.(50522.02   5/22/25 RAM  9:15a| Bump AIDocs version to u2.10.140
+#.(50522.02b  5/31/25 RAM  5:15p| Bump AIDocs version to u2.11.141
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
 #=====================================================================================  # ================= #  ===============================  #
 
-            aVer="u2.10.138"                                                            # .(50514.07.1 RAM Bump Version)
+            aVer="u2.11.141"                                                            # .(50522.02b.2).(50522.02.3).(50514.07.1 RAM Bump Version)
                                                                                         # .(50513.02.x RAM Change name from run-tests.sh to run-aitestr.sh)
 #  aAIC="$( dirname "$0" )"; aPWD="$(pwd)"; #echo "  \${aAIC/\${aPWD}/}: ${aAIC/${aPWD}/} -- ${aAIC} in ${aPWD}/"     ##.(50511.04.1)
 #  aAIC="$( dirname "$0" )"; aPWD="$(pwd)";  echo "  \${aPWD/\${aAIC}/}: ${aPWD/${aAIC}/} -- ${aPWD} in ${aAIC}/"     ##.(50511.04.1)
@@ -63,7 +66,8 @@
    if [ "${2:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=$1;  shift; b=1; fi      # .(50516.07.2 RAM Do list for each app)
    if [ "${1:0:3}"    == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi      # .(50505.05.1
    if [ "${1:0:3}"    == "sql"   ]; then aCmd="sqlite  "; aApp=s13; shift; b=1; fi      # .(50505.06.1)
-   if [ "${1:0:3}"    == "chr"   ]; then aCmd="chroma  "; aApp=s13; shift; b=1; fi      # .(50505.06.2)
+   if [ "${1:0:3}"    == "chr"   ]; then aCmd="chroma  "; aApp=s13; shift; b=1;         # .(50520.01b.1).(50505.06.2)
+      if [ "${2:0:3}" == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi; fi  # .(50520.01b.2 RAM Add chroma import)  
    if [ "${1:0:3}"    == "exa"   ]; then aCmd="example "; aApp=s13; shift; b=1; fi      # .(50505.04.2 RAM Add example)
    if [ "${aApp}"     == ""      ]; then                  aApp=$1;  shift; fi           # .(50420.01b.7)
                                          aDir=""; aTests="$@"                           # .(50429.05.1)
@@ -115,13 +119,14 @@
       echo -e   "    {App} gen {Group}  to generate an .env template for a test model group"
       echo -e   "    {App} list         to list all tests to run"
       echo -e   "    help pc_code       to save computer hardware specs"                # .(50516.08.2)
-      echo -e   "    import {App}       to import a collection of docs"                 # .(50505.05.2)
+      echo -e   "    chroma import {Docs}  to import a collection of docs"                 # .(50520.01b.3)(50505.05.2)
       echo -e   "    chroma start       to start the Chroma Vector DB"                  # .(50505.06.3)
       echo -e   "    sql {table}        to query a table in the Chroma Vector DB"       # .(50505.06.4)
       echo -e   ""
       echo -e   "  Where:"
       echo -e   "    {App}              is an App Id for one type of test app, e.g. s11."
       echo -e   "    {Test}             is one Test id, e.g. t011"
+      echo -e   "    {Docs}                is a collections of docs to import into the vector database"   # .(50520.01b.4)
       echo -e   "    {Group}            is a Group Id for one set of model tests, e.g. t010"
       echo -e   ""                                                                      # .(50421.04.1 RAM Add more help Beg)
       echo -e   "  For example:"
