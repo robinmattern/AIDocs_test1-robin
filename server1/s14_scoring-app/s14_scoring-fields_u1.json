@@ -1,0 +1,8 @@
+{ 
+  "Fields": 
+    [ { "Name":  "Accurate",      "Parse": "/**Accuracy**/"  }
+    , { "Name":  "Relevant",      "Parse": "/**Relevance**/" }
+    , { "Name":  "Organization",  "Parse": "/**Coherence**/" }
+    , { "Total": "ScoreWeighted", "Calc": "(Accurate * 3) + (Relevant * 2) + (Organization * 1)" }
+      ]
+    }

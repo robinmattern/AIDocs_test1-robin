@@ -69,6 +69,9 @@
 #.(50515.01   4/15/25 RAM  8:00a| Add none to shoMsg
 #.(50517.01   5/17/25 RAM 10:30a| Write and use sayColor_Log
 #.(50519.04   5/19/25 RAM 12:15p| Put aPC_CODE into THE_SERVER
+#.(50519.04b  5/19/25 RAM  3:40p| Opps S.B. ` 
+#.(50531.01   5/31/25 RAM 12:00p| Rework Statsheet
+#.(50531.02   5/31/25 RAM 13:00p| Rework Scoring Names
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -473,7 +476,7 @@ function  fmtResults(results) {
   function  getServerInfo( ) {                                                          // .(50330.04.8 RAM Write getServerInfo Beg)
        var  aPC_CODE         =  (process.env.THE_PC_CODE || '').toLowerCase()           // .(50519.04.1 RAM)
        var  aServer          =   process.env.THE_SERVER  || ''
-       var  aServer          ="${aPC_CODE}-${ aServer.replace( /^.+-/, '' ) }"          // .(50519.04.2 RAM Put aPC_CODE into THE_SERVER)
+       var  aServer          =`${aPC_CODE}-${ aServer.replace( /^.+-/, '' ) }`          // .(50519.04b.2 RAM Opps S.b. `).(50519.04.2 RAM Put aPC_CODE into THE_SERVER)
        var  aCPU_GPU         =`${process.env.THE_CPU}${                                 // .(50330.04b.5 Beg)
                                 (process.env.THE_CPU != process.env.THE_GPU)
                           ? `, ${process.env.THE_GPU}` : '' }`
@@ -543,6 +546,7 @@ function  fmtResults(results) {
                 , JSONResponse:       pStats.ResponseFile.replace( /.+docs/i, './docs' ).replace( /.txt$/, '.json' )
                   }
                }
+
 //          delete pJSON.ModelQuery.RunStats.ResponseFile
             delete pStats.ResponseFile
             delete pStats.WebSearchURL
@@ -601,6 +605,17 @@ function  fmtResults(results) {
 // TPS|                         -6
 //   Duration|                  -7    
 //   Web Search Prompt    |     27 chop
+// Was:  Sc|                          -3                                                // .(50531.01.1 RAM Change these columns Beg)
+// Was:  Or|                          -3
+// Was:  Es|                          -3
+// Add: Tot|                          -3
+// Was:         Date Time   |        -18
+// Was:  Eval Duration|               -6
+// Was: Prompt Eval Tokens|           -6
+// Was:   Web Search Prompt     |     27 chop
+// Was: Web Search URL         |      23
+// Mov: Doc-File Name          |      23 min
+// WAS: Model System Prompt|          35 chop                                           // .(50531.01.1 End)
 
     var aTemplate= `
 RespId       |                13
@@ -610,20 +625,21 @@ Context|                      -7
  Temp|                        -5
 TPS|                          -6
    Duration|                  -7
- Sc|                          -3
- or|                          -3
- es|                          -3
-      Date Time   |          -18
+ N1|                          -3
+ N2|                          -3
+ N3|                          -3
+Tot|                          -3
+      Date Time   |          -20
 UPC|                           3
 Model User Prompt|            27 chop
- Eval Duration|               -6
+Eval Duration|                -6
 Eval Tokens|                  -5
-Prompt Eval Tokens|           -6
+PromptTokens|                 -6
 SysPmtCd|                      9
-Model System Prompt|          35 chop
-  Web Search Prompt     |     27 chop
+Model System Prompt    |      35 chop
+Web Search Prompt          |  27 chop
+Web Search URL      |         23
 Doc-File Name          |      23 min
-Web Search URL         |      23
 CPU_GPU                |      23
 RAM|                          -3
 OS       |                     9
@@ -655,20 +671,21 @@ Response File|
             pStats.Temperature      = take(  -5,  parms.temp )                          // .(50404.05.03)
             pStats.TokensPerSecond  = take(  -6, (stats.eval_count / (stats.eval_duration / 1e9)).toFixed(2) )    // .(50404.05.08)
             pStats.Duration         = take(  -7, (stats.total_duration/1e9).toFixed(2)) // .(50404.05.04)
-            pStats.Accuracy         = take(  -3,  0 )                                   // .(50503.01.6)
-            pStats.Relevance        = take(  -3,  0 )                                   // .(50503.01.7)
-            pStats.Coherence        = take(  -3,  0 )                                   // .(50503.01.8)
+            pStats.Score1           = take(  -3,  0 )                                   // .(50531.02.1 RAM Was: Accuracy. Not known yet).(50503.01.6)
+            pStats.Score2           = take(  -3,  0 )                                   // .(50531.02.2 RAM Was: Relevance).(50503.01.7)
+            pStats.Score3           = take(  -3,  0 )                                   // .(50531.02.3 RAM Was: Coherence).(50503.01.8)
+            pStats.ScoreTotal       = take(  -3,  0 )                                   // .(50531.01.2 RAM Added)
             pStats.DateTime         = take( -18,  parms.datetime )                      // .(50413.02.3)
             pStats.UPC              = take(   3,  parms.qpc )                           // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
             pStats.EvalTokens       = take(  -5,  stats.eval_count * 1 )                // .(50404.05c.01 RAM Save 'NaN, not 'undefined').(50404.05.05)
-            pStats.UsrPrompt        = chop(  27,  parms.usrprompt )                     // .(50410.04c.1).(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
-            pStats.EvalDuration     = take(  -6, (stats.eval_duration /1e9).toFixed(2)) // .(50404.05.06)
+            pStats.EvalDuration     = take(  -6, (stats.eval_duration /1e9).toFixed(2)) // .(50531.01.3 RAM Moved up one).(50404.05.06)
+            pStats.UsrPrompt        = chop(  27,  parms.usrprompt )                     // .(50531.01.4 RAM Moved down one).(50410.04c.1).(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
             pStats.PromptEvalTokens = take(  -5,  stats.prompt_eval_count * 1 )         // .(50404.05c.02).(50404.05.07)
             pStats.SysPmtCd         = take(   9,  parms.spc )                           // .(50413.02.4)
             pStats.SysPrompt        = chop(  35,  parms.sysprompt )                     // .(50410.04c.2).(50413.02.5)
             pStats.WebSearch        = chop(  27,  parms.websearch )                     // .(50410.04c.3).(50330.04c.4)
-            pStats.Docs             = take(  23,  stats.docs, 1 )                       // .(50503.01.8 RAM Soft take, i.e. just pad )
-            pStats.WebSearchURL     = take(  23,  stats.url, 1 )                        // .(50503.01.9).(50407.03.6)
+            pStats.WebSearchURL     = take(  23,  stats.url, 1 )                        // .(50531.01.5 RAM Moved).(50503.01.9).(50407.03.6)
+            pStats.Docs             = take(  23,  stats.docs, 1 )                       // .(50531.01.6).(50503.01.8 RAM Soft take, i.e. just pad )
             pStats.CPU_GPU          = take(  23,  aCPU_GPU, 1 )                         // .(50503.01.10).(50330.04b.7 Beg)
             pStats.RAM              = take(  -3,  aRAM.replace( / *GB/, '' ) )
             pStats.OS               = take(   9,  aOS )

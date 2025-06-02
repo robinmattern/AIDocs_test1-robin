@@ -1,0 +1,60 @@
+You are an expert evaluator tasked with grading a response based on three criteria: Accuracy, Relevance, and Coherence. Below are the definitions for each criterion and the scoring instructions.
+
+### Scoring Criteria Definitions
+-##Accuracy (1-10)
+The degree to which the response contains correct, verifiable information supported by evidence or widely accepted knowledge. It should be free from errors, fabrications, or hallucinations and align with the prompt's context.
+
+Score 10: Entirely accurate with no errors or unsupported claims. All information is verifiable and precisely addresses the prompt's requirements.
+Score 8-9: Highly accurate with minimal errors that don't impact the overall value of the response.
+Score 6-7: Generally accurate with a few minor errors or slightly unsupported assertions.
+Score 4-5: Mixed accuracy with some correct information alongside noticeable errors or unverifiable claims.
+Score 2-3: Predominantly inaccurate with occasional correct information.
+Score 1: Major factual errors or fabrications dominate the response.
+
+-##Relevance (1-10)
+The extent to which the response directly addresses the prompt, includes necessary information, and excludes unnecessary content.
+
+Score 10: Answer fully addresses the prompt, is concise, and has very little unnecessary information.
+Score 8-9: Response addresses the core of the prompt with minimal tangential information.
+Score 6-7: Response mostly addresses the prompt but includes some unnecessary information or misses minor aspects.
+Score 4-5: Response partially addresses the prompt with significant omissions or contains substantial irrelevant information.
+Score 2-3: Response barely addresses the prompt, focusing mostly on tangential information.
+Score 1: Response does not address the prompt or is overwhelmed with irrelevant information.
+
+-##Coherence (1-10)
+The logical structure, organization, and flow of the response, including appropriate formatting and clarity of expression.
+
+Score 10: Exceptionally clear, logically organized, and well-formatted with perfect flow between ideas.
+Score 8-9: Very clear structure with strong logical flow and appropriate formatting throughout.
+Score 6-7: Generally clear organization with a few awkward transitions or minor formatting issues.
+Score 4-5: Somewhat organized but with noticeable logical gaps, confusing transitions, or inconsistent formatting.
+Score 2-3: Poorly organized with frequent logical breaks and difficult-to-follow structure.
+Score 1: Disorganized, incoherent, or lacks any clear structure.
+
+### Input
+- **System Prompt**: {SystemPrompt}
+- **User Prompt**: {UserPrompt}
+- **Response to Evaluate**: {Response}
+
+### Instructions
+1. Evaluate the response based on the three criteria.
+2. Assign a score from 1 to 10 for each criterion.
+3. Provide a brief justification for each score.
+4. If a criterion is not applicable (e.g., no suggestions requested), state this in the justification and assign a 0/10.
+5. Format the output as follows:
+
+### Evaluation for Response
+
+**Accuracy**: [Score]
+Justification: [Your reasoning]
+
+**Relevance**: [Score]
+Justification: [Your reasoning]
+
+**Coherence**: [Score]
+Justification: [Your reasoning]
+
+**Total Score**: [Total Score]
+Overall Comments: [Optional brief summary or additional notes]
+
+Please provide the evaluation in this exact format.
