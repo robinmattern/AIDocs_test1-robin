@@ -61,7 +61,7 @@ function stopChromaDB() {                                                       
          aPID2="$( ps aux | awk '/chroma/ { print $2; exit }' )"
        else
          aPID="$( ps aux | awk '/chroma/ { if ( $11 != "awk" ) { print $2 }; exit }' )"
-         aPID2=aPID
+         aPID2=${aPID}                                                                  # .(50522.03.x)
          fi
 
      if [ "${aPID}" == "" ]; then echo "  ChromaDB is not running.";

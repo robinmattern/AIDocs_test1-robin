@@ -89,6 +89,7 @@
 //          await  importCollection( aCollection, true );                               // .(50425.01.6 RAM true = bQuiet, i.e. Don't show every chunk)
             console.log( `\nCollection, '${aCollection}', import complete.`);
            
+            if (process.platform.slice(0,3) != "Win") { console.log("") }               // .(50522.03.1)            
 // --------------------------------------------------------------
 
   async   function checkCollection( aCollectionName ) {                                 // .(50514.03.1 RAM Write checkCollection)

@@ -67,7 +67,7 @@
    if [ "${1:0:3}"    == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi      # .(50505.05.1
    if [ "${1:0:3}"    == "sql"   ]; then aCmd="sqlite  "; aApp=s13; shift; b=1; fi      # .(50505.06.1)
    if [ "${1:0:3}"    == "chr"   ]; then aCmd="chroma  "; aApp=s13; shift; b=1;         # .(50520.01b.1).(50505.06.2)
-      if [ "${2:0:3}" == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi; fi  # .(50520.01b.2 RAM Add chroma import)  
+      if [ "${1:0:3}" == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi; fi  # .(50522.01.1 RAM Was {2:0:3})(50520.01b.2 RAM Add chroma import)  
    if [ "${1:0:3}"    == "exa"   ]; then aCmd="example "; aApp=s13; shift; b=1; fi      # .(50505.04.2 RAM Add example)
    if [ "${aApp}"     == ""      ]; then                  aApp=$1;  shift; fi           # .(50420.01b.7)
                                          aDir=""; aTests="$@"                           # .(50429.05.1)

@@ -720,7 +720,8 @@ import   ollama              from "ollama";
             usrMsg(   `  Docs:      "${pJSON_Results.Docs}"`                                                               , shoMsg('Parms')   ) // .(50430.04.16).(50404.01.12).(50331b.01.5).(50331.01.5 RAM Add documents)
             }
 //          usrMsg(   `  SysPrompt:                "${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "") }"` , shoMsg('Parms')   ) //#.(50404.01.13)..(50404.01b.1)
-            usrMsg(   `  SysPrompt: "${pParms.qpc}: ${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "") }"` , shoMsg('Parms')   ) // .(50404.01b.1 RAM Show SYS_CD).(50404.01.13)
+//          usrMsg(   `  SysPrompt: "${pParms.qpc}: ${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "") }"` , shoMsg('Parms')   ) // .(50404.01b.1 RAM Show SYS_CD).(50404.01.13)
+            usrMsg(   `  SysPrompt: "${pParms.spc}: ${ pParms.prompt.replace( /{Docs}/, "" ).replace( /{Query}\./, "") }"` , shoMsg('Parms')   ) // .(50522.03.2 RAM Was: qpc).(50404.01b.1 RAM Show SYS_CD).(50404.01.13)            
 //          usrMsg(   `  Query:     "${query}"`                                                                            , shoMsg('Parms')   ) //#.(50404.01.14).(50408.08.1)
 //          usrMsg(   `  UsrPrompt: "{Query}: ${query}"` )  // aka aiPrompt, Model Query Prompt                            , shoMsg('Parms')   ) // .(50408.08.1 Was Query).(50404.01.14)
             usrMsg(   `  UsrPrompt: "${pParms.qpc}: ${query}"`                                                             , shoMsg('Parms')   ) // .(50410.04a.3).(50408.08.1 Was Query).(50404.01.14)
