@@ -72,6 +72,8 @@
 #.(50519.04b  5/19/25 RAM  3:40p| Opps S.B. ` 
 #.(50531.01   5/31/25 RAM 12:00p| Rework Statsheet
 #.(50531.02   5/31/25 RAM 13:00p| Rework Scoring Names
+#.(50603.01   5/03/25 RAM  8:00a| Add chunkTextBySentences from matts-llm-tools
+#.(50603.03   5/03/25 RAM  8:37a| Add getBasename
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -79,21 +81,22 @@
 \*/
 //========================================================================================================= #  ===============================  #
 
-   import   inquirer             from 'inquirer'                                        // .(50330.03.1 RAM New console input)
-   import   dotenv               from 'dotenv'                                          // .(50330.04.1 RAM Need this)
-   import { dirname, join }      from 'path';
-   import { fileURLToPath }      from 'url';
-// import { ftruncate     }      from 'fs';                                             //#.(50425.03.1)
-   import   path                 from "path";
-   import   fs                   from 'fs';                                             // .(50425.03.2)
-   import { readFile }           from "fs/promises";                                    // .(50428.02.1 RAM Add readFile. Why??)
-   import { convert  }           from "html-to-text";                                   // .(50428.01.4)
+   import   inquirer               from 'inquirer'                                      // .(50330.03.1 RAM New console input)
+   import   dotenv                 from 'dotenv'                                        // .(50330.04.1 RAM Need this)
+   import { dirname, join }        from 'path';
+   import { fileURLToPath }        from 'url';
+// import { ftruncate     }        from 'fs';                                           //#.(50425.03.1)
+   import   path                   from "path";
+   import   fs                     from 'fs';                                           // .(50425.03.2)
+   import { readFile }             from "fs/promises";                                  // .(50428.02.1 RAM Add readFile. Why??)
+   import { convert  }             from "html-to-text";                                 // .(50428.01.4)
+   import { chunkTextBySentences } from "matts-llm-tools";                              // .(50603.01.1 RAM Add) 
 
-// import   pdfParse             from 'pdf-parse';                                      // .(50425.03.3 RAM New PDF parser)
-// import { PDFExtract }         from 'pdf.js-extract';                                 // .(50425.03.3 
+// import   pdfParse               from 'pdf-parse';                                    // .(50425.03.3 RAM New PDF parser)
+// import { PDFExtract }           from 'pdf.js-extract';                               // .(50425.03.3 
    
-// import { Readability   }      from '@mozilla/readability';
-// import { JSDOM         }      from 'jsdom';
+// import { Readability   }        from '@mozilla/readability';
+// import { JSDOM         }        from 'jsdom';
 
 //   -- --- ---------------  =  ------------------------------------------------------  #  ---------------- #
 
@@ -126,6 +129,11 @@
        var  aFilePath = path.resolve( aDrv, aDir, aFile );
     return  aFilePath;
             }                                                                           // .(50425.03.1 RAM New Version)
+// ---------------------------------------------------------------
+
+  function  getBasename( aPath ) {                                                      // .(50603.03.1 RAM Write getBaseName Beg)
+            return path.basename( aPath )
+            }                                                                           // .(50603.03.1 End) 
 // ---------------------------------------------------------------
 
 // const config = JSON.parse( await readFile("./config.json", "utf-8"));
@@ -826,30 +834,32 @@ function  createUserInput() {                             //#.(50330.03.3 RAM Re
 } */
 //   -- --- ---------------  =  ------------------------------------------------------  #
 
-    export  default {  // Export as default object with named functions
-            ask4Text,                                     // .(50330.03.4)
-//          createUserInput                               //#.(50330.03.5)
-            extractTextFromPDF,                           // .(50425.03.2) 
-            extractImagesFromPDF,                         // .(50425.03.3)
-            fmtText,
-            fixPath,                                      // .(50425.03.4
-            getConfig,                                    // .(50428.01.8)  
-            get1stFile,                                   // .(50428.02.6)  
-            fmtStream,
-            htmlToText,
-            fmtResults,
-            fmtStats,
-            readText,                                     // .(50428.01.9)
-//          savStats      : savStats_4Text,               //#.(50408.06.4).(50331.03.3)
-            savStats4Text : savStats_4Text_v208,          // .(50503.01.11).(50408.06.4)
-            savStats4JSON : savStats_4JSON,               // .(50408.06.5)
-//          savStats4MD   : savStats_4MD,                 // .(50408.10.2)
-//          getEnvVars,                                   //#.(50403.02.6).(50331.04.2)
-            showHiddenChars,
-            shoMsg,                                                                     // .(50404.01.26)
-            sqzLines,                                     // .(50503.08.2)
-            wrap                                          // .(50330.05.2)
-            };
+    export  default   // Export as default object with named functions
+             {  ask4Text                                  // .(50330.03.4)
+//           ,  createUserInput                           //#.(50330.03.5)
+             ,  chunkTextBySentences                      // .(50603.01.2)
+             ,  extractTextFromPDF                        // .(50425.03.2) 
+             ,  extractImagesFromPDF                      // .(50425.03.3)
+             ,  fmtText
+             ,  fixPath                                   // .(50425.03.4
+             ,  getBasename                               // .(50603.03.2)  
+             ,  getConfig                                 // .(50428.01.8)  
+             ,  get1stFile                                // .(50428.02.6)  
+             ,  fmtStream
+             ,  htmlToText
+             ,  fmtResults
+             ,  fmtStats
+             ,  readText                                  // .(50428.01.9)
+//           ,  savStats      : savStats_4Text,           //#.(50408.06.4).(50331.03.3)
+             ,  savStats4Text : savStats_4Text_v208       // .(50503.01.11).(50408.06.4)
+             ,  savStats4JSON : savStats_4JSON            // .(50408.06.5)
+//           ,  savStats4MD   : savStats_4MD              // .(50408.10.2)
+//           ,  getEnvVars                                //#.(50403.02.6).(50331.04.2)
+             ,  showHiddenChars
+             ,  shoMsg                                    // .(50404.01.26)
+             ,  sqzLines                                  // .(50503.08.2)
+             ,  wrap                                      // .(50330.05.2)
+                };
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 /*========================================================================================================= #  ===============================  *\
 #>      AIC90 END

@@ -12,9 +12,8 @@
 #            MIT License: http://www.opensource.org/licenses/mit-license.php
 ##FNS      .--------------------+----------------------------------------------+
 #                               |
-
 ##CHGS     .--------------------+----------------------------------------------+
-#.(50101.01   5/01/25 MW   7:00a| Created by Robin mattern
+#.(50101.01   5/01/25 MW   7:00a| Created by Robin Mattern
 #.(50519.02   5/19/25 RAM 10:00a| Write and use shoSource
 #.(50520.01b  5/20/25 RAM  7:50a| Add chroma import command
 #.(50522.02   5/22/25 RAM  9:15a| Bump AIDocs version to u2.10.140
@@ -64,10 +63,18 @@
    if [ "${2:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$1;  shift; b=2; shift; b=2; fi # .(50420.01b.5)
    if [ "${1:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=$2;  shift; b=1; fi      # .(50516.07.1 RAM Was s13).(50420.01b.4)
    if [ "${2:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=$1;  shift; b=1; fi      # .(50516.07.2 RAM Do list for each app)
+
+   if [ "${1:0:3}"    == "lan"   ]; then aCmd="lancedb "; aApp=s13; shift; b=1;         # .(50604.02.1)
+      if [ "${1:0:3}" == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi;     # .(50604.02.2)
+      if [ "${1:0:3}" == "que"   ]; then aCmd="query   "; aApp=s13; shift; b=1; fi; fi  # .(50604.02.2)
+   if [ "${1:0:3}"    == "que"   ]; then aCmd="query   "; aApp=s13; shift; b=1; fi      # .(50604.02.x)
+
    if [ "${1:0:3}"    == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi      # .(50505.05.1
-   if [ "${1:0:3}"    == "sql"   ]; then aCmd="sqlite  "; aApp=s13; shift; b=1; fi      # .(50505.06.1)
    if [ "${1:0:3}"    == "chr"   ]; then aCmd="chroma  "; aApp=s13; shift; b=1;         # .(50520.01b.1).(50505.06.2)
-      if [ "${1:0:3}" == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi; fi  # .(50522.01.1 RAM Was {2:0:3})(50520.01b.2 RAM Add chroma import)  
+      if [ "${1:0:3}" == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi;     # .(50522.01.1 RAM Was {2:0:3})(50520.01b.2 RAM Add chroma import)  
+      if [ "${1:0:3}" == "que"   ]; then aCmd="sqlite  "; aApp=s13; shift; b=1; fi; fi  # .(50522.01.1 RAM Was {2:0:3})(50520.01b.2 RAM Add chroma import)  
+   if [ "${1:0:3}"    == "sql"   ]; then aCmd="sqlite  "; aApp=s13; shift; b=1; fi      # .(50505.06.1)
+
    if [ "${1:0:3}"    == "exa"   ]; then aCmd="example "; aApp=s13; shift; b=1; fi      # .(50505.04.2 RAM Add example)
    if [ "${aApp}"     == ""      ]; then                  aApp=$1;  shift; fi           # .(50420.01b.7)
                                          aDir=""; aTests="$@"                           # .(50429.05.1)
@@ -115,25 +122,29 @@
       aDate2="$( date +'%B %d, %Y %l:%M%p' )"; aDate="${aDate/AM/a}"; aDate="${aDate/PM/p}" # .(50516.04.4 RAM Add nice version date)
       echo -e "\n  Usage: ${aAIT} ...       Ver: ${aVer}  (${aDate2})"                  # .(50516.04.5).(50505.05.1)
       echo -e   "" 
-      echo -e   "    {App} {Test}       to run a test"
-      echo -e   "    {App} gen {Group}  to generate an .env template for a test model group"
-      echo -e   "    {App} list         to list all tests to run"
-      echo -e   "    help pc_code       to save computer hardware specs"                # .(50516.08.2)
-      echo -e   "    chroma import {Docs}  to import a collection of docs"                 # .(50520.01b.3)(50505.05.2)
-      echo -e   "    chroma start       to start the Chroma Vector DB"                  # .(50505.06.3)
-      echo -e   "    sql {table}        to query a table in the Chroma Vector DB"       # .(50505.06.4)
+      echo -e   "    {app} {testId}       to run a test"
+      echo -e   "    {app} gen {groupId}  to generate an .env template for a test model group"
+      echo -e   "    {app} list           to list all tests to run"
+      echo -e   "    help pc_code         to save computer hardware specs"              # .(50516.08.2)
+#     echo -e   "    chroma import {docs} to import a collection of docs"               ##.(50520.01b.3)(50505.05.2).(50603.02.3)
+#     echo -e   "    chroma start         to start the Chroma Vector DB"                ##.(50505.06.4).(50603.02.4)
+      echo -e   "    import {docs}        to import a collection of docs"               # .(50603.02.4)
+#     echo -e   "    sql {table}          to query a table in the Chroma Vector DB"     ##.(50505.06.4).(50603.02.5)
+      echo -e   "    query {table} {docs} to query a table in the Chroma Vector DB"     # .(50603.02.5)
+      echo -e   "    delete {docs}        to query a table in the Chroma Vector DB"     # .(50603.02.6)
       echo -e   ""
       echo -e   "  Where:"
-      echo -e   "    {App}              is an App Id for one type of test app, e.g. s11."
-      echo -e   "    {Test}             is one Test id, e.g. t011"
-      echo -e   "    {Docs}                is a collections of docs to import into the vector database"   # .(50520.01b.4)
-      echo -e   "    {Group}            is a Group Id for one set of model tests, e.g. t010"
+      echo -e   "    {app}                is an App Id for one type of test app, e.g. s11."
+      echo -e   "    {testId}             is one Test id, e.g. t011"
+      echo -e   "    {docs}               is a collections of docs to import into the vector database"   # .(50520.01b.4)
+      echo -e   "    {groupId}            is a Group Id for one set of model tests, e.g. t010"
       echo -e   ""                                                                      # .(50421.04.1 RAM Add more help Beg)
       echo -e   "  For example:"
       echo -e   "    ${aAIT} s11 help"
       echo -e   "    ${aAIT} s11 t011"
       echo -e   "    ${aAIT} import s13a"                                               # .(50505.05.3)
-      echo -e   "    ${aAIT} chroma collections"                                        # .(50429.05.7)
+#     echo -e   "    ${aAIT} chroma collections"                                        ##.(50429.05.7).(50603.02.7)
+      echo -e   "    ${aAIT} query collections"                                         # .(50603.02.7)
       echo -e   "    ${aAIT} s13g t041"                                                 # .(50429.05.7)
       echo -e   "    ${aAIT} example s13"                                               # .(50505.04.3)
 #     echo -e   "    ${aAIT}"                                                           # .(50421.04.1 End)
@@ -162,16 +173,19 @@
 #     if [[ "$( pwd )" != *"${aDir}"* ]]; then cd "${aDir}"; echo "  cd ${aDir}"; fi    ##.(50511.04.2 RAM Was: PWD no workie in Unix)
 #     fi                                                                                ##.(50511.04.2).(50511.04c.2)
 #*  --- --  --------------  =  ------------------------------------------------------  *#  
-
+       
        cd "${aDir}"; # echo "[97]  cd ${aDir}";                                         # .(50511.04c.2 RAM Call from app location)
+       export RUST_LOG=error;                                                           # .(50604.02.11) 
 #      echo ""
 #      pwd
 #      echo -- bash sqlite.sh "${aTests}"; exit
 #      echo "-- node import_u1.03.mjs '${aApp}' '${aTests}'"; exit
 #     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
-      if [ "${aCmd}" == "import  " ]; then node ../components/import_u1.03.mjs ${aTests}; exit; fi    # .(50514.02.1).(50505.07.1).(50505.05.4)
-      if [ "${aCmd}" == "sqlite  " ]; then bash sqlite.sh ${aTests}; exit; fi           # .(50505.06.5)
-      if [ "${aCmd}" == "chroma  " ]; then bash sqlite.sh ${aTests}; exit; fi           # .(50505.06.6)
+#     if [ "${aCmd}" == "import  " ]; then node ../components/import_u1.03.mjs ${aTests}; exit; fi          ##.(50514.02.1).(50505.07.1).(50505.05.4).(50604.02.9)
+      if [ "${aCmd}" == "import  " ]; then node ../components/import-lanceDB_u1.04.mjs ${aTests}; exit; fi  # .(50604.02.9).(50514.02.1).(50505.07.1).(50505.05.4)
+#     if [ "${aCmd}" == "sqlite  " ]; then bash sqlite.sh ${aTests}; exit; fi                               ##.(50505.06.5).(50604.02.10)
+#     if [ "${aCmd}" == "chroma  " ]; then bash sqlite.sh ${aTests}; exit; fi                               ##.(50505.06.6).(50604.02.10)
+      if [ "${aCmd}" == "query   " ]; then node ../components/querie-lanceDB_u1.04.mjs ${aTests}; exit; fi  # .(50604.02.10)
       if [ "${aCmd}" == "example " ]; then bash run-tests2.sh; exit; fi                 # .(50505.04.4)
 
 #*  --- --  --------------  =  ------------------------------------------------------  *#  

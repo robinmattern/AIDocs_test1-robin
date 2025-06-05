@@ -3,20 +3,30 @@
   "version": "2.10.139",
   "description": "AIDocs apps based of formR structure",
   "type": "module",
-  "scripts": { "test": "echo \"Error: no test specified\" && exit 1" },
-  "repository": { "type": "git", "url": "git+https://github.com/robinmattern/AIDocs_testR.git" },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robinmattern/AIDocs_testR.git"
+  },
   "homepage": "https://github.com/robinmattern/AIDocs_testR#readme",
-  "keywords": [ "ai", "models", "scoring" ],
+  "keywords": [
+    "ai",
+    "models",
+    "scoring"
+  ],
   "author": "Robin Mattern",
   "license": "ISC",
   "dependencies": {
+    "@lancedb/lancedb": "^0.20.0",
+    "@mozilla/readability": "^0.5.0",
+    "cheerio": "^1.0.0-rc.12",
     "chromadb": "^1.8.1",
     "html-to-text": "^9.0.5",
+    "jsdom": "^24.0.0",
     "matts-llm-tools": "^0.0.2",
-    "ollama": "^0.5.0",
     "node-fetch": "^3.3.2",
-    "cheerio": "^1.0.0-rc.12",
-    "@mozilla/readability": "^0.5.0",
-    "jsdom": "^24.0.0"
+    "ollama": "^0.5.0"
   }
 }
