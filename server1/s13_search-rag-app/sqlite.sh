@@ -157,6 +157,18 @@ function  shoTable_collection() {                                               
     }                                                                                   # .(50514.03.3 End)
 # ----------------------------------------------------------------
 
+function  shoTable_segments() {                                                        # .(50602.04.1 RAM Write shoTable_Segments Beg)
+    aTable="collections"
+    aSQL="SELECT id, type, scope, collection from segments"
+#   echo "  SQL: ${aSQL}"
+    echo      "  id                                    type                                            scope     collection"
+    echo      "  ------------------------------------  ----------------------------------------------  --------  ------------------------------------"
+#                48ec082c-4241-4dff-96d1-502d548a67c1  urn:chroma:segment/vector/hnsw-local-persisted  VECTOR    70b821eb-ebb7-4208-bc3f-55763a957cad
+    sqlite3 -separator $'\t'  "${aChroma_SQLite3_DB}" "${aSQL}" | awk -F"\t" '{ printf "  %36s  %-46s  %-8s  %s\n", $1, $2, $3, $4 }'
+    }                                                                                   # .(50514.03.3 End)
+# ----------------------------------------------------------------
+
+
 function  shoTable_collections() {
     aTable="collections"
 #   aIds="$1"; aType="-separator \$'\\t'"; if [ "${aIds}" != "" ]; then aIds="WHERE seq_id in (${aIds})"; aType="-line"; fi
@@ -279,7 +291,7 @@ function  shoTable_chunks() {
     if [[ "$1" =~ ^[0-9,.]+$ ]]; then aWhere="AND embeddings.id in ($1)";
     if [  "${1/.}" != "$1"    ]; then aWhere="AND embeddings.id between $( echo $1 | awk '{ sub( /\.+/, " and " ); print }' )"; fi
                                  else aWhere="AND name like '$( cvtApp $1 )'"; fi; fi
-    if [ "$2" != "" ]; then aType="-$2"; fi
+    if [ "$2" != ""           ]; then aType="-$2"; fi
 #   aSQL="SELECT min(id), min(seq_id), segment_id, RTRIM(embedding_id, '0123456789'), min(created_at), max(created_at) FROM '${aTable}' group by segment_id, RTRIM(embedding_id, '0123456789') order by min(id);"
     aSQL="SELECT
           embeddings.id as id
@@ -328,7 +340,8 @@ function shoTable_embedding_metadata() {
     if [  "$1" != ""          ]; then
     if [[ "$1" =~ ^[0-9,.]+$ ]]; then aWhere="AND embeddings.id in ($1)";
     if [  "${1/.}" != "$1"    ]; then aWhere="AND embeddings.id between $( echo $1 | awk '{ sub( /\.+/, " and " ); print }' )"; fi
-                                 else aWhere="AND name like '$( cvtApp $1 )%'"; fi; fi
+#                                else aWhere="AND name like '$( cvtApp $1 )%'"; fi; fi
+                                 else aWhere="AND name like '$( cvtApp $1 )'";  fi; fi    # .(50605.01.1 RAM Remove %)
     if [ "$2" != ""           ]; then aType="-$2"; fi
 
     aTables="collections, segments, embeddings, embedding_metadata
@@ -397,7 +410,9 @@ function midId(a)  { return "..." substr( a, 20, 17 ) }   #
        { printf "  %5d  %-25s  %-15s  %-100s  %9d  %11d  %10d\n", $1, $2, $3, chop( strip( $4 ), 100 ), $5, $6, $7 }
 '
 
-    echo -e "\n  Table: ${aTable} ${aType}"
+    echo -e "\n  Table: ${aTable}" #  ${aType}
+#   echo      "  SQL: ${aSQL1}"; exit
+#   echo      "  SQL: ${aSQL2}"; exit
 #   echo      "  SQL: ${aSQL3}"; exit
     echo      "   id    collection_name            key              string_value                                                                                          int_Value  float_value  bool_value"
     echo      "  -----  -------------------------  ---------------  ----------------------------------------------------------------------------------------------------  ---------  -----------  ----------"
@@ -406,8 +421,8 @@ function midId(a)  { return "..." substr( a, 20, 17 ) }   #
     if [ "${aType}" == "-json" ]; then sqlite3            -json  "${aChroma_SQLite3_DB}" "${aSQL2}"; fi
   else
 #                                      sqlite3 -separator  $'\t' "${aChroma_SQLite3_DB}" "${aSQL1}" | awk -F"\t" '{ printf "  %5d  %-25s  %-15s  %-100s  %9d  %11d  %10d\n", $1, $2, $3, $4, $5, $6, $7 }'
-                                       sqlite3 -separator  $'\t' "${aChroma_SQLite3_DB}" "${aSQL1}" | awk -F"\t" "${aAWK}"
-#                                      sqlite3 -separator  $'\t' "${aChroma_SQLite3_DB}" "${aSQL1}"
+#                                      sqlite3 -separator  $'\t' "${aChroma_SQLite3_DB}" "${aSQL1}" | awk -F"\t" "${aAWK}"
+                                       sqlite3 -separator  $'\t' "${aChroma_SQLite3_DB}" "${aSQL1}"
     fi
     }
 # ----------------------------------------------------------------
@@ -516,6 +531,7 @@ if [ "${aCmd}" = "documents"           ]; then shoTable_documents   $2 $3;      
 if [ "${aCmd}" = "chunks"              ]; then shoTable_chunks      $2 $3;         fi
 if [ "${aCmd}" = "embeddings"          ]; then shoTable_embeddings  $2;            fi
 if [ "${aCmd}" = "metadata"            ]; then shoTable_embedding_metadata  $2 $3; fi
+if [ "${aCmd}" = "segments"            ]; then shoTable_segments    $2;            fi
 if [ "${aCmd}" = "queue"               ]; then shoTable_embeddings_queue    $2;    fi
 
 # ----------------------------------------------------------------
@@ -539,7 +555,7 @@ if [ "${aCmd}" = "tables" ]; then
    shoTable_Schema  databases
    shoTable_Schema  collections
    shoTable_Schema  maintenance_log
-   shoTable_Schema  segmentsbash
+   shoTable_Schema  segments 
    shoTable_Schema  embeddings
    shoTable_Schema  embedding_metadata
    shoTable_Schema  max_seq_id

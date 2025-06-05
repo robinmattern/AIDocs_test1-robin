@@ -184,8 +184,9 @@ import   ollama              from "ollama";
        var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
 //     var  pURLs            =( await import( `${LIBs.MWT()}/MWT04_runWebSearch_u2.06.mjs` ) ).default      //#.(50423.02.1 RAM Import MWT04_runWebSearch).(50514.02.3)
 //     var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      //#.(50423.02.2 RAM Import MWT06_runDocsSearch).(50514.02.4)
-       var  pURLs            =( await import( `../components/search-urls_u2.06.mjs`  ) ).default            // .(50514.02.3RAM Move to components).(50423.02.1 RAM Import MWT04_runWebSearch)
-       var  pDOCs            =( await import( `../components/search-docs_u2.06.mjs`  ) ).default            // .(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
+       var  pURLs            =( await import( `../components/search-urls_u2.06.mjs`        ) ).default      // .(50514.02.3RAM Move to components).(50423.02.1 RAM Import MWT04_runWebSearch)
+//     var  pDOCs            =( await import( `../components/search-chroma-docs_u2.06.mjs` ) ).default      // .(50605.01.x).(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
+       var  pDOCs            =( await import( `../components/search-lancedb-docs_u2.07.mjs`) ).default      // .(50605.01.x).(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
 //      if (pDOCs.bLoaded == 0) { console.log( "  - S1201[ 179]  Can't use ChromaDB" ) }                    // .(50518.02.4 RAM ChromaDB may not be loaded
 
 //                              FRT.writeFileSync( MWT.fixPath( FRT.__dirname, 'run-tests.txt' ), '' )      //#.(50507.08d.2 RAM Start MT, not here)
