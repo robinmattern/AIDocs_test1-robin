@@ -1,6 +1,7 @@
 *_v[0-9]*
 *_t[0-9]*
 *_r[0-9]*
+docs/a[0-9]*
 
 _env
 .env
@@ -55,3 +56,5 @@ next-env.d.ts
 venv
 
 *chroma_data 
+
+*.mp4

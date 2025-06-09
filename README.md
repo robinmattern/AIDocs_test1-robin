@@ -509,9 +509,9 @@ E. Setup the Ollama and Chroma Database
       <img      src="docs/appinfo/d00_AIDocs_testR/IMGs/d00-003b_Start Chroma_u3.png" width="720px" style="margin-top: 10px;"></img>    
     </details>
     
- 2. To import, i.e. vectorize, a document into the ChromaDB
+ 2. To import, i.e. vectorize, a document into the Lance DB
  
-    <details><summary><code>ait chroma import s13_apple-ipad</code></summary>
+    <details><summary><code>ait chroma import s13_apple-ipad-txt</code></summary>
       <img      src="docs/appinfo/d00_AIDocs_testR/IMGs/d00-006a_Chroma-import-s13_u1.png" width="720px" style="margin-top: 10px;"></img>    
     </details>
     
@@ -717,8 +717,8 @@ F. Run three sample models
             robin@Robins-Mac-mini AIDocs_testR (master)# ait chroma import s13
 
             robin@Robins-Mac-mini AIDocs_testR (master)# ait import s13 
-            Deleted collection: 's13_apple-ipad'.
-            Collection ready:   's13_apple-ipad'.
+            Deleted collection: 's13_apple-ipad-txt'.
+            Collection ready:   's13_apple-ipad-txt'.
 
             Embedding chunks from: './data/AI.testR.4u/files/apple/iPad_ Should You Buy_ Feature List, Reviews, and Advice.txt'
             Embedding chunk 0 at position: 0 + 2244
@@ -739,7 +739,7 @@ F. Run three sample models
             Embedding chunk 15 at position: 29438 + 3292
             Embedding chunk 16 at position: 32730 + 1331
 
-            Collection, 's13_apple-ipad', import complete.
+            Collection, 's13_apple-ipad-txt', import complete.
             robin@Robins-Mac-mini AIDocs_testR (master)# ait s13 t011         
 
             50519.2121.38  s13           Running test: t011
@@ -777,7 +777,7 @@ F. Run three sample models
            11. UsrPrompt Runs:  1
            12. First Run Id:    s13_t011.01
            13. Sections:        Parms,Docs,Search,Stats,Results
-           14. Collection:      s13_apple-ipad
+           14. Collection:      s13_apple-ipad-txt
 
           Saved .env file for test run t011.
 
