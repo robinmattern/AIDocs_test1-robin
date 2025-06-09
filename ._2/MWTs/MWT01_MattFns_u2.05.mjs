@@ -107,7 +107,7 @@
        var  aVer             = "u2.05"                                                  // .(50425.03.x).(50407.02.1 Was u0.03)
 
       var __dirname          =    dirname( fileURLToPath( import.meta.url ) );          // .(50330.04.2)
-      var __basedir          =  __dirname.replace( /\._2.*/, '' )                       // .(50605.03.5)
+      var __basedir          =  __dirname.replace( /\._2.*/, '' )                       // .(50605.03.5)  
 
        var  aEnvDir_2        =  __dirname.replace( /\._2.*/, '._2' )                    // .(50330.04.3)
             dotenv.config( { path: join( aEnvDir_2, '.env'), override: true } );        // .(50330.04.4)

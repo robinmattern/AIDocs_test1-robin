@@ -60,12 +60,12 @@
       var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()                                         // .(50423.02.10)
 
 //    var { embedmodel, mainmodel } = await MWT.getConfig( __dirname );                                     //#.(50428.04.1)
-//    var { embedmodel, mainmodel } = await MWT.getConfig( FRT.__dirname );                                 //#.(50428.04.1).(50605.03.1)
-//     var  pVectorDB_Config        = await MWT.getConfig( FRT.__dirname )                                  // .(50605.03.1 Beg).(50608.03.x)
-       var  pVectorDB_Config        = await MWT.getConfig( )                                                // .(50608.03.x).(50605.03.1 Beg)
-//     var  pVectorDB_Config        = await MWT.getConfig( `${ FRT.__basedir}/Data/config.jsonc` )          //#.(50608.03.x).(50605.03.1 Beg)
+//    var { embedmodel, mainmodel } = await MWT.getConfig( FRT.__dirname );                                 //#.(50428.04.1).(50605.03.1)  
+//     var  pVectorDB_Config        = await MWT.getConfig( FRT.__dirname )                                  // .(50605.03.1 Beg).(50608.03.x)  
+       var  pVectorDB_Config        = await MWT.getConfig( )                                                // .(50608.03.x).(50605.03.1 Beg)  
+//     var  pVectorDB_Config        = await MWT.getConfig( `${ FRT.__basedir}/Data/config.jsonc` )          //#.(50608.03.x).(50605.03.1 Beg)  
 
-       var  embedmodel   =  pVectorDB_Config.EmbedModel || 'nomic-embed-text'                               // .(50605.03.2)
+       var  embedmodel   =  pVectorDB_Config.EmbedModel || 'nomic-embed-text'                               // .(50605.03.2)  
 
         if (pVectorDB_Config.DBname == "chromaDB") {
        var  chroma       =  new    ChromaClient({ path: `http://localhost:${CHROMA_PORT}` });               //#.(50605.03.3).(Use explicit http://)
