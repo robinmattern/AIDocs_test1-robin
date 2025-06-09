@@ -341,7 +341,7 @@ function shoTable_embedding_metadata() {
     if [[ "$1" =~ ^[0-9,.]+$ ]]; then aWhere="AND embeddings.id in ($1)";
     if [  "${1/.}" != "$1"    ]; then aWhere="AND embeddings.id between $( echo $1 | awk '{ sub( /\.+/, " and " ); print }' )"; fi
 #                                else aWhere="AND name like '$( cvtApp $1 )%'"; fi; fi
-                                 else aWhere="AND name like '$( cvtApp $1 )'";  fi; fi    # .(50605.01.1 RAM Remove %)
+                                 else aWhere="AND name like '$( cvtApp $1 )'";  fi; fi  # .(50605.02.1 RAM Remove %)
     if [ "$2" != ""           ]; then aType="-$2"; fi
 
     aTables="collections, segments, embeddings, embedding_metadata
