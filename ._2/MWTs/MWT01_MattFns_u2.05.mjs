@@ -137,9 +137,9 @@
             }                                                                           // .(50425.03.1 RAM New Version)
 // ---------------------------------------------------------------
 
-  function  getBasename( aPath ) {                                                      // .(50603.03.1 RAM Write getBaseName Beg)
-            return path.basename( aPath )
-            }                                                                           // .(50603.03.1 End) 
+  function  getBasename( aPath ) {                                                      // .(50603.03.1 RAM Write getBaseName Beg)  
+            return path.basename( aPath )  
+            }                                                                           // .(50603.03.1 End)   
 // ---------------------------------------------------------------
 /*
             console.log( JSON.stringify( pathExists( __basedir ), null, 2 ) )
