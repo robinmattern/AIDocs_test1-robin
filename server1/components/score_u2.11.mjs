@@ -219,7 +219,7 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
            // Evaluate response
       var { content: aEvaluation, pMetrics } = await evaluateResponse( aModel, aUsrPrompt, aSysPrompt, aResponse, aScoringPrompt );
        
-       var  pJSON_Scoring    =  FRT.readFileSync( MWT.fixPath( FRT.__dirname, 's14_scoring-fields.json' ) ) // .(50531.02.4 RAM Get scoring specs)                  
+       var  pJSON_Scoring    =  FRT.readFileSync(MWT.fixPath(FRT.__dirname,'s14_scoring-fields_u1.02.json'))// .(50531.02.4 RAM Get scoring specs)                  
             pJSON_Scoring    =  JSON.parse( pJSON_Scoring )                                                 // .(50531.02.5)    
        var  pScores          =  getScores( aEvaluation, pJSON_Scoring );                                    // .(50531.02.6 RAM Add pJSON_Scoring)    
 //    var { scores, totalScore, scoreCount, formattedEvaluation } = getScores( aEvaluation );
