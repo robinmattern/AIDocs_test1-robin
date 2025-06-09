@@ -75,7 +75,7 @@
 #.(50603.01   5/03/25 RAM  8:00a| Add chunkTextBySentences from matts-llm-tools
 #.(50603.03   5/03/25 RAM  8:37a| Add getBasename
 #.(50605.03   6/06/25 CAI  4:45p| Rewrite and use MWTs.getConfig and getJSON
-#.(50605.04   6/06/25 CAI  5:20p| Write and use pathExists
+#.(50605.04   6/06/25 CAI  5:20p| Write and use pathExists  
 #.(50605.05   6/06/25 CAI  6:30p| Write and use getError_ParentLine
 #
 ##PRGM     +====================+===============================================+
@@ -242,7 +242,7 @@
             }                                                                           // .(50428.01.5 End)
 // ---------------------------------------------------------------
 
-  function  pathExists( aPath ) {                                                       // .(50605.04.1 Write pathExists) 
+  function  pathExists( aPath ) {                                                       // .(50605.04.1 Write pathExists)   
        var  pExists  = { fullPath: fixPath( aPath ), exists: false, isDir: false, isFile: false }
        var  bExists  =  fs.existsSync( pExists.fullPath ) 
         if (bExists) { 
@@ -254,7 +254,7 @@
             pExists.updatedOn = pStats.mtime  
             }         
     return  pExists
-            }                                                                           // .(50605.04.1 End)
+            }                                                                           // .(50605.04.1 End)  
 // ---------------------------------------------------------------
 
     export  async function  readText( path, file ) {                                    // .(50428.01.6 RAM Add readText Beg)
