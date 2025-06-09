@@ -1,0 +1,100 @@
+{ 
+  "EMBEDDED_MODEL" : "nomic-embed-text" 
+, "MAIN_MODEL"     : "llama3"      
+, "VECTOR_DB"      : "LANCE-DB"
+, "STATS_DB"       : "MySQL_Hosti_SCORED"
+
+, "CHROMA-DB_Local_Bash": {
+//  "PATH"     : "./Data/AI.vectors/chromaDB" 
+    "PATH"     : "./{AppPath}/my_chroma_data" 
+     }  
+, "LANCE-DB_Local_Bash": {
+    "PATH"     : "./Data/AI.vectors/lanceDB"
+     } 
+, "LANCE-DB_Local_Windows": {
+    "PATH"     : "D:/Data/AI.vectors/lanceDB"   /* Must be NTFS drive in Windows, takes precedence  */
+     }  
+ 
+, "MySQL_Hosti_SCORED": {
+    "HOST"     : "92.112.184.206", 
+    "USER"     : "nimdas",
+    "PASSWORD" : "FormR!1234",
+    "PORT"     : "3306",
+    "DATABASE" : "scoredResponses"
+     }
+
+, "MySQL_Vultr_SCORED": {
+    "HOST"     : "45.32.219.12",
+    "USER"     : "nimdas",
+    "PASSWORD" : "FormR!1234",
+    "PORT"     : "3306",
+    "DATABASE" : "scoredResponses"
+     }
+
+, "MySQL_AWS_IO": {
+    "HOST"     : "13.57.57.151",
+    "USER"     : "io",
+    "PASSWORD" : "IO.usr216",
+    "DB"       : "io",
+    "DIALECT"  : "mysql"
+     }
+
+, "MySQL_AWS_FORMR": {
+    "HOST"     : "13.57.57.151",
+    "USER"     : "io",
+    "PASSWORD" : "IO.usr216",
+    "DB"       : "formr",
+    "DIALECT"  : "mysql"
+     }
+    
+, "MySQL_AWS_WORLD": {
+    "HOST"     : "13.57.57.151",
+    "USER"     : "io",
+    "PASSWORD" : "IO.usr216",
+    "DB"       : "world",
+    "DIALECT"  : "mysql"
+     }
+    
+, "MySQL_Local_IO" : {
+    "HOST"     : "localhost",
+    "USER"     : "io",
+    "PASSWORD" : "IO.usr216",
+    "DB"       : "io",
+    "DIALECT"  : "mysql",
+    "POOL": {
+      "max"    : 5,
+      "min"    : 0,
+      "acquire": 30000,
+      "idle"   : 10000
+      }
+    }
+
+, "Local_MySQL_Practice": {
+    "HOST"     : "localhost",
+    "USER"     : "root",
+    "PASSWORD" : "Washington!12345",
+    "DB"       : "practice",
+    "DIALECT"  : "mysql"
+    }
+
+, "MSSQL_Azure_IO": {
+
+    "HOST"     : "sc203d-azn3.database.windows.net" ,
+    "USER"     : "sco" ,
+    "PASSWORD" : "Azn.ani000" ,
+    "DB"       : "IO" ,
+    "DIALECT"  : "mssql" ,
+    "DIALECTOPTIONS": {
+      "options": {
+        "encrypt": true,
+        "validateBulkLoadParameters": false
+         }
+       } , 
+    "POOL": {
+      "max"    : 5,
+      "min"    : 0,
+      "acquire": 30000,
+      "idle"   : 10000
+       }
+     }
+   }
