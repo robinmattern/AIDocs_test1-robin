@@ -144,6 +144,7 @@
 #.(50531.03   5/31/25 RAM  6:30p| Add space to end of RIDs
 #.(50531.04   5/31/25 RAM 11:55p| Write console_log to force white
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
+#.(50605.01   6/05/25 RAM 10:15a| Use LanceDB instead of ChromeDB  
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -151,7 +152,7 @@
 \*/
 //========================================================================================================= #  ===============================  #
 
-import   ollama              from "ollama";
+   import   ollama              from "ollama";
 // import { createInterface }   from 'readline';
 // import * as readline         from 'readline';
 // import { createInterface }   from 'node:readline/promises';
@@ -185,8 +186,8 @@ import   ollama              from "ollama";
 //     var  pURLs            =( await import( `${LIBs.MWT()}/MWT04_runWebSearch_u2.06.mjs` ) ).default      //#.(50423.02.1 RAM Import MWT04_runWebSearch).(50514.02.3)
 //     var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      //#.(50423.02.2 RAM Import MWT06_runDocsSearch).(50514.02.4)
        var  pURLs            =( await import( `../components/search-urls_u2.06.mjs`        ) ).default      // .(50514.02.3RAM Move to components).(50423.02.1 RAM Import MWT04_runWebSearch)
-//     var  pDOCs            =( await import( `../components/search-chroma-docs_u2.06.mjs` ) ).default      // .(50605.01.x).(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
-       var  pDOCs            =( await import( `../components/search-lancedb-docs_u2.07.mjs`) ).default      // .(50605.01.x).(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
+//     var  pDOCs            =( await import( `../components/search-chroma-docs_u2.06.mjs` ) ).default      // .(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch).(50605.01.4)
+       var  pDOCs            =( await import( `../components/search-lancedb-docs_u2.07.mjs`) ).default      // .(50605.01.4).(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
 //      if (pDOCs.bLoaded == 0) { console.log( "  - S1201[ 179]  Can't use ChromaDB" ) }                    // .(50518.02.4 RAM ChromaDB may not be loaded
 
 //                              FRT.writeFileSync( MWT.fixPath( FRT.__dirname, 'run-tests.txt' ), '' )      //#.(50507.08d.2 RAM Start MT, not here)
@@ -783,11 +784,14 @@ import   ollama              from "ollama";
 
        var  bNotExists       =  FRT.checkFileSync( aStatsFile ).exists == false
         if (bNotExists) {       FRT.writeFile(     aStatsFile, `${mRec[0]}\n` ) }
+
                                 FRT.appendFile(    aStatsFile, `${mRec[1]}\n` )           // .(50331.03.4 RAM Use it End)
+
        var  aJSON_Results    =  MWT.savStats4JSON( pStats_JSON,     pJSON_Results, pParms )                 // .(50408.06.17)
                                 FRT.writeFile(     pParms.jsonfile, aJSON_Results )                         // .(50408.06.18)
 //     var  aMD_Results      =  MWT.savStats4MD(   pStats_JSON,     pJSON_Results ) // , pParms )           // .(50408.10.4)
 //                              FRT.writeFile(     pParms.mdfile,   aMD_Results   )                         // .(50408.10.5)
+
 //                              process.env.JSON_RESPONSE = pParms.jsonfile                                                                      //#.(50501.03.1 RAM Pass JSON file name to parent script).(50501.03b.1)
                                 FRT.setEnv('JSON_RESPONSE', pParms.jsonfile.replace(               /.+[\\\/]docs/, "./docs" ), FRT.__dirname, 1 ) // .(50501.03b.1).(50501.03.1 RAM Pass JSON file name to parent script)
 //                              process.env.STATS_SHEET   = aStatsFile                                                                           //#.(50501.03.2).(50501.03b.2)
@@ -796,7 +800,7 @@ import   ollama              from "ollama";
 //                              console.log( `This_App EnvDir: '${ FRT.__dirname }'` )
 //                              console.log( `aResponseFile:   '${ pParms.jsonfile.replace( /.+[\\\/]docs/, "./docs" ) }'`)      
 
-       var  aRunTestsFile    =  MWT.fixPath(   FRT.__dirname, "run-tests.txt" )                             // .(50507.08a.3 RAM Save TestIds Beg) 
+       var  aRunTestsFile    =  MWT.fixPath(       FRT.__dirname, "run-tests.txt" )                         // .(50507.08a.3 RAM Save TestIds Beg) 
 
        var  aRunTests = ""; if (FRT.checkFileSync( aRunTestsFile ).exists) {                            
             aRunTests        =  FRT.readFileSync(  aRunTestsFile )  }                                           

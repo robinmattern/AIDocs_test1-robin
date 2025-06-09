@@ -26,6 +26,8 @@
 #.(50503.06   5/03/25 RAM 10:00p| Abort if no docs found
 #.(50511.02   5/11/25 RAM 10:15a| Change Chroma Port from 8000 to 8808
 #.(50518.02   5/18/25 RAM 11:35a| Don't load ChromaClient if it doesn't exist
+#.(50605.01   6/05/25 CAI 10:15a| Rewrite search-lancedb-docs from search-docs
+#.(50605.03   6/05/25 CAI  6:00p| Rewrite and use MWTs.getConfig
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -35,34 +37,48 @@
 
    import   ollama           from "ollama";
    import   LIBs             from '../../._2/FRT_Libs.mjs'                                                  // .(50423.02.7)
-   import * as LanceDbClient from '@lancedb/lancedb';                                                       // .(50605.01.x)
+   import * as LanceDbClient from '@lancedb/lancedb';                                                       // .(50605.01.5)
 
-// import { ChromaClient }   from "chromadb";                                            //#.(50518.02.1)
+// import { ChromaClient }   from "chromadb";                                           //#.(50518.02.1)
 // try { var { ChromaClient } =  await import('chromadb' ), bLoaded = true              // .(50518.02.1 RAM Conditional load Beg)
 //   } catch(e) { console.log( "* Can't import chromadb" ); bLoaded = false
 //       }
- var   bLoaded = true                                                                                       // .(50605.01.x RAM It's loaded/imported)
+ var   bLoaded = true                                                                                       // .(50605.01.6 RAM It's loaded/imported)
    if (bLoaded) {                                                                       // .(50518.02.1 End)
 
 // import { getConfig    }  from "./utilities.js";
-      var   aMeta        =  await import.meta.url;
-      var   __dirname    =  aMeta.replace( /file:\/\//, "" ).split( /[\\\/]/ ).slice(0,-1).join( '/' );
+       var  aMeta        =  await import.meta.url;
+       var  __dirname    =  aMeta.replace( /file:\/\//, "" ).split( /[\\\/]/ ).slice(0,-1).join( '/' );
 
-//    var   CHROMA_PORT  =  8808                                                                             // .(50605.01.x).(50511.02.1 RAM Change Chroma Port from 8000)
+//     var  CHROMA_PORT  =  8808                                                                            //#.(50511.02.1 RAM Change Chroma Port from 8000).(50605.01.7)
 
-      var   FRT          =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default                // .(50423.02.8).(50405.06.8 RAM Call function: LIBS.MOD())
-      var   MWT          =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default                // .(50423.02.9).(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
-      var   pVars        =  FRT.getEnvVars( FRT.__dirname )                                                 // .(50423.02.11).(50403.02.6 RAM Was MWT).(50331.04.3 RAM Get .env vars Beg)
+       var  FRT          =( await import( `${LIBs.MWT()}/AIC90_FileFns_u1.03.mjs`) ).default                // .(50423.02.8).(50405.06.8 RAM Call function: LIBS.MOD())
+       var  MWT          =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default                // .(50423.02.9).(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
+       var  pVars        =  FRT.getEnvVars( FRT.__dirname )                                                 // .(50423.02.11).(50403.02.6 RAM Was MWT).(50331.04.3 RAM Get .env vars Beg)
 
-      var   shoMsg       =  MWT.shoMsg                                                  // .(50423.02.12)
+       var  shoMsg       =  MWT.shoMsg                                                  // .(50423.02.12)
       var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()                                         // .(50423.02.10)
 
 //    var { embedmodel, mainmodel } = await MWT.getConfig( __dirname );                                     //#.(50428.04.1)
-      var { embedmodel, mainmodel } = await MWT.getConfig( FRT.__dirname );                                 // .(50428.04.1)
+//    var { embedmodel, mainmodel } = await MWT.getConfig( FRT.__dirname );                                 //#.(50428.04.1).(50605.03.1)
+//     var  pVectorDB_Config        = await MWT.getConfig( FRT.__dirname )                                  // .(50605.03.1 Beg).(50608.03.x)
+       var  pVectorDB_Config        = await MWT.getConfig( )                                                // .(50608.03.x).(50605.03.1 Beg)
+//     var  pVectorDB_Config        = await MWT.getConfig( `${ FRT.__basedir}/Data/config.jsonc` )          //#.(50608.03.x).(50605.03.1 Beg)
 
-//    var   chroma       =  new    ChromaClient({ path: `http://localhost:${CHROMA_PORT}` });               //#.(50605.01.x).(Use explicit http://)
-      var   lanceDB      =  await  LanceDbClient.connect( 'D:/Data/LanceDB' );                              // .(50605.01.x)
+       var  embedmodel   =  pVectorDB_Config.EmbedModel || 'nomic-embed-text'                               // .(50605.03.2)
+
+        if (pVectorDB_Config.DBname == "chromaDB") {
+       var  chroma       =  new    ChromaClient({ path: `http://localhost:${CHROMA_PORT}` });               //#.(50605.03.3).(Use explicit http://)
+        } else {
+        if (pVectorDB_Config.DBname != "") {
+//     var  lanceDB      =  await  LanceDbClient.connect( 'D:/Data/LanceDB' );                              //#.(50605.03.4)
+       var  lanceDB      =  await  LanceDbClient.connect( pVectorDB_Config.DBpath );                        // .(50605.03.4)
+        } else {
+            usrMsg( `* No Vector DB path or config.json can be found.` )
+            process.exit()      
+         }  } // eif LanceDB                                                                                // .(50605.03.1 End)  
       } // eif bLoaded                                                                  // .(50518.02.2)
+            usrMsg( `AI13[  77]  Using ${pVectorDB_Config.DBname} at '${pVectorDB_Config.DBpath}`, 1 )
 /*
        var  query = process.argv.slice(2).join(" ");
        var  query = "What are these documents about?";

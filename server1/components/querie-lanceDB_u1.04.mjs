@@ -26,7 +26,7 @@
 #.(50514.03   5/14/25 RAM  1:30p| Add checkCollection before deleting it
 #.(50603.02   6/02/25 CAI  5:45a| Rewite for LanceDb by ClaudeAI  
 #.(50603.04   6/05/25 RAM  7:25a| Deal with Windows exFAT issue 
-#.(50605.01   6/05/25 RAM  8:10a| Fix some issues
+#.(50605.01   6/05/25 RAM  8:10a| Fix some lanceDB issues
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
