@@ -25,7 +25,7 @@
 #.(50428.01   4/28/25 RAM  8:10a| Add Matt's utilities.js fns
 #.(50505.07   5/06/25 RAM  8:08a| Add aBasedir to imported local file path
 #.(50514.03   5/14/25 RAM  1:30p| Add checkCollection before deleting it
-#.(50602.03   6/02/25 CAI  5:45p| Rewite for LanceDb by ClaudeAI
+#.(50603.02   6/02/25 CAI  6:00a| Rewite for LanceDb by ClaudeAI 
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -36,33 +36,38 @@
 // query-lanceDB.mjs - Query tools to replicate your ChromaDB queries
 // import-lanceDB.mjs
 // import-lanceDB.mjs - Simplified LanceDB import (AnythingLLM style)
-   import ollama from "ollama";
-   import * as lancedb from "@lancedb/lancedb";
-// import * as lancedb from "vectordb";
-   import path from "path";
-   import fs from "fs";
+   import      ollama      from "ollama";
+   import * as lancedb     from "@lancedb/lancedb";
+// import * as lancedb     from "vectordb";
+   import      path        from "path";
+   import      fs          from "fs";
 
 // Import your utility functions (adjust path as needed)
-var MWT = (await import( '../../._2/MWTs/MWT01_MattFns_u2.05.mjs')).default;
+//    var   MWT = (await import('../../._2/MWTs/MWT01_MattFns_u2.05.mjs')).default;
+   import   MWT            from '../../._2/MWTs/MWT01_MattFns_u2.05.mjs'                // .(50608.03.x)
 
-// Simple configuration
-var lanceDbPath = "D:/data/lancedb";  // Change this to your preferred path
-var aCollection = "s13_apple-ipad";
+//          Simple configuration
+//     var  lanceDbPath    = "D:/data/lancedb";  // Change this to your preferred path
+//     var  lanceDbPath    = "D:/Data/AI.vectors/lanceDB"
+//     var  lanceDbPath    = "D:/Data/AI.vectors/lanceDB"                               //#.(50608.03.x)
+//     var  lanceDbPath    =   MWT.getConfig( ).DBpath                                  // .(50608.03.x)
+       var  lanceDbPath    =   MWT.getConfig( ).DBpath                                  // .(50608.03.x)
 
 // Path setup (matching your original script)
-var  aMeta = await import.meta.url;
-var __dirname = aMeta.replace(/file:\/\//, "").split(/[\\\/]/).slice(0, -1).join('/');
-var __basedir = __dirname.replace(/[\\\/](client|server)[0-9]*.+/, "");
-var  aBasedir = __basedir;
-var  aDataDir = path.resolve(`${__basedir}/data`);
-var  aDataFilesDir   =  MWT.fixPath( `${__basedir}/data/AI.testR.4u/files` );
+       var  aMeta          =  await import.meta.url;
+       var __dirname       =  aMeta.replace(/file:\/\//, "").split(/[\\\/]/).slice(0, -1).join('/');
+       var __basedir       = __dirname.replace(/[\\\/](client|server)[0-9]*.+/, "");
+       var  aBasedir       = __basedir;
+       var  aDataDir       =  path.resolve(`${__basedir}/data`);
+       var  aDataFilesDir  =  MWT.fixPath( `${__basedir}/data/AI.testR.4u/files` );
 
 // Get collection name from command line
-aCollection = process.argv[2] ? process.argv[2] : aCollection;
+       var aCollection     = "s13_apple-ipad-txt";
+           aCollection     =  process.argv[2] ? process.argv[2] : aCollection;
 
 // Ensure LanceDB directory exists
 try {
-  fs.mkdirSync(lanceDbPath, { recursive: true });
+  fs.mkdirSync( lanceDbPath, { recursive: true });
   console.log(`LanceDB directory: ${lanceDbPath}`);
 } catch (error) {
   console.error(`Cannot create directory ${lanceDbPath}:`, error.message);

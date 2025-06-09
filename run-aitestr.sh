@@ -18,6 +18,8 @@
 #.(50520.01b  5/20/25 RAM  7:50a| Add chroma import command
 #.(50522.02   5/22/25 RAM  9:15a| Bump AIDocs version to u2.10.140
 #.(50522.02b  5/31/25 RAM  5:15p| Bump AIDocs version to u2.11.141
+#.(50603.02   6/02/25 RAM  8:30a| Add lanceDB query functions 
+#.(50604.02   6/04/25 RAM  8:30a| Add more lanceDB commands
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -66,8 +68,8 @@
 
    if [ "${1:0:3}"    == "lan"   ]; then aCmd="lancedb "; aApp=s13; shift; b=1;         # .(50604.02.1)
       if [ "${1:0:3}" == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi;     # .(50604.02.2)
-      if [ "${1:0:3}" == "que"   ]; then aCmd="query   "; aApp=s13; shift; b=1; fi; fi  # .(50604.02.2)
-   if [ "${1:0:3}"    == "que"   ]; then aCmd="query   "; aApp=s13; shift; b=1; fi      # .(50604.02.x)
+      if [ "${1:0:3}" == "que"   ]; then aCmd="query   "; aApp=s13; shift; b=1; fi; fi  # .(50604.02.3)
+   if [ "${1:0:3}"    == "que"   ]; then aCmd="query   "; aApp=s13; shift; b=1; fi      # .(50604.02.4)
 
    if [ "${1:0:3}"    == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi      # .(50505.05.1
    if [ "${1:0:3}"    == "chr"   ]; then aCmd="chroma  "; aApp=s13; shift; b=1;         # .(50520.01b.1).(50505.06.2)
@@ -181,11 +183,11 @@
 #      echo -- bash sqlite.sh "${aTests}"; exit
 #      echo "-- node import_u1.03.mjs '${aApp}' '${aTests}'"; exit
 #     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
-#     if [ "${aCmd}" == "import  " ]; then node ../components/import_u1.03.mjs ${aTests}; exit; fi          ##.(50514.02.1).(50505.07.1).(50505.05.4).(50604.02.9)
-      if [ "${aCmd}" == "import  " ]; then node ../components/import-lanceDB_u1.04.mjs ${aTests}; exit; fi  # .(50604.02.9).(50514.02.1).(50505.07.1).(50505.05.4)
-#     if [ "${aCmd}" == "sqlite  " ]; then bash sqlite.sh ${aTests}; exit; fi                               ##.(50505.06.5).(50604.02.10)
-#     if [ "${aCmd}" == "chroma  " ]; then bash sqlite.sh ${aTests}; exit; fi                               ##.(50505.06.6).(50604.02.10)
-      if [ "${aCmd}" == "query   " ]; then node ../components/querie-lanceDB_u1.04.mjs ${aTests}; exit; fi  # .(50604.02.10)
+#     if [ "${aCmd}" == "import  " ]; then node ../components/import_u1.03.mjs ${aTests}; exit; fi          ##.(50514.02.1).(50505.07.1).(50505.05.4).(50604.02.5)
+      if [ "${aCmd}" == "import  " ]; then node ../components/import-lanceDB_u1.04.mjs ${aTests}; exit; fi  # .(50604.02.5).(50514.02.1).(50505.07.1).(50505.05.4)
+#     if [ "${aCmd}" == "sqlite  " ]; then bash sqlite.sh ${aTests}; exit; fi                               ##.(50505.06.5).(50604.02.6)
+#     if [ "${aCmd}" == "chroma  " ]; then bash sqlite.sh ${aTests}; exit; fi                               ##.(50505.06.6).(50604.02.6)
+      if [ "${aCmd}" == "query   " ]; then node ../components/querie-lanceDB_u1.04.mjs ${aTests}; exit; fi  # .(50604.02.6)
       if [ "${aCmd}" == "example " ]; then bash run-tests2.sh; exit; fi                 # .(50505.04.4)
 
 #*  --- --  --------------  =  ------------------------------------------------------  *#  

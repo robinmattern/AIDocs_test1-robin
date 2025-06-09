@@ -24,7 +24,9 @@
 #.(50428.01   4/28/25 RAM  8:10a| Add Matt's utilities.js fns
 #.(50505.07   5/06/25 RAM  8:08a| Add aBasedir to imported local file path
 #.(50514.03   5/14/25 RAM  1:30p| Add checkCollection before deleting it
-#.(50602.03   6/02/25 CAI  5:45p| Rewite for LanceDb by ClaudeAI
+#.(50603.02   6/02/25 CAI  5:45a| Rewite for LanceDb by ClaudeAI  
+#.(50603.04   6/05/25 RAM  7:25a| Deal with Windows exFAT issue 
+#.(50605.01   6/05/25 RAM  8:10a| Fix some issues
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -37,7 +39,13 @@
    import   ollama     from 'ollama';
    import   path       from 'path'
 
-     const  lanceDB =  await  lancedb.connect( 'D:/Data/LanceDB' );
+   import   MWT        from '../../._2/MWTs/MWT01_MattFns_u2.05.mjs'                    // .(50608.03.x)
+
+//     var  lanceDbPath   = "D:/Data/AI.vectors/lanceDB"                                //#.(50608.03.x).(50603.04.x Deal with Windows exFAT issue 
+//     var  pConfig       =  MWT.getConfig( './Data/config.jsonc' )
+       var  lanceDbPath   =  MWT.getConfig( ).DBpath                                    // .(50608.03.x)
+
+     const  lanceDB       =  await  lancedb.connect( lanceDbPath );
             process.env.RUST_LOG = "error";
 
 // Run CLI if this is the main module
@@ -49,7 +57,7 @@
         if (bInVSCode) {
 //          process.argv[2] = 'collections'
             process.argv[2] = 'schema'
-            process.argv[3] = 's13_apple-ipad'
+            process.argv[3] = 's13_apple-ipad-txt'
             }
         if (bNotImported  || bInVSCode) {
               main().catch(  console.error );
@@ -81,7 +89,7 @@ export async function showCounts() {
 // --------------------------------------------------------------
 
 export async function showSchema( aTableName ) {
-       aTableName = aTableName ? aTableName : 's13_apple-ipad'                          // .(50605.02.x)
+       aTableName = aTableName ? aTableName : 's13_apple-ipad-txt'                      // .(50605.01.1)
   try {
     const table = await lanceDB.openTable(aTableName);
 
@@ -184,7 +192,7 @@ export async function showSchema( aTableName ) {
 
 // Also create a function to list available table methods
 export async function showTableMethods(aTableName) {
-       aTableName = aTableName ? aTableName : 's13_apple-ipad'                          // .(50605.02.x)
+       aTableName = aTableName ? aTableName : 's13_apple-ipad-txt'                      // .(50605.01.2)
   try {
     const table = await lanceDB.openTable(aTableName);
 
@@ -351,8 +359,8 @@ export async function showMetadata(collectionName) {
 //    .query()
       .search( Array(768).fill(0) )
 //    .select(['seq_id', 'document_name', 'document_path', 'chunk_position_str', 'embed_model', 'vector_dimension', 'metadata_json'])
-//    .select(['seq_id', 'document_name', 'document_path', 'chunk_position_str', 'embed_model', 'vector_dimension', 'custom_metadata'])                //#.(50605.01.x)
-      .select(['seq_id', 'document_name', 'document_path', 'chunk_position_str', 'embed_model', 'vector_dimension', 'custom_metadata', 'chunk_text' ]) // .(50605.01.x)
+//    .select(['seq_id', 'document_name', 'document_path', 'chunk_position_str', 'embed_model', 'vector_dimension', 'custom_metadata'])                //#.(50605.01.3)
+      .select(['seq_id', 'document_name', 'document_path', 'chunk_position_str', 'embed_model', 'vector_dimension', 'custom_metadata', 'chunk_text' ]) // .(50605.01.3)
       .toArray();
 
     // Sort by seq_id
@@ -361,7 +369,7 @@ export async function showMetadata(collectionName) {
     results.forEach(row => {
       // Show key metadata fields (equivalent to ChromaDB's key-value pairs)
       const metadata = [
-        ['chunk_text',  row.chunk_text.replace( /[\n\r ]+/g, " " ) ],                      // .(50605.01.x)
+        ['chunk_text',  row.chunk_text.replace( /[\n\r ]+/g, " " ) ],                    
         ['position',    row.chunk_position_str ],
         ['source',      row.document_path ],
 //      ['embed_model', row.embed_model],
@@ -369,9 +377,9 @@ export async function showMetadata(collectionName) {
       ];
 
       metadata.forEach(([key, value], index) => {  // value = value || ''
-        const seqId          = index === 0        ? row.seq_id.toString().padStart(6) : '      ';
-//      const docName        = index === 0        ?       row.document_name.padEnd(24) : ' '.repeat(24);
-        const docName        = index === 0        ? chop( row.document_name, 24 )      : ' '.repeat(24);
+        const seqId          = index === 0       ? row.seq_id.toString().padStart(6) : '      ';
+//      const docName        = index === 0       ?       row.document_name.padEnd(24) : ' '.repeat(24);
+        const docName        = index === 0       ? chop( row.document_name, 24 )      : ' '.repeat(24);
         const truncatedValue = value.length > 98 ? value.substring(0, 95) + '...' : value;
 
         console.log(`${seqId}  ${docName}  ${key.padEnd(12)}  ${truncatedValue}`);
@@ -493,8 +501,8 @@ async function main() {
       console.log("");
       console.log("  Examples:");
       console.log("    ait lancedb query counts");
-      console.log("    ait lancedb query chunks s13_apple-ipad");
-      console.log("    ait lancedb query search s13_apple-ipad \"iPad features\"");
+      console.log("    ait lancedb import s13_apple-ipad-txt");
+      console.log("    ait lancedb query search s13_apple-ipad-txt \"iPad features\"");
        }
 
        } // eof main
