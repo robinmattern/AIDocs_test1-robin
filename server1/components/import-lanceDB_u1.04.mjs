@@ -27,6 +27,7 @@
 #.(50514.03   5/14/25 RAM  1:30p| Add checkCollection before deleting it
 #.(50603.02   6/02/25 CAI  6:00a| Rewite for LanceDb by ClaudeAI 
 #.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
+#.(50609.01   6/09/25 RAM  8:30p| Add get1stFile aCollection back
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -63,31 +64,35 @@
        var  aDataFilesDir  =  MWT.fixPath( `${__basedir}/data/AI.testR.4u/files` );
 
 // Get collection name from command line
-       var aCollection     = "s13_apple-ipad-txt";
-           aCollection     =  process.argv[2] ? process.argv[2] : aCollection;
+       var  aCollection    = "s13g";
+//     var  aCollection    = "s13_apple-ipad-txt";
+            aCollection    =  process.argv[2] ? process.argv[2] : aCollection;
+       var  aCollection    = (await MWT.get1stFile( aCollection,  aDataFilesDir, ".txt")).replace( /\.txt/,'' ) // .(50609.01.1 RAM Add it back).(50427.05.4)
+            aCollection    =  MWT.getBasename( aCollection )                            // .(50609.01.2)
 
 // Ensure LanceDB directory exists
-try {
-  fs.mkdirSync( lanceDbPath, { recursive: true });
-  console.log(`LanceDB directory: ${lanceDbPath}`);
-} catch (error) {
-  console.error(`Cannot create directory ${lanceDbPath}:`, error.message);
-  process.exit(1);
-}
+    try {
+         fs.mkdirSync( lanceDbPath, { recursive: true });
+            console.log(`LanceDB directory: ${lanceDbPath}`);
+        } catch (error) {
+            console.error(`Cannot create directory ${lanceDbPath}:`, error.message);
+            process.exit(1);
+            }
 
 // Connect to LanceDB (AnythingLLM style - simple path)
-var lanceDB = await lancedb.connect(lanceDbPath);
+       var  lanceDB = await lancedb.connect( lanceDbPath );
 
 // Main execution
-await deleteCollection(aCollection);
-await importCollection(aCollection);
-console.log(`\nCollection '${aCollection}' import to LanceDB complete.`);
+            await deleteCollection( aCollection );
+            
+            await importCollection( aCollection );
+            console.log(`\nCollection '${aCollection}' import to LanceDB complete.`);
 
-if (process.platform.slice(0, 3) != "Win") { console.log("") }
+        if (process.platform.slice(0, 3) != "Win") { console.log("") }
 
 // --------------------------------------------------------------
 
-async function checkCollection(aCollectionName) {
+async function checkCollection( aCollectionName ) {
   try {
     const tables = await lanceDB.tableNames();
     return tables.includes(aCollectionName) ? 1 : 0;
@@ -98,7 +103,7 @@ async function checkCollection(aCollectionName) {
 
 // --------------------------------------------------------------
 
-async function deleteCollection(aCollectionName) {
+async function deleteCollection( aCollectionName ) {
   if (await checkCollection(aCollectionName) == 0) { return }
   try {
     await lanceDB.dropTable(aCollectionName);
@@ -121,13 +126,14 @@ async function importCollection(aCollection, bQuiet) {
 
   // Read documents to import
   var docstoimport = (await MWT.readText(aDataFilesDir, aSourceDocs)).split("\n");
-  docstoimport = docstoimport.filter(doc => doc.match(/^ *[#\/]+/) == null).filter(doc => doc);
+      docstoimport = docstoimport.filter( aDoc => aDoc.match(/^ *[#\/]+/) == null).filter( aDoc => aDoc);
+      docstoimport = docstoimport.map(    aDoc => aDoc.replace( /[\\\/]/g, '/' ).replace( /.+data\//, "./data/" ) )
 
   var globalSeqId = 1; // Global sequence counter across all documents
 
   // Process each document
   for (var doc of docstoimport) {
-    doc = doc.trim().replace(/^"/, "").replace(/"$/, "");
+    doc = doc.trim().replace(/^"/, "").replace(/"$/, "");  // remove double quotes if any
     console.log(`\nEmbedding chunks from: '${doc}'`);
 
     // Resolve document path

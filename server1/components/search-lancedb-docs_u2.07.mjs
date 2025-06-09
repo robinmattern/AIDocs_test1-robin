@@ -79,7 +79,7 @@
             process.exit()      
          }  } // eif LanceDB                                                                                // .(50605.03.1 End)  
       } // eif bLoaded                                                                  // .(50518.02.2)
-            usrMsg( `AI13[  77]  Using ${pVectorDB_Config.DBname} at '${pVectorDB_Config.DBpath}`, 1 )
+            usrMsg( `AI13[  82]  Using ${pVectorDB_Config.DBname} at '${pVectorDB_Config.DBpath}`, 1 )
 /*
        var  query = process.argv.slice(2).join(" ");
        var  query = "What are these documents about?";

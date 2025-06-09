@@ -86,7 +86,7 @@ export async function showCounts() {
   } catch (error) {
     console.error("* Error getting counts:", error.message);
   }
-}
+} // eof showCounts 
 // --------------------------------------------------------------
 
 export async function showSchema( aTableName ) {
@@ -189,7 +189,8 @@ export async function showSchema( aTableName ) {
     console.error(`* Error examining schema for ${aTableName}:`, error.message);
     console.error("  Full error:", error);
   }
-}
+} // eof showSchema
+// --------------------------------------------------
 
 // Also create a function to list available table methods
 export async function showTableMethods(aTableName) {
@@ -219,7 +220,7 @@ export async function showTableMethods(aTableName) {
   } catch (error) {
     console.error(`* Error getting methods for ${aTableName}:`, error.message);
   }
-}
+} // eof showTableMethods
 // --------------------------------------------------------------
 // Equivalent of: ait chromaDB collections
 // --------------------------------------------------------------
@@ -251,7 +252,7 @@ export async function showCollections() {
           'no data';
 
         console.log(
-          `  ${tableName.padEnd(25)}  ${totalChunks.toString().padStart(6)}  ${uniqueDocs.length.toString().padStart(9)}  ${dateRange}`
+          `  ${tableName.padEnd(25)}  ${totalChunks.toString().padStart(6)}  ${uniqueDocs.length.toString().padStart(9)}  ${dateRange.replace( /T/g, " ")}`
             );
 
       } catch (error) {
@@ -261,7 +262,7 @@ export async function showCollections() {
   } catch (error) {
     console.error("* Error getting collections:", error.message);
   }
-}
+} // eof showCollections
 
 // --------------------------------------------------------------
 // Equivalent of: ait chromaDB documents
@@ -310,7 +311,7 @@ export async function showDocuments( collectionName = null) {
   } catch (error) {
     console.error("* Error getting documents:", error.message);
   }
-}
+} // eof showDocuments
 
 // --------------------------------------------------------------
 // Equivalent of: ait chromaDB chunks [collection]
@@ -343,7 +344,7 @@ export async function showChunks(collectionName) {
   } catch (error) {
     console.error(`* Error getting chunks for ${collectionName}:`, error.message);
   }
-}
+} // eof showChunks
 
 // --------------------------------------------------------------
 // Equivalent of: ait chromaDB metadata [collection]
@@ -390,9 +391,12 @@ export async function showMetadata(collectionName) {
   } catch (error) {
     console.error(`Error getting metadata for ${collectionName}:`, error.message);
   }
-}
+} // eof showMetadata
 // --------------------------------------------------------------
+
 function chop(a,n) { return a.length > n ? `${a.slice(0,n-3)}...` : a.padEnd(n) }
+
+// --------------------------------------------------------------
 
 async function checkCollection(aCollectionName) {
   try {
@@ -401,11 +405,11 @@ async function checkCollection(aCollectionName) {
   } catch (error) {
     return 0;
   }
-}
+} // eof chop 
 
 // --------------------------------------------------------------
 
-async function deleteCollection(aCollectionName) {
+async function deleteCollection( aCollectionName ) {
   if (await checkCollection(aCollectionName) == 0) { return }
   try {
     await lanceDB.dropTable(aCollectionName);
@@ -413,7 +417,7 @@ async function deleteCollection(aCollectionName) {
   } catch (error) {
     console.error(`Error deleting table: ${aCollectionName}`, error.message);
   }
-}
+} // eof deleteCollection
 
 // --------------------------------------------------------------
 // Search function (equivalent to ChromaDB collection.query())
@@ -456,7 +460,7 @@ export async function searchText( collectionName, queryText, options = {} ) {
     console.error(`Error searching in ${collectionName}:`, error.message);
     throw error;
   }
-}
+} // eof searchText
 
 // --------------------------------------------------------------
 // CLI Interface (like your ait commands)
@@ -486,7 +490,7 @@ async function main() {
                           await  searchText(collection, searchQuery, { limit: 5 });  break;
     default:
 
-      console.log("  Usage: aitestr lancedb query {Command}" )
+      console.log("  Usage: aitestr query {Command}" )
       console.log( "" )
       console.log("    Command     Args                           Description")
       console.log("    ----------- -----------------------------  -------------------------------------------------" )
