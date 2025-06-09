@@ -41,7 +41,7 @@
 
    import   MWT        from '../../._2/MWTs/MWT01_MattFns_u2.05.mjs'                    // .(50608.03.x)
 
-//     var  lanceDbPath   = "D:/Data/AI.vectors/lanceDB"                                //#.(50608.03.x).(50603.04.x Deal with Windows exFAT issue 
+//     var  lanceDbPath   = "D:/Data/AI.vectors/lanceDB"                                //#.(50608.03.x).(50603.04.1 Deal with Windows exFAT issue 
 //     var  pConfig       =  MWT.getConfig( './Data/config.jsonc' )
        var  lanceDbPath   =  MWT.getConfig( ).DBpath                                    // .(50608.03.x)
 
