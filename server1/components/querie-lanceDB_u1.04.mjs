@@ -27,6 +27,7 @@
 #.(50603.02   6/02/25 CAI  5:45a| Rewite for LanceDb by ClaudeAI  
 #.(50603.04   6/05/25 RAM  7:25a| Deal with Windows exFAT issue 
 #.(50605.01   6/05/25 RAM  8:10a| Fix some lanceDB issues
+#.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -39,11 +40,11 @@
    import   ollama     from 'ollama';
    import   path       from 'path'
 
-   import   MWT        from '../../._2/MWTs/MWT01_MattFns_u2.05.mjs'                    // .(50608.03.x)
+   import   MWT        from '../../._2/MWTs/MWT01_MattFns_u2.05.mjs'                    // .(50608.03.8)
 
-//     var  lanceDbPath   = "D:/Data/AI.vectors/lanceDB"                                //#.(50608.03.x).(50603.04.1 Deal with Windows exFAT issue 
+//     var  lanceDbPath   = "D:/Data/AI.vectors/lanceDB"                                //#.(50603.04.1 Deal with Windows exFAT issue ).(50608.03.9)
 //     var  pConfig       =  MWT.getConfig( './Data/config.jsonc' )
-       var  lanceDbPath   =  MWT.getConfig( ).DBpath                                    // .(50608.03.x)
+       var  lanceDbPath   =  MWT.getConfig( ).DBpath                                    // .(50608.03.9)
 
      const  lanceDB       =  await  lancedb.connect( lanceDbPath );
             process.env.RUST_LOG = "error";

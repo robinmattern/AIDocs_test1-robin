@@ -77,6 +77,7 @@
 #.(50605.03   6/06/25 CAI  4:45p| Rewrite and use MWTs.getConfig and getJSON
 #.(50605.04   6/06/25 CAI  5:20p| Write and use pathExists  
 #.(50605.05   6/06/25 CAI  6:30p| Write and use getError_ParentLine
+#.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -156,14 +157,14 @@
 //          getConfig( __basedir ); debugger
 
 //  export  function  getConfig( aBaseDir ) {                                           // .(50605.03.6 RAM Write new getConfig Beg)
-    export  function  getConfig( aConfigFile ) {                                        // .(50608.03.x).(50605.03.6 RAM Write new getConfig Beg)
+    export  function  getConfig( aConfigFile ) {                                        // .(50608.03.3).(50605.03.6 RAM Write new getConfig Beg)
 
 //          aBaseDir         =  aBaseDir ? aBaseDir : '.'
-            aConfigFile      =  aConfigFile ? aConfigFile : './Data/config.jsonc'       // .(50608.03.x)
+            aConfigFile      =  aConfigFile ? aConfigFile : './Data/config.jsonc'       // .(50608.03.4)
         if (aConfigFile.slice(0,1) == '.') { aConfigFile = `${__dirname}/../../${aConfigFile.slice(2)}` }
 //          console.log( `--- aConfigFile: '${aConfigFile}` )
        try {
-       var  pConfig_         =  getJSON( aConfigFile )                                  // .(50608.03.x)
+       var  pConfig_         =  getJSON( aConfigFile )                                  // .(50608.03.5)
        } catch( error ) {
             console.error( '*', getError_ParentLine( error, 2 ) ) 
             }
@@ -178,7 +179,7 @@
                }
 //          console.log( JSON.stringify( pConfig, null, 2 ) )
             return pConfig
-            }                                                                           // .(50605.03.6 End)
+            }                                                                           // .(50608.03.3).(50605.03.6 End)
 // ---------------------------------------------------------------
 
     export  function  getJSON( aPath ) {                                                // .(50605.03.7 RAM Write getJSON Beg)

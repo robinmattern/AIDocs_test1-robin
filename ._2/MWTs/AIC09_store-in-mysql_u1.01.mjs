@@ -21,6 +21,8 @@
 #.(50601.01   6/01/25 XAI  7:00a| Created by Robin Mattern 
 #.(50601.01b  6/02/25 XAI  6:20a| Cleaned it up
 #.(50608.02   6/08/25 RAM  3:00p| Write getStatsMap
+#.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
+#
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
 ##SRCE     +====================+===============================================+
@@ -34,8 +36,8 @@
       var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()
        var  exit_wCR         =  FRT.exit_wCR   
 
-//     var  pConfig          =  MWT.getJSON( './Data/config.jsonc' )                                     //#.(50608.03.x)
-       var  pConfig          =  MWT.getJSON( `${FRT.__basedir}/Data/config.jsonc` )                      // .(50608.03.x)
+//     var  pConfig          =  MWT.getJSON( './Data/config.jsonc' )                    //#.(50608.03.1)
+       var  pConfig          =  MWT.getJSON( `${FRT.__basedir}/Data/config.jsonc` )     // .(50608.03.1)
        var  pDB_Config       =  pConfig[ pConfig.STATS_DB ]
        var  pDB_Config       =  Object.fromEntries( Object.entries( pDB_Config ).map(([key, value]) => [ key.toLowerCase(), value ] ) );       
 
@@ -201,7 +203,7 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
 */
     try {
         //  Create connection
-            connection = await mysql.createConnection( pDB_Config )                     // .(50608.03.x RAM Was: dbConfig)
+            connection = await mysql.createConnection( pDB_Config )                     // .(50608.03.2 RAM Was: dbConfig)
             sayMsg( 'AIC09[ 195]  Connected to MySQL', -1 );
 
         //  Execute the query

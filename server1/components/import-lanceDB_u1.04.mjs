@@ -26,6 +26,7 @@
 #.(50505.07   5/06/25 RAM  8:08a| Add aBasedir to imported local file path
 #.(50514.03   5/14/25 RAM  1:30p| Add checkCollection before deleting it
 #.(50603.02   6/02/25 CAI  6:00a| Rewite for LanceDb by ClaudeAI 
+#.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -44,14 +45,14 @@
 
 // Import your utility functions (adjust path as needed)
 //    var   MWT = (await import('../../._2/MWTs/MWT01_MattFns_u2.05.mjs')).default;
-   import   MWT            from '../../._2/MWTs/MWT01_MattFns_u2.05.mjs'                // .(50608.03.x)
+   import   MWT            from '../../._2/MWTs/MWT01_MattFns_u2.05.mjs'                // .(50608.03.6)
 
 //          Simple configuration
 //     var  lanceDbPath    = "D:/data/lancedb";  // Change this to your preferred path
 //     var  lanceDbPath    = "D:/Data/AI.vectors/lanceDB"
-//     var  lanceDbPath    = "D:/Data/AI.vectors/lanceDB"                               //#.(50608.03.x)
-//     var  lanceDbPath    =   MWT.getConfig( ).DBpath                                  // .(50608.03.x)
-       var  lanceDbPath    =   MWT.getConfig( ).DBpath                                  // .(50608.03.x)
+//     var  lanceDbPath    = "D:/Data/AI.vectors/lanceDB"                               //#.(50608.03.7)
+//     var  lanceDbPath    =   MWT.getConfig( ).DBpath                                  //#.(50608.03.7)
+       var  lanceDbPath    =   MWT.getConfig( ).DBpath                                  // .(50608.03.7)
 
 // Path setup (matching your original script)
        var  aMeta          =  await import.meta.url;

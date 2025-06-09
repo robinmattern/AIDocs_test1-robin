@@ -28,6 +28,7 @@
 #.(50518.02   5/18/25 RAM 11:35a| Don't load ChromaClient if it doesn't exist
 #.(50605.01   6/05/25 CAI 10:15a| Rewrite search-lancedb-docs from search-docs
 #.(50605.03   6/05/25 CAI  6:00p| Rewrite and use MWTs.getConfig
+#.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
 
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -61,9 +62,9 @@
 
 //    var { embedmodel, mainmodel } = await MWT.getConfig( __dirname );                                     //#.(50428.04.1)
 //    var { embedmodel, mainmodel } = await MWT.getConfig( FRT.__dirname );                                 //#.(50428.04.1).(50605.03.1)  
-//     var  pVectorDB_Config        = await MWT.getConfig( FRT.__dirname )                                  // .(50605.03.1 Beg).(50608.03.x)  
-       var  pVectorDB_Config        = await MWT.getConfig( )                                                // .(50608.03.x).(50605.03.1 Beg)  
-//     var  pVectorDB_Config        = await MWT.getConfig( `${ FRT.__basedir}/Data/config.jsonc` )          //#.(50608.03.x).(50605.03.1 Beg)  
+//     var  pVectorDB_Config        = await MWT.getConfig( FRT.__dirname )                                  //#.(50605.03.1 Beg).(50608.03.10)  
+       var  pVectorDB_Config        = await MWT.getConfig( )                                                // .(50608.03.10).(50605.03.1 Beg)  
+//     var  pVectorDB_Config        = await MWT.getConfig( `${ FRT.__basedir}/Data/config.jsonc` )          //#.(50608.03.11).(50605.03.1 Beg)  
 
        var  embedmodel   =  pVectorDB_Config.EmbedModel || 'nomic-embed-text'                               // .(50605.03.2)  
 
