@@ -93,7 +93,7 @@
    import   fs                     from 'fs';                                           // .(50425.03.2)
    import { readFile }             from "fs/promises";                                  // .(50428.02.1 RAM Add readFile. Why??)
    import { convert  }             from "html-to-text";                                 // .(50428.01.4)
-   import { chunkTextBySentences } from "matts-llm-tools";                              // .(50603.01.1 RAM Add) 
+   import { chunkTextBySentences } from "matts-llm-tools";                              // .(50603.01.1 RAM Add)   
    import { platform }             from 'os';
 
 // import   pdfParse               from 'pdf-parse';                                    // .(50425.03.3 RAM New PDF parser)
@@ -163,7 +163,7 @@
         if (aConfigFile.slice(0,1) == '.') { aConfigFile = `${__dirname}/../../${aConfigFile.slice(2)}` }
 //          console.log( `--- aConfigFile: '${aConfigFile}` )
        try {
-       var  pConfig_         =  getJSON( aConfigFile )                                   // .(50608.03.x)
+       var  pConfig_         =  getJSON( aConfigFile )                                  // .(50608.03.x)
        } catch( error ) {
             console.error( '*', getError_ParentLine( error, 2 ) ) 
             }
