@@ -72,6 +72,7 @@
 #.(40910.03c  5/10/25 RAM 10:35a| Add isFile to checkFile
 #.(50517.01   5/17/25 RAM 10:30a| Write and use sayColor_Log
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
+#.(50608.04   6/08/25 RAM  5:00p| Deal with bDoit resetting to 0
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -107,7 +108,7 @@
 
        var  bDebug          =  0                                                        // .(50125.01.3 RAM Add bDebug)
        var  bQuiet          =  0                                                        // .(50125.01.4 RAM Add bQuiet)
-       var  bDoit           =  0                                                        // .(50125.01.5 RAM Add bDoit)
+       var  bDoit           =  1                                                        // .(50608.04.3 RAM It defaults to 0 if not set in run-tests.sh).(50125.01.5 RAM Add bDoit)
        var  bForce          =  0                                                        // .(50215.01.6 RAM Add bForce)
        var  nLog            =  1                                                        // .(50218.01.4)
 
