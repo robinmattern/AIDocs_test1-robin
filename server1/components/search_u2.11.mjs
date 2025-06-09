@@ -145,6 +145,8 @@
 #.(50531.04   5/31/25 RAM 11:55p| Write console_log to force white
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
 #.(50605.01   6/05/25 RAM 10:15a| Use LanceDB instead of ChromeDB  
+#.(50609.02   6/09/25 RAM  9:25a| Import pURLs and pDocs only if needed
+
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -185,9 +187,11 @@
        var  MWT              =( await import( `${LIBs.MWT()}/MWT01_MattFns_u2.05.mjs`) ).default            // .(50413.02.8 RAM New Version).(50407.03.1).(50405.06.9)
 //     var  pURLs            =( await import( `${LIBs.MWT()}/MWT04_runWebSearch_u2.06.mjs` ) ).default      //#.(50423.02.1 RAM Import MWT04_runWebSearch).(50514.02.3)
 //     var  pDOCs            =( await import( `${LIBs.MWT()}/MWT06_runDocsSearch_u2.06.mjs`) ).default      //#.(50423.02.2 RAM Import MWT06_runDocsSearch).(50514.02.4)
-       var  pURLs            =( await import( `../components/search-urls_u2.06.mjs`        ) ).default      // .(50514.02.3RAM Move to components).(50423.02.1 RAM Import MWT04_runWebSearch)
-//     var  pDOCs            =( await import( `../components/search-chroma-docs_u2.06.mjs` ) ).default      // .(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch).(50605.01.4)
-       var  pDOCs            =( await import( `../components/search-lancedb-docs_u2.07.mjs`) ).default      // .(50605.01.4).(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch)
+
+//     var  pURLs            =( await import( `../components/search-urls_u2.06.mjs`        ) ).default      //#.(50514.02.3RAM Move to components).(50423.02.1 RAM Import MWT04_runWebSearch).(50609.02.1)
+
+//     var  pDOCs            =( await import( `../components/search-chroma-docs_u2.06.mjs` ) ).default      //#.(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch).(50605.01.4)
+//     var  pDOCs            =( await import( `../components/search-lancedb-docs_u2.07.mjs`) ).default      //#.(50605.01.4).(50514.02.4 RAM Move to components).(50423.02.2 RAM Import MWT06_runDocsSearch).(50609.02.2)
 //      if (pDOCs.bLoaded == 0) { console.log( "  - S1201[ 179]  Can't use ChromaDB" ) }                    // .(50518.02.4 RAM ChromaDB may not be loaded
 
 //                              FRT.writeFileSync( MWT.fixPath( FRT.__dirname, 'run-tests.txt' ), '' )      //#.(50507.08d.2 RAM Start MT, not here)
@@ -634,6 +638,8 @@
        var  pJSON_Results    = { WebResponse: {}, URLs: [], DocResponse: [], Files: [], DOCs: [] }                                               // .(50430.04.5).(50409.03.23)
 
         if (bUseDocFiles) {                                                                                 // .(50409.03.29)
+       var  pDOCs                     =( await import( `../components/search-lancedb-docs_u2.07.mjs`) ).default  //.(50609.02.2)
+
        var  pResults                  =  await  pDOCs.getRelevantDocs( aDocsCollection, aiPrompt );         // .(50428.04.6 RAM Was searchPrompt).(50423.02.5)
         if (pResults.DOCs.length == 0) { process.exit(1) }                                                  // .(50503.06.4 RAM Abort?)
 //          searchPrompt              =  aiPrompt                                                           // .(50414.03b.1 RAM aka webBearch).(50428.04.7 RAM ???) 
@@ -650,6 +656,8 @@
 
         if (bUseWebURLs) {                                                                                                                       // .(50409.03.24)
 //     var  urls                      =  await  getNewsUrls( searchPrompt );                                //#.(50408.06.6)
+       var  pURLs                     =( await import( `../components/search-urls_u2.06.mjs`) ).default     // .(50609.02.1 RAM Get it here dynamically)
+
        var  pResults                  =  await  pURLs.getNewsUrls( searchPrompt );                          // .(50423.02.3).(50408.06.6)
             pJSON_Results.WebResponse =  pResults.WebResponse                                               // .(50409.03.25)
             pJSON_Results.URLs        =  pResults.URLs                                                      // .(50409.03.26)

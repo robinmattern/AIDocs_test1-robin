@@ -310,19 +310,20 @@
               if (fileExt.toLowerCase() !== aExt.toLowerCase()) {
                   continue; // Skip if extension doesn't match
                   }
-              }
+              } // eif aExt
 //  return  fileName;                                                                   //#.(50428.02.5 RAM No need to pass aFolder back, although it has been fixed) )
     return  path.join( aFolder, fileName);                                              // .(50428.02.5 RAM Need to "Return the full path of the matching file" cuz of recursive calls 
-          }
-       }  }
+          } // eif fileName.startsWith(aStr
+       }  } // eol item of items
+
    for (var item of items) { // If no matching file found, recursively check subdirectories
         if (item.isDirectory()) {
        var  subdirPath =  path.join(aFolder, item.name);
        var  result     =  await get1stFile(aStr, subdirPath, aExt);
         if (result) {
     return  result; // Return the first match found in subdirectories
-            }
-        } }
+            } // eif result
+       }  } // eol item of items
     return  null; // No matching file found
         } catch (error) {
             console.error(`Error in get1stFile: ${error.message}`);

@@ -1,3 +1,36 @@
+/*\
+##=========+====================+================================================+
+##RD        import              | ChromaDB Import Script
+##RFILE    +====================+=======+===============+======+=================+
+##FD   import.js                |      0|  3/01/25  7:00|     0| p1.03`50301.0700
+##FD   import_u1.01.mjs         |      0|  3/29/25  7:00|     0| p1.03`50329.0700
+##FD   import_u1.03.mjs         |      0|  4/28/25  8:10|     0| p1.03`50428.0810
+##FD   import-lanceDB.mjs       |      0|  6/02/25 17:45|     0| p1.04`50602.1745
+#
+##DESC     .--------------------+-------+---------------+------+-----------------+
+#            This script imports files into the LanceDB vector database from Matt
+#             Williams' example Ollama scripts written between 2/15/24 and 1/30/25.
+#
+##LIC      .--------------------+----------------------------------------------+
+#            Copyright (c) 2025 JScriptWare and 8020Data-formR * Released under
+#            MIT License: http://www.opensource.org/licenses/mit-license.php
+##FNS      .--------------------+----------------------------------------------+
+#                               |
+
+##CHGS     .--------------------+----------------------------------------------+
+#.(50101.01   1/01/25 MW   7:00a| Created by Matt Williams
+#.(50329.02   3/29/25 XAI  7:00a| Rewritten as .mjs by Grok xAI
+#.(50427.05   4/27/25 MW   7:00a| Use aCollection in importCollection
+#.(50427.06   4/27/25 MW   7:30a| Move s41_bun-app to s13_search-rag-app
+#.(50428.01   4/28/25 RAM  8:10a| Add Matt's utilities.js fns
+#.(50505.07   5/06/25 RAM  8:08a| Add aBasedir to imported local file path
+#.(50514.03   5/14/25 RAM  1:30p| Add checkCollection before deleting it
+#
+##PRGM     +====================+===============================================+
+##ID 69.600. Main0              |
+##SRCE     +====================+===============================================+
+\*/
+//========================================================================================================= #  ===============================  #
 
    import   ollama                 from "ollama";
    import { ChromaClient }         from "chromadb";
@@ -7,10 +40,10 @@
        var  CHROMA_PORT      =  8808
 
        var     aMeta         =  await  import.meta.url;
-       var   __dirname       =  aMeta.replace( /file:\/\//, "" ).split( /[\\\/]/ ).slice(0 ,-1).join( '/' );
-       var   __basedir       =  __dirname.replace( /[\\\/](client|server)[0-9]*.+/,"");
-       var    aBasedir       =  __basedir
-       var  aDataDir         =  path.resolve( `${__basedir}/data` )
+       var __dirname       =  aMeta.replace(/file:\/\//, "").split(/[\\\/]/).slice(0, -1).join('/');
+       var __basedir       = __dirname.replace(/[\\\/](client|server)[0-9]*.+/, "");
+       var  aBasedir       = __basedir;
+       var  aDataDir       =  path.resolve(`${__basedir}/data`);
        var  aTestFilesDir    =  path.resolve( `${__basedir}/data/AI.testR.4u/files` )
 
        var  chroma           =  new ChromaClient({ path: `http://localhost:${CHROMA_PORT}` });
@@ -25,6 +58,7 @@
 //     var  aCollection      = "s13f_eo-docs"
 
        var  aCollection      =  process.argv[2] ? process.argv[2] : aCollection;
+       var  aCollection      = (await MWT.get1stFile( aCollection, aDataDir, ".txt")).replace( /\.txt/,'' ) // .(50427.05.4)
 
             await  deleteCollection( aCollection );
 
