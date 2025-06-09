@@ -361,9 +361,9 @@ C. Get Help
             ait  gen  s13  all
 
           For the s13_search-rag-app, you can give a collection name, s13a, s13b, etc
-            s13_apple-ipad
+            s13_apple-ipad-txt
             s13a_apple-pages
-            s13b_apple-pdfs
+            s13b_apple-os-pdfs
             s13c_rag-architecture-doc
             s13d_greenbook-pdf
             s13e_greenbook-txt
@@ -542,7 +542,7 @@ D. Run three sample models
            11. UsrPrompt Runs:  1
            12. First Run Id:    s13_t011.01
            13. Sections:        Parms,Docs,Search,Stats,Results
-           14. Collection:      s13_apple-ipad
+           14. Collection:      s13_apple-ipad-txt
 
           Saved .env file for test run t011.
 

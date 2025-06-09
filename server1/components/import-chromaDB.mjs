@@ -16,9 +16,9 @@
        var  chroma           =  new ChromaClient({ path: `http://localhost:${CHROMA_PORT}` });
 
 //     var  aCollection      = "buildragwithtypescript"
-       var  aCollection      = "s13_apple-ipad"
+       var  aCollection      = "s13_apple-ipad-txt"
 //     var  aCollection      = "s13a_apple-pages"
-//     var  aCollection      = "s13b_apple-pdfs"
+//     var  aCollection      = "s13b_apple-os-pdfs"
 //     var  aCollection      = "s13c_rag-architecture-doc"
 //     var  aCollection      = "s13d_greenbook-docs"
 //     var  aCollection      = "s13e_constitution-docs"

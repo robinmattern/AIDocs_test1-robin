@@ -21,7 +21,7 @@
      export LOGGER="log,inputs"
 
      export SCORING="1"                         # .(50507.02.8 RAM New way to score it)                                           
-     export PC_CODE="rm288p"
+     export PC_CODE=""
      fi                                                                                 # .(50513.02.5 End)
 
 #    export ENVs="1"                                                                    # .(50513.05.15)
