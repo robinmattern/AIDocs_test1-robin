@@ -74,6 +74,9 @@
 #.(50531.02   5/31/25 RAM 13:00p| Rework Scoring Names
 #.(50603.01   5/03/25 RAM  8:00a| Add chunkTextBySentences from matts-llm-tools
 #.(50603.03   5/03/25 RAM  8:37a| Add getBasename
+#.(50605.03   6/06/25 CAI  4:45p| Rewrite and use MWTs.getConfig and getJSON
+#.(50605.04   6/06/25 CAI  5:20p| Write and use pathExists
+#.(50605.05   6/06/25 CAI  6:30p| Write and use getError_ParentLine
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -91,6 +94,7 @@
    import { readFile }             from "fs/promises";                                  // .(50428.02.1 RAM Add readFile. Why??)
    import { convert  }             from "html-to-text";                                 // .(50428.01.4)
    import { chunkTextBySentences } from "matts-llm-tools";                              // .(50603.01.1 RAM Add) 
+   import { platform }             from 'os';
 
 // import   pdfParse               from 'pdf-parse';                                    // .(50425.03.3 RAM New PDF parser)
 // import { PDFExtract }           from 'pdf.js-extract';                               // .(50425.03.3 
@@ -103,8 +107,10 @@
        var  aVer             = "u2.05"                                                  // .(50425.03.x).(50407.02.1 Was u0.03)
 
       var __dirname          =    dirname( fileURLToPath( import.meta.url ) );          // .(50330.04.2)
-       var  aEnvDir          =  __dirname.replace( /\._2.*/, '._2' )                    // .(50330.04.3)
-            dotenv.config( { path: join( aEnvDir, '.env'), override: true } );          // .(50330.04.4)
+      var __basedir          =  __dirname.replace( /\._2.*/, '' )                       // .(50605.03.5)
+
+       var  aEnvDir_2        =  __dirname.replace( /\._2.*/, '._2' )                    // .(50330.04.3)
+            dotenv.config( { path: join( aEnvDir_2, '.env'), override: true } );        // .(50330.04.4)
 
 //   -- --- ---------------  =  ------------------------------------------------------  #
 /*
@@ -135,19 +141,120 @@
             return path.basename( aPath )
             }                                                                           // .(50603.03.1 End) 
 // ---------------------------------------------------------------
+/*
+            console.log( JSON.stringify( pathExists( __basedir ), null, 2 ) )
+            console.log( JSON.stringify( pathExists( `${__basedir}/Data/config.jsonc` ), null, 2 ) )
+            console.log( JSON.stringify( pathExists( `D:/Data/LanceDB` ), null, 2 ) )
+            console.log( JSON.stringify( pathExists( `..` ), null, 2 ) )  // Project dir
+            console.log( JSON.stringify( pathExists( `.`  ), null, 2 ) )  // Base Dir
+            console.log( JSON.stringify( pathExists( ``   ), null, 2 ) )  // Base dir
+            console.log( JSON.stringify( pathExists( `/Data/config.jsonc`  ), null, 2 ) )  // in Local Drive
+            console.log( JSON.stringify( pathExists( `./Data/config.jsonc` ), null, 2 ) )  // in Base Dir
+            console.log( JSON.stringify( pathExists( `/D/Data/LanceDB`     ), null, 2 ) )  // in Local Drive
+*/            
+// ---------------------------------------------------------------
+//          getConfig( __basedir ); debugger
 
-// const config = JSON.parse( await readFile("./config.json", "utf-8"));
+//  export  function  getConfig( aBaseDir ) {                                           // .(50605.03.6 RAM Write new getConfig Beg)
+    export  function  getConfig( aConfigFile ) {                                        // .(50608.03.x).(50605.03.6 RAM Write new getConfig Beg)
 
-    export  async function  getConfig( aDir ) {                                         // .(50428.01.5 RAM Add getConfig Beg)
-       var  aFilePath  =  fixPath( aDir, "config.json" );
+//          aBaseDir         =  aBaseDir ? aBaseDir : '.'
+            aConfigFile      =  aConfigFile ? aConfigFile : './Data/config.jsonc'       // .(50608.03.x)
+        if (aConfigFile.slice(0,1) == '.') { aConfigFile = `${__dirname}/../../${aConfigFile.slice(2)}` }
+//          console.log( `--- aConfigFile: '${aConfigFile}` )
+       try {
+       var  pConfig_         =  getJSON( aConfigFile )                                   // .(50608.03.x)
+       } catch( error ) {
+            console.error( '*', getError_ParentLine( error, 2 ) ) 
+            }
+       var aDB_              =  pConfig_.VECTOR_DB
+       var aDB               =  aDB_.toLowerCase().replace( /-db/, 'DB' ) || 'lanceDB'      
+       var aOS               =  platform() == 'win32' ? "Windows" : "Bash"
+       var pConfig = 
+            {  DBname        : `${aDB.slice(0,1).toUpperCase()}${aDB.slice(1)}`
+            ,  DBpath        :  pConfig_[`${aDB_}_Local_${aOS}`].PATH || `./Data/AI.vectors/${aDB}` 
+            ,  EmbeddedModel :  pConfig_.EMBEDDED_MODEL || ''   
+            ,  MainModel     :  pConfig_.MAIN_MODEL || ''
+               }
+//          console.log( JSON.stringify( pConfig, null, 2 ) )
+            return pConfig
+            }                                                                           // .(50605.03.6 End)
+// ---------------------------------------------------------------
+
+    export  function  getJSON( aPath ) {                                                // .(50605.03.7 RAM Write getJSON Beg)
+       var  pExists  =  pathExists( aPath ), pJSON = {}    
+        if (pExists.exists) {
+      try { // console.log( JSON.parse( fs.readFileSync( pExists.fullPath, 'ASCII' ) ) )  
+       var  aJSON    =  fs.readFileSync( pExists.fullPath, 'ASCII' )     
+            eval( `pJSON = ${ aJSON }` ); // return pJSON   
+        } catch( error ) { throw new Error( `Parsing config.json: '${pExists.fullPath}'` ); }
+//          console.error(`* Error parsing config.json: '${pExists.fullPath}'`, getError_ParentLine( error ) );
+        } else {           throw new Error( `Reading config.json: '${pExists.fullPath}'` ); }
+//          console.error(`* Error reading config.json: '${pExists.fullPath}'\n`, getError_ParentLine( ) );
+    return  pJSON 
+            }                                                                           // .(50605.03.7 End)
+// ---------------------------------------------------------------
+
+  function  getError_ParentLine( pError, nLine ) {                                      // .(50605.05.1 RAM Write getError_ParentLine Beg)
+      var   nLine  =  nLine ? nLine : (pError ? 1 : 2)
+      var   mError = (pError ? pError : new Error()).stack.split( '\n' );
+      var   aLine  =  mError[nLine].match( /\((.+):/  ); aLine = aLine ? aLine[1] : '' 
+      var   aFunc  =  mError[nLine].match( /at (.+) \(/ ); aFunc = aFunc ? `  ${aFunc[1]}` : '' 
+        if (aLine.match( "file://" ) ) {
+            aLine = path.basename( aLine.slice(7) ).replace( /:(.+)/, "[$1]")
+            }  
+            return `${mError[0]}\n  on line: ${aLine}${aFunc}`.replace( /Error\n  /, ' ' )
+            }                                                                           // .(50605.05.1 End)
+// ---------------------------------------------------------------
+
+    export  async function  getConfig1( aDir_ ) {                                       // .(50428.01.5 RAM Add getConfig Beg)
+//     var  aDB_path   =  process.env.CHROMA_DB_FOLDER="./Data/AI.vectors/chromaDB" 
+//     var  aDB_path   =  process.env.LANCE_DB_FOLDER2="./Data/AI.vectors/lanceDB"
+//     var  aDB_path   =  process.env.LANCE_DB_FOLDER="D:/Data/AI.vectors/lanceDB"       // Must be NTFS drive in Windows 
+//     var  aDir1      =  fixPath( "",    process.env.LANCE_DB_FOLDER2 ); aDir = fs.statSync( aDir1 ).isDirectory() ? aDir1 : aDir 
+//     var  aDir1      =  fixPath( aDir_, process.env.LANCE_DB_FOLDER  ); aDir = fs.statSync( aDir1 ).isDirectory() ? aDir1 : aDir 
+//     var  aDir1      =  fixPath( aDir_, process.env.CHROMA_DB_FOLDER ); aDir = fs.statSync( aDir1 ).isDirectory() ? aDir1 : aDir 
+//     var  aDir1      =  fixPath( aDir_, ""                            ); aDir = fs.statSync( aDir1 ).isDirectory() ? aDir1 : aDir 
+       var  aDir       =  isDir(   '',    process.env.LANCE_DB_FOLDER,  ''   )  // LanceDB on D: Drive. Use if found first
+            aDir       =  isDir(   aDir_, process.env.LANCE_DB_FOLDER2, aDir )
+            aDir       =  isDir(   aDir_, process.env.CHROMA_DB_FOLDER, aDir )
+            aDir       =  isDir(   aDir_, 'my_choma_data',    aDir )
+       if (!aDir) { return { DBname: '' } }    
+       var  aFilePath  =  fixPath( aDir,  'config.json' );
+      if (!(fs.existsSync( aFilePath ) && fs.statSync( aFilePath ).isFile()) ) { return { DBname: '' } }  
    try {     
-       var  config     =  JSON.parse( await readFile( aFilePath, "utf-8"));
-    return  config;
+       var  config        =  JSON.parse( await readFile( aFilePath, "utf-8"));
+            config.DBname =  aDir.match( /lanceDB/ ) ? 'lanceDB' : 'chromaDB'
+            config.DBpath =  aDir 
+    return  config 
    } catch( error ) {
-            console.error("Error reading config.json:", error.message);
+            console.error("* Error reading config.json:", error.message);
     return '';
             }
-        }                                                                               // .(50428.01.5 End)
+  function  isDir( aBaseDir, aDBdir, aDir ) { 
+       if (!aDBdir) { return aDir }
+        if (!aDir) { var aDir1 = aBaseDir ? `${aBaseDir}/${aDBdir}` : ( aDBdir ? aDBdir : '' )
+//      if (aDir1) { aDir =  fs.existsSync( aDir1 ) && fs.statSync( aDir1 ).isDirectory() ? aDir1 : "" } }
+        if (aDir1) { aDir =  pathExists( aDir1 ).isDir ? aDir1 : "" } }
+            console.log(  `  aDir: '${aDir}', aDir1: '${aDir1}', aBaseDir: '${aBaseDir}', aDBdir: '${ process.env[ aDBdir ]}'`)
+    return  aDir
+            }                                                                   
+            }                                                                           // .(50428.01.5 End)
+// ---------------------------------------------------------------
+
+  function  pathExists( aPath ) {                                                       // .(50605.04.1 Write pathExists) 
+       var  pExists  = { fullPath: fixPath( aPath ), exists: false, isDir: false, isFile: false }
+       var  bExists  =  fs.existsSync( pExists.fullPath ) 
+        if (bExists) { 
+       var  pStats   =  fs.statSync(   pExists.fullPath )
+            pExists.exists    = true
+            pExists.isDir     = pStats.isDirectory()
+            pExists.isFile    = pStats.isDirectory() == false  
+            pExists.size      = pStats.size  
+            pExists.updatedOn = pStats.mtime  
+            }         
+    return  pExists
+            }                                                                           // .(50605.04.1 End)
 // ---------------------------------------------------------------
 
     export  async function  readText( path, file ) {                                    // .(50428.01.6 RAM Add readText Beg)
@@ -842,9 +949,10 @@ function  createUserInput() {                             //#.(50330.03.3 RAM Re
              ,  extractImagesFromPDF                      // .(50425.03.3)
              ,  fmtText
              ,  fixPath                                   // .(50425.03.4
-             ,  getBasename                               // .(50603.03.2)  
-             ,  getConfig                                 // .(50428.01.8)  
              ,  get1stFile                                // .(50428.02.6)  
+             ,  getBasename                               // .(50603.03.2)  
+             ,  getConfig                                 // .(50605.03.8).(50428.01.8)  
+             ,  getJSON                                   // .(50605.03.9)  
              ,  fmtStream
              ,  htmlToText
              ,  fmtResults
