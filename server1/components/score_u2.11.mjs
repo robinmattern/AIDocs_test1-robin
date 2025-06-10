@@ -52,6 +52,7 @@
 #.(50531.07   5/31/25 RAM 10:00p| Remove double quotes in parseArgs if any
 #.(50601.01   6/01/25 RAM  2:00p| Save stats to MySQL
 #.(50601.02   6/01/25 RAM  3:00p| Remove double push of aScore   
+#.(50610.01   6/10/25 RAM  9:10p| Move main ...} to include scoreTest
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -177,7 +178,7 @@
 //                                               mResponseFiles.forEach( await scoreTest )                  // .(50507.03.x RAM No workie)
               var i=0; for (var aResponseFile of mResponseFiles) { await scoreTest( aStatsSheetFile, aResponseFile, i++ ) }
 
-            } // eof main 
+//         } // eof main                                                                                    // .(50610.01.1 RAM Move to include scoreTest)
 // ---------------------------------------------------------------------------
 
 async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
@@ -601,6 +602,8 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
             } // eif show log   
         } // prt1stMsg                                                                  // .(50503.04.5 End)
 // ------------------------------------------------------------------------------
+        } // eof main                                                                                       // .(50610.01.2 RAM Move to include scoreTest)
+// ----------------------------------------------------------------------------------------------------
 
 // If this file is being run directly (not imported)
 // if (import.meta.url === `file://${process.argv[1]}`) {
