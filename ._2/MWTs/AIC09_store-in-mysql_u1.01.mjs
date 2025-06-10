@@ -42,8 +42,9 @@
        var  pDB_Config       =  Object.fromEntries( Object.entries( pDB_Config ).map(([key, value]) => [ key.toLowerCase(), value ] ) );       
 
        var  isNotCalled      =  FRT.isNotCalled(import.meta.url)
-        if (isNotCalled ||  FRT.inVSCode) {
-                        sayMsg( `AIC09[  46]  Do you want to re-create the MySQL table.`, 1 )
+        if (isNotCalled  && FRT.inVSCode) {
+            global.bQuiet    =  0 
+                        sayMsg( `AIC09[  46]* Do you want to re-create the MySQL table while debugging.`, 1 )
 //                      await  makTable() 
                         process.exit() 
             }

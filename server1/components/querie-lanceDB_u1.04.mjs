@@ -51,13 +51,13 @@
 
 // Run CLI if this is the main module
        var  __filename    = `${ process.argv[1].replace( /[\\\/]/g, '/' ) }`
-       var  bNotImported  = (import.meta.url) === `file:///${ __filename }`
+       var  bNotImported  = (import.meta.url) !== `file:///${ __filename }`
        var  bInVSCode     =  process.env.VSCODE_INSPECTOR_OPTIONS ? 1 : 0
 //          console.log(  `  import.meta.url: "${import.meta.url}"\n       __filename: "file:///${ __filename }"` )
 //          console.log(  `  bNotImported: ${bNotImported}, bInVSCode: ${bInVSCode}` )
         if (bInVSCode) {
-//          process.argv[2] = 'collections'
-            process.argv[2] = 'schema'
+            process.argv[2] = 'collections'
+//          process.argv[2] = 'schema'
             process.argv[3] = 's13_apple-ipad-txt'
             }
         if (bNotImported  || bInVSCode) {
@@ -68,6 +68,7 @@
 // Equivalent of: ait chromaDB counts
 // --------------------------------------------------------------
 export async function showCounts() {
+  console.log( "hello, are you here?")
   try {
     const tables = await lanceDB.tableNames();
     console.log("\n  LanceDB Table Counts:");
@@ -468,7 +469,7 @@ export async function searchText( collectionName, queryText, options = {} ) {
 async function main() {
   const command = process.argv[2];
   const param   = process.argv[3];
-
+ 
   switch (command) {
     case 'counts':        await  showCounts();              break;
     case 'schema':        await  showSchema( param );       break;
