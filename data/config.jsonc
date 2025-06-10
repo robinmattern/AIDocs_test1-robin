@@ -9,7 +9,7 @@
     "PATH"     : "./{AppPath}/my_chroma_data" 
      }  
 , "LANCE-DB_Local_Bash": {
-    "PATH"     : "./Data/AI.vectors/lanceDB"
+    "PATH"     : "./data/AI.vectors/lanceDB"
      } 
 , "LANCE-DB_Local_Windows": {
     "PATH"     : "D:/Data/AI.vectors/lanceDB"   /* Must be NTFS drive in Windows, takes precedence  */

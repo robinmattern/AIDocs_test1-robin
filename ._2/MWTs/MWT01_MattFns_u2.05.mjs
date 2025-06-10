@@ -78,6 +78,7 @@
 #.(50605.04   6/06/25 CAI  5:20p| Write and use pathExists  
 #.(50605.05   6/06/25 CAI  6:30p| Write and use getError_ParentLine
 #.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
+#.(50609.03   6/09/25 RAM  8:00a| Accomodate for Bash in getConfig
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -169,17 +170,23 @@
             console.error( '*', getError_ParentLine( error, 2 ) ) 
             }
        var aDB_              =  pConfig_.VECTOR_DB
-       var aDB               =  aDB_.toLowerCase().replace( /-db/, 'DB' ) || 'lanceDB'      
+       var aDB               =  aDB_.toLowerCase().replace( /-db/, 'DB' ) || 'lanceDB'     
        var aOS               =  platform() == 'win32' ? "Windows" : "Bash"
+      
        var pConfig = 
             {  DBname        : `${aDB.slice(0,1).toUpperCase()}${aDB.slice(1)}`
             ,  DBpath        :  pConfig_[`${aDB_}_Local_${aOS}`].PATH || `./Data/AI.vectors/${aDB}` 
             ,  EmbeddedModel :  pConfig_.EMBEDDED_MODEL || ''   
             ,  MainModel     :  pConfig_.MAIN_MODEL || ''
                }
-//          console.log( JSON.stringify( pConfig, null, 2 ) )
-            return pConfig
-            }                                                                           // .(50608.03.3).(50605.03.6 End)
+       if (aOS == "Bash") {                                                             // .(50609.03.1 RAM Accomodate for Bash Beg)
+       var aBaseDir          =  __dirname.replace( /._2.+/, '' ) 
+           pConfig.DBpath    = `${aBaseDir}${pConfig.DBpath.slice(2)}`
+           }                                                                            // .(50609.03.1 End)
+//         console.log( JSON.stringify( pConfig, null, 2 ) )
+           console.log( `  - MW01[ 181]  Using ${pConfig.DBname} at '${pConfig.DBpath}` )
+           return pConfig
+           }                                                                            // .(50608.03.3).(50605.03.6 End)
 // ---------------------------------------------------------------
 
     export  function  getJSON( aPath ) {                                                // .(50605.03.7 RAM Write getJSON Beg)

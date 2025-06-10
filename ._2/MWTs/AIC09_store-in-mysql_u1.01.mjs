@@ -43,7 +43,8 @@
 
        var  isNotCalled      =  FRT.isNotCalled(import.meta.url)
         if (isNotCalled ||  FRT.inVSCode) {
-                        await  makTable() 
+                        sayMsg( `AIC09[  46]  Do you want to re-create the MySQL table.`, 1 )
+//                      await  makTable() 
                         process.exit() 
             }
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- # 
