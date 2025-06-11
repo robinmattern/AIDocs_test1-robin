@@ -53,6 +53,7 @@
 #.(50601.01   6/01/25 RAM  2:00p| Save stats to MySQL
 #.(50601.02   6/01/25 RAM  3:00p| Remove double push of aScore   
 #.(50610.01   6/10/25 RAM  9:10p| Move main ...} to include scoreTest
+#.(50611.02   6/11/25 RAM 12:00p| Don't save Stats if any score is 0
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -308,7 +309,8 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
 
             FRT.writeFileSync(    MWT.fixPath( FRT.__basedir, aStatsSheetFile ), mSpreadsheet.join( "\n" ) )
 
-        if ((mNotFound.length == 0 && bDoit == 1) || process.env.DRYRUN) {                                  // .(50601.01.2 Do it)
+         var bSaveIt = (mNotFound.length == 0) && (mCols[7] > 0) && (mCols[8] > 0) && (mCols[9] > 0)        // .(50611.02.1 RAM Don't save if ..)
+        if ((bSaveIt && bDoit == 1) || process.env.DRYRUN) {                                  // .(50601.01.2 Do it)
 //          sayMsg( `AIT14[ 307]  Saving scores for Stats: ${aTestId}`, -1)
             await savStats_in_mySQL( pStats, aResponseFile, MWT.fixPath( FRT.__basedir ) )                  // .(50601.01.3)
             }                                                                                               // .(50601.01.4)
