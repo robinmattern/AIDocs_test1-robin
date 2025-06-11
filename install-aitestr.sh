@@ -156,13 +156,14 @@ function cpyEnv() {                                                             
       aFrom="$1/$2"; aTo="$1/$3"
 #     echo "    Copying .env file from ${aFrom}"
 #     echo "                      into ${aTo}"
-      if [ ! -f "${aFrom}" ]; then echo     "  * Can't copy .env file: '${aFrom}'";  return; fi                   # .(50406.01d.1)
+      if [ ! -f "${aFrom}" ]; then echo     "  * Can't copy .env file: '${aFrom}'";  return; fi             # .(50406.01d.1)
       echo "    Copying .env file from ${aFrom}  to  .env"                                                  # .(50410.01.1)
       if [   -f "${aFrom}" ]; then            cp -p "${aFrom}" "${aTo}";               fi
       if [ ! -f "${aTo}"   ]; then echo  "  * Copy to: '${aTo}' failed";       return; fi                   # .(50406.01d.2)
       }                                                                                                     # .(50406.03.1 End)
 # --------------------------------------------------------------
 
+                                                              bModelTester=1            # .(50610.04.5 RAM Why wasn't it set?)
  if [ "${aStage}" == "" ] || [ "${aStage}" == "demo1" ]; then bModelTester=0; fi        # .(50406.01d.1)
 
 #if [  -f "${aRepoDir}/client1/c16_aidocs-review-app/utils/FRTs/_env_local-local.txt" ]; then
@@ -232,7 +233,7 @@ function cpyEnv() {                                                             
    fi                                                                                   # .(50406.01b.1 End).(50406.01.1 End).(50106.04.16 RAM Exit if bDoit=0)
 
  else                                                                                   # .(50402.15.8)
-   echo -e "* AIDocs didn't get installed into folder: ${aRepoDir}/client1.";           # .(50402.15.9)
+   echo -e "* AIDocs didn't get installed into folder: ${aRepoDir}.";                   # .(50610.04.6 RAM Remove /client1).(50402.15.9)
 #  exit
    fi # eif ${aRepoDir}/client1
  fi  # eif $? -ne 1                                                                     # .(50402.15.10)
