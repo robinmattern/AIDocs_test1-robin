@@ -22,6 +22,7 @@
 #.(50601.01b  6/02/25 XAI  6:20a| Cleaned it up
 #.(50608.02   6/08/25 RAM  3:00p| Write getStatsMap
 #.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
+#.(50611.03   6/11/25 RAM 12:01p| Minor changes 
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -87,7 +88,7 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
                       ,       pStats[ "Score1"           ]     /*  8 accurateScore       */
                       ,       pStats[ "Score2"           ]     /*  9 relevantScore       */
                       ,       pStats[ "Score3"           ]     /* 10 organizationScore   */
-                   //  ,       pStats[ "ScoreTotal"       ]     /*    totalScore          */
+                  //  ,       pStats[ "ScoreTotal"       ]     /*    totalScore          */
                       ,       pStats[ "ScoreWeighted"    ]     /* 11 weightedScore       */
                       ,       pStats[ "Duration"         ]     /* 12 totalDuration       */
                    // ,                ""                      /*    loadDuration        */
@@ -131,7 +132,7 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
 //                    ,  `'${   'ResponseTXT'              }'  /* 19 responseTXT        */`
                               ]
        var  mStatsMap =  getStatsMap()                       
-       var  aSQL2     = 'INSERT INTO scoredResponses.Scores \n' 
+       var  aSQL2     = 'INSERT INTO scoredResponses.scores \n' 
 /*                    + '     (  pc_no, modelName, runAT \n'
                       + '     ,  accurateScore, relevantScore, organizationScore, totalScore, weightedScore, totalDuration \n'
                       + '     ,  promptEvalCount, evalCount, evalDuration, evalRate \n'
@@ -150,7 +151,7 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
 //                       console.log( " --[6]--- aSQL:",  aSQL  )
 //                       console.log( " aSQL2:\n", aSQL2 )
 
-            sayMsg( `AIC09[ 105]  Saving scores for Stats: ${pStats[ 'RespId' ].trim()}`, -1)
+            sayMsg( `AIC09[ 153]  Saving scores for Stats: ${pStats[ 'RespId' ].trim()}`, 1)
        var  nID       =  await insertScore( aSQL,  mValues1 );
             usrMsg( `Inserted record no. ${nID} for Stats RunId: ${ pStats[ 'RespId' ].trim() }`, shoMsg( 'stats' ) )
 
@@ -173,7 +174,7 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
 
   async function  insertScore( aSQL, mValues ) {
              var  aID  = await execSQL( aSQL, mValues )
-                  sayMsg( `AIC09[ 163]  Insert successful as ID: ${aID}`, -1);
+                  sayMsg( `AIC09[ 176]  Insert successful as ID: ${aID}`, -1);
             } // eof insertScore 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
@@ -194,6 +195,7 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
   async function  execSQL( aSQL, mValues ) {
       
        let  connection;
+//          global.bDebug = 1 
 
 /*   const  dbConfig  = 
              { host:     '45.32.219.12'
@@ -206,7 +208,7 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
     try {
         //  Create connection
             connection = await mysql.createConnection( pDB_Config )                     // .(50608.03.2 RAM Was: dbConfig)
-            sayMsg( 'AIC09[ 195]  Connected to MySQL', -1 );
+            sayMsg( 'AIC09[ 210]  Connected to MySQL', -1 );
 
         //  Execute the query
 //     var [result]  =  await connection.execute( aSQL, mValues );
@@ -215,11 +217,11 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
 //          sayMsg( `AIC09[ 201]  Insert successful as ID: ${result.insertId}`, -1);
         } catch (error) {
        var  nID      =  0
-            sayMsg( `AIC09[ 204]* Database error:\n${error}`, -1 );
+            sayMsg( `AIC09[ 219]* Database error:\n${error}`, 1 );
     } finally {
         if (connection) {
             await connection.end();
-            sayMsg( 'AIC09[ 208]  Connection closed', -1 );
+            sayMsg( 'AIC09[ 223]  Connection closed', -1 );
             }
         }
     return  nID        

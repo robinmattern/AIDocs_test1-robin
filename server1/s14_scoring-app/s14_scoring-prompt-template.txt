@@ -40,6 +40,8 @@ Use Chain-of-thought, Ask models to explain reasoning before giving scores
 4. If a criterion is not applicable (e.g., no suggestions requested), state this in the justification and assign a 0/10.
 5. Format the output as follows:
 
+Format the value [Score] as a single digit from 1 to 5 or 0 if anything else.
+
 ### Evaluation for Response
 
 **Accurate**: [Score]
