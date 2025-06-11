@@ -51,18 +51,21 @@
 
 // Run CLI if this is the main module
        var  __filename    = `${ process.argv[1].replace( /[\\\/]/g, '/' ) }`
-       var  bNotImported  = (import.meta.url) !== `file:///${ __filename }`
+       var  bNotImported  = (import.meta.url) === `file:///${ __filename }`              // .(50611.01.x RAM Is it or is it not imported. Was "!--")
        var  bInVSCode     =  process.env.VSCODE_INSPECTOR_OPTIONS ? 1 : 0
 //          console.log(  `  import.meta.url: "${import.meta.url}"\n       __filename: "file:///${ __filename }"` )
-//          console.log(  `  bNotImported: ${bNotImported}, bInVSCode: ${bInVSCode}` )
+//          console.log(  `  - IM01[  57]  bNotImported: ${bNotImported}, bInVSCode: ${bInVSCode}` )
         if (bInVSCode) {
             process.argv[2] = 'collections'
 //          process.argv[2] = 'schema'
             process.argv[3] = 's13_apple-ipad-txt'
             }
         if (bNotImported  || bInVSCode) {
-              main().catch(  console.error );
-              }
+//          console.log( "  - IM01[  64]  Calling main" )
+            main().catch(  console.error );
+        } else {
+            console.log( "  - IM01[  64]  Not Calling main" )
+            }
 
 // --------------------------------------------------------------
 // Equivalent of: ait chromaDB counts
