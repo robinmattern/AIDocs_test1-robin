@@ -326,7 +326,7 @@ var  mStatsMap =
       , [ "PCode"            , 'pc_no'              , 'char( 6)'  , 'default null' ] //  3
       , [ "ModelName"        , 'modelName'          , 'char(15)'  , 'default null' ] //  4
       , [ "ContextSize"      , 'contextSize'        , 'integer'   , 'default null' ] //  5
-      , [ "Temperature"      , 'temperature'        , 'float'     , 'default null' ] //  6   // .(50612.02.1 RAM Was Integer)
+      , [ "Temperature"      , 'temperature'        , 'float'     , 'default null' ] //  6   // .(50612.02.1 RAM Was Integer) 
 //    , [ ""                 , 'responseFileName'   , 'integer'   , 'default null' ] //  
       , [ "CreatedAt"        , 'runAT'              , 'char(19)'  , 'default null' ] //  7   // .(50612.01.6 RAM Was char(18))
       , [ "Accurate"         , 'accurateScore'      , 'integer'   , 'default null' ] //  8

@@ -687,7 +687,7 @@ function  fmtResults(results) {
             pStats.ModelName        = pStats.ModelName.trim()
             pStats.DateTime         = pStats.DateTime.trim()                            // .(50612.01.3)
             pStats.ContextSize      = pStats.ContextSize      * 1   //
-            pStats.Temperature      = pStats.Temperature      * 1.0 //  "0.07"          // .(50612.02.2)
+            pStats.Temperature      = pStats.Temperature      * 1.0 //  "0.07"          // .(50612.02.2) 
             pStats.Duration         = pStats.Duration         * 1.0 // "  12.49"
             pStats.EvalTokens       = pStats.EvalTokens       * 1   // " 336"
             pStats.EvalDuration     = pStats.EvalDuration     * 1.0 // "  12.21"
