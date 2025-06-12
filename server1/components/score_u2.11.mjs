@@ -34,7 +34,7 @@
 #.(50507.08a  5/08/25 RAM  2:10p| Save and use TestIds for delayed score runs 
 #.(50507.08b  5/09/25 RAM 10:10a| Save and use RespIds for delayed score runs 
 #.(50508.01   5/09/25 RAM 10:45a| Skip if SCORING != 1
-#.(50510.01   5/10/25 RAM  8:45a| Display scores if no LOGGING
+#.(50510.01   5/10/25 RAM  8:45a| Display scores if not LOGGING
 #.(50510.02   5/10/25 RAM  9:00a| Add ability to score rowNos
 #.(50510.04   5/10/25 RAM 10:00a| Deal with missing scores
 #.(50507.08d  5/11/25 RAM  9:30a| Start run-tests.txt MT
@@ -54,6 +54,9 @@
 #.(50601.02   6/01/25 RAM  3:00p| Remove double push of aScore   
 #.(50610.01   6/10/25 RAM  9:10p| Move main ...} to include scoreTest
 #.(50611.02   6/11/25 RAM 12:00p| Don't save Stats if any score is 0
+#.(50510.01c  6/12/25 RAM  7:48a| Display scores if not LOGGER
+#.(50616.04   6/12/25 RAM  8:26a| Add all to possible aScoringSections   
+#.(50612.01   6/12/25 RAM 10:24a| Change DateTime is debugging for UpdatedAt
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -117,7 +120,8 @@
 
        var{ bDebug, bDoit }  =  FRT.setVars()
             global.bQuiet    =  0                                                       // .(50503.04.1 RAM Was 2, quieting sayMsg)
-            global.bNoLog    = (process.env.LOGGING || '').match( /log/ ) == null                           // .(50510.01.1)
+//          global.bNoLog    = (process.env.LOGGING || '').match( /log/ ) == null                           //#.(50510.01.1).(50510.01c.1)
+            global.bNoLog    = (process.env.LOGGER || '').match( /log/ ) == null                           // .(50510.01c.1 RAM Was LOGGING)
             sayMsg( `S1401[ 102]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${process.env.DRYRUN}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${"   "}', bNoLog: '${global.bNoLog ? 1 : 0}'`, bEnvs ); // .(50513.05.11) // process.exit() 
 
        var  pArgs            =  parseArgs()
@@ -309,8 +313,10 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
 
             FRT.writeFileSync(    MWT.fixPath( FRT.__basedir, aStatsSheetFile ), mSpreadsheet.join( "\n" ) )
 
-         var bSaveIt = (mNotFound.length == 0) && (mCols[7] > 0) && (mCols[8] > 0) && (mCols[9] > 0)        // .(50611.02.1 RAM Don't save if ..)
-        if ((bSaveIt && bDoit == 1) || process.env.DRYRUN) {                                  // .(50601.01.2 Do it)
+        var  bSaveIt = (mNotFound.length == 0)                                                              // .(50611.02.1 RAM Don't save if ..)
+//      var  bSaveIt = (mNotFound.length == 0) && (mCols[7] > 0) && (mCols[8] > 0) && (mCols[9] > 0)        //#.(50611.02.1 RAM Don't save if ..)
+        if ((bSaveIt && bDoit == 1) || process.env.DRYRUN == 1) {    
+         if (global.bDebug) { pStats.DateTime = FRT.getDate( -1, 8 )  }                                     // .(50612.01.7 RAM Debugging replace an existing Run record).(50601.01.2 Do it)
 //          sayMsg( `AIT14[ 307]  Saving scores for Stats: ${aTestId}`, -1)
             await savStats_in_mySQL( pStats, aResponseFile, MWT.fixPath( FRT.__basedir ) )                  // .(50601.01.3)
             }                                                                                               // .(50601.01.4)
@@ -367,21 +373,22 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
             FRT.setEnv( "OLLAMA_MODEL_NAME", modelName,          FRT.__dirname )
 
        var  aScoringSections   =  process.env.SCORING_SECTIONS || ''                    // .(50521.01.1 RAM Add SCORING_SECTIONS Override Beg)
-       if ( aScoringSections  != '') {
+        if (aScoringSections  != '') {
             aScoringSections   =  `,${aScoringSections.toLowerCase().replace( /[^a-z,]/ , '' ) },`
 
        var  aLogger            =  aScoringSections.match( ',log,'   ) ? 'log' : ''
             aLogger           +=  aScoringSections.match( ',input,' ) ? ',input' : ''
 //          aSections          =  aScoringSections.match( ',Parms,Docs,Search,Stats,Results,' )
-       var  aList              = ',parms,docs,search,stats,results,runid,'
+       var  aList              = ',all,parms,docs,search,stats,results,runid,'        // .(50616.04.1 RAM Add all to possible aScoringSections)   
        var  aSections          =  aScoringSections.split( ',' ).filter( aSection => { return aList.includes( `,${aSection},`) } ).join(',' ); 
      global.aPrtSections       =  aSections        
 //          process.env.LOGGER =  aSections ? '' : aLogger                                                  //#.(50414.01d.4)   
-//          process.env.LOGGER =  process.env.LOGGER ? process.env.LOGGER : (aSections ? '' : aLogger)      // .(50414.01d.4 RAM Don't reset if set)   
-            process.env.LOGGER =  aSections ? '' : (process.env.LOGGER ? process.env.LOGGER : aLogger)      // .(50414.01d.4 RAM Don't reset if set)   
+//          process.env.LOGGER =  process.env.LOGGER ? process.env.LOGGER : (aSections ? '' : aLogger)      //#.(50414.01d.4 RAM Don't reset if set)   
+            process.env.LOGGER =  aSections ? '' : (process.env.LOGGER ? process.env.LOGGER : aLogger)      // .(50414.01d.4 RAM Do reset)  
+            global.bNoLog      = (process.env.LOGGER || '').match( /log/ ) ? 0 : 1                          // .(50510.01c.2 RAM Set bNoLog too)
             FRT.setEnv( "SHOW_SECTIONS",  aSections, FRT.__dirname )
-            sayMsg( `AIT14[ 308]  Setting .Env variables: sections: '${aSections}', LOGGER: '${process.env.LOGGER}'`, 1 )
-            }                                                                           // .(50521.01.1 End)
+            sayMsg( `AIT14[ 308]  Setting .Env variables: sections: '${aSections}', LOGGER: '${process.env.LOGGER}'`, -1 )
+            } // eif aScoringSections                                                                       // .(50521.01.1 End)
   try {
 /*     var  pParms        = 
            {  model     :  modelName

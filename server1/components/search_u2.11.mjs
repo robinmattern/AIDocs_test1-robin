@@ -146,7 +146,8 @@
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
 #.(50605.01   6/05/25 RAM 10:15a| Use LanceDB instead of ChromeDB  
 #.(50609.02   6/09/25 RAM  9:25a| Import pURLs and pDocs only if needed
-
+#.(50612.01   6/12/25 RAM  7:01a| Add seconds to UpdatedAt
+#.(50612.03   6/12/25 RAM  9:30a| Why isn't .env.Debug: .env.DEBUG?
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -202,9 +203,9 @@
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
   function  setDebugVars() {                                                                                // .(50405.03.1 RAM Write setDebugVars Beg)
         if (FRT.inVSCode) {                                                             // .(50507.04.4 RAM Set whatever here)  
-       var  bDebug           =  process.env.Debug  || 0    // Debug Use current settings
-//     var  bDebug           =  0                          // Debug flag for this function
 
+       var  bDebug           =  process.env.Debug  || 0    // Debug Use current settings                    // .(50612.03.1 RAM Why isn't it .env.DEBUG?)
+//     var  bDebug           =  0                          // Debug flag for this function
      global.bDebug           =  bDebug                     // for all subscripts 
             bDoit            =  1                          // for this script 
 
@@ -276,7 +277,7 @@
        var  bDoit            =  process.env.DOIT || 1;  FRT.bDoit = bDoit               // .(50507.07.2 RAM bDoit ??).(50415.01.3 RAM bDoit)
             bQuiet           =  0                                                       // .(50404.02.5)
         if (bQuiet == 2) {
-            saysg(`A1201[ 253]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 1 )
+            sayMsg(`A1201[ 253]  bDebug: ${global.bDebug}, bQuiet: ${global.bQuiet}, bDoit: ${FRT.bDoit}, bForce: ${FRT.bForce}, bIsCalled: ${FRT.isCalled(import.meta.url)}`, -1, 1 )
             }
             global.bQuiet    =  0                                                       // .(50404.02.6)
 //          global.bNoLog    =  0; bNoLog = 0                                           // .(50507.04.2)
@@ -522,7 +523,7 @@
 //                            , stop:           <string> <string>    // Set the stop parameters             // .(50403.01.1 End)
                                 }
              ,  runid        : `${aRunId},${iRun+1} of ${nRunCount}`                                        // .(50403.03.4)
-             ,  datetime     :  FRT.getDate( -1 )                                                           // .(50413.02.9)
+             ,  datetime     :  FRT.getDate( -1, 8 )                                                        // .(50612.01.1 RAM Add ,8 for seconds).(50413.02.9)
              ,  qpc          :  aQPC                                                                        // .(50407.03.3)
              ,  usrprompt    :  aUsrPrompt                                                                  // .(50413.02.10)
              ,  spc          :  aSysPmtCd                                                                   // .(50413.02.11)
@@ -551,7 +552,7 @@
                                 await  main( pParms )
         } catch( err ) {    
             sayMsg( `A1201[ 491]  Error: ${err}`, -1);  }                                                   // .(50501.04.4)
-            sayMsg( `A1201[ 492]  Completed test run:   ${pParms.runid.replace( /,/, ", ") }.`, -1 );       // .(50501.04.5)
+            sayMsg( `A1201[ 492]  Completed test run:       ${pParms.runid.replace( /,/, ", ") }.`, -1 );   // .(50501.04.5)
 //                              FRT.setEnv( "NEXT_POST", aNextPost, FRT.__dirname )                         //#.(50506.01.1)
             }
 //          --------  =  --  =  --------------------------------------------  #

@@ -23,6 +23,8 @@
 #.(50608.02   6/08/25 RAM  3:00p| Write getStatsMap
 #.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
 #.(50611.03   6/11/25 RAM 12:01p| Minor changes 
+#.(50612.01   6/12/25 RAM  7:01a| Add seconds to UpdatedAt
+#.(50612.02   6/12/25 RAM  7:52a| Change Temperature to float
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -151,10 +153,11 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
 //                       console.log( " --[6]--- aSQL:",  aSQL  )
 //                       console.log( " aSQL2:\n", aSQL2 )
 
-            sayMsg( `AIC09[ 153]  Saving scores for Stats: ${pStats[ 'RespId' ].trim()}`, 1)
+            sayMsg( `AIC09[ 153]  Saving scores for Stats: ${pStats[ 'RespId' ].trim()}`, -1 )
        var  nID       =  await insertScore( aSQL,  mValues1 );
+        if (nID) {
             usrMsg( `Inserted record no. ${nID} for Stats RunId: ${ pStats[ 'RespId' ].trim() }`, shoMsg( 'stats' ) )
-
+            }
 //     for (var aStat in pStatsMap) {
 //          console.log( `  ${ pStatsMap[ aStat ].padEnd(20) } = ${ aStat.padEnd(20) } : ${pStats[ aStat ]}` )
 //          aValues =    `  ${ pStatsMap[ aStat ].padEnd(20) } = ${ aStat.padEnd(20) } : ${pStats[ aStat ]}` )
@@ -173,8 +176,13 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
   async function  insertScore( aSQL, mValues ) {
-             var  aID  = await execSQL( aSQL, mValues )
-                  sayMsg( `AIC09[ 176]  Insert successful as ID: ${aID}`, -1);
+             var  nID  = await execSQL( aSQL, mValues )
+              if (nID) {
+                  sayMsg( `AIC09[ 181]  Insert successful as ID: ${nID}`, -1 );
+              } else {
+                  sayMsg( `AIC09[ 183]* Insert was NOT successful`, 1 );
+                  }    
+          return  nID
             } // eof insertScore 
 // --  ---  --------  =  --  =  ------------------------------------------------------  #
 
@@ -214,14 +222,14 @@ function fmtFld( mFld ) { return `${mFld[0].padEnd(20)} ${mFld[2].padEnd(10)} ${
 //     var [result]  =  await connection.execute( aSQL, mValues );
        var [result]  =  await connection.execute( aSQL );   
        var  nID      =  result.insertId ? result.insertId : result
-//          sayMsg( `AIC09[ 201]  Insert successful as ID: ${result.insertId}`, -1);
+//          sayMsg( `AIC09[ 224]  Insert successful as ID: ${result.insertId}`, -1);
         } catch (error) {
        var  nID      =  0
-            sayMsg( `AIC09[ 219]* Database error:\n${error}`, 1 );
+            sayMsg( `AIC09[ 227]* Database error:\n${''.padEnd(17)}${error}`, 1 );
     } finally {
         if (connection) {
             await connection.end();
-            sayMsg( 'AIC09[ 223]  Connection closed', -1 );
+            sayMsg( 'AIC09[ 231]  Connection closed', -1 );
             }
         }
     return  nID        
@@ -314,13 +322,13 @@ return  pStatsMap                                                               
    function  getStatsMap( ) {                                                           // .(50608.02.1 RAM Write getStatsMap)     
 var  mStatsMap =
       [ [ "Id"               , 'id'                 , 'integer'   , '    NOT NULL AUTO_INCREMENT' ] //  1
-      , [ "TestId"           , 'runID'              , 'char(12)'  , '    not null'      ] //  2
+      , [ "TestId"           , 'runID'              , 'char(12)'  , '    not null' ] //  2
       , [ "PCode"            , 'pc_no'              , 'char( 6)'  , 'default null' ] //  3
       , [ "ModelName"        , 'modelName'          , 'char(15)'  , 'default null' ] //  4
       , [ "ContextSize"      , 'contextSize'        , 'integer'   , 'default null' ] //  5
-      , [ "Temperature"      , 'temperature'        , 'integer'   , 'default null' ] //  6
-//    , [ ""                 , 'responseFileName'   , 'integer'   , 'default null' ] //   
-      , [ "CreatedAt"        , 'runAT'              , 'char(18)'  , 'default null' ] //  7
+      , [ "Temperature"      , 'temperature'        , 'float'     , 'default null' ] //  6   // .(50612.02.1 RAM Was Integer)
+//    , [ ""                 , 'responseFileName'   , 'integer'   , 'default null' ] //  
+      , [ "CreatedAt"        , 'runAT'              , 'char(19)'  , 'default null' ] //  7   // .(50612.01.6 RAM Was char(18))
       , [ "Accurate"         , 'accurateScore'      , 'integer'   , 'default null' ] //  8
       , [ "Relevant"         , 'relevantScore'      , 'integer'   , 'default null' ] //  9
       , [ "Organized"        , 'organizationScore'  , 'integer'   , 'default null' ] // 10
@@ -354,7 +362,6 @@ var  mStatsMap =
 return  mStatsMap                                                                       // .(50608.02.2)     
         } // eof getStatsMap                                                            // .(50608.02.1 End)     
 // --------------------------------------------------------------------------------------
-
 /*
     runID               pStats.RespId           = take(  13,  parms.resp_id )
     pc_no               pStats.PCode            = take(   6,  parms.pccode )

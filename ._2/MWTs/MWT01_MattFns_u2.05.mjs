@@ -79,6 +79,8 @@
 #.(50605.05   6/06/25 CAI  6:30p| Write and use getError_ParentLine
 #.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
 #.(50609.03   6/09/25 RAM  8:00a| Accomodate for Bash in getConfig
+#.(50612.01   6/12/25 RAM  7:01a| Add seconds to UpdatedAt
+#.(50612.02   6/12/25 RAM  7:52a| Change Temperature to float
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -583,6 +585,7 @@ function  fmtResults(results) {
             statLines.push(`    Eval Duration:          ${(stats.eval_duration  / 1e9).toFixed(2) } seconds`);
             statLines.push(`    Prompt Eval Count:      ${ stats.prompt_eval_count } tokens`);
             statLines.push(`    Tokens per Second:      ${ stats.tokens_per_sec } tps`);                    // .(50419.04.2)
+            statLines.push(`    CreatedAt:              ${ parms.datetime}` );          // .(50612.01.2 RAM Display CreatedAt)
 //          statLines.push(`    Factual Accuracy:       ${ stats.Score1 || 0 }` )       //#.(50503.01.1 RAM No scores yet Beg) // "Your answer must be grounded in historical evidence. Avoid speculation unless explicitly presented as such.
 //          statLines.push(`    Multiple Perspectives:  ${ stats.Score2 || 0 }` )       //                                     // "Consider the various perspectives and debates among historians regarding the reasons for Rome's decline. Mention at least two major competing theories.
 //          statLines.push(`    Structured Response:    ${ stats.Score3 || 0 }` )       //                                     // "Organize your response into clear paragraphs, with headings for clarity.
@@ -682,14 +685,15 @@ function  fmtResults(results) {
 
 //          pJSON.ModelQuery.RunStats.ModelName = pJSON.ModelQuery.RunStats.ModelName.trim()
             pStats.ModelName        = pStats.ModelName.trim()
-            pStats.ContextSize      = pStats.ContextSize      * 1 //
-            pStats.Temperature      = pStats.Temperature      * 1 // "0.07"
-            pStats.Duration         = pStats.Duration         * 1 // "  12.49"
-            pStats.EvalTokens       = pStats.EvalTokens       * 1 // "  336"
-            pStats.EvalDuration     = pStats.EvalDuration     * 1 // "  12.21"
-            pStats.PromptEvalTokens = pStats.PromptEvalTokens * 1 // "   555"
-            pStats.TokensPerSecond  = pStats.TokensPerSecond  * 1 // " 27.52"
-            pStats.RAM              = pStats.RAM              * 1 // "16"
+            pStats.DateTime         = pStats.DateTime.trim()                            // .(50612.01.3)
+            pStats.ContextSize      = pStats.ContextSize      * 1   //
+            pStats.Temperature      = pStats.Temperature      * 1.0 //  "0.07"          // .(50612.02.2)
+            pStats.Duration         = pStats.Duration         * 1.0 // "  12.49"
+            pStats.EvalTokens       = pStats.EvalTokens       * 1   // " 336"
+            pStats.EvalDuration     = pStats.EvalDuration     * 1.0 // "  12.21"
+            pStats.PromptEvalTokens = pStats.PromptEvalTokens * 1   // " 555"
+            pStats.TokensPerSecond  = pStats.TokensPerSecond  * 1.0 // "  27.52"
+            pStats.RAM              = pStats.RAM              * 1   // "  16"
 
             pJSON.ModelQuery.RunStats  = pStats
 
@@ -799,7 +803,7 @@ Response File|
             pStats.Score2           = take(  -3,  0 )                                   // .(50531.02.2 RAM Was: Relevance).(50503.01.7)
             pStats.Score3           = take(  -3,  0 )                                   // .(50531.02.3 RAM Was: Coherence).(50503.01.8)
             pStats.ScoreTotal       = take(  -3,  0 )                                   // .(50531.01.2 RAM Added)
-            pStats.DateTime         = take( -18,  parms.datetime )                      // .(50413.02.3)
+            pStats.DateTime         = take( -19,  parms.datetime )                      // .(50612.01.4 RAM Was -18, S.B. -20?).(50413.02.3)
             pStats.UPC              = take(   3,  parms.qpc )                           // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
             pStats.EvalTokens       = take(  -5,  stats.eval_count * 1 )                // .(50404.05c.01 RAM Save 'NaN, not 'undefined').(50404.05.05)
             pStats.EvalDuration     = take(  -6, (stats.eval_duration /1e9).toFixed(2)) // .(50531.01.3 RAM Moved up one).(50404.05.06)
@@ -837,12 +841,12 @@ Response File|
             pStats.ContextSize      = `${ parms.options.num_ctx                 }`.padStart(5)                        // .(50404.05.02)
             pStats.Temperature      = `${ parms.temp}`.padStart(4)                                                    // .(50404.05.03)
             pStats.Duration         = `${(stats.total_duration / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.04)
-            pStats.DateTime         =     parms.datetime.padStart(18)                                                 // .(50413.02.3)
+            pStats.DateTime         =     parms.datetime.padStart(19)                   // .(50612.01.5 RAM Was -18).(50413.02.3)
             pStats.EvalTokens       = `${ stats.eval_count                      }`.padStart(5)                        // .(50404.05.05)
             pStats.UPC              =     parms.qpc                                                                   // .(50410.04a.6 Was QPC).(50407.03.4 RAM Add QPC)
 //          pStats.QueryPrompt      =     stats.query.length > 27                                                     //#.(50407.03.5 RAM Was Query).(50410.04a.7)
 //          pStats.UsrPrompt        =     stats.query.length > 27                                                     //#.(50410.04a.7 Was QueryPrompt).(50407.03.5 RAM Was Query).(50410.04b.1)
-            pStats.UsrPrompt        =     chop( 27, parms.usrprompt )                                                  // .(50410.04c.1).(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
+            pStats.UsrPrompt        =     chop( 27, parms.usrprompt )                                                 // .(50410.04c.1).(50410.04b.1 Was stats.query).(50407.03.5 RAM Was Query)
 //                                  ? `${ parms.usrprompt.slice(0,27)}...` : stats.query.padEnd(27)                   //#.(50410.04b.2)(50407.03.5 RAM Add ...).(50410.04c.1)
             pStats.EvalDuration     = `${(stats.eval_duration  / 1e9).toFixed(2)}`.padStart(7)                        // .(50404.05.06)
             pStats.PromptEvalTokens = `${ stats.prompt_eval_count               }`.padStart(6)                        // .(50404.05.07)
