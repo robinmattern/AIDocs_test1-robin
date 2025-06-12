@@ -12,8 +12,9 @@
       if (process.env.Debug   == 1 || process.env.VSCODE_INSPECTOR_OPTIONS ? 1 : 0) {    
           process.env.SCORING          =  1
           process.env.Doit             =  1                                            // .(50608.04.1 RAM It defaults to 0 if not set in run-tests.sh) 
-          process.env.DOIT             =  1                                            // .(50608.04.2 RAM It defaults to 0 if not set in run-tests.sh) 
-          process.env.Debug            =  1                                            // .(50608.04.2 RAM It defaults to 0 if not set in run-tests.sh) 
+          process.env.DOIT             =  1                                            // .(50608.04.2) 
+//        process.env.Debug            =  1                                            //#.(50608.04.3).(50612.03.6) 
+          process.env.DEBUG            =  1                                            // .(50612.03.6 RAM Was .env.Debug) 
 //        process.env.SCORING_SECTIONS =  "Results,Log"
           process.env.SCORING_SECTIONS =  "All"
 //        process.env.LOGGER           =  "log,inputs"

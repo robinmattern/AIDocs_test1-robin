@@ -41,7 +41,7 @@
 
      node_pgm="${SCORE_SCRIPT} \"${SCORING_MODEL}\" \"${aApp2}\"";                      # .(50531.06.1)
 #    node       "${SCORE_SCRIPT}"   "${SCORING_MODEL}"   "${aApp2}" "$@";  
-#    echo -e "SCORING node_pgm: '${node_pgm}', DRY_RUN: '${DRY_RUN}', DEBUG: '${DEBUG}'\n"; # exit
+#    echo -e "-- SCORING node_pgm: '${node_pgm}', DRY_RUN: '${DRY_RUN}', DEBUG: '${DEBUG}, SCORING_SECTIONS: '${SCORING_SECTIONS}'\n"; # exit
 
     if [ "${DRYRUN}" != "1" ] &&                                                        # .(50531.06.2)
          [ "${DEBUG}"  == "1" ]; then node --inspect-brk ${node_pgm} "$@"               # .(50531.06.3 RAM Add Attach debug for Scoring run)

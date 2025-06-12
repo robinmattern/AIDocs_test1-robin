@@ -2,6 +2,8 @@
 *_t[0-9]*
 *_r[0-9]*
 docs/a[0-9]*
+*.env_*-template_*
+hardware-settings_*
 
 _env
 .env

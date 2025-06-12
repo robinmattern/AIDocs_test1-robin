@@ -19,9 +19,9 @@
 ##SRCE     +====================+===============================================+
 #
 #    export LOGGER=
-     export LOGGER="log"                        # .(50514.01.1 RAM Override display sections -- no spaces before or after = sign)
+#    export LOGGER="log"                        # .(50514.01.1 RAM Override display sections -- no spaces before or after = sign)
 #    export LOGGER="inputs"
-#    export LOGGER="log,inputs"
+    export LOGGER="log,inputs"
 
      export DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1")
      export DEBUG="0"                           # .(50506.03.6 Runs node with --inspect-brk, if bDOIT="1", unless DRYRUN="0")
@@ -30,17 +30,35 @@
 
      export PC_CODE=""
 
-     export SEARCH_MODEL="qwen2:0.5b"           # .(50514.01.2 RAM Override models)
-     export SCORING_MODEL="gemma2:2b-instruct-q4_0" # .(50514.01.2)
-#    export SCORING_MODEL="gemma2:2b"           # .(50514.01.3)
+#echo "$1";
+
+#if [ "$1" == "" ]; then shift
+#    export SEARCH_MODEL="$1"             # 0.934 GB
+#else
+#     export SEARCH_MODEL="gemma3:1b"              # 0.815 GB
+#fi
+
+    export SEARCH_MODEL="qwen2:1.5b"             # 0.934 GB
+#     export SEARCH_MODEL="gemma3:1b"              # 0.815 GB
+#     export SEARCH_MODEL="gemma3:1b-it-q4_K_M"    # 0.815 GB
+#     export SEARCH_MODEL="granite3.3:2b"          # 1.5 GB
+#     export SEARCH_MODEL="llama3.2:3b"            # 2.0 GB
+#     export SEARCH_MODEL="phi4-mini"              # 2.5 GB
+#     export SEARCH_MODEL="phi4-mini:3.8b-q4_K_M"  # 2.5 GB
+#     export SEARCH_MODEL="mistral:7b"             # 4.1 GB
+#     export SEARCH_MODEL="mistral:7b-instruct"    # 4.1 GB
+#     export SEARCH_MODEL="internlm2"              # 4.5 GB
+#     export SEARCH_MODEL="granite3.3:8b"          # 4.9 GB
+
+     export SCORING_MODEL="gemma2:2b-instruct-q4_0"          # .(50514.01.3)
+#     export SCORING_MODEL="gemma3:1b-it-q4_K_M"          # .(50514.01.3)
      
 #    export SCORING_SECTIONS="Results,RunId"    # .(50521.01.1 RAM Override display sections for scoring model run)
-#    export SCORING_SECTIONS="Stats,RunId"      # .(50521.01.2)
-#    export SCORING_SECTIONS="All"              # .(50521.01.3)
+#    export SCORING_SECTIONS="Stats,RunId"      # .(50521.01.1 RAM Override display sections for scoring model run)
 
-     export SYSTEM_PROMPT="all-sys: Summarize the information provided and answer the user's prompt accordingly."     
-     export USER_PROMPT="all-usr: What is so special about ios 17"        
-     export RAG_COLLECTIONS="s13_apple-ipad-txt"        
+     export SYSTEM_PROMPT="You are a knowledgeable AI assistant with access to a vast database of information.  Your goal is to provide accurate, comprehensive, and unbiased answers to user queries.  If a question requires specialized knowledge outside your current capabilities, politely explain the limitations and suggest alternative resources."     
+     export USER_PROMPT="What are the key events relating to the rise nd fall of the roman empire?"        
+     export RAG_COLLECTIONS=""        
 
 ##SRCE     +====================+===============================================+
 ##RFILE    +====================+=======+===================+======+=============+

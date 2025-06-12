@@ -3,6 +3,6 @@
     [ { "Name":  "Accurate",      "Parse": "/**Accurate**/"  }
     , { "Name":  "Relevant",      "Parse": "/**Relevant**/" }
     , { "Name":  "Organized",     "Parse": "/**Organized**/" }
-    , { "Total": "ScoreWeighted", "Calc": "(Accurate * 3) + (Relevant * 2) + (Organizaed * 1)" }
+    , { "Total": "ScoreWeighted", "Calc": "(Accurate * 3) + (Relevant * 2) + (Organized * 1)" }
       ]
     }
