@@ -58,6 +58,7 @@
 #.(50503.05c  5/31/25 RAM  5:30p| Use s## for docs sub folders
 #.(50405.01c  5/31/25 RAM 11:00p| But with a 3 letter Month name
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
+#.(50616.02b  6/16/25 RAM  8:43a| Fix Var Case issue in Unix ??
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -483,14 +484,17 @@ function savRespIds2() {                                                        
       aDryRun=""; if [ "${bDryRun}" == "1" ]; then aDryRun="a Dry Run of "; fi          # .(50513.04.1)
 
             shift                                                                          # .(50429.02.2 RAM Yes, shift is necessary)
-            sayMsg "AIC15[ 476]  Running ${aDryRun}${searchScript} $@\n" -1;   # exit      # .(50513.04.2 RAM Add aDryRun)
-
+            sayMsg "AIC15[ 486]  Running ${aDryRun}${searchScript} $@\n" -1;   # exit      # .(50513.04.2 RAM Add aDryRun)
+  
    if [ "${aLogs/log}"   != "${aLogs}"  ] && [ "${bEnvs}" != "1" ]; then   # log        # .(50513.05b.1)
       aTS="$( date +%y%m%d.%H%M.%S)"; aTS="${aTS:1}";
 #     echo -e "${aTS}  ${aApp}  ${aTestId}     Running ${searchScript} $@"              ##.(50515.02.1)
       echo -e "${aTS}  ${aApp}  ${aTestId}      Running search_${aVer}.mjs $@"          # .(50515.02.1)
       fi # eif show log
 
+            export Doit=${DOIT}                                                         # .(50616.02.4 Add  Doit=${DOIT}, Might not be needed)
+            sayMsg "AIC15[ 494]  DOIT ${DOIT}, Doit '${Doit}', DEBUG ${DEBUG}, searchScript; '${searchScript}'" -1; 
+    
       if [ "${bDryRun}" != "1" ] &&                                                     # .(50506.03.4 RAM )
          [ "${bDebug}"  == "1" ]; then node --inspect-brk ${searchScript}  "$@"         # .(50501.04.1 RAM Add Attach debug).(50423.03.3 RAM Use ${Search_Script} instead of search_u2.05.sh)
               else NODE_NO_WARNINGS=1  node               ${searchScript}  "$@"; fi     # .(50505.10.1).(50501.04.2)
@@ -503,12 +507,12 @@ function savRespIds2() {                                                        
    done  # eol aTestId in "${mArgs[@]}"
 
 # ---------------------------------------------------------------------------------------------------
-
+ 
 #  if [ "${LOGGER}" == "log,inputs" ]; then                                             ##.(50420.03.1 RAM Move this to here from run.tests.sh Beg).(50511.01.4)
    if [ "${LOGGER/log/}" != "${LOGGER}" ] && [ "${bEnvs}" != "1" ]; then   # log        # .(50513.05b.2).(50513.05.8 RAM Add bEnvs).(50511.01.4 RAM Print line for both)
      echo -e "\n----------------------------------------------------------"             # .(50513.05.9 RAM Lines)
      fi
-     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                      # .(50420.03.1 End)
+#    if [ "${OS:0:3}" != "Win" ]; then echo ""; fi                                      # .(50516.03.1 RAM Remove).(50420.03.1 End)
 
 #*  --- --  --------------  =  ------------------------------------------------------   #   ------------ *#
 
