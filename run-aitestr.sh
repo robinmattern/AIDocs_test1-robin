@@ -26,7 +26,7 @@
 ##SRCE     +====================+===============================================+
 #=====================================================================================  # ================= #  ===============================  #
 
-            aVer="u2.11.141"                                                            # .(50522.02b.2).(50522.02.3).(50514.07.1 RAM Bump Version)
+            aVer="u2.11.142"                                                            # .(50522.02c.2).(50522.02b.2).(50522.02.3).(50514.07.1 RAM Bump Version)
                                                                                         # .(50513.02.x RAM Change name from run-tests.sh to run-aitestr.sh)
 #  aAIC="$( dirname "$0" )"; aPWD="$(pwd)"; #echo "  \${aAIC/\${aPWD}/}: ${aAIC/${aPWD}/} -- ${aAIC} in ${aPWD}/"     ##.(50511.04.1)
 #  aAIC="$( dirname "$0" )"; aPWD="$(pwd)";  echo "  \${aPWD/\${aAIC}/}: ${aPWD/${aAIC}/} -- ${aPWD} in ${aAIC}/"     ##.(50511.04.1)
@@ -122,7 +122,7 @@
       exit
       fi                                                                                # .(50516.08.1 End)
       aDate2="$( date +'%B %d, %Y %l:%M%p' )"; aDate="${aDate/AM/a}"; aDate="${aDate/PM/p}" # .(50516.04.4 RAM Add nice version date)
-      echo -e "\n  Usage: ${aAIT} ...       Ver: ${aVer}  (${aDate2})"                  # .(50516.04.5).(50505.05.1)
+      echo -e "\n  Usage: ${aAIT} ...       Ver: ${aVer}  (Jun 16, 2025 9:20p)"         # .(50522.02c.3).(50516.04.5).(50505.05.1)
       echo -e   "" 
       echo -e   "    {app} {testId}       to run a test"
       echo -e   "    {app} gen {groupId}  to generate an .env template for a test model group"

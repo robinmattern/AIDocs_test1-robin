@@ -305,7 +305,7 @@ C. Get Help
 
     <details><summary><code>AI.testR.4u Help</code></summary>
 
-        Usage: AI.testR.4u ...       Ver: u2.11.141  (May 31, 2025  5:15PM)
+        Usage: AI.testR.4u ...       Ver: u2.11.142  (Jun 16, 2025  9:20p)
 
           {App} {Test}       to run a test
           {App} gen {Group}  to generate an .env template for a test model group

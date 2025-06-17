@@ -32,6 +32,7 @@
 #.(50519.03   5/19/25 RAM  8:30a| Bump AIDocs version to u2.10.139, here
 #.(50522.02   5/22/25 RAM  9:15a| Bump AIDocs version to u2.10.140
 #.(50522.02b  5/31/25 RAM  5:15p| Bump AIDocs version to u2.11.141
+#.(50522.02c  6/16/25 RAM  9:20p| Bump AIDocs version to u2.11.142
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -46,7 +47,8 @@
   aVer="u2.10.138\`50516.1001"  # set-aidocs.sh                                         ##.(50516.04.3)
   aVer="u2.10.139\`50519.0830"  # set-aidocs.sh                                         ##.(50519.03.1)
   aVer="u2.10.140\`50522.0915"  # set-aidocs.sh                                         ##.(50522.02.1).(50522.02b.1)
-  aVer="u2.11.141\`50531.1715"  # set-aidocs.sh                                         # .(50522.02b.1)
+  aVer="u2.11.141\`50531.1715"  # set-aidocs.sh                                         ##(50522.02b.1)
+  aVer="u2.11.142\`50616.2120"  # set-aidocs.sh                                         # .(50522.02c.1)
 
 function exit_wCR() {
       if [ "${OS:0:7}" != "Windows" ]; then echo ""; fi

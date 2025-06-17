@@ -492,7 +492,7 @@ function savRespIds2() {                                                        
       echo -e "${aTS}  ${aApp}  ${aTestId}      Running search_${aVer}.mjs $@"          # .(50515.02.1)
       fi # eif show log
 
-            export Doit=${DOIT}                                                         # .(50616.02.4 Add  Doit=${DOIT}, Might not be needed)
+            export Doit=${DOIT}                                                         # .(50616.02b.1 Add  Doit=${DOIT}, Might not be needed)
             sayMsg "AIC15[ 494]  DOIT ${DOIT}, Doit '${Doit}', DEBUG ${DEBUG}, searchScript; '${searchScript}'" -1; 
     
       if [ "${bDryRun}" != "1" ] &&                                                     # .(50506.03.4 RAM )
