@@ -147,7 +147,8 @@
 #.(50605.01   6/05/25 RAM 10:15a| Use LanceDB instead of ChromeDB  
 #.(50609.02   6/09/25 RAM  9:25a| Import pURLs and pDocs only if needed
 #.(50612.01   6/12/25 RAM  7:01a| Add seconds to UpdatedAt
-#.(50612.04   6/12/25 RAM  9:30a| Why isn't .env.Debug: .env.DEBUG?
+#.(50612.03   6/12/25 RAM  9:30a| Why isn't .env.Debug: .env.DEBUG?
+#.(50616.04   6/16/25 RAM  8:20a| Reset vars if blank, not if defined
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -204,7 +205,7 @@
   function  setDebugVars() {                                                                                // .(50405.03.1 RAM Write setDebugVars Beg)
         if (FRT.inVSCode) {                                                             // .(50507.04.4 RAM Set whatever here)  
 
-       var  bDebug           =  process.env.Debug  || 0    // Debug Use current settings                    // .(50612.04.1 RAM Why isn't it .env.DEBUG?)
+       var  bDebug           =  process.env.Debug  || 0    // Debug Use current settings                    // .(50612.03.1 RAM Why isn't it .env.DEBUG?)
 //     var  bDebug           =  0                          // Debug flag for this function
      global.bDebug           =  bDebug                     // for all subscripts 
             bDoit            =  1                          // for this script 
@@ -348,7 +349,7 @@
         if (process.env.SCORING_MODEL && aApp == "s14") {                               // .(50514.01b.4 RAM S.B. SCORING_MODEL)
             aModel           =  process.env.SCORING_MODEL                               // .(50514.01.16 RAM Overide OLLAMA_MODEL_NAME parameter)                          
             }
-        if (process.env.SYSTEM_PROMPT) {
+        if (process.env.SYSTEM_PROMPT == "") {                                          // .(50616.04.3 RAM Reset vars if blank) 
       pVars.SYS_PROMPT       =  process.env.SYSTEM_PROMPT                               // .(50514.01.17 RAM Overide SYS_PROMPT parameter)                          
       pVars.SYS_RUN_COUNT    =  1
       pVars.SYS_PROMPT_CD    = "GKN0-INPT"
@@ -357,7 +358,7 @@
         if (process.env.RAG_COLLECTIONS) {                                              // .(50514.01.18 RAM Overide SHOW_SECTIONS parameter)      
             aDocsCollection  =  process.env.RAG_COLLECTIONS
             }                                          
-        if (process.env.USER_PROMPT) {
+        if (process.env.USER_PROMPT == "") {                                            // .(50616.04.4) 
       pVars.USR_PROMPT       =  process.env.USER_PROMPT                                 // .(50514.01.19 RAM Overide USR_PROMPT parameter)                          
       pVars.USR_RUN_COUNT    =  1
       pVars.USR_PROMPT_CD    = "AA0"

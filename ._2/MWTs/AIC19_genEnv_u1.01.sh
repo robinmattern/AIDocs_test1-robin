@@ -44,6 +44,7 @@
 #.(50515.04   5/15/25 RAM  9:45a| Allways say hardware msgs
 #.(50518.03   5/18/25 RAM 11:30p| Add !/PC_CODE= to run-tests.sh rewrite
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
+#.(50616.04   6/16/25 RAM  8:20a| Reset vars if blank, not if defined
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -230,13 +231,16 @@ function  mergeVars() {
       if [ "${SEARCH_MODEL}" != "" ] && [ "${aApp}" != "s14" ]; then 
             mArray[1]="${SEARCH_MODEL}"                                                 # .(50514.01.8 RAM Display SEARCH_MODEL parameter)                          
             fi
-      if [ "${SYSTEM_PROMPT}" != "" ]; then 
+#     if [ "${SYSTEM_PROMPT}" != "" ]; then 
+      if [ "${SYSTEM_PROMPT}" == "" ]; then                                             # .(50616.04.1 RAM Reset vars if blank) 
+#           echo -e "\n---resetting SYSTEM_PROMPT: ${SYSTEM_PROMPT}\n" 
 #           pVars.SYS_PROMPT       =  process.env.SYSTEM_PROMPT                          
             mArray[3]="GKN0-INPT"  #  SysPmt Code                                       # .(50514.01.9 RAM Display SYS_PROMPT_CD parameter)                          
             mArray[9]="0"          #  Use SysPmt File                                   # .(50514.01.10 RAM Display USE_SYS_PROMPTS_FILE parameter)                          
             mArray[5]="1"          #  SysPrompt Runs                                    # .(50514.01.11 RAM Display SYS_RUN_COUNT parameter)                          
             fi
-      if [ "${USER_PROMPT}" != "" ]; then 
+      if [ "${USER_PROMPT}" == "" ]; then                                               # .(50616.04.2 RAM Reset vars if blank) 
+#          echo -e "\n---resetting USER_PROMPT: ${USER_PROMPT}\n" 
 #           pVars.USR_PROMPT       =  process.env.USER_PROMPT                            
 #           pVars.USR_PROMPT_CD    = "AA0"
             mArray[10]="0"         #  Use UsrPmt File                                   # .(50514.01.12 RAM Display USE_USR_PROMPTS_FILE parameter)                          
@@ -267,18 +271,18 @@ function  mergeVars() {
             usrMsg "   14. Collection:      ${aCollection}"; fi                                                      # .(50429.09.11 RAM Add Collection)
             usrMsg ""
             
-            sayMsg "AIC19[ 268]  The .env file will be saved to: $( pwd )/${output_file}"
+            sayMsg "AIC19[ 273]  The .env file will be saved to: $( pwd )/${output_file}"
             echo "${aBodyText}" > "${output_file}"  # Write the result to the output file
 #           echo "  The .env file saved to: $output_file"
             } # eof mergeVars
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
          
-            sayMsg "AIC19[ 274]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit
+            sayMsg "AIC19[ 279]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit
 #           bInputs=0; if [ "${aLogs/inputs}" != "${aLogs}" ]; then bInputs=1; fi
 #           aTestParms="a11_t011.01, llama3.2:3b,          131072, GKN1-SIMP, 0.3,  1, 0, 0, 1, 0, \"Parms,Docs,Search,Stats,Results\""
          
             if [ "${aLogs}" == "log,inputs" ]; then
-               echo -e "\n-----------------------------------------------------------\n"
+               echo -e "\n-----------------------------------------------------------\n" 
                fi;
          
 #           sayMsg "AIC19[ 282]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}', aEnvFile: '${aEnvFile}'"; #  exit
