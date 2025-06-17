@@ -29,6 +29,7 @@
 #.(50605.01   6/05/25 RAM  8:10a| Fix some lanceDB issues
 #.(50608.03   6/08/25 RAM  4:00p| ReWrite and use MWT.getConfig again
 #.(50611.01   6/11/25 RAM  8:30a| Is it or is it not imported. Was "!--"
+#.(50616.01   6/16/25 RAM  8:52a| Fix import.meta.url diff on Mac
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -51,10 +52,10 @@
             process.env.RUST_LOG = "error";
 
 // Run CLI if this is the main module
-       var  __filename    = `${ process.argv[1].replace( /[\\\/]/g, '/' ) }`
-       var  bNotImported  = (import.meta.url) === `file:///${ __filename }`              // .(50611.01.x RAM Is it or is it not imported. Was "!--")
+       var  __filename    = `${ process.argv[1].replace( /[\\\/]/g, '/' ).replace( /^(?!\/)/, '/' ) }`      // .(50616.01.1 Add leading / for Windows)
+       var  bNotImported  = (import.meta.url.replace( /file:[\/]{2}/, '')) === `${ __filename }`            // .(50616.01.2 Remove file:/// for Mac).(50611.01.x RAM Is it or is it not imported. Was "!--")
        var  bInVSCode     =  process.env.VSCODE_INSPECTOR_OPTIONS ? 1 : 0
-//          console.log(  `  import.meta.url: "${import.meta.url}"\n       __filename: "file:///${ __filename }"` )
+//          console.log(  `  import.meta.url: "${ import.meta.url.replace( /file:[\/]{2}/, '' ) }"\n       __filename: "${ __filename }"` )
 //          console.log(  `  - IM01[  57]  bNotImported: ${bNotImported}, bInVSCode: ${bInVSCode}` )
         if (bInVSCode) {
             process.argv[2] = 'collections'
