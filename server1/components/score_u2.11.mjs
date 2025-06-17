@@ -55,8 +55,8 @@
 #.(50610.01   6/10/25 RAM  9:10p| Move main ...} to include scoreTest
 #.(50611.02   6/11/25 RAM 12:00p| Don't save Stats if any score is 0
 #.(50510.01c  6/12/25 RAM  7:48a| Display scores if not LOGGER
-#.(50616.04   6/12/25 RAM  8:26a| Add all to possible aScoringSections   
-#.(50612.01   6/12/25 RAM 10:24a| Change DateTime is debugging for UpdatedAt
+#.(50612.01   6/12/25 RAM  8:24a| Change DateTime is debugging for UpdatedAt
+#.(50612.04   6/12/25 RAM  8:26a| Add all to possible aScoringSections   
 #.(50612.05   6/12/25 RAM 11:57a| Add exit_wCR() after scoreTest 
 #
 ##PRGM     +====================+===============================================+
@@ -91,10 +91,14 @@
        var  aApp             =  aAppDir.replace( /_.+/, "" )     
        var  aModel
 
+//          console.log( `  - AIT14[  93]  process.env.DOIT: '${process.env.DOIT}',  process.env.Doit: '${process.env.Doit}'` )  
+//          console.log( `  - AIT14[  94]  global.bDoit: ${global.bDoit}, bDoit: ${bDoit}`)
+
       var { sayMsg, usrMsg, bDebug, bQuiet, bDoit } = FRT.setVars()
       var   exit_wCR         =  FRT.exit_wCR
             global.bQuiet    =  0                                                       // .(50503.04.1 RAM Was 2, quieting sayMsg)
-  
+//          console.log( `  - AIT14[  98]  global.bDoit: ${global.bDoit}, bDoit: ${bDoit}, `); process.exit() 
+
        //          await import( './test.mjs' )
 //          await import( './search_${aVer}.mjs' )
 //          await import( `./search_${aVer}.mjs` )
@@ -119,12 +123,14 @@
             aLog             =  aLog == "log,inputs" ? "log" : aLog                     // .(50414.01d.2 RAM Fix if aLog = "log", was: '')
        var  bNoLog           =  aLog == "log" ? 0 : 1; global.bNoLog = bNoLog           // .(50414.01d.3 RAM Don't print shoMsg if 0)            
 
+//           sayMsg( `AIT14[ 125]  global.bDoit: ${global.bDoit}, bDoit: ${bDoit}, `, 1)
        var{ bDebug, bDoit }  =  FRT.setVars()
             global.bQuiet    =  0                                                       // .(50503.04.1 RAM Was 2, quieting sayMsg)
 //          global.bNoLog    = (process.env.LOGGING || '').match( /log/ ) == null                           //#.(50510.01.1).(50510.01c.1)
             global.bNoLog    = (process.env.LOGGER || '').match( /log/ ) == null                           // .(50510.01c.1 RAM Was LOGGING)
-            sayMsg( `S1401[ 102]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${process.env.DRYRUN}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${"   "}', bNoLog: '${global.bNoLog ? 1 : 0}'`, bEnvs ); // .(50513.05.11) // process.exit() 
-
+//          sayMsg( `AIT14[ 125]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${process.env.DRYRUN}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${"   "}', bNoLog: '${global.bNoLog ? 1 : 0}'`, bEnvs ); // .(50513.05.11) // process.exit() 
+//          sayMsg( `AIT14[ 126]  global.bDoit: ${global.bDoit}, bDoit: ${bDoit}, `, 1)
+// process.exit()
        var  pArgs            =  parseArgs()
 //          aModel           =  pArgs.modelName || 'gemma2:2b'                                              //#.(50521.02.1)
             aModel           =  process.env.SCORING_MODEL ? process.env.SCORING_MODEL : pArgs.modelName     // .(50521.02.1 RAM Override SCORING_MODEL)
@@ -184,7 +190,6 @@
 //                                               mResponseFiles.forEach( await scoreTest )                  // .(50507.03.x RAM No workie)
        var  i=0; for (var aResponseFile of mResponseFiles) { await scoreTest( aStatsSheetFile, aResponseFile, i++ ) }
             exit_wCR()                                                                                      // .(50612.05.1 RAM Add exit_wCR() after scoreTest)  
-
 //         } // eof main                                                                                    // .(50610.01.1 RAM Move to include scoreTest)
 // ---------------------------------------------------------------------------
 
@@ -254,7 +259,7 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
         if (pStats[ 'ScoreWeighted']) {
             mFound.push(            'ScoreWeighted' ) }
 
-            sayMsg( `AIT14[ 238]* mFound: '${       mFound.join( ", " ) }'`, -1 )
+            sayMsg( `AIT14[ 238]  mFound: '${       mFound.join( ", " ) }'`, -1 )
             sayMsg( `AIT14[ 239]* mNotFound: '${ mNotFound.join( ", " ) }'`, -1 )       // .(50601.02.1 RAM Why is mNotFound getting duplicates)
 /*       
 //          pStats.Accuracy  =  pScores.scores[0].score || 0                            //#.(50510.04.1 RAM They might not have been found)
@@ -315,13 +320,14 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
 
             FRT.writeFileSync(    MWT.fixPath( FRT.__basedir, aStatsSheetFile ), mSpreadsheet.join( "\n" ) )
 
-        var  bSaveIt = (mNotFound.length == 0)                                                              // .(50611.02.1 RAM Don't save if ..)
+             sayMsg( `AIT14[ 322]  global.bDoit: ${global.bDoit}, mNotFound.length: ${mNotFound.length}`, -1)
+        var  bSaveIt = ((mNotFound.length == 0) && global.bDoit == 1) || process.env.DRYRUN == 1                                                            // .(50611.02.1 RAM Don't save if ..)
+             sayMsg( `AIT14[ 324]${ bSaveIt ? " " : "* NOT" } Ok to save ${ 3 - mNotFound.length } score(s)`, -1)
 //      var  bSaveIt = (mNotFound.length == 0) && (mCols[7] > 0) && (mCols[8] > 0) && (mCols[9] > 0)        //#.(50611.02.1 RAM Don't save if ..)
-        if ((bSaveIt && bDoit == 1) || process.env.DRYRUN == 1) {    
-         if (global.bDebug) { pStats.DateTime = FRT.getDate( -1, 8 )  }                                     // .(50612.01.7 RAM Debugging replace an existing Run record).(50601.01.2 Do it)
-//          sayMsg( `AIT14[ 307]  Saving scores for Stats: ${aTestId}`, -1)
-            await savStats_in_mySQL( pStats, aResponseFile, MWT.fixPath( FRT.__basedir ) )                  // .(50601.01.3)
-            }                                                                                               // .(50601.01.4)
+         if (bSaveIt) {    
+         if (global.bDebug) { pStats.DateTime = FRT.getDate( -1, 8 ); sayMsg( `AIT14[ 318] reset DateTime: ${pStats.DateTime}` ) }                                     // .(50612.01.7 RAM Debugging replace an existing Run record).(50601.01.2 Do it)
+             await savStats_in_mySQL( pStats, aResponseFile, MWT.fixPath( FRT.__basedir ) )                  // .(50601.01.3)
+             }                                                                                               // .(50601.01.4)
 
 //      if (global.bNoLog == 0) {                                                                           //#.(50510.01b.1 RAM Always display scores).(50510.01.2 RAM Display scores Beg)
         if (bEnvs != 1) {                                                                                   // .(50513.05b.3 RAM If not bEnvs)
@@ -334,10 +340,10 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
             console.error('\n* Error:', error);
             process.exit(1);
             } // eoe try catch
-            
+
         if (mNotFound.length > 0 && bEnvs != 1) {                                                           // .(50513.05b.4).(50510.04.6 Beg)
-            usrMsg(            `* These scores were not found: ${ mNotFound.join( ", " ) }.` )
-            sayMsg( `AIT14[ 262]* These scores were not found: ${ mNotFound.join( ", " ) }.`, -1)
+            usrMsg(            `* These scores were not found: '${ mNotFound.join( ", " ) }'.`    )
+            sayMsg( `AIT14[ 346]* These scores were not found: '${ mNotFound.join( ", " ) }'.`, -1)
             }                                                                           // .(50510.04.6 End)
 //          -----------------------------------------------------
 
@@ -381,7 +387,7 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
        var  aLogger            =  aScoringSections.match( ',log,'   ) ? 'log' : ''
             aLogger           +=  aScoringSections.match( ',input,' ) ? ',input' : ''
 //          aSections          =  aScoringSections.match( ',Parms,Docs,Search,Stats,Results,' )
-       var  aList              = ',all,parms,docs,search,stats,results,runid,'        // .(50616.04.1 RAM Add all to possible aScoringSections)   
+       var  aList              = ',all,parms,docs,search,stats,results,runid,'          // .(50612.04.1 RAM Add all to possible aScoringSections)   
        var  aSections          =  aScoringSections.split( ',' ).filter( aSection => { return aList.includes( `,${aSection},`) } ).join(',' ); 
      global.aPrtSections       =  aSections        
 //          process.env.LOGGER =  aSections ? '' : aLogger                                                  //#.(50414.01d.4)   
