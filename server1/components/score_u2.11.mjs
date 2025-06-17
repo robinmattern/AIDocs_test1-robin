@@ -57,6 +57,7 @@
 #.(50510.01c  6/12/25 RAM  7:48a| Display scores if not LOGGER
 #.(50616.04   6/12/25 RAM  8:26a| Add all to possible aScoringSections   
 #.(50612.01   6/12/25 RAM 10:24a| Change DateTime is debugging for UpdatedAt
+#.(50612.05   6/12/25 RAM 11:57a| Add exit_wCR() after scoreTest 
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -181,7 +182,8 @@
 //          --------------------------------------------------------------
 
 //                                               mResponseFiles.forEach( await scoreTest )                  // .(50507.03.x RAM No workie)
-              var i=0; for (var aResponseFile of mResponseFiles) { await scoreTest( aStatsSheetFile, aResponseFile, i++ ) }
+       var  i=0; for (var aResponseFile of mResponseFiles) { await scoreTest( aStatsSheetFile, aResponseFile, i++ ) }
+            exit_wCR()                                                                                      // .(50612.05.1 RAM Add exit_wCR() after scoreTest)  
 
 //         } // eof main                                                                                    // .(50610.01.1 RAM Move to include scoreTest)
 // ---------------------------------------------------------------------------
