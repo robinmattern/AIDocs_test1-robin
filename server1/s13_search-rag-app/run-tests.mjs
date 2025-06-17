@@ -5,7 +5,7 @@ if (process.env.Debug   == 1 || process.env.VSCODE_INSPECTOR_OPTIONS ? 1 : 0) {
 //  process.env.LANCE_DB_FOLDER = ""
 //  process.env.LANCE_DB_FOLDER2  = "./data/AI.vectors/lanceDB"
     global.bQuiet = 0
-    process.env.DEBUG   = "1"                             // .(50612.03.5)
+    process.env.DEBUG   = "1"                             // .(50612.04.5)
  // process.env.DRYRUN  = "1"
 //  process.env.LOGGER  = "log"
     process.env.APP     = "s13"

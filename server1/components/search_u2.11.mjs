@@ -147,7 +147,7 @@
 #.(50605.01   6/05/25 RAM 10:15a| Use LanceDB instead of ChromeDB  
 #.(50609.02   6/09/25 RAM  9:25a| Import pURLs and pDocs only if needed
 #.(50612.01   6/12/25 RAM  7:01a| Add seconds to UpdatedAt
-#.(50612.03   6/12/25 RAM  9:30a| Why isn't .env.Debug: .env.DEBUG?
+#.(50612.04   6/12/25 RAM  9:30a| Why isn't .env.Debug: .env.DEBUG?
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -204,7 +204,7 @@
   function  setDebugVars() {                                                                                // .(50405.03.1 RAM Write setDebugVars Beg)
         if (FRT.inVSCode) {                                                             // .(50507.04.4 RAM Set whatever here)  
 
-       var  bDebug           =  process.env.Debug  || 0    // Debug Use current settings                    // .(50612.03.1 RAM Why isn't it .env.DEBUG?)
+       var  bDebug           =  process.env.Debug  || 0    // Debug Use current settings                    // .(50612.04.1 RAM Why isn't it .env.DEBUG?)
 //     var  bDebug           =  0                          // Debug flag for this function
      global.bDebug           =  bDebug                     // for all subscripts 
             bDoit            =  1                          // for this script 
