@@ -73,6 +73,7 @@
 #.(50517.01   5/17/25 RAM 10:30a| Write and use sayColor_Log
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
 #.(50608.04   6/08/25 RAM  5:00p| Deal with bDoit resetting to 0
+#.(50616.02   6/16/25 RAM  8:43a| Fix Var Case issue in Unix
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -331,6 +332,9 @@
   function  setVars( bDebug_, bQuiet_, bDoit_, bForce_ ) {                              // .(50125.01.1).(50125.01.2 RAM Write setVars Beg)
        var  pVars        = { }
 //          bDebug_      = QT(global.bDebug, bDebug_)
+        if (process.env.Doit  != "") { process.env.Doit  =  process.env.DOIT  }         // .(50616.02.1 RAM Fix Var Case issue in Unix)
+        if (process.env.Debug != "") { process.env.Debug =  process.env.DEBUG }         // .(50616.02.2) 
+        if (process.env.Quiet != "") { process.env.Quiet =  process.env.QUIET }         // .(50616.02.3)
             bDebug_      =  bDebug_ ? bDebug_ : process.env["FRT_bDEBUG"] == '1'                                      // .(50206.01.4) RAM Why not check it here too)
             pVars.bDoit  = (bDoit_  ? bDoit_  : process.env["Doit"])  || 0;  bDoit  = pVars.bDoit ; global.bDoit  = bDoit;  // this.bDoit  = bDoit    // .(50201.05.1 RAM Add FRT.bDoit)
             pVars.bDebug = (bDebug_ ? bDebug_ : process.env["Debug"]) || 0;  bDebug = pVars.bDebug; global.bDebug = bDebug; // this.bDebug = bDebug   // .(50201.05.2 RAM Add FRT.bDoit)
