@@ -81,6 +81,7 @@
 #.(50609.03   6/09/25 RAM  8:00a| Accomodate for Bash in getConfig
 #.(50612.01   6/12/25 RAM  7:01a| Add seconds to UpdatedAt
 #.(50612.02   6/12/25 RAM  7:52a| Change Temperature to float
+#.(50618.04   6/18/25 RAM  7:00p| Color sections for 'all' too
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -407,10 +408,11 @@
         if (global.bNoLog == 0) { return false }                                        // .(50414.01.17 RAM aLog == 'log'
        var  aSections  = `,${global.aPrtSections.toLowerCase()},`
             aSection   = `,${aSection.toLowerCase()},`
+     global.aCurrentSection = aSection                                                  // .(50618.04.1 RAM Color all too).(50517.01.4 RAM Set aSection to global)
         if (aSections == ',none,' || ',none,' == aSection) { return false }             // .(50515.01.2 RAM Add none)
         if (aSections == ',all,'  || ',all,'  == aSection) { return true }
 //     var  nSection = global.aPrtSections.split(',').indexOf(aSection) + 1 || 0;       //#.(50517.01.4 RAM Set nSection)
-     global.aCurrentSection = aSection                                                  // .(50517.01.4 RAM Set aSection to global)
+//   global.aCurrentSection = aSection                                                  //#.(50517.01.4 RAM Set aSection to global)(.50618.04.1)
 //  return  nSection                                                                    //#.(50517.01.5 RAM return nSection)
     return  aSections.match( aSection ) ? 1 : 0                                         // .(50517.01.5 RAM no change)
              } // eof shoMsg                                                            // .(50404.01.25 End)
