@@ -16,7 +16,7 @@
 //        process.env.Debug            =  1                                            //#.(50608.04.3).(50612.04.6) 
           process.env.DEBUG            =  1                                            // .(50612.04.6 RAM Was .env.Debug) 
 //        process.env.SCORING_SECTIONS =  "Results,Log"
-          process.env.SCORING_SECTIONS =  "All"
+//        process.env.SCORING_SECTIONS =  "All"
 //        process.env.LOGGER           =  "log,inputs"
 
      var  aScoringModel   =  process.env.SCORING_MODEL        || "qwen2:0.5b "          //.(50531.09.2) 

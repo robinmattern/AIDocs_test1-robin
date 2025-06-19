@@ -19,8 +19,8 @@
 ##SRCE     +====================+===============================================+
 #
 #    export LOGGER=
-     export LOGGER="log"                        # .(50514.01.1 RAM Override display sections -- no spaces before or after = sign)
-#    export LOGGER="inputs"
+#    export LOGGER="log"                        # .(50514.01.1 RAM Override display sections -- no spaces before or after = sign)
+     export LOGGER="inputs"
 #    export LOGGER="log,inputs"
 
      export DOIT="1"                            # .(50506.03.5 Do it unless DRYRUN="1")
@@ -36,10 +36,11 @@
 
 #    export SCORING_SECTIONS="Results,RunId"    # .(50521.01.1 RAM Override display sections for scoring model run)
 #    export SCORING_SECTIONS="Stats,RunId"      # .(50521.01.2)
-#    export SCORING_SECTIONS="All"              # .(50521.01.3)
+     export SCORING_SECTIONS="Parms"            # .(50521.01.3)
+#    export SCORING_SECTIONS="All"              # .(50521.01.4)
 
-     export SYSTEM_PROMPT="all-sys: Summarize the information provided and answer the user's prompt accordingly."
-     export USER_PROMPT="all-usr: What is so special about ios 17"
+#    export SYSTEM_PROMPT="runtest: Summarize the information provided and answer the user's prompt accordingly."
+#    export USER_PROMPT="runtest: What is it all about?"
      export RAG_COLLECTIONS="s13_apple-ipad-txt"
 
 ##SRCE     +====================+===============================================+
