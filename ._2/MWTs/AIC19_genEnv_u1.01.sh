@@ -45,6 +45,8 @@
 #.(50518.03   5/18/25 RAM 11:30p| Add !/PC_CODE= to run-tests.sh rewrite
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
 #.(50616.04   6/16/25 RAM  8:20a| Reset vars if blank, not if defined
+#.(50618.02   6/18/25 RAM  6:10p| Print yellow if bDebug 
+#.(50618.03   6/18/25 RAM  6:30p| Display LOGGER if defined 
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -83,7 +85,9 @@ function  YorN() {
 
 function  usrMsg() {
    if [ "$2" == "1" ]; then echo -e "$1"; return; fi                                    # .(50515.04.2 RAM Allways say hardware msgs)     
-   if [ "${aLogs/inputs}" != "${aLogs}" ] || [ "${aLogs}" == "" ] || [ "${bDebug}" == "1" ]; then echo -e "$1"; fi
+   if [ "${aLogs/inputs}" != "${aLogs}" ] || [ "${aLogs}" == "" ] || [ "${bDebug}" == "1" ]; then 
+       if [ "${bDebug}" == "1" ]; then echo -e "\x1b[93m  - $1\x1b[0m";                 # .(50618.02.1 RAM Print yellow if bDebug) 
+       else echo -e "$1"; fi; fi                                                        # .(50618.02.1
 #  if [ "${bInputs}" == "1" ]; then echo "$1"; fi
    }
 # -----------------------------------------------------------------
@@ -227,32 +231,51 @@ function  mergeVars() {
             placeholder="{SysPrompt}"; replacement="${aSysPrompt}";  aBodyText="${aBodyText//$placeholder/$replacement}"
             placeholder="{PC_Code}";   replacement="${aPcCd}";       aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50420.02.3 RAM Add PC_Code)
             placeholder="{Collection}";replacement="${aCollection}"; aBodyText="${aBodyText//$placeholder/$replacement}"  # .(50429.09.9 RAM Add Collection)
-
+ 
       if [ "${SEARCH_MODEL}" != "" ] && [ "${aApp}" != "s14" ]; then 
             mArray[1]="${SEARCH_MODEL}"                                                 # .(50514.01.8 RAM Display SEARCH_MODEL parameter)                          
             fi
-#     if [ "${SYSTEM_PROMPT}" != "" ]; then 
-      if [ "${SYSTEM_PROMPT}" == "" ]; then                                             # .(50616.04.1 RAM Reset vars if blank) 
-#           echo -e "\n---resetting SYSTEM_PROMPT: ${SYSTEM_PROMPT}\n" 
+      if [ "${SYSTEM_PROMPT}" != "" ]; then                                             # .(50616.04b.1 RAM Reset vars if not blank, ie use run-test.sh setting) 
+#     if [ "${SYSTEM_PROMPT}" == "" ]; then                                             ##.(50616.04.1 RAM Reset vars if blank).(50616.04b.1) 
+            usrMsg "\n---resetting SYSTEM_PROMPT: ${SYSTEM_PROMPT}\n" 
 #           pVars.SYS_PROMPT       =  process.env.SYSTEM_PROMPT                          
             mArray[3]="GKN0-INPT"  #  SysPmt Code                                       # .(50514.01.9 RAM Display SYS_PROMPT_CD parameter)                          
             mArray[9]="0"          #  Use SysPmt File                                   # .(50514.01.10 RAM Display USE_SYS_PROMPTS_FILE parameter)                          
             mArray[5]="1"          #  SysPrompt Runs                                    # .(50514.01.11 RAM Display SYS_RUN_COUNT parameter)                          
+         else   
+            usrMsg "\n---using SYSTEM_PROMPT in template_pcode.txt or system-prompts.txt\n" 
             fi
-      if [ "${USER_PROMPT}" == "" ]; then                                               # .(50616.04.2 RAM Reset vars if blank) 
-#          echo -e "\n---resetting USER_PROMPT: ${USER_PROMPT}\n" 
+      if [ "${USER_PROMPT}" != "" ]; then                                               # .(50616.04b.2).(50616.04.2 RAM Reset vars if not blank, ie use run-test.sh setting)  
+#     if [ "${USER_PROMPT}" == "" ]; then                                               ##.(50616.04.2 RAM Reset vars if blank).(50616.04b.2) 
+            usrMsg "\n---resetting USER_PROMPT: ${USER_PROMPT}\n" 
 #           pVars.USR_PROMPT       =  process.env.USER_PROMPT                            
 #           pVars.USR_PROMPT_CD    = "AA0"
             mArray[10]="0"         #  Use UsrPmt File                                   # .(50514.01.12 RAM Display USE_USR_PROMPTS_FILE parameter)                          
             mArray[6]="1"          #  UsrPrompt Runs                                    # .(50514.01.13 RAM Display USR_RUN_COUNT parameter)                          
+         else   
+            usrMsg "\n---using USER_PROMPT template_pcode.txt or user-prompts.txt\n" 
             fi
       if [ "${SECTIONS}" != "" ]; then                                                          
             part2="${SECTIONS}"    # Sections                                           # .(50514.01.14 RAM Display SHOW_SECTIONS parameter) 
             fi
+      if [ "${LOGGER}" != "" ]; then                                                    # .(50618.03.1 RAM Display LOGGER if defined) 
+            part2="${LOGGER}"      # Sections override                                  # .(50618.03.2) 
+            fi                                                                          # .(50618.03.3) 
       if [ "${RAG_COLLECTIONS}" != "" ]; then                                                          
             aCollection="${RAG_COLLECTIONS}"                                            # .(50514.01.15 RAM Display SHOW_SECTIONS parameter) 
             fi
-   
+
+      if [ "${mArray[9]}" == "0" ]; then    
+            aSysPmt=", System Prompt is: ${SYSTEM_PROMPT}"; 
+         if [ "${SYSTEM_PROMPT}" == "" ]; then 
+            aSysPmt=", System Prompt is: in template_{pcode}.txt"; 
+            fi; fi 
+      if [ "${mArray[10]}" == "0" ]; then    
+            aUsrPmt=",   User Prompt is: ${USER_PROMPT}"; 
+         if [ "${USER_PROMPT}" == "" ]; then 
+            aUsrPmt=",   User Prompt is: in template_{pcode}.txt"; 
+            fi; fi 
+
 #           sayMsg "  Using the following settings:"
             usrMsg "    1. Model:           ${mArray[1]}"
             usrMsg "    2. CTX_Size:        ${mArray[2]}"
@@ -260,8 +283,8 @@ function  mergeVars() {
             usrMsg "    4. SysPmt Code:     ${mArray[3]}"
             usrMsg "    5. Do Doc Search:   $( YorN ${mArray[7]} )"
             usrMsg "    6. Do Web Search:   $( YorN ${mArray[8]} )"
-            usrMsg "    7. Use SysPmt File: $( YorN ${mArray[9]} )"
-            usrMsg "    8. Use UsrPmt File: $( YorN ${mArray[10]} )"
+            usrMsg "    7. Use SysPmt File: $( YorN ${mArray[9]} )${aSysPmt}"
+            usrMsg "    8. Use UsrPmt File: $( YorN ${mArray[10]})${aUsrPmt}"
             usrMsg "    9. Test Title:      t${aTest}_${aTitle2}"                                                    # .(50422.04.5 RAM Add TestId).(50420.02.4 RAM Add PC_Code here too)
             usrMsg "   10. SysPrompt Tests: ${mArray[5]}"
             usrMsg "   11. UsrPrompt Runs:  ${mArray[6]}"
