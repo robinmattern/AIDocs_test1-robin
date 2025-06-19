@@ -21,7 +21,7 @@
 #.(50603.02   6/02/25 RAM  8:30a| Add lanceDB query functions 
 #.(50604.02   6/04/25 RAM  8:30a| Add more lanceDB commands
 #.(50617.02   6/17/25 RAM  7:14p| Add update command
-#.(50617.03   6/17/25 RAM  7:25p| Add model command
+#.(50617.03   6/17/25 RAM  7:25p| Add models command
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -71,7 +71,7 @@
    if [ "${2:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=$1;  shift; b=1; fi      # .(50516.07.2 RAM Do list for each app)
 
    if [ "${1:0:3}"    == "upd"   ]; then aCmd="update";                    b=0; fi      # .(50617.02.1 RAM Add command update)
-   if [ "${1:0:3}"    == "mod"   ]; then aCmd="models";                    b=0; fi      # .(50617.03.1 RAM Add command models)
+   if [ "${1:0:3}"    == "mod"   ]; then aCmd="models";                    b=0; fi      # .(50617.03.1 RAM Add command models) 
 
    if [ "${1:0:3}"    == "lan"   ]; then aCmd="lancedb "; aApp=s13; shift; b=1;         # .(50604.02.1)
       if [ "${1:0:3}" == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi;     # .(50604.02.2)
@@ -142,7 +142,7 @@
       echo -e   "    query {table} {docs}    to query a table in the Vector DB"         # .(50603.02.5)
       echo -e   "    delete {docs}           to delete a collection in the Vector DB"   # .(50603.02.6)
       echo -e   "    update [-doit]          to update the current repository"          # .(50617.02.2 RAM Edit).(50603.02.6)
-      echo -e   "    models [{platform}]     to list models for an AI Platform"         # .(50617.03.2 RAM Edit).(50603.02.6)
+      echo -e   "    models [{platform}]     to list models for an AI Platform"         # .(50617.03.2 RAM Edit).(50603.02.6) 
       echo -e   ""
       echo -e   "  Where:"
       echo -e   "    {app}                   is an App Id for one type of test app, e.g. s11."
@@ -173,17 +173,17 @@
       fi                                                                                # .(50617.02.3 End 
 #*  --- --  --------------  =  ------------------------------------------------------  *#  
 
-   if [ "${aCmd}" == "models"  ]; then                                                  # .(50617.03.3 RAM Add models command Beg             
-     if [ "$1" == "update"     ]; then echo "run updateAIDocsMmodels.sh"; 
-     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi; exit 
+   if [ "${aCmd}" == "models"  ]; then                                                  # .(50617.03.3 RAM Add models command Beg              
+     if [ "$1" == "update"     ]; then echo "run updateAIDocsMmodels.sh";  
+     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi; exit  
        fi    
-             aModel="$1"; if [ "$1" == "" ]; then aModel="ollama"; fi 
-     echo  " run OllamaModels_u1.04.mjs '$1'"
-#    if [ "${aModel}" == "ollama"  ]; then node "./server1/components/models/OllamaModels_u1.04.mjs";  fi 
-#    if [ "${aModel}" == "bedrock" ]; then node "./server1/components/models/BedrockModels_u1.03.mjs"; fi 
-#    if [ "${aModel}" == "claude"  ]; then node "./server1/components/models/ClaudeModels_u1.03.mjs";  fi 
-     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi; exit 
-      fi                                                                                # .(50617.03.3 End 
+             aModel="$1"; if [ "$1" == "" ]; then aModel="ollama"; fi  
+     echo  " run OllamaModels_u1.04.mjs '$1'" 
+#    if [ "${aModel}" == "ollama"  ]; then node "./server1/components/models/OllamaModels_u1.04.mjs";  fi  
+#    if [ "${aModel}" == "bedrock" ]; then node "./server1/components/models/BedrockModels_u1.03.mjs"; fi  
+#    if [ "${aModel}" == "claude"  ]; then node "./server1/components/models/ClaudeModels_u1.03.mjs";  fi  
+     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi; exit  
+      fi                                                                                # .(50617.03.3 End  
 #*  --- --  --------------  =  ------------------------------------------------------  *#  
 
     source "./run-tests.sh"                                                             # .(50513.02.1 RAM Get common parameters from __basedir/run-tests.sh)
