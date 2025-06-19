@@ -150,7 +150,7 @@
 #.(50612.03   6/12/25 RAM  9:30a| Why isn't .env.Debug: .env.DEBUG?
 #.(50616.04   6/16/25 RAM  8:20a| Reset vars if blank, not if defined
 #.(50618.05   6/18/25 RAM  7:20p| I hope changing PromptTemplate is ok
-#.(50618.08   6/18/25 RAM  9:22p} Change Search Doc msg to Results
+#.(50618.08   6/18/25 RAM  9:22p} Change Search Doc msg to Results  
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -631,8 +631,8 @@
             searchPrompt     = ''                                                       // .(50414.03.3 RAM Blank if not using WebSearch)
             }                                                                                                                                    // .(50409.03.21)
         if (bUseRawFiles) {                                                                                                                      // .(50430.04.5 Beg)
-            usrMsg(""                                                                                                      , shoMsg('Results') ) // .(50618.08.1 RAM Was Parms)
-            usrMsg(`* Files Search Prompt: "${aiPrompt}"`                                                                  , shoMsg('Results') ) // .(50618.08.2)
+            usrMsg(""                                                                                                      , shoMsg('Results') ) // .(50618.08.1 RAM Was Parms) 
+            usrMsg(`* Files Search Prompt: "${aiPrompt}"`                                                                  , shoMsg('Results') ) // .(50618.08.2) 
             searchPrompt     = ''                                                       
             }                                                                                                                                    // .(50430.04.x End)
                                 usrMsg(  "----------------".padEnd(        57, "-" )                                       , shoMsg('Parms')   ) // .(50404.05.12)
@@ -680,8 +680,8 @@
 //          aText                     =  aText.replace( /[ \r\n]+/g, " " )                                  //#.(50501.01.1).(50501.02.2)
 //          aText                     =  aText.replace( /^\s*$(?:\r\n?|\n){2,}/gm, "\n")                    //#.(50501.01.1).(50501.02.2)
             aText                     =  MWT.sqzLines( aText )                          // .(50503.08.3 RAM Preserve paragraphs).(50501.01.2)
-            usrMsg(`  Reading from file: ${pJSON_Results.Files}`                                                           , shoMsg('Results') ) // .(50618.08.3).(50429.01.15)
-            usrMsg("---------------------------------------------------------------------------------------------- "       , shoMsg('Results') ) // .(50618.08.4).(50429.01.16)
+            usrMsg(`  Reading from file: ${pJSON_Results.Files}`                                                           , shoMsg('Results') ) // .(50618.08.3).(50429.01.15) 
+            usrMsg("---------------------------------------------------------------------------------------------- "       , shoMsg('Results') ) // .(50618.08.4).(50429.01.16) 
 //          usrMsg("File contents:"                                                                                        , shoMsg('Search')  ) // .(50429.01.17)
             usrMsg(`  File sources:\n${ "--------".padEnd( nWdt, "-") }`                                                   , shoMsg('Results') ) // .(50429.01.18)
             usrMsg(`${nDoc}. ${ MWT.wrap( aText, nWdt, 5, 5 ) }\n${ "--------".padEnd( nWdt, "-") }`                       , shoMsg('Search')  ) // .(50429.01.19)
