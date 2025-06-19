@@ -150,7 +150,8 @@
 #.(50612.03   6/12/25 RAM  9:30a| Why isn't .env.Debug: .env.DEBUG?
 #.(50616.04   6/16/25 RAM  8:20a| Reset vars if blank, not if defined
 #.(50618.05   6/18/25 RAM  7:20p| I hope changing PromptTemplate is ok
-#.(50618.08   6/18/25 RAM  9:22p} Change Search Doc msg to Results  
+#.(50618.08   6/18/25 RAM  9:22p| Change Search Doc msg to Results  
+#.(50619.02   6/19/25 RAM  9:13a| Make lines nWdt + 0, not + 1
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -244,7 +245,7 @@
 //   global.aPrtSections     = 'parms,runid'                                                                // .(50404.01.27)
 //   global.aPrtSections     = ''                                                                           // .(50404.01.27)
 //   global.bInVSCode        =  true
-            sayMsg( `S1201[ 224]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size1} ***`, 1 , 1 )    // .(50522.02e.1).(50402.02.2)
+            sayMsg( `S1201[ 224]*** bDebug: Using Model: ${aModel}, CTX_Size: ${nCTX_Size1} ***`, 1 , 1 )   // .(50522.02e.1).(50402.02.2)
             }                                                                                               // .(50331.04.3 End)
           }  // eif FRT.inVSCode                                                        // .(50507.04.5)  
          }; // eof setDebug Vars                                                                            // .(50405.03.1 End)
@@ -306,7 +307,7 @@
             process.exit(1)
             }                                                                                               // .(50403.02.7 End)
        var  aWebSearch       =  pVars.WEB_SEARCH    || "roman empire"
-       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                      // .(50409.03.10 RAM Do Web Search)
+       var  bUseWebURLs      =  pVars.USE_URLS == 1  ?  true : false                                        // .(50409.03.10 RAM Do Web Search)
        var  bUseDocFiles     =  pVars.USE_DOCS == 1  ?  true : false                                        // .(50409.03.11 RAM Do Docs Search)
        var  aDocFilePath     =  pVars.DOCS_DIR + "/" + (pVars.DOCS_FILENAME || "*.txt")                     // .(50409.03.12)
        var  aDocsCollection  =  pVars.DOCS_COLLECTION                                                       // .(50428.04.3)
@@ -465,7 +466,7 @@
 //     ---  --------  =  --  =  ------------------------------------------------------  #
    for (let iRun  = 0; iRun < nRunCount; iRun++) {                                                          // .(50403.03.3)
 
-            usrMsg( "----------------".padEnd( nWdt +  1, "-" ), bNoLog )               // .(50414.01b.1)
+                                usrMsg(   "----------------".padEnd( nWdt +  0, "-" ), bNoLog )             // .(50619.02.1 RAM Was +1 ).(50414.01b.1)
 
        var  aQPC             =  mUsrPrompts[ iRun ].QPC                                                     // .(50408.05.2)
        var  aUsrPrompt       =  mUsrPrompts[ iRun ].UsrPrompt                                               // .(50408.05.3
@@ -539,7 +540,7 @@
 
             sayMsg( `A1201[ 474]  global.bNoLog: ${global.bNoLog}  ${nTemperature}  ${nCTX_Size} ${aSysPmtCd}  ${aSysPrompt.slice(0,66) }...`, -1 )   // .(50414.01.4)
 
-                                usrMsg(   "----------------".padEnd( nWdt - 12, "-" )                                      , shoMsg("all")     ) // .(50404.05b.1 RAM Was 25).(50404.05.10)
+                                usrMsg(   "----------------".padEnd( nWdt +  0, "-" )                                      , shoMsg("all")     ) // .(50619.02.2 RAM Was -18).(50404.05b.1 RAM Was 25).(50404.05.10)
 
         if (global.bNoLog == 0 && bEnvs != 1) {                                                                                                  // .(50414.01.5 RAM Do log it)
 //     var  aRIDs            =  pParms.runid.slice(0,11).replace( /_/, "  ")                                                                     //#.(50429.09c.1)
@@ -573,7 +574,7 @@
 //     ---  --------  =  --  =  ------------------------------------------------------  #
 
 //                              usrMsg( "\n----------------".padEnd( nWdt +  1, "-" ), bNoLog )             // .(50414.01.12).(50404.05.11)
-                                usrMsg(  "========== ------".padEnd( nWdt +  1, " ===== ------" ), bNoLog ) // .(50414.01.12).(50404.05.11)
+                                usrMsg( "=========== ------".padEnd( nWdt +  0, " ===== ------" ), bNoLog ) // .(50619.02.3).(50414.01.12).(50404.05.11)
 //                              FRT.exit_wCR()                                                              // .(50403.03a.1).(50403.03b.1)
 //                              usrMsg(  "" )                                                               // .(50403.03b.1)
 // --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
@@ -808,9 +809,9 @@
 //     var  aMD_Results      =  MWT.savStats4MD(   pStats_JSON,     pJSON_Results ) // , pParms )           // .(50408.10.4)
 //                              FRT.writeFile(     pParms.mdfile,   aMD_Results   )                         // .(50408.10.5)
 
-//                              process.env.JSON_RESPONSE = pParms.jsonfile                                                                      //#.(50501.03.1 RAM Pass JSON file name to parent script).(50501.03b.1)
+//                              process.env.JSON_RESPONSE = pParms.jsonfile                                                                       //#.(50501.03.1 RAM Pass JSON file name to parent script).(50501.03b.1)
                                 FRT.setEnv('JSON_RESPONSE', pParms.jsonfile.replace(               /.+[\\\/]docs/, "./docs" ), FRT.__dirname, 1 ) // .(50501.03b.1).(50501.03.1 RAM Pass JSON file name to parent script)
-//                              process.env.STATS_SHEET   = aStatsFile                                                                           //#.(50501.03.2).(50501.03b.2)
+//                              process.env.STATS_SHEET   = aStatsFile                                                                            //#.(50501.03.2).(50501.03b.2)
                                 FRT.setEnv('STATS_SHEET',   aStatsFile.replace(/[\\\/]/g, "/").replace(/.+\/docs/, "./docs" ), FRT.__dirname, 0 ) // .(50501.03b.2 Don't skip).(50501.03.2)
 
 //                              console.log( `This_App EnvDir: '${ FRT.__dirname }'` )
@@ -826,9 +827,9 @@
 
         } catch( error ) {
 //          console.error(        "Error in answerQuery:", error);                                          //#.(50404.08.5)
-            sayMsg( `A1201[ 733]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )    // .(50404.08.5)
-//          sayMsg( `A1201[ 734]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                 //#.(50404.08.6)
-            sayMsg( `A1201[ 735]    ${error.name}: ${error.message}`, 1 );                                   // .(50531.03.3 RAM Removed "Ollama").(50404.08.6)
+            sayMsg( `A1201[ 733]*** Error in answerQuery fetching Ollama model: ${pParms.model}.`, 1, 1 )   // .(50404.08.5)
+//          sayMsg( `A1201[ 734]  ${error}:`.replace( /\n/, "\n    " ), 1 );                                //#.(50404.08.6)
+            sayMsg( `A1201[ 735]    ${error.name}: ${error.message}`, 1 );                                  // .(50531.03.3 RAM Removed "Ollama").(50404.08.6)
             sayMsg( `${ error.stack.replace( /\n */g, "\n    - " ) }`, -1 );             // .(50415.01.6)
             FRT.exit_wCR(1)                                                                                 // .(50409.03.42)
             }
