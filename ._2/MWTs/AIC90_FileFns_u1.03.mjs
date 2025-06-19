@@ -813,7 +813,7 @@ createDirectoryIfNotExists(dirPath).then( result => {
             }   // eof deleteFileSync                                                               // .(40801.10.2 End)
 // ---------------------------------------------------------------------------------
 
-     async  function  deleteDirASync( aDirPath ) {                                                 // .(50227.01.1 RAM Write deleteDirASync Beg)
+     async  function  deleteDirASync( aDirPath ) {                                                  // .(50227.01.1 RAM Write deleteDirASync Beg)
             aDirPath         =  cleanPath( aDirPath );
       try {
        var  bOK              = (await checkFileASync( aDirPath )).exists && (await checkFileASync( aDirPath )).isDir

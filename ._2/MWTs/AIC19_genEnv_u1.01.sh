@@ -125,7 +125,7 @@ for i in "${!mArray[@]}"; do
    } # eof splitParms
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
 
-  function  chkEnvTemplate() {                                                            # .(50417.03.1 RAM Write chkEnvTemplate Beg)
+  function  chkEnvTemplate() {                                                          # .(50417.03.1 RAM Write chkEnvTemplate Beg)
   
       if [ -f "$1" ]; then return; fi
 
@@ -237,23 +237,23 @@ function  mergeVars() {
             fi
       if [ "${SYSTEM_PROMPT}" != "" ]; then                                             # .(50616.04b.1 RAM Reset vars if not blank, ie use run-test.sh setting) 
 #     if [ "${SYSTEM_PROMPT}" == "" ]; then                                             ##.(50616.04.1 RAM Reset vars if blank).(50616.04b.1) 
-            usrMsg "\n---resetting SYSTEM_PROMPT: ${SYSTEM_PROMPT}\n" 
+            sayMsg "AIC19[ 240] Resetting SYSTEM_PROMPT: ${SYSTEM_PROMPT}" 
 #           pVars.SYS_PROMPT       =  process.env.SYSTEM_PROMPT                          
             mArray[3]="GKN0-INPT"  #  SysPmt Code                                       # .(50514.01.9 RAM Display SYS_PROMPT_CD parameter)                          
             mArray[9]="0"          #  Use SysPmt File                                   # .(50514.01.10 RAM Display USE_SYS_PROMPTS_FILE parameter)                          
             mArray[5]="1"          #  SysPrompt Runs                                    # .(50514.01.11 RAM Display SYS_RUN_COUNT parameter)                          
          else   
-            usrMsg "\n---using SYSTEM_PROMPT in template_pcode.txt or system-prompts.txt\n" 
+            sayMsg "AIC19[ 246] Using SYSTEM_PROMPT in template_pcode.txt or system-prompts.txt" 
             fi
       if [ "${USER_PROMPT}" != "" ]; then                                               # .(50616.04b.2).(50616.04.2 RAM Reset vars if not blank, ie use run-test.sh setting)  
 #     if [ "${USER_PROMPT}" == "" ]; then                                               ##.(50616.04.2 RAM Reset vars if blank).(50616.04b.2) 
-            usrMsg "\n---resetting USER_PROMPT: ${USER_PROMPT}\n" 
+            sayMsg "AIC19[ 250] Resetting USER_PROMPT: ${USER_PROMPT}" 
 #           pVars.USR_PROMPT       =  process.env.USER_PROMPT                            
 #           pVars.USR_PROMPT_CD    = "AA0"
             mArray[10]="0"         #  Use UsrPmt File                                   # .(50514.01.12 RAM Display USE_USR_PROMPTS_FILE parameter)                          
             mArray[6]="1"          #  UsrPrompt Runs                                    # .(50514.01.13 RAM Display USR_RUN_COUNT parameter)                          
          else   
-            usrMsg "\n---using USER_PROMPT template_pcode.txt or user-prompts.txt\n" 
+            sayMsg "AIC19[ 256] Using USER_PROMPT template_pcode.txt or user-prompts.txt" 
             fi
       if [ "${SECTIONS}" != "" ]; then                                                          
             part2="${SECTIONS}"    # Sections                                           # .(50514.01.14 RAM Display SHOW_SECTIONS parameter) 
@@ -300,7 +300,7 @@ function  mergeVars() {
             } # eof mergeVars
 ## --  ---  --------  =  --  =  ------------------------------------------------------  #  ---------------- #
          
-            sayMsg "AIC19[ 279]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit
+            sayMsg "AIC19[ 303]  aApp: '${aApp}', aTest: '${aTest}', aLogs: '${aLogs}', aPCName: '${aPcCd}'"; # exit
 #           bInputs=0; if [ "${aLogs/inputs}" != "${aLogs}" ]; then bInputs=1; fi
 #           aTestParms="a11_t011.01, llama3.2:3b,          131072, GKN1-SIMP, 0.3,  1, 0, 0, 1, 0, \"Parms,Docs,Search,Stats,Results\""
          

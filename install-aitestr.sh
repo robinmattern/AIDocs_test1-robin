@@ -159,7 +159,7 @@ function cpyEnv() {                                                             
       aFrom="$1/$2"; aTo="$1/$3"
 #     echo "    Copying .env file from ${aFrom}"
 #     echo "                      into ${aTo}"
-      if [ ! -f "${aFrom}" ]; then echo     "  * Can't copy .env file: '${aFrom}'";  return; fi                   # .(50406.01d.1)
+      if [ ! -f "${aFrom}" ]; then echo     "  * Can't copy .env file: '${aFrom}'";  return; fi             # .(50406.01d.1)
       echo "    Copying .env file from ${aFrom}  to  .env"                                                  # .(50410.01.1)
       if [   -f "${aFrom}" ]; then            cp -p "${aFrom}" "${aTo}";               fi
       if [ ! -f "${aTo}"   ]; then echo  "  * Copy to: '${aTo}' failed";       return; fi                   # .(50406.01d.2)

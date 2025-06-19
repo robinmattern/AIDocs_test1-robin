@@ -713,43 +713,43 @@ F. Run three sample models
     The local files must be imported into a ChromaDB vector database. We'll do this later by importing a colection of documents.
     For now, the Chroma vector database must be running.
     
-            * No Relevant Documents were returned from the Vector DB for the Collection: s13_apple-ipad.
-            robin@Robins-Mac-mini AIDocs_testR (master)# ait chroma import s13
+        * No Relevant Documents were returned from the Vector DB for the Collection: s13_apple-ipad.
+        robin@Robins-Mac-mini AIDocs_testR (master)# ait chroma import s13
 
-            robin@Robins-Mac-mini AIDocs_testR (master)# ait import s13 
-            Deleted collection: 's13_apple-ipad-txt'.
-            Collection ready:   's13_apple-ipad-txt'.
+        robin@Robins-Mac-mini AIDocs_testR (master)# ait import s13 
+        Deleted collection: 's13_apple-ipad-txt'.
+        Collection ready:   's13_apple-ipad-txt'.
 
-            Embedding chunks from: './data/AI.testR.4u/files/apple/iPad_ Should You Buy_ Feature List, Reviews, and Advice.txt'
-            Embedding chunk 0 at position: 0 + 2244
-            Embedding chunk 1 at position: 2244 + 1512
-            Embedding chunk 2 at position: 3756 + 1675
-            Embedding chunk 3 at position: 5431 + 1003
-            Embedding chunk 4 at position: 6434 + 1094
-            Embedding chunk 5 at position: 7528 + 1141
-            Embedding chunk 6 at position: 8669 + 1368
-            Embedding chunk 7 at position: 10037 + 1279
-            Embedding chunk 8 at position: 11316 + 1229
-            Embedding chunk 9 at position: 12545 + 1242
-            Embedding chunk 10 at position: 13787 + 1529
-            Embedding chunk 11 at position: 15316 + 905
-            Embedding chunk 12 at position: 16221 + 1374
-            Embedding chunk 13 at position: 17595 + 999
-            Embedding chunk 14 at position: 18594 + 10844
-            Embedding chunk 15 at position: 29438 + 3292
-            Embedding chunk 16 at position: 32730 + 1331
+        Embedding chunks from: './data/AI.testR.4u/files/apple/iPad_ Should You Buy_ Feature List, Reviews, and Advice.txt'
+        Embedding chunk 0 at position: 0 + 2244
+        Embedding chunk 1 at position: 2244 + 1512
+        Embedding chunk 2 at position: 3756 + 1675
+        Embedding chunk 3 at position: 5431 + 1003
+        Embedding chunk 4 at position: 6434 + 1094
+        Embedding chunk 5 at position: 7528 + 1141
+        Embedding chunk 6 at position: 8669 + 1368
+        Embedding chunk 7 at position: 10037 + 1279
+        Embedding chunk 8 at position: 11316 + 1229
+        Embedding chunk 9 at position: 12545 + 1242
+        Embedding chunk 10 at position: 13787 + 1529
+        Embedding chunk 11 at position: 15316 + 905
+        Embedding chunk 12 at position: 16221 + 1374
+        Embedding chunk 13 at position: 17595 + 999
+        Embedding chunk 14 at position: 18594 + 10844
+        Embedding chunk 15 at position: 29438 + 3292
+        Embedding chunk 16 at position: 32730 + 1331
 
-            Collection, 's13_apple-ipad-txt', import complete.
-            robin@Robins-Mac-mini AIDocs_testR (master)# ait s13 t011         
+        Collection, 's13_apple-ipad-txt', import complete.
+        robin@Robins-Mac-mini AIDocs_testR (master)# ait s13 t011         
 
-            50519.2121.38  s13           Running test: t011
+        50519.2121.38  s13           Running test: t011
 
-            50519.2121.38  s13  t011     Running search_u2.10.mjs 
+        50519.2121.38  s13  t011     Running search_u2.10.mjs 
 
-            50519.2121.39  s13  t011.01  Starting llama3.2:3b          GKN1-SIMP  KN1    4000  0.3
-            50519.2121.39                Finished llama3.2:3b       in NaN secs, NaN tps
+        50519.2121.39  s13  t011.01  Starting llama3.2:3b          GKN1-SIMP  KN1    4000  0.3
+        50519.2121.39                Finished llama3.2:3b       in NaN secs, NaN tps
 
-            ----------------------------------------------------------    
+        ----------------------------------------------------------    
     
     <details><summary><code>ait chroma start</code></summary>
       <img src="docs/appinfo/d00_AIDocs_testR/IMGs/d00-003b_Start-Chroma.png"></img>
@@ -887,7 +887,7 @@ G. View all output for each model run...
 
         --------------------------------------------------------------------------------------------------------------------------------------------------
           - AIC90[ 192]  Setting logfile to: './docs/a11_search-app/25.05.May/a11_t011_llama3.2;3b_1,1-test on cn0g0p/s11_t011.01.4.50513.1017_Response.txt
-        -------------------------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------------------------------------------------------------------------------------------------------------
         ---------------------------------------------------------
         * No text content for the AI model to query or summarize.
 
@@ -899,7 +899,7 @@ G. View all output for each model run...
           Prompt:    "{UsrPrompt}. {SysPrompt}, {Docs}"
 
         Ollama Response for Model: llama3.2:3b  (RunId: s11_t011.01, No: 1 of 1)
-        -------------------------------------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------------------------------------------------------------------------------------------------------------
         I'd be happy to explain the key differences between Transformer and RNN (Recurrent Neural Network) architectures in deep learning.
 
         **What are RNNs?**
@@ -940,7 +940,7 @@ G. View all output for each model run...
             and performance characteristics.
 
         Do you have any further questions about this topic?
-        -------------------------------------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------------------------------------------------------------------------------------------------------------
 
         ----------------------------------------------------------------------------------------------
         Ollama Run Statistics:
@@ -965,7 +965,7 @@ G. View all output for each model run...
         50513.1017.07  s14  t001     Running score_u2.10.mjs for s11_t011.01
         --------------------------------------------------------------------------------------------------------------------------------------------------
           - AIC90[ 192]  Setting logfile to: './docs/a14_grading-app/25.05.May/a14_t001_gemma2;2b_1,1-test on rm228p/s14_t001.18.4.50513.1017_Response.txt
-        -------------------------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------------------------------------------------------------------------------------------------------------
 
         Files Search Prompt: "What is this document about?"
         ---------------------------------------------------------
@@ -980,7 +980,7 @@ G. View all output for each model run...
           Prompt:    "{UsrPrompt}. {SysPrompt}, {Docs}"
 
         Ollama Response for Model: gemma2:2b  (RunId: s14_t001.18, No: 1 of 1)
-        -------------------------------------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------------------------------------------------------------------------------------------------------------
         ### Evaluation for Response
 
         **Accuracy**: 9
@@ -1002,7 +1002,7 @@ G. View all output for each model run...
         Overall Comments: The response effectively and accurately addresses the user prompt, providing a clear and detailed explanation of RNNs vs.
             Transformers. It is highly relevant to the request and exhibits good coherence in its presentation.
 
-        -------------------------------------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------------------------------------------------------------------------------------------------------------
 
         ----------------------------------------------------------------------------------------------
         Ollama Run Statistics:

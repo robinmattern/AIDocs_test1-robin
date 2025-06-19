@@ -135,7 +135,7 @@ function sayMsg() {
 # -------------------------------------------------------------------
 
    if [ "${aCmd}" == "lis" ]; then
-        echo -e "\n  Run any of the following tests for app: ${aApp}:"                   # .(50516.07.3)
+        echo -e "\n  Run any of the following tests for app: ${aApp}:"                  # .(50516.07.3)
         cat "${aApp}_model-tests.txt" | awk 'NF { sub( /a[0-9][0-9]_/, "    "); sub( /\.01/, "   "); gsub( /,/, " "); aApp = NR > 3 ? "  '${aApp}'  " : (NR == 3 ? "  ---  " : (NR == 2 ? "  App  " : "       " )); print aApp $0 }' # .(50516.07.4)
         if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
         exit 1
@@ -197,7 +197,7 @@ function sayMsg() {
     fi
 # -------------------------------------------------------------------
          sayMsg "AIC15[ 187]  aCmd: ${aCmd},  aApp2: '${aApp2}', aArgs: '${aArgs}', aLogs: '${aLogs}', aPCCode: '${aPCCode}', aEnvFile: '${aEnvFile}'" -1; # exit
-         bUseCurrentId="0"; if [ "${aArgs:0:3}" == "cur" ]; then bUseCurrentId="1"; fi   # .(50429.06.1 RAM Use current .env file)
+         bUseCurrentId="0"; if [ "${aArgs:0:3}" == "cur" ]; then bUseCurrentId="1"; fi  # .(50429.06.1 RAM Use current .env file)
 
   if [ "${bUseCurrentId}" == "1" ]; then                                                # .(50429.06.2 RAM Run current .env file Beg)
          aUseTestId="$( cat .env | awk -F= '/SESSION_ID/ {print $2}' )"                 # .(50429.06.3 RAM Get SESSION_ID from .env file)
@@ -493,8 +493,8 @@ function savRespIds2() {                                                        
 #     echo "=================================================================================================================================================="
       aDryRun=""; if [ "${bDryRun}" == "1" ]; then aDryRun="a Dry Run of "; fi          # .(50513.04.1)
 
-            shift                                                                          # .(50429.02.2 RAM Yes, shift is necessary)
-            sayMsg "AIC15[ 486]  Running ${aDryRun}${searchScript} $@\n" -1;   # exit      # .(50513.04.2 RAM Add aDryRun)
+            shift                                                                       # .(50429.02.2 RAM Yes, shift is necessary)
+            sayMsg "AIC15[ 486]  Running ${aDryRun}${searchScript} $@\n" -1;   # exit   # .(50513.04.2 RAM Add aDryRun)
   
    if [ "${aLogs/log}"   != "${aLogs}"  ] && [ "${bEnvs}" != "1" ]; then   # log        # .(50513.05b.1)
       aTS="$( date +%y%m%d.%H%M.%S)"; aTS="${aTS:1}";

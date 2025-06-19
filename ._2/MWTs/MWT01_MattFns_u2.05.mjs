@@ -310,7 +310,7 @@
       throw new Error(`Folder does not exist: ${aFolder}`);
             }
        var  items = fs.readdirSync(aFolder, { withFileTypes: true }); // Read directory contents
-            items = items.sort((a,b) => a.name > b.name ? 1 : -1 )                       // .(50505.08.1 RAM Sort em)
+            items = items.sort((a,b) => a.name > b.name ? 1 : -1 )                      // .(50505.08.1 RAM Sort em)
  for (const item of items) { // Process files first
         if (item.isFile()) {
        var  fileName = item.name;
@@ -630,7 +630,7 @@ function  fmtResults(results) {
         if (pResults.URLs.length) {                                                     // .(50409.03.x)
         var pWebSearch =                                                                // .(50409.03.x)
                 { URL:                pStats.WebSearchURL      // pResults.URLs[0]
-                , Prompt:             pParms.websearch                                   // .(50408.06c.1 RAM Was: pStats.WebSearch ) // "roman empire")
+                , Prompt:             pParms.websearch                                  // .(50408.06c.1 RAM Was: pStats.WebSearch ) // "roman empire")
                 , Response:
                    { AbstractURL:     pResults.WebResponse.AbstractURL  //  "https://en.wikipedia.org/wiki/Roman_Empire_(disambiguation)",
                    , Results:         pResults.WebResponse.Results
@@ -856,7 +856,7 @@ Response File|
             pStats.SysPmtCd         =     parms.spc                                                                   // .(50413.02.4)
             pStats.SysPrompt        =     chop( 27, parms.sysprompt )                                                 // .(50410.04c.2).(50413.02.5)
 //                                  ? `${ parms.sysprompt.slice(0,27)}...` : parms.sysprompt.padEnd(27)               //#.(50413.02.6).(50410.04c.2)
-            pStats.WebSearch        =     chop( 28, parms.websearch )                                               // .(50410.04c.3).(50330.04c.4)
+            pStats.WebSearch        =     chop( 28, parms.websearch )                                                 // .(50410.04c.3).(50330.04c.4)
             pStats.WebSearchURL     =     stats.url                                     // .(50407.03.6)
             pStats.Docs             =     stats.docs
             pStats.CPU_GPU          =  aCPU_GPU                                         // .(50330.04b.7 Beg)

@@ -157,7 +157,7 @@ function  shoTable_collection() {                                               
     }                                                                                   # .(50514.03.3 End)
 # ----------------------------------------------------------------
 
-function  shoTable_segments() {                                                        # .(50602.04.1 RAM Write shoTable_Segments Beg)
+function  shoTable_segments() {                                                         # .(50602.04.1 RAM Write shoTable_Segments Beg)
     aTable="collections"
     aSQL="SELECT id, type, scope, collection from segments"
 #   echo "  SQL: ${aSQL}"
@@ -524,8 +524,8 @@ function  shoTable_embeddings_queue() {
 #   shoTable_Schema ${aTable}
 #   shoTable_Count embeddings; exit
 
-if [ "${aCmd}" = "collection"          ]; then shoTable_collection $2;             fi  # .(50514.03.4)
-if [ "${aCmd}" = "collections"         ]; then shoTable_collections $2;            fi  # .(50514.03.5)
+if [ "${aCmd}" = "collection"          ]; then shoTable_collection $2;             fi   # .(50514.03.4)
+if [ "${aCmd}" = "collections"         ]; then shoTable_collections $2;            fi   # .(50514.03.5)
 if [ "${aCmd}" = "collection_metadata" ]; then shoTable_collection_metadata $2;    fi
 if [ "${aCmd}" = "documents"           ]; then shoTable_documents   $2 $3;         fi
 if [ "${aCmd}" = "chunks"              ]; then shoTable_chunks      $2 $3;         fi
@@ -537,7 +537,7 @@ if [ "${aCmd}" = "queue"               ]; then shoTable_embeddings_queue    $2; 
 # ----------------------------------------------------------------
 
 if [ "${aCmd}" = "start" ]; then echo ""; startChromaDB  ./my_chroma_data; exit; fi
-if [ "${aCmd}" = "stop"  ]; then echo ""; stopChromaDB;  exit; fi                                # .(50505.09.1 RAM Add stop command)
+if [ "${aCmd}" = "stop"  ]; then echo ""; stopChromaDB;  exit; fi                       # .(50505.09.1 RAM Add stop command)
 if [ "${aCmd}" = "check" ]; then echo -e "\n  Checking: curl http://localhost:${nPort}/api/v2/heartbeat"
       aPID="$( cat "chroma.pid" )"
 if [ "$( checkChromaDB )" == "1" ]; then echo "  Chroma is running on port ${nPort} (PID: ${aPID}).";

@@ -128,7 +128,7 @@
        var{ bDebug, bDoit }  =  FRT.setVars()
             global.bQuiet    =  0                                                       // .(50503.04.1 RAM Was 2, quieting sayMsg)
 //          global.bNoLog    = (process.env.LOGGING || '').match( /log/ ) == null                           //#.(50510.01.1).(50510.01c.1)
-            global.bNoLog    = (process.env.LOGGER || '').match( /log/ ) == null                           // .(50510.01c.1 RAM Was LOGGING)
+            global.bNoLog    = (process.env.LOGGER || '').match( /log/ ) == null                            // .(50510.01c.1 RAM Was LOGGING)
 //          sayMsg( `AIT14[ 131]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${process.env.DRYRUN}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${"   "}', bNoLog: '${global.bNoLog ? 1 : 0}'`, bEnvs ); // .(50513.05.11) // process.exit() 
             sayMsg( `AIT14[ 132]  global.bDoit: ${global.bDoit}, bDoit: ${bDoit}, `, -1)
 // process.exit()
@@ -290,7 +290,7 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
 
                                 FRT.writeFileSync( MWT.fixPath( FRT.__basedir, aResponseFile ), JSON.stringify( pJSON_Response, null, 2 ) )
 
-       var  aSheetVer        =  aStatsSheetFile.replace( /.+_u/,'').replace( /\.csv/, '')                    // .(50507.10.1 RAM Big error. Was aVer)
+       var  aSheetVer        =  aStatsSheetFile.replace( /.+_u/,'').replace( /\.csv/, '')                   // .(50507.10.1 RAM Big error. Was aVer)
        var  aTestId          =  path.basename( aResponseFile).match( /(s.+?\.[0-9s]{2,3})\./ )[1]
        var  mSpreadsheet     =  FRT.readFileSync(  MWT.fixPath( FRT.__basedir, aStatsSheetFile ) ).split( "\n") 
 
@@ -327,9 +327,9 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
 //      var  bSaveIt = (mNotFound.length == 0) && (mCols[7] > 0) && (mCols[8] > 0) && (mCols[9] > 0)        //#.(50611.02.1 RAM Don't save if ..)
          if (bSaveIt) {    
          if (global.bDebug) { pStats.DateTime = FRT.getDate( -1, 8 ); 
-             sayMsg( `AIT14[ 329] reset DateTime: ${pStats.DateTime}` ) }                                     // .(50612.01.7 RAM Debugging replace an existing Run record).(50601.01.2 Do it)
-             await savStats_in_mySQL( pStats, aResponseFile, MWT.fixPath( FRT.__basedir ) )                  // .(50601.01.3)
-             }                                                                                               // .(50601.01.4)
+             sayMsg( `AIT14[ 329] reset DateTime: ${pStats.DateTime}` ) }                                   // .(50612.01.7 RAM Debugging replace an existing Run record).(50601.01.2 Do it)
+             await savStats_in_mySQL( pStats, aResponseFile, MWT.fixPath( FRT.__basedir ) )                 // .(50601.01.3)
+             }                                                                                              // .(50601.01.4)
 
 //      if (global.bNoLog == 0) {                                                                           //#.(50510.01b.1 RAM Always display scores).(50510.01.2 RAM Display scores Beg)
         if (bEnvs != 1) {                                                                                   // .(50513.05b.3 RAM If not bEnvs)

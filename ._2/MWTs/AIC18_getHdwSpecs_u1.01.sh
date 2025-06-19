@@ -39,7 +39,7 @@ function  runCommand() {
   }
 # -------------------------------------------------------------------------------------
 
-function get1stDir() {                                                                 # .(50429.03.1 CAI Write get1stFile Beg)
+function get1stDir() {                                                                  # .(50429.03.1 CAI Write get1stFile Beg)
  local aStr="$1"
  local aFolder="$2"
  local aExt="$3"
