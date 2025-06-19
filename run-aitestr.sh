@@ -20,6 +20,8 @@
 #.(50522.02b  5/31/25 RAM  5:15p| Bump AIDocs version to u2.11.141
 #.(50603.02   6/02/25 RAM  8:30a| Add lanceDB query functions 
 #.(50604.02   6/04/25 RAM  8:30a| Add more lanceDB commands
+#.(50617.02   6/17/25 RAM  7:14p| Add update command
+#.(50617.03   6/17/25 RAM  7:25p| Add model command
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -58,13 +60,18 @@
    if [ "$1"          == ""      ]; then aCmd="help"; fi; b=0
    if [ "$1"          == "help"  ]; then aCmd="help"; fi
    if [ "$1"          == "Help"  ]; then aCmd="help"; fi
+
    if [ "${aCmd}"     != "help"  ]; then
+
    if [ "${1:0:3}"    == "sou"   ]; then  shoSource; exit; fi                           # .(50519.02.1 RAM Use shoSource)
    if [ "${1:0:3}"    == "ver"   ]; then  ._2/MWTs/AIC00_getVersion.sh;  exit;  fi      # .(50420.01b.2)
    if [ "${1:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$2;  shift; b=2; shift; b=2; fi # .(50420.01b.3)
    if [ "${2:0:3}"    == "gen"   ]; then aCmd="generate"; aApp=$1;  shift; b=2; shift; b=2; fi # .(50420.01b.5)
    if [ "${1:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=$2;  shift; b=1; fi      # .(50516.07.1 RAM Was s13).(50420.01b.4)
    if [ "${2:0:3}"    == "lis"   ]; then aCmd="list    "; aApp=$1;  shift; b=1; fi      # .(50516.07.2 RAM Do list for each app)
+
+   if [ "${1:0:3}"    == "upd"   ]; then aCmd="update";                    b=0; fi      # .(50617.02.1 RAM Add command update)
+   if [ "${1:0:3}"    == "mod"   ]; then aCmd="models";                    b=0; fi      # .(50617.03.1 RAM Add command models)
 
    if [ "${1:0:3}"    == "lan"   ]; then aCmd="lancedb "; aApp=s13; shift; b=1;         # .(50604.02.1)
       if [ "${1:0:3}" == "imp"   ]; then aCmd="import  "; aApp=s13; shift; b=1; fi;     # .(50604.02.2)
@@ -124,22 +131,26 @@
       aDate2="$( date +'%B %d, %Y %l:%M%p' )"; aDate="${aDate/AM/a}"; aDate="${aDate/PM/p}" # .(50516.04.4 RAM Add nice version date)
       echo -e "\n  Usage: ${aAIT} ...       Ver: ${aVer}  (Jun 16, 2025 9:20p)"         # .(50522.02c.3).(50516.04.5).(50505.05.1)
       echo -e   "" 
-      echo -e   "    {app} {testId}       to run a test"
-      echo -e   "    {app} gen {groupId}  to generate an .env template for a test model group"
-      echo -e   "    {app} list           to list all tests to run"
-      echo -e   "    help pc_code         to save computer hardware specs"              # .(50516.08.2)
-#     echo -e   "    chroma import {docs} to import a collection of docs"               ##.(50520.01b.3)(50505.05.2).(50603.02.3)
-#     echo -e   "    chroma start         to start the Chroma Vector DB"                ##.(50505.06.4).(50603.02.4)
-      echo -e   "    import {docs}        to import a collection of docs"               # .(50603.02.4)
-#     echo -e   "    sql {table}          to query a table in the Chroma Vector DB"     ##.(50505.06.4).(50603.02.5)
-      echo -e   "    query {table} {docs} to query a table in the Chroma Vector DB"     # .(50603.02.5)
-      echo -e   "    delete {docs}        to query a table in the Chroma Vector DB"     # .(50603.02.6)
+      echo -e   "    {app} {testId} {model}  to run a test"
+      echo -e   "    {app} gen {groupId}     to generate an .env template for a test model group"
+      echo -e   "    {app} list              to list all tests to run"
+      echo -e   "    help pc_code            to save computer hardware specs"           # .(50516.08.2)
+#     echo -e   "    chroma import {docs}    to import a collection of docs"            ##.(50520.01b.3)(50505.05.2).(50603.02.3)
+#     echo -e   "    chroma start            to start the Chroma Vector DB"             ##.(50505.06.4).(50603.02.4)
+      echo -e   "    import {docs}           to import a collection of docs"            # .(50603.02.4)
+#     echo -e   "    sql {table}             to query a table in the Chroma Vector DB"  ##.(50505.06.4).(50603.02.5)
+      echo -e   "    query {table} {docs}    to query a table in the Vector DB"         # .(50603.02.5)
+      echo -e   "    delete {docs}           to delete a collection in the Vector DB"   # .(50603.02.6)
+      echo -e   "    update [-doit]          to update the current repository"          # .(50617.02.2 RAM Edit).(50603.02.6)
+      echo -e   "    models [{platform}]     to list models for an AI Platform"         # .(50617.03.2 RAM Edit).(50603.02.6)
       echo -e   ""
       echo -e   "  Where:"
-      echo -e   "    {app}                is an App Id for one type of test app, e.g. s11."
-      echo -e   "    {testId}             is one Test id, e.g. t011"
-      echo -e   "    {docs}               is a collections of docs to import into the vector database"   # .(50520.01b.4)
-      echo -e   "    {groupId}            is a Group Id for one set of model tests, e.g. t010"
+      echo -e   "    {app}                   is an App Id for one type of test app, e.g. s11."
+      echo -e   "    {testId}                is one Test id, e.g. t011"
+      echo -e   "    {model}                 is a model nickname, e.g. gemma2i for gemma2:2b-instruct-q4_0"
+      echo -e   "    {docs}                  is a collections of docs to import into the vector database"   # .(50520.01b.4)
+      echo -e   "    {groupId}               is a Group Id for one set of model tests, e.g. t010"
+      echo -e   "    {platform}              is an AI Platform, e.g. ollama [default], or claude"
       echo -e   ""                                                                      # .(50421.04.1 RAM Add more help Beg)
       echo -e   "  For example:"
       echo -e   "    ${aAIT} s11 help"
@@ -153,6 +164,26 @@
       if [ "${OS:0:3}" != "Win" ]; then echo ""; fi
       exit
       fi
+#*  --- --  --------------  =  ------------------------------------------------------  *#  
+
+   if [ "${aCmd}" == "update" ]; then                                                   # .(50617.02.3 RAM Add update command Beg)
+      aDir="$( pwd )" # ..Repos/AIDocs_/test1-robin'
+      gitr update "$1"
+      if [ "${OS:0:3}" != "Win" ]; then echo ""; fi; exit 
+      fi                                                                                # .(50617.02.3 End 
+#*  --- --  --------------  =  ------------------------------------------------------  *#  
+
+   if [ "${aCmd}" == "models"  ]; then                                                  # .(50617.03.3 RAM Add models command Beg             
+     if [ "$1" == "update"     ]; then echo "run updateAIDocsMmodels.sh"; 
+     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi; exit 
+       fi    
+             aModel="$1"; if [ "$1" == "" ]; then aModel="ollama"; fi 
+     echo  " run OllamaModels_u1.04.mjs '$1'"
+#    if [ "${aModel}" == "ollama"  ]; then node "./server1/components/models/OllamaModels_u1.04.mjs";  fi 
+#    if [ "${aModel}" == "bedrock" ]; then node "./server1/components/models/BedrockModels_u1.03.mjs"; fi 
+#    if [ "${aModel}" == "claude"  ]; then node "./server1/components/models/ClaudeModels_u1.03.mjs";  fi 
+     if [ "${OS:0:3}" != "Win" ]; then echo ""; fi; exit 
+      fi                                                                                # .(50617.03.3 End 
 #*  --- --  --------------  =  ------------------------------------------------------  *#  
 
     source "./run-tests.sh"                                                             # .(50513.02.1 RAM Get common parameters from __basedir/run-tests.sh)
@@ -175,7 +206,7 @@
 #     if [[ "$( pwd )" != *"${aDir}"* ]]; then cd "${aDir}"; echo "  cd ${aDir}"; fi    ##.(50511.04.2 RAM Was: PWD no workie in Unix)
 #     fi                                                                                ##.(50511.04.2).(50511.04c.2)
 #*  --- --  --------------  =  ------------------------------------------------------  *#  
-       
+
        cd "${aDir}"; # echo "[97]  cd ${aDir}";                                         # .(50511.04c.2 RAM Call from app location)
        export RUST_LOG=error;                                                           # .(50604.02.11) 
 #      echo ""
@@ -189,6 +220,7 @@
 #     if [ "${aCmd}" == "chroma  " ]; then bash sqlite.sh ${aTests}; exit; fi                               ##.(50505.06.6).(50604.02.6)
       if [ "${aCmd}" == "query   " ]; then node ../components/querie-lanceDB_u1.04.mjs ${aTests}; exit; fi  # .(50604.02.6)
       if [ "${aCmd}" == "example " ]; then bash run-tests2.sh; exit; fi                 # .(50505.04.4)
+      if [ "${aCmd}" == "models "  ]; then doModels $1;        exit; fi                 # .(50505.04.4)
 
 #*  --- --  --------------  =  ------------------------------------------------------  *#  
 
