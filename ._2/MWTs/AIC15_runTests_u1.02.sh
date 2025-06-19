@@ -59,6 +59,7 @@
 #.(50405.01c  5/31/25 RAM 11:00p| But with a 3 letter Month name
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
 #.(50616.02b  6/16/25 RAM  8:43a| Fix Var Case issue in Unix ??
+#.(50618.01   6/18/25 RAM  5:15p| Set User Prompt in .env too
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -332,11 +333,20 @@ aAWKscr2='
 BEGIN { aApp  = "'${aApp2}'"
         bChg1 = "'${SYSTEM_PROMPT}'" != ""
         bChg2 = "'${SEARCH_MODEL}'" != "" && aApp != "s14"
+        bChg3 = "'${USER_PROMPT}'" != ""                                                # .(50618.01.1 RAM Do User Prompt too)
         }
    /SYS_PROMPT_CD/        && bChg1 { print "  SYS_PROMPT_CD=\"GKN0-INPT\""; next }
    /SYS_RUN_COUNT/        && bChg1 { print "  SYS_RUN_COUNT=1"; next }
+   /SYS_PROMPT/           && bChg1 { print "  SYS_PROMPT=\"'${SYSTEM_PROMPT}'\""; next} # .(50618.01.2)
    /USE_SYS_PROMPTS_FILE/ && bChg1 { print "  USE_SYS_PROMPTS_FILE=0"; next }
+
    /OLLAMA_MODEL_NAME/    && bChg2 { print "  OLLAMA_MODEL_NAME=\"${SEARCH_MODEL}\""; next }
+
+   /USR_PROMPT_CD/        && bChg3 { print "  USR_PROMPT_CD=\"GKN0-INPT\""; next }      # .(50618.01.3 Beg)
+   /USR_RUN_COUNT/        && bChg3 { print "  USR_RUN_COUNT=1"; next }
+   /USR_PROMPT/           && bChg3 { print "  USR_PROMPT=\"'${USER_PROMPT}'\""; next }
+   /USE_USR_PROMPTS_FILE/ && bChg3 { print "  USE_USR_PROMPTS_FILE=0"; next }           # .(50618.01.3 End)
+
                                    { print }
 '
 # echo "  AWKscr2:\n${aAWKscr2}"; exit                                                  # .(50514.01.6 End)
