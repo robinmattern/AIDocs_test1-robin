@@ -52,8 +52,8 @@
             process.env.RUST_LOG = "error";
 
 // Run CLI if this is the main module
-       var  __filename    = `${ process.argv[1].replace( /[\\\/]/g, '/' ).replace( /^(?!\/)/, '/' ) }`      // .(50616.01.1 Add leading / for Windows)
-       var  bNotImported  = (import.meta.url.replace( /file:[\/]{2}/, '')) === `${ __filename }`            // .(50616.01.2 Remove file:/// for Mac).(50611.01.x RAM Is it or is it not imported. Was "!--")
+       var  __filename    = `${ process.argv[1].replace( /[\\\/]/g, '/' ).replace( /^(?!\/)/, '/' ) }`      // .(50616.01.1 Add leading / for Windows) 
+       var  bNotImported  = (import.meta.url.replace( /file:[\/]{2}/, '')) === `${ __filename }`            // .(50616.01.2 Remove file:/// for Mac).(50611.01.x RAM Is it or is it not imported. Was "!--") 
        var  bInVSCode     =  process.env.VSCODE_INSPECTOR_OPTIONS ? 1 : 0
 //          console.log(  `  import.meta.url: "${ import.meta.url.replace( /file:[\/]{2}/, '' ) }"\n       __filename: "${ __filename }"` )
 //          console.log(  `  - IM01[  57]  bNotImported: ${bNotImported}, bInVSCode: ${bInVSCode}` )
