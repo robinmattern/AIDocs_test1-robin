@@ -58,6 +58,7 @@
 #.(50612.01   6/12/25 RAM  8:24a| Change DateTime is debugging for UpdatedAt
 #.(50612.04   6/12/25 RAM  8:26a| Add all to possible aScoringSections   
 #.(50612.05   6/12/25 RAM 11:57a| Add exit_wCR() after scoreTest 
+#.(50618.06   6/18/25 RAM  8:30p| Set default prompts for scoring search
 #
 ##PRGM     +====================+===============================================+
 ##ID S1201. Main0              |
@@ -114,7 +115,7 @@
   async function  main( pArgs ) {  // score.mjs 
 
         if (process.env.SCORING != "1") {                                               // .(50508.01.1 RAM Skip if SCORING != 1 Beg)
-            sayMsg( "AIT14[  95]  Skipping scoring run" )
+            sayMsg( "AIT14[ 117]  Skipping scoring run", 1 )
             exit_wCR()
             process.exit()
             }                                                                           // .(50508.01.1 End)
@@ -128,8 +129,8 @@
             global.bQuiet    =  0                                                       // .(50503.04.1 RAM Was 2, quieting sayMsg)
 //          global.bNoLog    = (process.env.LOGGING || '').match( /log/ ) == null                           //#.(50510.01.1).(50510.01c.1)
             global.bNoLog    = (process.env.LOGGER || '').match( /log/ ) == null                           // .(50510.01c.1 RAM Was LOGGING)
-//          sayMsg( `AIT14[ 125]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${process.env.DRYRUN}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${"   "}', bNoLog: '${global.bNoLog ? 1 : 0}'`, bEnvs ); // .(50513.05.11) // process.exit() 
-//          sayMsg( `AIT14[ 126]  global.bDoit: ${global.bDoit}, bDoit: ${bDoit}, `, 1)
+//          sayMsg( `AIT14[ 131]  APP: '${aApp}', bDoit: '${bDoit}, bDebug: '${bDebug}', DRYRUN: '${process.env.DRYRUN}', SCORING: '${process.env.SCORING}', PC_CODE: '${process.env.PC_CODE}', aLog: '${"   "}', bNoLog: '${global.bNoLog ? 1 : 0}'`, bEnvs ); // .(50513.05.11) // process.exit() 
+            sayMsg( `AIT14[ 132]  global.bDoit: ${global.bDoit}, bDoit: ${bDoit}, `, -1)
 // process.exit()
        var  pArgs            =  parseArgs()
 //          aModel           =  pArgs.modelName || 'gemma2:2b'                                              //#.(50521.02.1)
@@ -168,7 +169,7 @@
             }                                                                                               // .(50510.02.4 End)      
       var   mRespIds = [];  if (FRT.checkFileSync( aRunTestsFile ).isFile) {                            
             mRespIds         =  FRT.readFileSync(  aRunTestsFile ).trim().split( '\n' )  }                                           
-                                FRT.sayMsg( `AIT14[ 130]  Looking for these RunIds, '${ mRespIds.join( ', ') }'.`, -1 )
+            FRT.sayMsg( `AIT14[ 171]  Looking for these RunIds, '${ mRespIds.join( ', ') }'.`, -1 )
 //     var  mResponseFiles   =  mStatsSheet.filter( findTestIds )                                           //#.(50507.08b.1 RAM Don't use findTestIds)
 //          mResponseFiles   =  mResponseFiles.map( aRow => aRow.split('\t')[26].replace(/\.txt/, '.json')) //#.(50507.08b.1)
        var  mResponseFiles   =  findRespIds( mStatsSheet, mRespIds )                                        // .(50507.08b.1 RAM Do Use findRespIds)
@@ -183,7 +184,7 @@
             }                                                                                               // .(50530.01.4)
             exit_wCR() 
         } else { var  s      =  mResponseFiles.length == 1 ? '' : 's'  
-                                FRT.sayMsg( `AIT14[ 141]  Found ${mResponseFiles.length} statsheet row${s}.`, -1 )
+            FRT.sayMsg( `AIT14[ 186]  Found ${mResponseFiles.length} statsheet row${s}.`, -1 )
             }                                                                                               // .(50507.08a.1 End)
 //          --------------------------------------------------------------
 
@@ -259,8 +260,8 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
         if (pStats[ 'ScoreWeighted']) {
             mFound.push(            'ScoreWeighted' ) }
 
-            sayMsg( `AIT14[ 238]  mFound: '${       mFound.join( ", " ) }'`, -1 )
-            sayMsg( `AIT14[ 239]* mNotFound: '${ mNotFound.join( ", " ) }'`, -1 )       // .(50601.02.1 RAM Why is mNotFound getting duplicates)
+            sayMsg( `AIT14[ 262]  mFound: '${       mFound.join( ", " ) }'`, -1 )
+            sayMsg( `AIT14[ 263]* mNotFound: '${ mNotFound.join( ", " ) }'`, -1 )       // .(50601.02.1 RAM Why is mNotFound getting duplicates)
 /*       
 //          pStats.Accuracy  =  pScores.scores[0].score || 0                            //#.(50510.04.1 RAM They might not have been found)
 //          pStats.Quality   =  pScores.scores[1].score || 0                            //#.(50510.04.1 RAM First attempt to deal with missing scores)
@@ -320,12 +321,13 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
 
             FRT.writeFileSync(    MWT.fixPath( FRT.__basedir, aStatsSheetFile ), mSpreadsheet.join( "\n" ) )
 
-             sayMsg( `AIT14[ 322]  global.bDoit: ${global.bDoit}, mNotFound.length: ${mNotFound.length}`, -1)
+             sayMsg( `AIT14[ 323]  global.bDoit: ${global.bDoit}, mNotFound.length: ${mNotFound.length}`, -1)
         var  bSaveIt = ((mNotFound.length == 0) && global.bDoit == 1) || process.env.DRYRUN == 1                                                            // .(50611.02.1 RAM Don't save if ..)
-             sayMsg( `AIT14[ 324]${ bSaveIt ? " " : "* NOT" } Ok to save ${ 3 - mNotFound.length } score(s)`, -1)
+             sayMsg( `AIT14[ 325]${ bSaveIt ? " " : "* NOT" } Ok to save ${ 3 - mNotFound.length } score(s)`, -1)
 //      var  bSaveIt = (mNotFound.length == 0) && (mCols[7] > 0) && (mCols[8] > 0) && (mCols[9] > 0)        //#.(50611.02.1 RAM Don't save if ..)
          if (bSaveIt) {    
-         if (global.bDebug) { pStats.DateTime = FRT.getDate( -1, 8 ); sayMsg( `AIT14[ 318] reset DateTime: ${pStats.DateTime}` ) }                                     // .(50612.01.7 RAM Debugging replace an existing Run record).(50601.01.2 Do it)
+         if (global.bDebug) { pStats.DateTime = FRT.getDate( -1, 8 ); 
+             sayMsg( `AIT14[ 329] reset DateTime: ${pStats.DateTime}` ) }                                     // .(50612.01.7 RAM Debugging replace an existing Run record).(50601.01.2 Do it)
              await savStats_in_mySQL( pStats, aResponseFile, MWT.fixPath( FRT.__basedir ) )                  // .(50601.01.3)
              }                                                                                               // .(50601.01.4)
 
@@ -343,7 +345,7 @@ async  function  scoreTest( aStatsSheetFile, aResponseFile, i ) {
 
         if (mNotFound.length > 0 && bEnvs != 1) {                                                           // .(50513.05b.4).(50510.04.6 Beg)
             usrMsg(            `* These scores were not found: '${ mNotFound.join( ", " ) }'.`    )
-            sayMsg( `AIT14[ 346]* These scores were not found: '${ mNotFound.join( ", " ) }'.`, -1)
+            sayMsg( `AIT14[ 347]* These scores were not found: '${ mNotFound.join( ", " ) }'.`, -1)
             }                                                                           // .(50510.04.6 End)
 //          -----------------------------------------------------
 
@@ -375,15 +377,23 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
        var  aScoringPromptFile = `${aApp}_scoring-prompt.txt`
             FRT.writeFileSync( `${FRT.__dirname}/${aScoringPromptFile}`, evaluationPrompt )
 
-            sayMsg( 'AIT14[ 268]  Setting .Env variables', -1 )
+            sayMsg( 'AIT14[ 379]  Setting .Env variables', -1 )
             FRT.setEnv( "FILES_PATH",        ".",                FRT.__dirname )
             FRT.setEnv( "FILES_NAME",        aScoringPromptFile, FRT.__dirname )
             FRT.setEnv( "OLLAMA_MODEL_NAME", modelName,          FRT.__dirname )
 
+       var  aS14_Template      =  FRT.readFileSync( `${FRT.__dirname}/.env_s14-template.txt` )        // .(50618.06.1 RAM Set default prompts for search Beg)
+       var  mSystemPrompt      =  aS14_Template.match( /SYS_PROMPT="(.+)"/); if (mSystemPrompt[1]) {
+            FRT.setEnv( "SYS_PROMPT", mSystemPrompt[1], FRT.__dirname ) }
+       var  mUserPrompt        =  aS14_Template.match( /USR_PROMPT="(.+)"/); if (mUserPrompt[1]) { 
+            mUserPrompt[1]     =  mUserPrompt[1].replace( /{DocFile}/, aScoringPromptFile )
+            FRT.setEnv( "USR_PROMPT", mUserPrompt[1],    FRT.__dirname ) } // .(50618.06.1 End)
+
        var  aScoringSections   =  process.env.SCORING_SECTIONS || ''                    // .(50521.01.1 RAM Add SCORING_SECTIONS Override Beg)
         if (aScoringSections  != '') {
             aScoringSections   =  `,${aScoringSections.toLowerCase().replace( /[^a-z,]/ , '' ) },`
-
+//          usrMsg( `  - AIT14[ 387]  aScoringSections: '${aScoringSections}', process.env.LOGGER: ${process.env.LOGGER}`) 
+            
        var  aLogger            =  aScoringSections.match( ',log,'   ) ? 'log' : ''
             aLogger           +=  aScoringSections.match( ',input,' ) ? ',input' : ''
 //          aSections          =  aScoringSections.match( ',Parms,Docs,Search,Stats,Results,' )
@@ -393,9 +403,10 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
 //          process.env.LOGGER =  aSections ? '' : aLogger                                                  //#.(50414.01d.4)   
 //          process.env.LOGGER =  process.env.LOGGER ? process.env.LOGGER : (aSections ? '' : aLogger)      //#.(50414.01d.4 RAM Don't reset if set)   
             process.env.LOGGER =  aSections ? '' : (process.env.LOGGER ? process.env.LOGGER : aLogger)      // .(50414.01d.4 RAM Do reset)  
+//          usrMsg( `  - AIT14[ 387]  aScoringSections: '${aScoringSections}', aLogger: ${aLogger}, aSections: '${aSections}'`) 
             global.bNoLog      = (process.env.LOGGER || '').match( /log/ ) ? 0 : 1                          // .(50510.01c.2 RAM Set bNoLog too)
             FRT.setEnv( "SHOW_SECTIONS",  aSections, FRT.__dirname )
-            sayMsg( `AIT14[ 308]  Setting .Env variables: sections: '${aSections}', LOGGER: '${process.env.LOGGER}'`, -1 )
+            sayMsg( `AIT14[ 399]  Setting .Env variables: sections: '${aSections}', LOGGER: '${process.env.LOGGER}'`, -1 )
             } // eif aScoringSections                                                                       // .(50521.01.1 End)
   try {
 /*     var  pParms        = 
@@ -418,8 +429,9 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
 //  var  aSearchScript  =  pathToFileURL(aSearchScript).href;
     try {                                                                                                   // .(50507.05.3 RAM Debug attempts to call search script Beg)
        var  aCacheBuster   =  Date.now();    
-       var  aSearchScript  = `./search_${aVer}.mjs?cache=${aCacheBuster}`                                     // .(50507.05.4 RAM Add Cache Buster)
-            sayMsg( `AIT14[ 294]  Attempting to load script: ${aSearchScript}\n`, -1 );
+       var  aSearchScript  = `./search_${aVer}.mjs?cache=${aCacheBuster}`                                   // .(50507.05.4 RAM Add Cache Buster)
+            sayMsg( `AIT14[ 423]  Attempting to load script: ${aSearchScript}`, -1 );
+            usrMsg( "" )                                                                                    // .(50618.08.5 RAM Add Space)
 //   const  module = await import(aSearchScript);
                            process.env.OLLAMA_MODEL_NAME = aModel
 
@@ -428,9 +440,9 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
 //                         await import( './search_${aVer}.mjs' )
 //                         await import( './search_u2.09.mjs' )
 
-            sayMsg( `AIT14[ 300]  Load of search script to score successful!`, -1 );
+            sayMsg( `AIT14[ 432]  Load of search script to score successful!`, -1 );
         } catch( error ) {    
-            sayMsg( `AIT14[ 301]  Load of search script to score failed error:\n                 ${error}`, -1);
+            sayMsg( `AIT14[ 434]  Load of search script to score failed error:\n                 ${error}`, -1);
             }                                                                                                  // .(50507.05.3 End)             
 //       process.env.JSON_RESPONSE = "/E:/Repos/Robin/AIDocs_/dev01-robin/docs/a14_grading-app/25.05.May/_t001_gemma2;2b'_1,1-test on rm228p/a14_t001.13.4.50502.0905_Response.json"
 //                                     E:\Repos\Robin\AIDocs_\dev01-robin\docs\a14_grading-app\25.05.May\_t001_gemma2;2b_1,1-test on rm228p\a14_t001.13.4.50502.0905_Response.json
@@ -443,7 +455,7 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
    return { content: aResponse, metrics: pMetrics };
 
         } catch (error) {     
-            sayMsg( `AIT14[ 330]  Error evaluating response with Ollama:\n                 ${error.message}`, -1 );
+            sayMsg( `AIT14[ 447]  Error evaluating response with Ollama:\n                 ${error.message}`, -1 );
             throw new Error( 'Error' );
             }
          } // eof evaluateResponse
@@ -460,7 +472,7 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
      
        let  match;                                             // Collect scores and reformat
     while ((match = scoreRegex.exec(evaluation)) !== null) {
-            sayMsg( `AIT14[ 347]  getScores found: ${match}`, -1 )
+            sayMsg( `AIT14[ 464]  getScores found: ${match}`, -1 )
         if (match[1] !== 'Total Score') {                       // Skip "Total Score" during the regex collection phase
        var  score = parseInt(match[2], 10);
             totalScore += score;
@@ -480,7 +492,7 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
             } // eif not Total Score
          } // eol Collect scores and reformat
    
-            sayMsg( `AIT14[ 453]  ${scores.length} score${scores.length == 1 ? 'was' : 's were'} found`,-1) // .(50531.02.14)
+            sayMsg( `AIT14[ 484]  ${scores.length} score${scores.length == 1 ? 'was' : 's were'} found`,-1) // .(50531.02.14)
         if (scores.length != 3 ) {                                                                          // .(50531.02.15 RAM Add error msg)
             usrMsg( `\n* ${scores.length} score${scores.length == 1 ? ' was' : 's were' } found?` )         // .(50531.02.16)
         if (global.bNoLog == 0) {                                  global.bNoLog = 1 
@@ -569,7 +581,7 @@ async function  evaluateResponse( modelName, userPrompt, systemPrompt, response,
        var  aStatRespId      =  aResponseFile.match( `${aStatTestId}[.0-9]+` );                             // .(50507.08b.4 RAM Extract aStatRestId to match. May fail)
             aStatRespId      =  aStatRespId ? aStatRespId[0] : ''                       
         if (aStatRespId == aRespId) { 
-            sayMsg( `AIT14[ 398]  Found ${nRow}: ${ path.basename( aResponseFile ) }.`, -1 )
+            sayMsg( `AIT14[ 573]  Found ${nRow}: ${ path.basename( aResponseFile ) }.`, -1 )
             mFoundFiles.push(   aResponseFile.replace( /\.txt$/, '.json' ) )
             break 
             }               
