@@ -258,9 +258,9 @@ function  mergeVars() {
       if [ "${SECTIONS}" != "" ]; then                                                          
             part2="${SECTIONS}"    # Sections                                           # .(50514.01.14 RAM Display SHOW_SECTIONS parameter) 
             fi
-      if [ "${LOGGER}" != "" ]; then                                                    # .(50618.03.1 RAM Display LOGGER if defined) 
-            part2="${LOGGER}"      # Sections override                                  # .(50618.03.2) 
-            fi                                                                          # .(50618.03.3) 
+      if [ "${LOGGER}" != "" ]; then                                                    # .(50618.03.1 RAM Display LOGGER if defined)  
+            part2="${LOGGER}"      # Sections override                                  # .(50618.03.2)  
+            fi                                                                          # .(50618.03.3)  
       if [ "${RAG_COLLECTIONS}" != "" ]; then                                                          
             aCollection="${RAG_COLLECTIONS}"                                            # .(50514.01.15 RAM Display SHOW_SECTIONS parameter) 
             fi
