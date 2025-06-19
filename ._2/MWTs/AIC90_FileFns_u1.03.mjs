@@ -74,6 +74,7 @@
 #.(50531.05   5/31/25 RAM 11:59p| Add debug color yellow to sayMsg
 #.(50608.04   6/08/25 RAM  5:00p| Deal with bDoit resetting to 0
 #.(50616.02   6/16/25 RAM  8:43a| Fix Var Case issue in Unix
+#.(50618.07   6/18/25 RAM  9:11p| Fix setEnv "{Var} *=" 
 #
 ##PRGM     +====================+===============================================+
 ##ID 69.600. Main0              |
@@ -622,11 +623,11 @@ createDirectoryIfNotExists(dirPath).then( result => {
 // --------------------------------------------------------------
 
   function  setEnv( aVar, aVal, aDir, bSkip ) {                                         // .(50331.08.1 RAM Add setEnv Beg)
-            sayMsg( `AIC90[ 560]  Setting ${aVar.padEnd(17)} to: '${aVal}'`, -1 )
+            sayMsg( `AIC90[ 626]  Setting ${aVar.padEnd(17)} to: '${aVal}'`, -1 )
        var  aEnvFile    =   FRT_path( aDir ? aDir : __basedir2, '.env' )
        var  aEnvVar     =   aVar.toUpperCase()
        var  mMyEnvs     =   readFileSync(  aEnvFile, 'ASCII' ).split( /\n/ )
-       var  iEnv        =   mMyEnvs.findIndex( aVar => aVar.match( new RegExp( `^ *${aEnvVar}` ) ) )
+       var  iEnv        =   mMyEnvs.findIndex( aVar => aVar.match( new RegExp( `^ *${aEnvVar} *=` ) ) )  // .(50618.07.01 RAM SetEnv "{Var} *=")
             iEnv        =   iEnv == -1 ? mMyEnvs.length : iEnv                          // .(50503.07.1 RAM Add aVal to .Env)
      if (`${mMyEnvs[ iEnv - 1 ]}` != '' && bSkip) { mMyEnvs[ iEnv ] = ''; iEnv++ }      // .(50503.07.2)
             mMyEnvs[ iEnv ] = `  ${aEnvVar}="${aVal}"`
